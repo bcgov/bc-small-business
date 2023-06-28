@@ -1,19 +1,19 @@
 @font-face{
 font-family: BCSans;
 font-style: normal;
-src: url('BCSans-Regular.woff2') format('woff2'), /* Optimized for very modern browsers */
+src: url('BCSans-Regular.woff2') format('woff2'), /* Optimized for very modern browsers */ 
 url('BCSans-Regular.woff') format('woff'); /* Modern Browsers */
 }
 @font-face{
 font-family: BCSans;
 font-style: italic;
-src: url('BCSans-Italic.woff2') format('woff2'), /* Optimized for very modern browsers */
+src: url('BCSans-Italic.woff2') format('woff2'), /* Optimized for very modern browsers */ 
 url('BCSans-Italic.woff') format('woff'); /* Modern Browsers */
 }
 @font-face{
 font-family: BCSans;
 font-weight: 700;
-src: url('BCSans-Bold.woff2') format('woff2'), /* Optimized for very modern browsers */
+src: url('BCSans-Bold.woff2') format('woff2'), /* Optimized for very modern browsers */ 
 url('BCSans-Bold.woff') format('woff'); /* Modern Browsers */
 }
 @font-face{
@@ -29,7 +29,7 @@ url('BCSans-BoldItalic.woff') format('woff'); /* Modern Browsers */
     font-size: 1.0em;
     visibility: visible;
   }
-
+  
   h2 {
 	font-size: 18px;
 	visibility: visible;
@@ -41,7 +41,7 @@ url('BCSans-BoldItalic.woff') format('woff'); /* Modern Browsers */
     font-size: calc(9px + 2.2vw);
     visibility: visible;
   }
-
+  
   h2 {
 	font-size: calc(11px + 1.5vw);
 	visibility: visible;
@@ -53,7 +53,7 @@ url('BCSans-BoldItalic.woff') format('woff'); /* Modern Browsers */
     font-size: 2.0em;
     visibility: visible;
   }
-
+  
   h2 {
 	font-size: 1.2em;
 	visibility: visible;
@@ -82,226 +82,9 @@ h4 {
 	margin-bottom: 0.25em
 }
 
-/* Use h6 for mandate/plan stat values. Justified to bottom of boxes */
-/* Use h5 before h6 text or the text will overlap when the screen shrinks */
-h5 {
- margin-bottom: 5px;
-}
-h6 {
-	font-size: 18px;
-	visibility: visible;
-	font-weight: 700;
-	margin-top: ;
-	margin-bottom: 0.4em;
-	position: absolute;
-	bottom: 5px;
-	left: 17px;
-	right:0px;
-	/*padding-block-start: 10px;*/
-}
-
-
 html, body, h1, h2, h3, h4, h5, h6 {
   font-family: BCSans;
 }
 
-img.inbrief {
-  padding-bottom:2px;
-  height:14px
-}
-
-button.btn.action-button.btn-primary.btn-inbrief {
-    position:absolute;
-    right:20px;
-    bottom:2px;
-    width:60px;
-    padding-left:7px;
-
-}
-
-.div-inbrief {
-    position:absolute;
-    left:0;
-    bottom:5px
-}
-
-.col-sm-3 {
-    min-width:260px;
-}
-
-/*For highlights text - default was indented*/
-.container-fluid.main-container {
-    padding-left:0
-}
-
-
-/* Box Formatting */
-/* Only limited colors available for box headers/borders  */
-/* Create custom box styles for each div id */
-/* Boxes within the div will have the same style */
-/* Use status primary for solid boxes and status info for white boxes with top border*/
-
-#black-box .box.box-primary {
-    color: #fff;
-    border-top: none;
-    background: #000;
-    background-color: #000;
-}
-
-#black-box .box.box-info {
-    color: #000;
-    border-top: 3px solid #000;
-    background: #fff;
-    background-color: #fff;
-    min-height: 180px;
-}
-
-#lgray_box .box.box-primary {
-    color: #fff;
-    border-top: none;
-    background: #6A6A6A;
-    background-color: #6A6A6A;
-}
-
-#lgray_box .box.box-info {
-    color: #000;
-    border-top: 3px solid #6A6A6A;
-    background: #fff;
-    background-color: #fff;
-    min-height: 180px;
-}
-
-#blue_box .box.box-primary {
-    color: #fff;
-    border-top: none;
-    background: #385F87;
-    background-color: #385F87;
-}
-
-#blue_box .box.box-info {
-    color: #000;
-    border-top: 3px solid #385F87;
-    background: #fff;
-    background-color: #fff;
-    min-height: 180px;
-}
-
-#green_box .box.box-primary {
-    color: #fff;
-    border-top: none;
-    background: #54773A;
-    background-color: #54773A;
-}
-
-#green_box .box.box-info {
-    color: #000;
-    border-top: 3px solid #54773A;
-    background: #fff;
-    background-color: #fff;
-    min-height: 180px;
-}
-
-#yellow_box .box.box-primary {
-    color: #fff;
-    border-top: none;
-    background: #B8AB21;
-    background-color: #B8AB21;
-}
-
-#yellow_box .box.box-info {
-    color: #000;
-    border-top: 3px solid #B8AB21;
-    background: #fff;
-    background-color: #fff;
-    min-height: 180px;
-}
-
-#teal_box .box.box-primary {
-    color: #fff;
-    border-top: none;
-    background: #648A9A;
-    background-color: #648A9A;
-}
-
-#teal_box .box.box-info {
-    color: #000;
-    border-top: 3px solid #648A9A;
-    background: #fff;
-    background-color: #fff;
-    min-height: 180px;
-}
-
-#orange_box .box.box-primary {
-    color: #fff;
-    border-top: none;
-    background: #CE8000;
-    background-color: #CE8000;
-}
-
-#orange_box .box.box-info {
-    color: #000;
-    border-top: 3px solid #CE8000;
-    background: #fff;
-    background-color: #fff;
-    min-height: 180px;
-}
-
-#dgray_box .box.box-primary {
-    color: #fff;
-    border-top: none;
-    background: #878787;
-    background-color: #878787;
-}
-
-#dgray_box .box.box-info {
-    color: #000;
-    border-top: 3px solid #878787;
-    background: #fff;
-    background-color: #fff;
-    min-height: 180px;
-}
-
-#highlight .box.box-primary {
-    color: #000;
-    border-top: none;
-    background: "#d3d2de";
-    background-color: "#d3d2de";
-}
-
-
-
-
-
-.box.box-solid.box-primary {
-    border: 1px solid #b73cbc;
-}
-
-.box.box-solid.box-primary>.box-header {
-    color: #fff;
-    background: #ba3cbc;
-    background-color: #ae3cbc;
-}
-
-.box.box-solid.box-primary>.box-header .btn,.box.box-solid.box-primary>.box-header a {
-    color: #fff
-}
-
-#test .box.box-solid.box-primary {
-    border: 1px solid #000;
-}
-
-#test .box.box-solid.box-primary>.box-header {
-    color: #fff;
-    background: #000;
-    background-color: #000;
-}
-
-#test .box.box-solid.box-primary>.box-header .btn,.box.box-solid.box-primary>.box-header a {
-    color: #fff
-}
-
-#test .box.box-primary {
-    border-top-color: #000
-}
 
 
