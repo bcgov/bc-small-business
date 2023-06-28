@@ -5,12 +5,14 @@ See <https://github.com/BCDevExchange/Our-Project-Docs/blob/master/discussion/pr
 If you have bcgovr installed and you use RStudio, click the 'Insert BCDevex Badge' Addin.
 -->
 
-sb-bc
+Small Business in BC
 ============================
 
 ### Overview
 
-Small Business in BC Dashboard. 
+Small Business in BC Dashboard. This is a dashboard intended to replace the content in previous years published as a PDF and most recently under the title of Small Business Profile 2022.
+
+https://www2.gov.bc.ca/assets/gov/employment-business-and-economic-development/business-management/small-business/sb_profile.pdf
 
 
 ### Project Status
