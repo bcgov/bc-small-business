@@ -80,13 +80,13 @@ server <- function(input, output) {
 
   output$stacked_barchart <- renderPlotly({
     stacked_barchart <- plot_ly(data_09_result, x = data_09_result$years, y = data_09_result$`No employees`,
-                                type = 'scatter',  name = 'no employees') %>%
+                                type = 'bar',  name = 'no employees') %>%
       add_trace(y = data_09_result$`1-4 employees`, name = 'a few employees')  %>%
       add_trace(y = data_09_result$`5-9 employees`, name = 'even more employees')
 
     stacked_barchart <- stacked_barchart %>% layout(title = 'my Bar Chart',
-                                                    yaxis = list(title = 'Value',
-                                                    barmode = 'stack'))
+                                                    yaxis = list(title = 'Value'),
+                                                    barmode = 'stack')
 
     stacked_barchart
 

@@ -22,7 +22,7 @@ data_05 <- read_excel(excel_file, sheet = "Key1", range = "a3:b12", col_names = 
 data_06 <- read_excel(excel_file, sheet = "Key2", range = "a5:c15", col_names = TRUE)
 data_07 <- read_excel(excel_file, sheet = "Key2", range = "a23:b33", col_names = FALSE)
 
-data_08 <- read_excel(excel_file, sheet = "Key3", range = "a2:c12", col_names = TRUE)
+data_08 <- read_excel(excel_file, sheet = "Key3", range = "a2:b12", col_names = TRUE)
 data_08
 
 
