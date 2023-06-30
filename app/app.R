@@ -24,7 +24,7 @@ ui <- function(req) {
 
   fluidRow(
     box(title = "Horizontal Bar Chart", plotlyOutput("hbar_chart"), width = 6),
-    box(title = "Horizontal Bar Chart (Add to 100%)", plotlyOutput("hbar_chart_100"), width = 6)
+    box(title = "Stacked Bar Chart", plotlyOutput("stacked_barchart"), width = 6)
   ),
   fluidRow(
     box(title = "Line Chart", plotlyOutput("line_chart"), width = 6),
@@ -59,9 +59,18 @@ server <- function(input, output) {
     pie_chart
   })
 
+  canada_average <- .6
+
   output$bar_chart <- renderPlotly({
-    bar_chart <- plot_ly(data_02, x = ~Category, y = ~Value, type = "bar")
-    bar_chart
+    bar_chart <- plot_ly(data_08, x = ~Province, y = ~Percent, type = "bar")
+    bar_chart <- bar_chart %>%
+      add_trace(y = canada_average, type = 'scatter', mode = 'lines', name = 'Canadian Average = 0.6')
+    bar_chart <- bar_chart %>% layout(title = 'Bankruptcies per 1,000 Businesses',
+                                      yaxis = list(title = 'Value'),
+                                      showlegend = FALSE)
+
+
+
   })
 
   output$hbar_chart <- renderPlotly({
@@ -69,10 +78,22 @@ server <- function(input, output) {
     hbar_chart
   })
 
-  output$hbar_chart_100 <- renderPlotly({
-    hbar_chart_100 <- plot_ly(data_04, x = ~Value, y = ~Category, type = "bar", orientation = "h") %>%
-      layout(barmode = "stack")
-    hbar_chart_100
+  output$stacked_barchart <- renderPlotly({
+    stacked_barchart <- plot_ly(data_09_result, x = data_09_result$years, y = data_09_result$`No employees`,
+                                type = 'scatter',  name = 'no employees') %>%
+      add_trace(y = data_09_result$`1-4 employees`, name = 'a few employees')  %>%
+      add_trace(y = data_09_result$`5-9 employees`, name = 'even more employees')
+
+    stacked_barchart <- stacked_barchart %>% layout(title = 'my Bar Chart',
+                                                    yaxis = list(title = 'Value',
+                                                    barmode = 'stack'))
+
+    stacked_barchart
+
+
+
+
+
   })
 
   output$line_chart <- renderPlotly({

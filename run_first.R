@@ -18,22 +18,27 @@ data_04_result <- data_04_result[-1, ]
 data_04_result
 
 
-data_04_transformed <-data_04 %>%
-  pivot_longer(-business, names_to = "years", values_to = "value")
- # pivot_wider(names_from = "year", values_from = "value")
-
-data_04_transformed
-
-print(data_04_long)
-
-data_04a <- read_excel(excel_file, sheet = "0.4", range = "a3:n5", col_names = TRUE)
-print(data_04a)
-
 data_05 <- read_excel(excel_file, sheet = "Key1", range = "a3:b12", col_names = FALSE)
 data_06 <- read_excel(excel_file, sheet = "Key2", range = "a5:c15", col_names = TRUE)
 data_07 <- read_excel(excel_file, sheet = "Key2", range = "a23:b33", col_names = FALSE)
-data_08 <- read_excel(excel_file, sheet = "Key3", range = "a3:c12", col_names = FALSE)
-data_09 <- read_excel(excel_file, sheet = "1.1", range = "a2:i8", col_names = TRUE)
+
+data_08 <- read_excel(excel_file, sheet = "Key3", range = "a2:c12", col_names = TRUE)
+data_08
+
+
+
+data_09 <- read_excel(excel_file, sheet = "1.1", range = "a2:i8", col_names = FALSE)
+data_09t <- t(data_09)
+data_09_result <- as.data.frame(data_09t)
+colnames(data_09_result) <- data_09_result[1, ]
+data_09_result <- data_09_result[-1, ]
+data_09_result
+
+
+
+
+
+
 data_10 <- read_excel(excel_file, sheet = "1.2a", range = "a2:i18", col_names = TRUE)
 data_11 <- read_excel(excel_file, sheet = "1.2b", range = "a2:d18", col_names = TRUE)
 data_12 <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
