@@ -11,36 +11,67 @@ ui <- function(req) {
     column(width = 12,
            style = "margin-top:100px",
 
-           "xxx"
+           ""
            )
   ),
 
+  navbarPage(
+    title = "",
 
 
-  fluidRow(
-    box(title = "Pie Chart", plotlyOutput("pie_chart"), width = 6),
-    box(title = "Bar Chart", plotlyOutput("bar_chart"), width = 6)
-  ),
+  # first page
 
-  fluidRow(
-    box(title = "Horizontal Bar Chart", plotlyOutput("hbar_chart"), width = 6),
-    box(title = "Stacked Bar Chart", plotlyOutput("stacked_barchart"), width = 6)
-  ),
-  fluidRow(
-    box(title = "Line Chart", plotlyOutput("line_chart"), width = 6),
-    box(title = "Area Chart", plotlyOutput("area_chart"), width = 6)
-  ),
-  fluidRow(
-    box(title = "Static Table", gt_output("my_table"))
-  ),
+    tabPanel("1 SB Growth",
 
-  fluidRow(
+      fluidRow(
+        box(title = "Pie Chart", plotlyOutput("pie_chart"), width = 6)
+      ),
+
+        box(title = "Bar Chart", plotlyOutput("bar_chart"), width = 6)
+      ),
+
+
+
+  # second page
+
+    tabPanel("2 SB Employment",
+
+      fluidRow(
+        box(title = "Horizontal Bar Chart", plotlyOutput("hbar_chart"), width = 6)
+        ),
+
+        box(title = "Stacked Bar Chart", plotlyOutput("stacked_barchart"), width = 6)
+      ),
+
+
+   # third page
+
+    tabPanel("3 Self-Employed",
+
+      fluidRow(
+        box(title = "Line Chart", plotlyOutput("line_chart"), width = 9)
+        ),
+        box(title = "Area Chart", plotlyOutput("area_chart"), width = 6)
+    ),
+
+
+  # fourth page
+
+    tabPanel("4 Contribution to Economy",
+
+      fluidRow(
+        box(title = "Static Table", gt_output("my_table"))
+         ),
+
+
 
 
     bcsapps::bcsFooterUI(id = 'footer')
+  ),
   )
 
 )}
+
 
 server <- function(input, output) {
 
@@ -60,9 +91,13 @@ server <- function(input, output) {
   })
 
   canada_average <- .6
+  data_08$Province <- factor(data_08$Province, levels = unique(data_08$Province))
+  selected_colour <- ifelse(data_08$Province == "BC", "green", "turquoise")
+
 
   output$bar_chart <- renderPlotly({
-    bar_chart <- plot_ly(data_08, x = ~Province, y = ~Percent, type = "bar")
+
+    bar_chart <- plot_ly(data_08, x = ~Province, y = ~Percent, type = "bar", marker = list(color = selected_colour))
     bar_chart <- bar_chart %>%
       add_trace(y = canada_average, type = 'scatter', mode = 'lines', name = 'Canadian Average = 0.6')
     bar_chart <- bar_chart %>% layout(title = 'Bankruptcies per 1,000 Businesses',
@@ -71,11 +106,28 @@ server <- function(input, output) {
 
 
 
+
+
+
+
+
   })
 
+
   output$hbar_chart <- renderPlotly({
-    hbar_chart <- plot_ly(data_03, x = ~Value, y = ~Category, type = "bar", orientation = "h")
+    hbar_chart <- plot_ly(data_13_result, y = data_13_result$type,
+                          x = data_13_result$`Small businesses with no paid employees (Total 299,800, 59%)`,
+                          type = "bar",
+                          orientation = 'h') %>%
+      add_trace(x = data_13_result$`Small businesses with 1-49 employees (Total 204,300, 37%)`)
     hbar_chart
+
+
+
+
+
+
+
   })
 
   output$stacked_barchart <- renderPlotly({
@@ -97,7 +149,15 @@ server <- function(input, output) {
   })
 
   output$line_chart <- renderPlotly({
-    line_chart <- plot_ly(data_05, x = ~Category, y = ~Value, type = "scatter", mode = "lines")
+    line_chart <- plot_ly(data_35_result, x = ~years, y = data_35_result$`15-24`, type = "scatter", mode = "lines", fillcoler = "#455555" , name = "15-24 years old") %>%
+      add_trace(y = data_35_result$`25-34`, type = 'scatter', mode = "lines", fillcolor = "tozeroy", name = "25-34 years") %>%
+
+    layout(title = "Liney McLinechart",
+           xaxis = list(title = "Year"),
+           yaxis = list(title = "Percent Self-Employed"),
+           legend = list(title = "Age Group"))
+
+
     line_chart
   })
 

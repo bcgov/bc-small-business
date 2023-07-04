@@ -1,6 +1,7 @@
 library(readxl)
 library(gt)
 library(tidyverse)
+library(shiny)
 
 # Read the Excel file
 excel_file <- "C:/bc-small-business/app/data/SBP2023_Chart_data2.xlsx"
@@ -41,34 +42,56 @@ data_09_result
 
 data_10 <- read_excel(excel_file, sheet = "1.2a", range = "a2:i18", col_names = TRUE)
 data_11 <- read_excel(excel_file, sheet = "1.2b", range = "a2:d18", col_names = TRUE)
-data_12 <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
+data_12 <- read_excel(excel_file, sheet = "1.3a", range = "x2:y12", col_names = TRUE)
+
+data_13 <- read_excel(excel_file, sheet = "1.3b", range = "a3:c18", col_names = FALSE)
+data_13_result <- as.data.frame(data_13)
+colnames(data_13_result) <- data_13_result[1, ]
+data_13_result <- data_13_result[-1, ]
+data_13_result <- data_13_result[data_13_result$type != "Overall",]
+data_13_result <- data_13_result[order(data_13_result$`Small businesses with no paid employees (Total 299,800, 59%)`, decreasing = FALSE), ]
+data_13_result
 
 
 
 
-data_13 <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
-data_14 <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
-data_15 <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
-data_16 <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
-data_17 <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
-data_xx <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
-data_xx <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
-data_xx <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
-data_xx <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
-data_xx <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
-data_xx <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
-data_xx <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
-data_xx <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
-data_xx <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
-data_xx <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
-data_xx <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
-data_xx <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
-data_xx <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
-data_xx <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
-data_xx <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
-data_xx <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
-data_xx <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
-data_xx <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
+data_14 <- read_excel(excel_file, sheet = "1.4", range = "x2:y12", col_names = TRUE)
+data_15 <- read_excel(excel_file, sheet = "1.5", range = "x2:y12", col_names = TRUE)
+data_16 <- read_excel(excel_file, sheet = "1.6", range = "x2:y12", col_names = TRUE)
+data_17 <- read_excel(excel_file, sheet = "1.7", range = "x2:y12", col_names = TRUE)
+data_18 <- read_excel(excel_file, sheet = "1.8", range = "x2:y12", col_names = TRUE)
+data_19 <- read_excel(excel_file, sheet = "1.9 and 1.10", range = "x2:y12", col_names = TRUE)
+data_20 <- read_excel(excel_file, sheet = "1.11", range = "x2:y12", col_names = TRUE)
+data_21 <- read_excel(excel_file, sheet = "2.1", range = "x2:y12", col_names = TRUE)
+data_22 <- read_excel(excel_file, sheet = "2.2", range = "x2:y12", col_names = TRUE)
+data_23 <- read_excel(excel_file, sheet = "2.3", range = "x2:y12", col_names = TRUE)
+data_24 <- read_excel(excel_file, sheet = "2.4", range = "x2:y12", col_names = TRUE)
+data_25 <- read_excel(excel_file, sheet = "2.4b", range = "x2:y12", col_names = TRUE)
+data_26 <- read_excel(excel_file, sheet = "2.5", range = "x2:y12", col_names = TRUE)
+data_27 <- read_excel(excel_file, sheet = "2.6", range = "x2:y12", col_names = TRUE)
+data_28 <- read_excel(excel_file, sheet = "2.7", range = "x2:y12", col_names = TRUE)
+data_29 <- read_excel(excel_file, sheet = "2.8", range = "x2:y12", col_names = TRUE)
+data_30 <- read_excel(excel_file, sheet = "2.9", range = "x2:y12", col_names = TRUE)
+data_31 <- read_excel(excel_file, sheet = "2.10", range = "x2:y12", col_names = TRUE)
+data_32 <- read_excel(excel_file, sheet = "2.11", range = "x2:y12", col_names = TRUE)
+data_33 <- read_excel(excel_file, sheet = "3.2", range = "x2:y12", col_names = TRUE)
+data_34 <- read_excel(excel_file, sheet = "3.3", range = "x2:y12", col_names = TRUE)
+
+data_35 <- read_excel(excel_file, sheet = "3.3b", range = "a3:r9", col_names = FALSE)
+data_35t <- t(data_35)
+data_35_result <- as.data.frame(data_35t)
+colnames(data_35_result) <- data_35_result[1, ]
+data_35_result <- data_35_result[-1, ]
+data_35_result
+
+
+
+
+
+
+
+
+
 data_xx <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
 data_xx <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
 data_xx <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
