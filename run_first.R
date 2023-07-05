@@ -2,6 +2,10 @@ library(readxl)
 library(gt)
 library(tidyverse)
 library(shiny)
+library(shinydashboard)
+library(shinydashboardPlus)
+library(dplyr)
+options(scipen = 999)
 
 # Read the Excel file
 excel_file <- "C:/bc-small-business/app/data/SBP2023_Chart_data2.xlsx"
@@ -49,8 +53,12 @@ data_13_result <- as.data.frame(data_13)
 colnames(data_13_result) <- data_13_result[1, ]
 data_13_result <- data_13_result[-1, ]
 data_13_result <- data_13_result[data_13_result$type != "Overall",]
-data_13_result <- data_13_result[order(data_13_result$`Small businesses with no paid employees (Total 299,800, 59%)`, decreasing = FALSE), ]
+data_13_result <- data_13_result %>% mutate_at(c('sbo', 'sb1'), as.numeric)
 data_13_result
+#data_13_result <- data_13_result[order(sbo, decreasing = TRUE), ]
+data_13_result
+
+
 
 
 
@@ -82,10 +90,8 @@ data_35t <- t(data_35)
 data_35_result <- as.data.frame(data_35t)
 colnames(data_35_result) <- data_35_result[1, ]
 data_35_result <- data_35_result[-1, ]
+data_35_result$years <- round(as.numeric(data_35_result$years))
 data_35_result
-
-
-
 
 
 

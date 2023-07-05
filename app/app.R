@@ -21,26 +21,35 @@ ui <- function(req) {
 
   # first page
 
-    tabPanel("1 SB Growth",
+    tabPanel("1 Small Business Growth",
 
       fluidRow(
-        box(title = "Pie Chart", plotlyOutput("pie_chart"), width = 6)
+
+          box(title = "Pie Chart", plotlyOutput("pie_chart"), width = 8,
+              style = "border: 1px solid black;"
       ),
 
-        box(title = "Bar Chart", plotlyOutput("bar_chart"), width = 6)
+        box(title = "Bar Chart", plotlyOutput("bar_chart"), width = 8,
+            style = "border: 1px solid black;"
+        )
+    )
       ),
 
 
 
   # second page
 
-    tabPanel("2 SB Employment",
+    tabPanel("2 Small Business Employment",
 
       fluidRow(
-        box(title = "Horizontal Bar Chart", plotlyOutput("hbar_chart"), width = 6)
+        box(title = "Horizontal Bar Chart", plotlyOutput("hbar_chart"), width = 8,
+            style = "border: 1px solid black;"
         ),
 
-        box(title = "Stacked Bar Chart", plotlyOutput("stacked_barchart"), width = 6)
+        box(title = "Stacked Bar Chart", plotlyOutput("stacked_barchart"), width = 8,
+            style = "border: 1px solid black;"
+        )
+      )
       ),
 
 
@@ -49,9 +58,13 @@ ui <- function(req) {
     tabPanel("3 Self-Employed",
 
       fluidRow(
-        box(title = "Line Chart", plotlyOutput("line_chart"), width = 9)
+        box(title = "Line Chart", plotlyOutput("line_chart"), width = 8,
+            style = "border: 1px solid black;"
         ),
-        box(title = "Area Chart", plotlyOutput("area_chart"), width = 6)
+        box(title = "Area Chart", plotlyOutput("area_chart"), width = 8,
+            style = "border: 1px solid black;"
+        )
+      )
     ),
 
 
@@ -60,8 +73,11 @@ ui <- function(req) {
     tabPanel("4 Contribution to Economy",
 
       fluidRow(
-        box(title = "Static Table", gt_output("my_table"))
-         ),
+        box(title = "Static Table", gt_output("my_table"),
+            style = "border: 1px solid black;"
+         )
+
+      ),
 
 
 
@@ -85,10 +101,18 @@ server <- function(input, output) {
 
   output$pie_chart <- renderPlotly({
     pie_chart <- plot_ly(data_01, labels = ~category, values = ~percentage,
-                         textinfo = "label+percent", showlegend = FALSE,
-                         textposition = "outside", insidetextfont = list(color= "#FFFFFF"), type = "pie")
+                         textinfo = "label+percent",
+                         textposition = "inside", insidetextorientation = 'horizontal', size = 15,
+
+                         type = "pie") %>%
+         layout(title =  "Share of Businesses by Employment Size in British Columbia, 2022",
+                                           showlegend = FALSE, wrap = TRUE)
     pie_chart
   })
+
+
+
+
 
   canada_average <- .6
   data_08$Province <- factor(data_08$Province, levels = unique(data_08$Province))
@@ -116,11 +140,13 @@ server <- function(input, output) {
 
   output$hbar_chart <- renderPlotly({
     hbar_chart <- plot_ly(data_13_result, y = data_13_result$type,
-                          x = data_13_result$`Small businesses with no paid employees (Total 299,800, 59%)`,
+                          x = ~sbo,
                           type = "bar",
                           orientation = 'h') %>%
-      add_trace(x = data_13_result$`Small businesses with 1-49 employees (Total 204,300, 37%)`)
+      add_trace(x = ~sb1)
     hbar_chart
+
+
 
 
 
@@ -149,8 +175,8 @@ server <- function(input, output) {
   })
 
   output$line_chart <- renderPlotly({
-    line_chart <- plot_ly(data_35_result, x = ~years, y = data_35_result$`15-24`, type = "scatter", mode = "lines", fillcoler = "#455555" , name = "15-24 years old") %>%
-      add_trace(y = data_35_result$`25-34`, type = 'scatter', mode = "lines", fillcolor = "tozeroy", name = "25-34 years") %>%
+    line_chart <- plot_ly(data_35_result, x = ~years, y = data_35_result$`15-24`, type = "scatter", mode = "lines",  name = "15-24 years old") %>%
+      add_trace(y = data_35_result$`25-34`, type = 'scatter', mode = "lines", name = "25-34 years") %>%
 
     layout(title = "Liney McLinechart",
            xaxis = list(title = "Year"),
@@ -165,8 +191,8 @@ server <- function(input, output) {
 
   output$area_chart <- renderPlotly({
 
-    area_chart <- plot_ly(data_04_result, x = ~years, y = data_04_result$`Small business exports`, type = "scatter", mode = "lines", fillcoler = "#455555" , name = "Small B", stackgroup = 'one') %>%
-      add_trace(y = data_04_result$`Large business exports`, type = "scatter", mode = "lines", fillcolor = "tozeroy", name = "Large B") %>%
+    area_chart <- plot_ly(data_04_result, x = ~years, y = data_04_result$`Small business exports`, type = "scatter", mode = "lines",  name = "Small B", stackgroup = 'one') %>%
+      add_trace(y = data_04_result$`Large business exports`, type = "scatter", mode = "lines",  name = "Large B") %>%
 
       layout(title = " Comparison",
              xaxis = list(title = "Year"),
