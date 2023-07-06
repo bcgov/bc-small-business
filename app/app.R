@@ -22,15 +22,22 @@ ui <- function(req) {
   # first page
 
     tabPanel("1 Small Business Growth",
+      titlePanel(
+        h2("Intro Insights could go here"),
+        HTML("<ul> <li>
+             asdfsadfsadf </li> </ul>")
 
+      ),
       fluidRow(
 
-          box(title = "Pie Chart", plotlyOutput("pie_chart"), width = 8,
-              style = "border: 1px solid black;"
+
+          box(title = "Fig 1: Share of Businesses by Employment Size in British Columbia, 2022",
+              plotlyOutput("pie_chart"), width = 5,
+              style = "border: 1px solid white;"
       ),
 
-        box(title = "Bar Chart", plotlyOutput("bar_chart"), width = 8,
-            style = "border: 1px solid black;"
+        box(title = "Fig 2: Business bankruptcy rates by province, 2021", plotlyOutput("bar_chart"), width = 5,
+            style = "border: 1px solid white;"
         )
     )
       ),
@@ -42,11 +49,11 @@ ui <- function(req) {
     tabPanel("2 Small Business Employment",
 
       fluidRow(
-        box(title = "Horizontal Bar Chart", plotlyOutput("hbar_chart"), width = 8,
-            style = "border: 1px solid black;"
+        box(title = "Figure 3: Distribution of small businesses with and without employees by industry, 2022", plotlyOutput("hbar_chart"), width = 5,
+            style = "border: 1px solid white;"
         ),
 
-        box(title = "Stacked Bar Chart", plotlyOutput("stacked_barchart"), width = 8,
+        box(title = "Stacked Bar Chart", plotlyOutput("stacked_barchart"), width = 3,
             style = "border: 1px solid black;"
         )
       )
@@ -101,12 +108,27 @@ server <- function(input, output) {
 
   output$pie_chart <- renderPlotly({
     pie_chart <- plot_ly(data_01, labels = ~category, values = ~percentage,
-                         textinfo = "label+percent",
-                         textposition = "inside", insidetextorientation = 'horizontal', size = 15,
+                         textinfo = "label+percent", marker = list(colors = ~Colours),
+                         textposition = 'inside',  insidetextorientation = 'horizontal', textfont = list(size = 15),
 
                          type = "pie") %>%
-         layout(title =  "Share of Businesses by Employment Size in British Columbia, 2022",
-                                           showlegend = FALSE, wrap = TRUE)
+         layout(title =  "",
+                width = 500,
+                height = 400,
+                autosize = FALSE,
+
+
+                                           showlegend = FALSE,
+               annotations = list(
+                 list(
+                   x = 0,
+                   y = -0.1,
+                   text = "Source: BC Stats using data supplied by Statistics Canada",
+                   showarrow = FALSE
+                 )
+               ))
+
+
     pie_chart
   })
 
@@ -114,19 +136,26 @@ server <- function(input, output) {
 
 
 
+
   canada_average <- .6
+
   data_08$Province <- factor(data_08$Province, levels = unique(data_08$Province))
-  selected_colour <- ifelse(data_08$Province == "BC", "green", "turquoise")
+  selected_colour <- ifelse(data_08$Province == "BC", "#e3a82b", "#95b9c7")
 
 
   output$bar_chart <- renderPlotly({
 
+    footnote <- "Source: Statistics Canada / Prepared by BC Stats"
+
     bar_chart <- plot_ly(data_08, x = ~Province, y = ~Percent, type = "bar", marker = list(color = selected_colour))
     bar_chart <- bar_chart %>%
       add_trace(y = canada_average, type = 'scatter', mode = 'lines', name = 'Canadian Average = 0.6')
+
     bar_chart <- bar_chart %>% layout(title = 'Bankruptcies per 1,000 Businesses',
                                       yaxis = list(title = 'Value'),
-                                      showlegend = FALSE)
+                                      showlegend = FALSE
+
+                                      )
 
 
 
@@ -137,13 +166,20 @@ server <- function(input, output) {
 
   })
 
+  data_13_result <- data_13_result[order(data_13_result$`Small businesses with no paid employees`, decreasing = TRUE),]
 
   output$hbar_chart <- renderPlotly({
     hbar_chart <- plot_ly(data_13_result, y = data_13_result$type,
-                          x = ~sbo,
+                          x = data_13_result$`Small businesses with no paid employees`,
                           type = "bar",
-                          orientation = 'h') %>%
-      add_trace(x = ~sb1)
+                          orientation = 'h', name = 'Small businesses with no paid employees (Total 299,800, 59%)
+') %>%
+      add_trace(x = data_13_result$`Small businesses with 1-49 employees`, name = 'Small businesses with 1-49 employees (Total 204,300, 37%)
+',
+                marker = list(color = 'rgba(58, 71, 80, 0.6)',
+                              line = list(color = 'rgba(58, 71, 80, 1.0)',
+                                          width = 1)))
+    hbar_chart <- layout(hbar_chart, legend = list(orientation = "h", x = -.5, y = 1.2))
     hbar_chart
 
 

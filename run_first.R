@@ -9,7 +9,7 @@ options(scipen = 999)
 
 # Read the Excel file
 excel_file <- "C:/bc-small-business/app/data/SBP2023_Chart_data2.xlsx"
-data_01 <- read_excel(excel_file, sheet = "0.1", range = "a5:c8", col_names = TRUE)
+data_01 <- read_excel(excel_file, sheet = "0.1", range = "a5:d8", col_names = TRUE)
 data_01
 
 data_02 <- read_excel(excel_file, sheet = "0.2", range = "a3:e6", col_names = TRUE)
@@ -48,17 +48,11 @@ data_10 <- read_excel(excel_file, sheet = "1.2a", range = "a2:i18", col_names = 
 data_11 <- read_excel(excel_file, sheet = "1.2b", range = "a2:d18", col_names = TRUE)
 data_12 <- read_excel(excel_file, sheet = "1.3a", range = "x2:y12", col_names = TRUE)
 
-data_13 <- read_excel(excel_file, sheet = "1.3b", range = "a3:c18", col_names = FALSE)
+data_13 <- read_excel(excel_file, sheet = "1.3b", range = "a3:c17", col_names = TRUE)
 data_13_result <- as.data.frame(data_13)
-colnames(data_13_result) <- data_13_result[1, ]
-data_13_result <- data_13_result[-1, ]
-data_13_result <- data_13_result[data_13_result$type != "Overall",]
-data_13_result <- data_13_result %>% mutate_at(c('sbo', 'sb1'), as.numeric)
-data_13_result
-#data_13_result <- data_13_result[order(sbo, decreasing = TRUE), ]
-data_13_result
 
-
+data_13_result <- data_13_result[order(data_13_result$`Small businesses with no paid employees`, decreasing = TRUE), ]
+data_13_result
 
 
 
