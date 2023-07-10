@@ -33,8 +33,11 @@ data_08
 
 
 data_09 <- read_excel(excel_file, sheet = "1.1", range = "a2:i8", col_names = FALSE)
+data_09
 data_09t <- t(data_09)
 data_09_result <- as.data.frame(data_09t)
+data_09_result
+
 colnames(data_09_result) <- data_09_result[1, ]
 data_09_result <- data_09_result[-1, ]
 data_09_result
