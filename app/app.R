@@ -1,135 +1,219 @@
-ui <- function(req) {
+# Install required packages
+install.packages(c("shiny", "shinydashboard", "plotly", "DT"))
+
+# Load required libraries
+library(shiny)
+library(shinydashboard)
+library(plotly)
+library(DT)
+
+# Test dataframe
+df <- data.frame(
+  Category = c("A", "B", "C", "D", "E"),
+  Value = c(10, 20, 30, 40, 50)
+)
+
+# Define UI
+ui <-
+
   shiny::fluidPage(
     theme = "styles.css",
     HTML("<html lang='en'>"),
     fluidRow(
 
 
-    ## Replace appname with the title that will appear in the header
-    bcsapps::bcsHeaderUI(id = 'header', appname = "Small Business in BC"),
+      ## Replace appname with the title that will appear in the header
+      bcsapps::bcsHeaderUI(id = 'header', appname = "Small Business in BC"),
 
-    column(width = 12,
-           style = "margin-top:100px",
+      column(width = 12,
+             style = "margin-top:100px",
 
-           ""
-           )
-  ),
-
-  navbarPage(
-    title = "",
-
-
-  # first page
-
-    tabPanel("1 Small Business Growth",
-      titlePanel(
-        h2("Intro Insights could go here"),
-        HTML("<ul> <li>
-             asdfsadfsadf </li> </ul>")
-
-     ),
-      fluidRow(
-
-
-          box(title = "Fig 1: Share of Businesses by Employment Size in British Columbia, 2022 (page 1)",
-              plotlyOutput("pie_chart"), width = 5,
-              style = "border: 1px solid white;"
-      ),
-
-        box(title = "Fig 2: Business bankruptcy rates by province, 2021 (page 5)", plotlyOutput("bar_chart"), width = 5,
-            style = "border: 1px solid white;"
-        )
-    )
-      ),
-
-
-
-  # second page
-
-    tabPanel("2 Small Business Employment",
-
-      fluidRow(
-        box(title = "Figure 3: Distribution of small businesses with and without employees by industry, 2022 (page 15)", plotlyOutput("hbar_chart"), width = 5,
-            style = "border: 1px solid white;"
-        ),
-
-        box(title = "Figure 4: Count of small businesses in British Columbia (page 13)", plotlyOutput("stacked_barchart"), width = 5,
-            style = "border: 1px solid white;"
-        )
-      )
-      ),
-
-
-   # third page
-
-    tabPanel("3 Self-Employed",
-
-      fluidRow(
-        box(title = "Figure 5: Share of British Columbian workers who are self-employed, by age (page 32)", plotlyOutput("line_chart"), width = 6,
-            style = "border: 1px solid white;"
-        ),
-        box(title = "Figure 6: Value of goods exports for large and small businesses (page 3)", plotlyOutput("area_chart"), width = 6,
-            style = "border: 1px solid white;"
-        )
+             ""
       )
     ),
+  shiny::tags$html(lang = "en",
+                       dashboardPage(skin = "black",
+                         dashboardHeader(title = ""),
+                         dashboardSidebar(minified = TRUE, collapsed = FALSE,
+                           sidebarMenu(
+                             menuItem("Home", tabName = "home"),
+                             menuItem("1 Small Business Growth", tabName = "page1"),
+                             menuItem("2 Small Business Employment", tabName = "page2"),
+                             menuItem("3 Self-Employed", tabName = "page3"),
+                             menuItem("4 Contribution to Economy", tabName = "page4")
+                           )
+                         ),
+                         dashboardBody(
+                           shiny::tags$head(
+                             shiny::tags$link(rel = "stylesheet", type = "text/css", href = "styles.css")
+                           ),
+                           tabItems(
+                             tabItem(
+                               tabName = "home",
+                               fluidRow(
+                                 box(
+                                   title = "Box 1",
+                                   "Custom content for Box 1",
+                                   width = 4
+                                 ),
+                                 box(
+                                   title = "Box 2",
+                                   "Custom content for Box 2",
+                                   width = 4
+                                 ),
+                                 box(
+                                   title = "Box 3",
+                                   "Custom content for Box 3",
+                                   width = 4
+                                 )
+                               )
+                             ),
+                             tabItem(
+                               tabName = "page1",
+                               fluidRow(
+                                 box(title = "Figure 1.1 - Count of small businesses in British Columbia", plotlyOutput("plot1.1"), width = 6),
+                                 box(title = "Figure 1.2a - One, two and five-year growth of B.C. businesses by size",
+                                     width = 6,
+                                     solidHeader = TRUE,
+                                     tabsetPanel(
+                                       tabPanel("1 year", plotlyOutput("plot1.2a1")),
+                                       tabPanel("2 year", plotlyOutput("plot1.2a2")),
+                                       tabPanel("5 year", plotlyOutput("plot1.2a3"))
+                                     )
+                                  )
 
+                               )
+                             ),
+                             tabItem(
+                               tabName = "page2",
+                               fluidRow(
+                                 box(title = "Horizontal Bar Chart", plotlyOutput("hbar_chart"), width = 6),
+                                 box(title = "Horizontal Bar Chart (Add to 100%)", plotlyOutput("hbar_chart_100"), width = 6)
+                               )
+                             ),
 
-  # fourth page
+                             tabItem(
+                               tabName = "page4",
+                               fluidRow(
+                                 box(title = "Line Chart", plotlyOutput("line_chart"), width = 6),
+                                 box(title = "Area Chart", plotlyOutput("area_chart"), width = 6)
+                               ),
+                               fluidRow(
+                                 box(title = "Static Table", DTOutput("static_table"))
+                               )
+                             )
+                           )
+                         )
+                                  ),
 
-    tabPanel("4 Contribution to Economy",
-
-      fluidRow(
-        box(title = "Figure 7: Number of self-employed business owners in British Columbia, 2022 (page 30)", gt_output("my_table"),
-            style = "border: 1px solid white;"
-         )
-
-      ),
-
-
-
-
-    bcsapps::bcsFooterUI(id = 'footer')
-  ),
-  )
-
-)}
-
-
+)
+)
+# Define server logic
 server <- function(input, output) {
+
+
 
   ## Change links to false to remove the link list from the header
   bcsapps::bcsHeaderServer(id = 'header', links = TRUE)
 
   bcsapps::bcsFooterServer(id = 'footer')
 
-  category = data_01$`Type of Business`
-  percentage = data_01$Percentage
+  df_long_result <- data_09_result %>%
+    tidyr::gather(key = "Category", value = "value", -years)
 
-  output$pie_chart <- renderPlotly({
-    pie_chart <- plot_ly(data_01, labels = ~category, values = ~percentage,
-                         textinfo = "label+percent", marker = list(colors = ~Colours),
-                         textposition = 'inside',  insidetextorientation = 'horizontal', textfont = list(size = 15),
-
-                         type = "pie") %>%
-         layout(title =  "",
-                width = 500,
-                height = 400,
-                autosize = FALSE,
+  df_long$value <- as.numeric(df_long$value)
 
 
-                                           showlegend = FALSE,
-               annotations = list(
-                 list(
-                   x = 0,
-                   y = -0.1,
-                   text = "Source: BC Stats using data supplied by Statistics Canada",
-                   showarrow = FALSE
-                 )
-               ))
+  custom_colors <- c("#FFC300", "#FF5733", "#C70039", "#900C3F", "#581845")
+
+  output$plot1.1 <- renderPlotly({
+    plot1.1 <- plot_ly(df_long, x = ~years, y = ~value, color = ~Category,
+                     type = "bar", colors = custom_colors) %>%
 
 
-    pie_chart
+    layout(title = "",
+           xaxis = list(title = "Year"),
+           yaxis = list(title = "Number of dfgf",
+                        tickformat = ",.0",
+                        tickprefix = "",
+                        ticksuffix = "K",
+                        dtick = 100000),
+           barmode = "stack")
+
+
+
+  # Display the chart
+  plot1.1
+
+})
+
+  output$plot1.2a1 <- renderPlotly({
+  # Create the plot
+  plot1.2a1 <- plot_ly(data = data_10, x = ~`1-yr growth rate`, y = ~`employee count`, type = "bar",
+                  orientation = "h",  colors = c("red", "green"),
+                  hoverinfo = "x", width = 600, height = 400)
+
+  # Customize the layout
+  layout <- list(
+    xaxis = list(title = "1 Yr"),
+    yaxis = list(title = "Employee Count"),
+    barmode = "relative",
+    bargap = 0.1,
+    autosize = TRUE
+  )
+
+  # Combine the plot and layout
+  plot1.2a1 <- plot1.2a1 %>% layout(layout)
+
+  # Display the plot
+  plot1.2a1
+
+  })
+
+  output$plot1.2a2 <- renderPlotly({
+    # Create the plot
+    plot1.2a2 <- plot_ly(data = data_10, x = ~`2-yr growth rate`, y = ~`employee count`, type = "bar",
+                         orientation = "h",  colors = c("red", "green"),
+                         hoverinfo = "x", width = 600, height = 400)
+
+    # Customize the layout
+    layout <- list(
+      xaxis = list(title = "1 Yr"),
+      yaxis = list(title = "Employee Count"),
+      barmode = "relative",
+      bargap = 0.1,
+      autosize = TRUE
+    )
+
+    # Combine the plot and layout
+    plot1.2a2 <- plot1.2a2 %>% layout(layout)
+
+    # Display the plot
+    plot1.2a2
+
+  })
+
+  output$plot1.2a3 <- renderPlotly({
+    # Create the plot
+    plot1.2a3 <- plot_ly(data = data_10, x = ~`5-yr growth rate`, y = ~`employee count`, type = "bar",
+                         orientation = "h",  colors = c("red", "green"),
+                         hoverinfo = "x", width = 600, height = 400)
+
+    # Customize the layout
+    layout <- list(
+      xaxis = list(title = "1 Yr"),
+      yaxis = list(title = "Employee Count"),
+      barmode = "relative",
+      bargap = 0.1,
+      autosize = TRUE
+    )
+
+    # Combine the plot and layout
+    plot1.2a3 <- plot1.2a3 %>% layout(layout)
+
+    # Display the plot
+    plot1.2a3
+
   })
 
 
@@ -137,151 +221,58 @@ server <- function(input, output) {
 
 
 
-  canada_average <- .6
 
-  data_08$Province <- factor(data_08$Province, levels = unique(data_08$Province))
-  selected_colour <- ifelse(data_08$Province == "BC", "#e3a82b", "#95b9c7")
+
+
+
+
+
+
 
 
   output$bar_chart <- renderPlotly({
-
-    footnote <- "Source: Statistics Canada / Prepared by BC Stats"
-
-    bar_chart <- plot_ly(data_08, x = ~Province, y = ~Percent, type = "bar", marker = list(color = selected_colour))
-    bar_chart <- bar_chart %>%
-      add_trace(y = canada_average, type = 'scatter', mode = 'lines', name = 'Canadian Average = 0.6')
-
-    bar_chart <- bar_chart %>% layout(title = 'Bankruptcies per 1,000 Businesses',
-                                      yaxis = list(title = 'Value'),
-                                      showlegend = FALSE
-
-                                      )
-
-
-
-
-
-
-
-
+    bar_chart <- plot_ly(df, x = ~Category, y = ~Value, type = "bar")
+    bar_chart
   })
-
-  data_13_result <- data_13_result[order(data_13_result$`Small businesses with no paid employees`, decreasing = TRUE),]
 
   output$hbar_chart <- renderPlotly({
-    hbar_chart <- plot_ly(data_13_result, y = data_13_result$type,
-                          x = data_13_result$`Small businesses with no paid employees`,
-                          type = "bar",
-                          orientation = 'h', name = 'Small businesses with no paid employees (Total 299,800, 59%)
-') %>%
-      add_trace(x = data_13_result$`Small businesses with 1-49 employees`, name = 'Small businesses with 1-49 employees (Total 204,300, 37%)
-',
-                marker = list(color = 'rgba(58, 71, 80, 1.0)',
-                              line = list(color = 'rgba(58, 71, 80, 1.0)',
-                                          width = 1)))
-    hbar_chart <- layout(hbar_chart,
-                         legend = list(orientation = "h", x = -2, y = 1.2),
-                         xaxis = list(tickformat = '.0%'))
+    hbar_chart <- plot_ly(df, x = ~Value, y = ~Category, type = "bar", orientation = "h")
     hbar_chart
-
-
-
-
-
-
-
-
-
   })
 
-  output$stacked_barchart <- renderPlotly({
-    stacked_barchart <- plot_ly(data_09_result, x = data_09_result$years, y = data_09_result$`No employees`,
-                                type = 'bar',   name = 'no employees', color = "#FFFF00") %>%
-      add_trace(y = data_09_result$`1-4 employees`, type = 'bar', barmode = 'stack', name = '1-4 employees', color = "#0000FF")  %>%
-      add_trace(y = data_09_result$`5-9 employees`, type = 'bar', barmode = 'stack', name = '5-9 employees', color = "#f5f5f5") %>%
-      add_trace(y = data_09_result$`10-19 employees`, type = 'bar', barmode = 'stack', name = '10-19 employees', color = "#478fff")  %>%
-      add_trace(y = data_09_result$`20-49 employees`, type = 'bar', barmode = 'stack', name = '20-49 employees', color = "#ffffff")
-
-
-
-
-
-    stacked_barchart <- stacked_barchart %>% layout(barmode = 'stack')
-
-    #                        yaxis = list(tickmode = "linear", tick0 = 0, dtick = 100000),
-                #               legend = list(orientation = "h", x = 0, y = 1.2))
-    stacked_barchart
-
-
-
-
-
+  output$hbar_chart_100 <- renderPlotly({
+    hbar_chart_100 <- plot_ly(df, x = ~Value, y = ~Category, type = "bar", orientation = "h") %>%
+      layout(barmode = "stack")
+    hbar_chart_100
   })
 
   output$line_chart <- renderPlotly({
-    line_chart <- plot_ly(data_35_result, x = ~years, y = data_35_result$`15-24`, type = "scatter", mode = "lines",  name = "15-24 years old", line = list(color = "yellow")) %>%
-      add_trace(y = data_35_result$`25-34`, type = 'scatter', mode = "lines", name = "25-34 years", line = list(color = "lightgreen")) %>%
-     add_trace(y = data_35_result$`35-44`, type = 'scatter', mode = "lines", name = "35-44 years", line = list(color = "darkgreen")  ) %>%
-     add_trace(y = data_35_result$`45-54`, type = 'scatter', mode = "lines", name = "45-54 years", line = list(color = "lightblue")  ) %>%
-     add_trace(y = data_35_result$`55-64`, type = 'scatter', mode = "lines", name = "55-64 years", line = list(color = "darkblue")  ) %>%
-     add_trace(y = data_35_result$`65+`, type = 'scatter', mode = "lines", name = "65+ years", line = list(color = "black")  )
-
-    line_chart <- layout(line_chart,
-                         xaxis = list(title = ""),
-                         yaxis = list(
-                           tickvals = seq(0, 1, 0.05),
-                           ticktext = paste0(seq(0, 100, 5), "%"),
-                         legend = list(title = "Age Group")
-                         )
-    )
-
-
+    line_chart <- plot_ly(df, x = ~Category, y = ~Value, type = "scatter", mode = "lines")
     line_chart
   })
 
-
-
   output$area_chart <- renderPlotly({
-
-    area_chart <- plot_ly(data_04_result, x = ~years, y = data_04_result$`Small business exports`, type = "scatter", mode = "lines",  name = "Small business exports", line = list(color = "#234075"), stackgroup = 'one') %>%
-      add_trace(y = data_04_result$`Large business exports`, type = "scatter", mode = "lines",  name = "Large business exports", line = list(color = "blue")) %>%
-
-      layout(title = "",
-
-             yaxis = list(title = "Value in Billions")
-    )
-
-
+    area_chart <- plot_ly(df, x = ~Category, y = ~Value, type = "scatter", mode = "lines", fill = "tozeroy")
     area_chart
   })
 
-
-  # Render the table
-  output$my_table <- render_gt({
-
-
-  # Create the gt table
-    tbl <- gt(data_02)
-
-    # Add a header row with blue background and white text
-    tbl <- tbl |>
-      tab_header(
-        title = md(""),
-
-      )
-    tbl <- tbl |>
-      tab_source_note(
-        source_note = "Source: This is where the data comes from"
-
-      )
-
-
-
-
-    return(tbl)
+  output$static_table <- renderDT({
+    datatable(
+      df,
+      options = list(
+        dom = 't',
+        language = list(
+          info = "<em>Statycan</em>"
+        ),
+        paging = FALSE,
+        searching = FALSE
+      ),
+      rownames = FALSE,
+      class = "cell-border stripe"
+    )
   })
-}
 
+  }
 
-
-shiny::shinyApp(ui = ui, server = server)
+# Run the app
+shinyApp(ui, server)

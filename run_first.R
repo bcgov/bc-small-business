@@ -9,6 +9,10 @@ options(scipen = 999)
 
 # Read the Excel file
 excel_file <- "C:/bc-small-business/app/data/SBP2023_Chart_data2.xlsx"
+
+
+# For 1. Small Business Growth
+
 data_01 <- read_excel(excel_file, sheet = "0.1", range = "a5:d8", col_names = TRUE)
 data_01
 
@@ -31,23 +35,20 @@ data_08 <- read_excel(excel_file, sheet = "Key3", range = "a2:b12", col_names = 
 data_08
 
 
-
+# 1.1 Growth of Small Businesses in BC
 data_09 <- read_excel(excel_file, sheet = "1.1", range = "a2:i8", col_names = FALSE)
-data_09
 data_09t <- t(data_09)
 data_09_result <- as.data.frame(data_09t)
-data_09_result
-
 colnames(data_09_result) <- data_09_result[1, ]
 data_09_result <- data_09_result[-1, ]
-data_09_result
 
-
-
-
-
-
+# 1.2a Growth of BC businesses by size
 data_10 <- read_excel(excel_file, sheet = "1.2a", range = "a2:i18", col_names = TRUE)
+
+
+
+
+
 data_11 <- read_excel(excel_file, sheet = "1.2b", range = "a2:d18", col_names = TRUE)
 data_12 <- read_excel(excel_file, sheet = "1.3a", range = "x2:y12", col_names = TRUE)
 
