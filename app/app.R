@@ -80,8 +80,11 @@ ui <-
                                        tabPanel("2 year", plotlyOutput("plot1.2a2")),
                                        tabPanel("5 year", plotlyOutput("plot1.2a3"))
                                      )
-                                  )
+                                  ),
 
+                                   box(title = "Figure 1.2b: Breakdown of businesses in British Columbia, 2022", gt_output("my_table"),
+                                       style = "border: 1px solid white;"
+                                   )
                                )
                              ),
                              tabItem(
@@ -271,6 +274,35 @@ server <- function(input, output) {
       class = "cell-border stripe"
     )
   })
+
+
+  # Render the table
+  output$my_table <- render_gt({
+
+
+    # Create the gt table
+    tbl <- gt(data_11)
+
+    # Add a header row with blue background and white text
+    tbl <- tbl |>
+      tab_header(
+        title = md("m"),
+
+      )
+    tbl <- tbl |>
+      tab_source_note(
+        source_note = "Source: This is where the data comes from"
+
+      )
+
+
+
+
+    return(tbl)
+  })
+
+
+
 
   }
 
