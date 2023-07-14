@@ -82,7 +82,7 @@ ui <-
                                      )
                                   ),
 
-                                   box(title = "Figure 1.2b: Breakdown of businesses in British Columbia, 2022", gt_output("my_table"),
+                                   box(title = "Figure 1.2b: Breakdown of businesses in British Columbia, 2022", DTOutput("datatable"),
                                        style = "border: 1px solid white;"
                                    )
                                )
@@ -259,46 +259,26 @@ server <- function(input, output) {
     area_chart
   })
 
-  output$static_table <- renderDT({
-    datatable(
-      df,
-      options = list(
-        dom = 't',
-        language = list(
-          info = "<em>Statycan</em>"
-        ),
-        paging = FALSE,
-        searching = FALSE
-      ),
-      rownames = FALSE,
-      class = "cell-border stripe"
-    )
-  })
+
 
 
   # Render the table
-  output$my_table <- render_gt({
+  output$datatable <- renderDT({
+    # Create your dataframe with the desired data
+    data <- data_11
 
-
-    # Create the gt table
-    tbl <- gt(data_11)
-
-    # Add a header row with blue background and white text
-    tbl <- tbl |>
-      tab_header(
-        title = md("m"),
-
-      )
-    tbl <- tbl |>
-      tab_source_note(
-        source_note = "Source: This is where the data comes from"
-
-      )
-
-
-
-
-    return(tbl)
+    # Create the datatable
+    datatable(data,
+              options = list(
+                dom = 't',
+                headerCallback = JS(
+                  "function(thead, data, start, end, display){",
+                  "  $('th', thead).css('color', 'white');",
+                  "  $('th', thead).css('background-color', 'blue');",
+                  "}"
+                )
+              )
+    )
   })
 
 

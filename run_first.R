@@ -5,6 +5,7 @@ library(shiny)
 library(shinydashboard)
 library(shinydashboardPlus)
 library(dplyr)
+library(DT)
 options(scipen = 999)
 
 # Read the Excel file
@@ -45,11 +46,18 @@ data_09_result <- data_09_result[-1, ]
 # 1.2a Growth of BC businesses by size
 data_10 <- read_excel(excel_file, sheet = "1.2a", range = "a2:i18", col_names = TRUE)
 
-
-
-
-
+# 1.2b Breakdown of small businesses in British Columbia
 data_11 <- read_excel(excel_file, sheet = "1.2b", range = "a2:d18", col_names = TRUE)
+data_11 <- data_11 %>%
+  filter(!is.na(`Per cent of small businesses`))
+data_11 <- data_11 %>%
+  mutate(`Per cent of all businesses` = paste0(format(round(`Per cent of all businesses` * 100, 1), nsmall = 1), "%"),
+        `Per cent of small businesses` = paste0(format(round(`Per cent of small businesses` * 100, 1), nsmall = 1), "%"))
+data_11
+
+
+
+
 data_12 <- read_excel(excel_file, sheet = "1.3a", range = "x2:y12", col_names = TRUE)
 
 data_13 <- read_excel(excel_file, sheet = "1.3b", range = "a3:c17", col_names = TRUE)
