@@ -1,6 +1,3 @@
-# Install required packages
-install.packages(c("shiny", "shinydashboard", "plotly", "DT"))
-
 # Load required libraries
 library(shiny)
 library(shinydashboard)
@@ -82,11 +79,17 @@ ui <-
                                      )
                                   ),
 
-                                   box(title = "Figure 1.2b: Breakdown of businesses in British Columbia, 2022", DTOutput("datatable"),
+                                box(title = "Figure 1.2b: Breakdown of businesses in British Columbia, 2022", DTOutput("datatable"),
                                        style = "border: 1px solid white;"
                                    )
+                                  ),
+
+                                box(title = "Figure 1.3a: Distribution of small businesses by industry, 2022",
+                                   plotlyOutput("plot_1.3a"), width = 5
                                )
+
                              ),
+
                              tabItem(
                                tabName = "page2",
                                fluidRow(
@@ -109,8 +112,13 @@ ui <-
                          )
                                   ),
 
+
+                   bcsapps::bcsFooterUI(id = 'footer')
+  ),
+
+
 )
-)
+
 # Define server logic
 server <- function(input, output) {
 
@@ -219,9 +227,35 @@ server <- function(input, output) {
 
   })
 
+  category = data_12$`...1`
+  percentage = data_12$`%`
+
+  output$plot_1.3a <- renderPlotly({
+    plot_1.3a <- plot_ly(data_12, labels = ~category, values = ~percentage,
+                         textinfo = "label+percent", marker = list(colors = ~Colours),
+                         textposition = 'inside',  insidetextorientation = 'horizontal', textfont = list(size = 15),
+
+                         type = "pie") %>%
+      layout(title =  "",
+             width = 500,
+             height = 400,
+             autosize = FALSE,
 
 
+             showlegend = FALSE,
+             annotations = list(
+               list(
+                 x = 0,
+                 y = -0.1,
+                 text = "Source: BC Stats using data supplied by Statistics Canada",
+                 showarrow = FALSE
+               )
+             ))
 
+
+    plot_1.3a
+
+  })
 
 
 
@@ -265,7 +299,10 @@ server <- function(input, output) {
   # Render the table
   output$datatable <- renderDT({
     # Create your dataframe with the desired data
-    data <- data_11
+
+        data <- data_11
+
+
 
     # Create the datatable
     datatable(data,

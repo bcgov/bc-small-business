@@ -48,17 +48,21 @@ data_10 <- read_excel(excel_file, sheet = "1.2a", range = "a2:i18", col_names = 
 
 # 1.2b Breakdown of small businesses in British Columbia
 data_11 <- read_excel(excel_file, sheet = "1.2b", range = "a2:d18", col_names = TRUE)
-data_11 <- data_11 %>%
-  filter(!is.na(`Per cent of small businesses`))
+#data_11 <- data_11 %>%
+#  filter(!is.na(`Per cent of small businesses`))
+# datatable(data_11, options = list(orderClasses = TRUE, rownames = FALSE, lengthMenu = c(20, nrow(data_11))))
 data_11 <- data_11 %>%
   mutate(`Per cent of all businesses` = paste0(format(round(`Per cent of all businesses` * 100, 1), nsmall = 1), "%"),
         `Per cent of small businesses` = paste0(format(round(`Per cent of small businesses` * 100, 1), nsmall = 1), "%"))
 data_11
 
 
+# Figure 1.3a: Distribution of small businesses by industry
+data_12 <- read_excel(excel_file, sheet = "1.3a", range = "a2:d16", col_names = TRUE)
+data_12$`%` <- as.numeric(data_12$`%`)
+data_12
 
 
-data_12 <- read_excel(excel_file, sheet = "1.3a", range = "x2:y12", col_names = TRUE)
 
 data_13 <- read_excel(excel_file, sheet = "1.3b", range = "a3:c17", col_names = TRUE)
 data_13_result <- as.data.frame(data_13)
