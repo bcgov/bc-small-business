@@ -43,6 +43,7 @@ data_09_result <- as.data.frame(data_09t)
 colnames(data_09_result) <- data_09_result[1, ]
 data_09_result <- data_09_result[-1, ]
 
+
 # 1.2a Growth of BC businesses by size
 data_10 <- read_excel(excel_file, sheet = "1.2a", range = "a2:i18", col_names = TRUE)
 
@@ -62,15 +63,17 @@ data_12 <- read_excel(excel_file, sheet = "1.3a", range = "a2:d16", col_names = 
 data_12$`%` <- as.numeric(data_12$`%`)
 data_12
 
-
+# Figure 1.3b: Distribution of small businesses with and without employees by industry, 2022
 
 data_13 <- read_excel(excel_file, sheet = "1.3b", range = "a3:c17", col_names = TRUE)
 data_13_result <- as.data.frame(data_13)
-
-data_13_result <- data_13_result[order(data_13_result$`Small businesses with no paid employees`, decreasing = TRUE), ]
+#print(data_13_result)
+data_13_result <- data_13_result[order(-data_13_result$`Small businesses with no paid employees`),  ]
 data_13_result
 
-
+data_13_result <- data_13_result %>%
+  mutate(`Small businesses with no paid employees` = paste0(format(round(`Small businesses with no paid employees` * 100, 1), nsmall = 1), "%"),
+         `Small businesses with 1-49 employee` = paste0(format(round(`Small businesses with 1-49 employee` * 100, 1), nsmall = 1), "%"))
 
 
 data_14 <- read_excel(excel_file, sheet = "1.4", range = "x2:y12", col_names = TRUE)

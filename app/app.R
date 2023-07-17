@@ -68,27 +68,34 @@ ui <-
                              tabItem(
                                tabName = "page1",
                                fluidRow(
-                                 box(title = "Figure 1.1 - Count of small businesses in British Columbia", plotlyOutput("plot1.1"), width = 6),
+                                 box(title = "Figure 1.1 - Count of small businesses in British Columbia", plotlyOutput("plot1.1"), width = 10),
                                  box(title = "Figure 1.2a - One, two and five-year growth of B.C. businesses by size",
-                                     width = 6,
+                                     width = 10,
                                      solidHeader = TRUE,
                                      tabsetPanel(
-                                       tabPanel("1 year", plotlyOutput("plot1.2a1")),
+                                       tabPanel("1 year", plotlyOutput("plot1.2a1"), style = "width: 4"),
                                        tabPanel("2 year", plotlyOutput("plot1.2a2")),
                                        tabPanel("5 year", plotlyOutput("plot1.2a3"))
                                      )
                                   ),
 
                                 box(title = "Figure 1.2b: Breakdown of businesses in British Columbia, 2022", DTOutput("datatable"),
-                                       style = "border: 1px solid white;"
-                                   )
-                                  ),
+                                       style = "border: 1px solid white;", width = 10
+                                   ),
 
                                 box(title = "Figure 1.3a: Distribution of small businesses by industry, 2022",
-                                   plotlyOutput("plot_1.3a"), width = 5
-                               )
+                                   plotlyOutput("plot_1.3a"), width = 10
+
 
                              ),
+
+                             box(title = "Figure 1.3a: cccc",
+                                 plotlyOutput("plot_1.3b"), width = 10
+                             )
+
+                           )),
+
+
 
                              tabItem(
                                tabName = "page2",
@@ -108,16 +115,10 @@ ui <-
                                  box(title = "Static Table", DTOutput("static_table"))
                                )
                              )
-                           )
-                         )
-                                  ),
+                           ),
+                           ),
+                       ))  )
 
-
-                   bcsapps::bcsFooterUI(id = 'footer')
-  ),
-
-
-)
 
 # Define server logic
 server <- function(input, output) {
@@ -233,12 +234,12 @@ server <- function(input, output) {
   output$plot_1.3a <- renderPlotly({
     plot_1.3a <- plot_ly(data_12, labels = ~category, values = ~percentage,
                          textinfo = "label+percent", marker = list(colors = ~Colours),
-                         textposition = 'inside',  insidetextorientation = 'horizontal', textfont = list(size = 15),
+                         textposition = 'outside',  outsidetextorientation = 'horizontal', textfont = list(size = 10),
 
                          type = "pie") %>%
       layout(title =  "",
-             width = 500,
-             height = 400,
+             width = 510,
+             height = 320,
              autosize = FALSE,
 
 
@@ -246,7 +247,7 @@ server <- function(input, output) {
              annotations = list(
                list(
                  x = 0,
-                 y = -0.1,
+                 y = -0.15,
                  text = "Source: BC Stats using data supplied by Statistics Canada",
                  showarrow = FALSE
                )
@@ -259,7 +260,33 @@ server <- function(input, output) {
 
 
 
+  data_13_result <- data_13_result[order(data_13_result$`Small businesses with no paid employees`, decreasing = TRUE),]
 
+  output$plot_1.3b <- renderPlotly({
+    plot_1.3b <- plot_ly(data_13_result, y = data_13_result$type,
+                          x = data_13_result$`Small businesses with no paid employees`,
+                          type = "bar",
+                          orientation = 'h', name = 'Small businesses with no paid employees (Total 299,800, 59%)
+') %>%
+      add_trace(x = data_13_result$`Small businesses with 1-49 employees`, name = 'Small businesses with 1-49 employees (Total 204,300, 37%)
+',
+                marker = list(color = 'rgba(58, 71, 80, 1.0)',
+                              line = list(color = 'rgba(58, 71, 80, 1.0)',
+                                          width = 1)))
+    plot_1.3b <- layout(plot_1.3b,
+                         legend = list(orientation = "h", x = -2, y = 1.2),
+                         xaxis = list(tickformat = '.0%'))
+    plot_1.3b
+
+
+
+
+
+
+
+
+
+  })
 
 
 
