@@ -332,17 +332,48 @@ server <- function(input, output) {
 
 
     # Create the datatable
-    datatable(data,
-              options = list(
-                dom = 't',
-                headerCallback = JS(
-                  "function(thead, data, start, end, display){",
-                  "  $('th', thead).css('color', 'white');",
-                  "  $('th', thead).css('background-color', 'blue');",
-                  "}"
-                )
-              )
-    )
+        datatable(data,
+                  rownames = FALSE,
+                  colnames = c("", "Number of businesses", "Per cent of all businesses*", "Per cent of small businesses*"),
+                  ## change default class (table-striped) to cell-border (borders around all cells, no striping)
+                  class = 'cell-border',
+                  options = list(
+                    paging = FALSE,
+                    dom = 't',
+                    ## format header
+                    headerCallback = JS(
+                      "function(thead, data, start, end, display){",
+                      "  $('th', thead).css('color', 'white');",
+                      "  $('th', thead).css('background-color', '#0e83b0');",
+                      "  $('th', thead).css('text-align', 'center');",
+                      "  $('th', thead).css('border-style', 'solid');",
+                      "  $('th', thead).css('border-width', '1px');",
+                      "  $('th', thead).css('border-color', 'white');",
+                      "}"
+                    ),
+                    ## column widths
+                    columnDefs = list(list(width = '200px', targets = 0),
+                                      list(width = '50px', targets = 1),
+                                      list(width = '75px', targets = 2),
+                                      list(width = '100px', targets = 3))
+                  ),
+                  ## add caption
+                  caption = htmltools::tags$caption(
+                    style = 'caption-side: bottom;',
+                    '*Figures do not add to 100% due to rounding' 
+                  )
+        )  %>% 
+          ## helper functions for formatting
+          formatRound("Number of businesses", mark = ",", digits = 0) %>%  ## add commas to large numbers
+          ## can use any css style in formatStyle by replacing "-" with camel case (e.g., text-align -- textAlign)
+          formatStyle(c(1,2,3,4), backgroundColor = "#e6edf4", borderColor = "white") %>%
+          formatStyle(c(2,3,4), textAlign = "right") %>% 
+          formatStyle(columns = c(1,2,3,4), 
+                      ## use styleRow to select which rows to apply style
+                      backgroundColor = styleRow(rows = c(8,15,16), "#c4d6e7"),
+                      color = styleRow(rows = c(8,15,16), "#015082"),
+                      fontWeight = styleRow(rows = c(8,15,16), "bold")) %>%
+          formatStyle(columns = 1, paddingLeft = styleRow(rows = c(2,3), "30px"))
   })
 
 
