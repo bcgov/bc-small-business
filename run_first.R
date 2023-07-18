@@ -49,12 +49,15 @@ data_10 <- read_excel(excel_file, sheet = "1.2a", range = "a2:i18", col_names = 
 
 # 1.2b Breakdown of small businesses in British Columbia
 data_11 <- read_excel(excel_file, sheet = "1.2b", range = "a2:d18", col_names = TRUE)
-#data_11 <- data_11 %>%
-#  filter(!is.na(`Per cent of small businesses`))
-# datatable(data_11, options = list(orderClasses = TRUE, rownames = FALSE, lengthMenu = c(20, nrow(data_11))))
+
 data_11 <- data_11 %>%
-  mutate(`Per cent of all businesses` = paste0(format(round(`Per cent of all businesses` * 100, 1), nsmall = 1), "%"),
-        `Per cent of small businesses` = paste0(format(round(`Per cent of small businesses` * 100, 1), nsmall = 1), "%"))
+  mutate(## can format columns as percent with DT::datatable, but this removes the "-"s 
+         ## use janitor::round_half_up to get expected rounding (round() rounds to closest even value)
+         ## ignore janitor warning NAs introduced -- this is handled by the ifelse
+         `Per cent of all businesses` = paste0(janitor::round_half_up(`Per cent of all businesses` * 100), "%"),
+         `Per cent of small businesses` = ifelse(`Per cent of small businesses` == "-",
+                                                  `Per cent of small businesses`,
+                                                  paste0(janitor::round_half_up(as.numeric(`Per cent of small businesses`) * 100), "%"))) 
 data_11
 
 
