@@ -103,8 +103,17 @@ ui <-
                              box(title = "Figure 1.6: Sector growth rates for number of small businesses with employees, BC, 2017-2020", plotlyOutput("plot1.6"), width = 10
                              ),
 
-                             box(title = "1.7 Small businesses per capita by province, 2022", plotlyOutput("plot1.7"), width = 10
-                               )
+                             box(title = "Figure 1.7: Small businesses per capita by province, 2022", plotlyOutput("plot1.7"), width = 10
+                             ),
+
+                             box(title = "Figure 1.8: Small business growth by province, 2022", plotlyOutput("plot1.8"), width = 10
+                             ),
+
+                             box(title = "Figure 1.9: Small business and population distribution by region in British Columbia, 2022", plotlyOutput("plot1.9"), width = 10
+                             ),
+
+                             box(title = "Figure 1.10: Small businesses per 1,000 persons", plotlyOutput("plot1.10"), width = 10
+                             )
                            )),
 
 
@@ -389,17 +398,18 @@ server <- function(input, output) {
 
       # plot1.7----
 
-      canada_average <- .6
+      canada_average <- 82.3
 
-      data_17$Province <- factor(data_08$Province, levels = unique(data_08$Province))
-      selected_colour <- ifelse(data_08$Province == "BC", "#e3a82b", "#95b9c7")
+      data_17$Province <- factor(data_17$Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
+                                                              "NB", "NS", "PEI", "NL"))
+      selected_colour <- ifelse(data_17$Province == "BC", "#e3a82b", "#95b9c7")
 
 
       output$plot1.7 <- renderPlotly({
 
         footnote <- "Source: Statistics Canada / Prepared by BC Stats"
 
-        plot1.7 <- plot_ly(data_08, x = ~Province, y = ~Percent, type = "bar", marker = list(color = selected_colour))
+        plot1.7 <- plot_ly(data_17, x = ~Province, y = ~Percent, type = "bar", marker = list(color = selected_colour))
         plot1.7 <- plot1.7 %>%
           add_trace(y = canada_average, type = 'scatter', mode = 'lines', marker = list(color = "#f5f5f5"), name = 'Canadian Average = 82.3%')
 
@@ -411,6 +421,72 @@ server <- function(input, output) {
 
 
       })
+
+
+      # plot1.8----
+
+      canada_average <- 1.5
+      data_18$Province <- factor(data_18$Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
+                                                             "NB", "NS", "PEI", "NL"))
+      selected_colour <- ifelse(data_18$Province == "BC", "#e3a82b", "#95b9c7")
+      output$plot1.8 <- renderPlotly({
+      footnote <- "Source: Statistics Canada / Prepared by BC Stats"
+
+        plot1.8 <- plot_ly(data_18, x = ~Province, y = ~Percent, type = "bar", marker = list(color = selected_colour))
+        plot1.8 <- plot1.8 %>%
+          add_trace(y = canada_average, type = 'scatter', mode = 'lines', marker = list(color = "#f5f5f5"), name = 'Canadian Average = 82.3%')
+
+        plot1.8 <- plot1.8 %>% layout(title = '',
+                                      yaxis = list(title = 'Value'),
+                                      showlegend = FALSE
+        )
+
+
+      })
+
+      # plot1.9 TBD----
+
+      canada_average <- 1.5
+      data_18$Province <- factor(data_18$Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
+                                                              "NB", "NS", "PEI", "NL"))
+      selected_colour <- ifelse(data_18$Province == "BC", "#e3a82b", "#95b9c7")
+      output$plot1.8 <- renderPlotly({
+        footnote <- "Source: Statistics Canada / Prepared by BC Stats"
+
+        plot1.8 <- plot_ly(data_18, x = ~Province, y = ~Percent, type = "bar", marker = list(color = selected_colour))
+        plot1.8 <- plot1.8 %>%
+          add_trace(y = canada_average, type = 'scatter', mode = 'lines', marker = list(color = "#f5f5f5"), name = 'Canadian Average = 82.3%')
+
+        plot1.8 <- plot1.8 %>% layout(title = '',
+                                      yaxis = list(title = 'Value'),
+                                      showlegend = FALSE
+        )
+
+
+      })
+
+      # plot1.10----
+
+
+      data_20$region <- factor(data_20$region, levels = rev(c("Cariboo", "Kootenay", "North Coast & Nechako",
+                                                              "Vancouver Island/ Coast", "Northeast",
+                                                              "Thompson - Okanagan", "Mainland/ Southwest")))
+
+      output$plot1.10 <- renderPlotly({
+        footnote <- "Source: Statistics Canada / Prepared by BC Stats"
+
+        plot1.10 <- plot_ly(data_20, y = ~region, x = data_20$`Total, 2022`, type = "bar", orientation = 'h')
+
+        plot1.10 <- plot1.10 %>% layout(title = '',
+                                      yaxis = list(title = 'Value'),
+                                      showlegend = FALSE
+        )
+
+
+      })
+
+
+
 
   output$line_chart <- renderPlotly({
     line_chart <- plot_ly(df, x = ~Category, y = ~Value, type = "scatter", mode = "lines")

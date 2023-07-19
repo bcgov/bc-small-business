@@ -95,14 +95,24 @@ data_15 <- read_excel(excel_file, sheet = "1.5", range = "a2:b11", col_names = T
 data_16 <- read_excel(excel_file, sheet = "1.6", range = "a3:b12", col_names = TRUE)
 data_16
 
-# 1.7 Small businesses per capita by province, 2022
+# 1.7 Small businesses per capita by province, 2022 ----
 data_17 <- read_excel(excel_file, sheet = "1.7", range = "a2:b12", col_names = TRUE)
 data_17
 
+# 1.8 Small business growth by province, 2017-2022 ----
+data_18 <- read_excel(excel_file, sheet = "1.8", range = "a2:b12", col_names = TRUE)
+data_18
 
-data_18 <- read_excel(excel_file, sheet = "1.8", range = "x2:y12", col_names = TRUE)
-data_19 <- read_excel(excel_file, sheet = "1.9 and 1.10", range = "x2:y12", col_names = TRUE)
-data_20 <- read_excel(excel_file, sheet = "1.11", range = "x2:y12", col_names = TRUE)
+# 1.9 Small business and population distribution by region in British Columbia, 2022----
+data_19 <- read_excel(excel_file, sheet = "1.9 and 1.10", range = "TODO", col_names = TRUE)
+
+# 1.10 Small businesses per 1,000 persons----
+data_20 <- read_excel(excel_file, sheet = "1.9 and 1.10", range = "p3:q11", col_names = TRUE)
+data_20 <- as.data.frame(data_20)
+
+
+
+
 data_21 <- read_excel(excel_file, sheet = "2.1", range = "x2:y12", col_names = TRUE)
 data_22 <- read_excel(excel_file, sheet = "2.2", range = "x2:y12", col_names = TRUE)
 data_23 <- read_excel(excel_file, sheet = "2.3", range = "x2:y12", col_names = TRUE)
