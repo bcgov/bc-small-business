@@ -84,16 +84,16 @@ ui <-
                                    ),
 
                                 box(title = "Figure 1.3a: Distribution of small businesses by industry, 2022",
-                                   plotlyOutput("plot_1.3a"), width = 10
+                                   plotlyOutput("plot1.3a"), width = 10
 
 
                              ),
 
                              box(title = "Figure 1.3b: Distribution of small businesses with and without employees by industry, 2022",
-                                 plotlyOutput("plot_1.3b"), width = 10
+                                 plotlyOutput("plot1.3b"), width = 10
                              ),
 
-                             box(title = "Figure 1.4: Small businesses by industry, proportions with and without employees, 2022", plotlyOutput("plot_1.4"), width = 10)
+                             box(title = "Figure 1.4: Small businesses by industry, proportions with and without employees, 2022", plotlyOutput("plot1.4"), width = 10)
 
                            )),
 
@@ -131,8 +131,9 @@ server <- function(input, output) {
 
   bcsapps::bcsFooterServer(id = 'footer')
 
+  # plot1.1----
 
-  df_long_result <- data_09_result %>%
+  df_long <- data_09_result %>%
     tidyr::gather(key = "Category", value = "value", -years)
 
   df_long$value <- as.numeric(df_long$value)
@@ -141,25 +142,27 @@ server <- function(input, output) {
   custom_colors <- c("#FFC300", "#FF5733", "#C70039", "#900C3F", "#581845")
 
   output$plot1.1 <- renderPlotly({
-    plot1.1 <- plot_ly(df_long, y = ~years, x = ~value, color = ~Category,
-                     type = "bar", colors = custom_colors) %>%
+    plot1.1 <- plot_ly(df_long, y = df_long$value, x = df_long$years, color = ~Category,
+                       type = "bar", orientation = 'v', colors = custom_colors) %>%
 
 
-    layout(title = "",
-           xaxis = list(title = "Year"),
-           yaxis = list(title = "Number of dfgf",
-                        tickformat = ",.0",
-                        tickprefix = "",
-                        ticksuffix = "K",
-                        dtick = 100000),
-           barmode = "stack")
+      layout(title = "",
+             xaxis = list(title = "Year"),
+             yaxis = list(title = "Number of dfgf",
+                          tickformat = ",.0",
+                          tickprefix = "",
+                          ticksuffix = "K",
+                          dtick = 100000),
+             barmode = "stack")
 
 
 
-  # Display the chart
-  plot1.1
+    # Display the chart
+    plot1.1
 
 })
+
+  # plot1.2a1 ----
 
   output$plot1.2a1 <- renderPlotly({
   # Create the plot
@@ -184,6 +187,10 @@ server <- function(input, output) {
 
   })
 
+
+  # plot1.2a2 ----
+
+
   output$plot1.2a2 <- renderPlotly({
     # Create the plot
     plot1.2a2 <- plot_ly(data = data_10, x = ~`2-yr growth rate`, y = ~`employee count`, type = "bar",
@@ -206,6 +213,9 @@ server <- function(input, output) {
     plot1.2a2
 
   })
+
+
+  # plot1.2a3 ----
 
   output$plot1.2a3 <- renderPlotly({
     # Create the plot
@@ -230,11 +240,14 @@ server <- function(input, output) {
 
   })
 
+
+  # plot1.3a ----
+
   category = data_12$`...1`
   percentage = data_12$`%`
 
-  output$plot_1.3a <- renderPlotly({
-    plot_1.3a <- plot_ly(data_12, labels = ~category, values = ~percentage,
+  output$plot1.3a <- renderPlotly({
+    plot1.3a <- plot_ly(data_12, labels = ~category, values = ~percentage,
                          textinfo = "label+percent", marker = list(colors = ~Colours),
                          textposition = 'outside',   textfont = list(size = 10),
 
@@ -256,35 +269,31 @@ server <- function(input, output) {
              ))
 
 
-    plot_1.3a
+    plot1.3a
 
   })
 
 
+  # plot1.3b ----
 
   data_13_result <- data_13_result[order(data_13_result$`Small businesses with no paid employees`),]
 
   data_13_result$type <- factor(data_13_result$type, levels = data_13$type)
 
-
-
-
-
-  output$plot_1.3b <- renderPlotly({
-    plot_1.3b <- plot_ly(data_13_result, y = data_13_result$type,
+  output$plot1.3b <- renderPlotly({
+    plot1.3b <- plot_ly(data_13_result, y = data_13_result$type,
                           x = data_13_result$`Small businesses with no paid employees`,
                           type = "bar",
-                          orientation = 'h', name = 'Small businesses with no paid employees (Total 299,800, 59%)
-') %>%
-      add_trace(x = data_13_result$`Small businesses with 1-49 employees`, name = 'Small businesses with 1-49 employees (Total 204,300, 37%)
-',
+                          orientation = 'h', name = 'Small businesses with no paid employees (Total 299,800, 59%)') %>%
+      add_trace(x = data_13_result$`Small businesses with 1-49 employees`,
+      name = 'Small businesses with 1-49 employees (Total 204,300, 37%)',
                 marker = list(color = 'rgba(58, 71, 80, 1.0)',
                               line = list(color = 'rgba(58, 71, 80, 1.0)',
                                           width = 1)))
-    plot_1.3b <- layout(plot_1.3b,
+    plot1.3b <- layout(plot1.3b,
                          legend = list(orientation = "h", x = -2, y = 1.2),
                          xaxis = list(tickformat = '.0%'))
-    plot_1.3b
+    plot1.3b
 
 
 
@@ -321,18 +330,18 @@ server <- function(input, output) {
   data_14 <- data_14[order(-data_14$`1-49 employees`),  ]
   data_14$Category <- factor(data_14$Category, levels = rev(data_14$Category))
 
-  output$plot_1.4 <- renderPlotly({
-    plot_1.4<- plot_ly(data_14, y = data_14$Category, type = "bar", x = data_14$`No paid employees`, marker = list(color = "#3A4750"), name = "No paid employees", orientation = 'h')
+  output$plot1.4 <- renderPlotly({
+    plot1.4<- plot_ly(data_14, y = data_14$Category, type = "bar", x = data_14$`No paid employees`, marker = list(color = "#3A4750"), name = "No paid employees", orientation = 'h')
 
 
-    plot_1.4 <- add_trace(plot_1.4, x = data_14$`1-49 employees`, name = "1-49 employees", marker = list(color = "#009D78"),
+    plot1.4 <- add_trace(plot1.4, x = data_14$`1-49 employees`, name = "1-49 employees", marker = list(color = "#009D78"),
 
-    plot_1.4 <- layout(plot_1.4, barmode = "stack")
+    plot1.4 <- layout(plot1.4, barmode = "stack")
 
 )
 
     # Display the chart
-    plot_1.4
+    plot1.4
   })
 
 # end of example ----
