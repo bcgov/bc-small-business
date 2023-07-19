@@ -32,6 +32,7 @@ data_05 <- read_excel(excel_file, sheet = "Key1", range = "a3:b12", col_names = 
 data_06 <- read_excel(excel_file, sheet = "Key2", range = "a5:c15", col_names = TRUE)
 data_07 <- read_excel(excel_file, sheet = "Key2", range = "a23:b33", col_names = FALSE)
 
+
 data_08 <- read_excel(excel_file, sheet = "Key3", range = "a2:b12", col_names = TRUE)
 data_08
 
@@ -87,12 +88,18 @@ data_14
 data_14 <- data_14[order(-data_14$`1-49 employees`),  ]
 data_14
 
+# 1.5: Number of net new small businesses - fastest growing sectors in BC, 2017-2022 ----
+data_15 <- read_excel(excel_file, sheet = "1.5", range = "a2:b11", col_names = TRUE)
+
+# 1.6 Sector growth rates for number of small businesses with employees, BC, 2017-2020 ----
+data_16 <- read_excel(excel_file, sheet = "1.6", range = "a3:b12", col_names = TRUE)
+data_16
+
+# 1.7 Small businesses per capita by province, 2022
+data_17 <- read_excel(excel_file, sheet = "1.7", range = "a2:b12", col_names = TRUE)
+data_17
 
 
-
-data_15 <- read_excel(excel_file, sheet = "1.5", range = "x2:y12", col_names = TRUE)
-data_16 <- read_excel(excel_file, sheet = "1.6", range = "x2:y12", col_names = TRUE)
-data_17 <- read_excel(excel_file, sheet = "1.7", range = "x2:y12", col_names = TRUE)
 data_18 <- read_excel(excel_file, sheet = "1.8", range = "x2:y12", col_names = TRUE)
 data_19 <- read_excel(excel_file, sheet = "1.9 and 1.10", range = "x2:y12", col_names = TRUE)
 data_20 <- read_excel(excel_file, sheet = "1.11", range = "x2:y12", col_names = TRUE)

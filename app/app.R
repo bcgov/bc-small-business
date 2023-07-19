@@ -93,8 +93,18 @@ ui <-
                                  plotlyOutput("plot1.3b"), width = 10
                              ),
 
-                             box(title = "Figure 1.4: Small businesses by industry, proportions with and without employees, 2022", plotlyOutput("plot1.4"), width = 10)
+                             box(title = "Figure 1.4: Small businesses by industry, proportions with and without employees, 2022", plotlyOutput("plot1.4"), width = 10
 
+                               ),
+
+                             box(title = "Figure 1.5: Number of net new small businesses - fastest growing sectors in B.C, 2017-2022", plotlyOutput("plot1.5"), width = 10
+                             ),
+
+                             box(title = "Figure 1.6: Sector growth rates for number of small businesses with employees, BC, 2017-2020", plotlyOutput("plot1.6"), width = 10
+                             ),
+
+                             box(title = "1.7 Small businesses per capita by province, 2022", plotlyOutput("plot1.7"), width = 10
+                               )
                            )),
 
 
@@ -325,17 +335,14 @@ server <- function(input, output) {
 
 
 
- # example----
+ # plot1.4----
 
   data_14 <- data_14[order(-data_14$`1-49 employees`),  ]
   data_14$Category <- factor(data_14$Category, levels = rev(data_14$Category))
 
   output$plot1.4 <- renderPlotly({
     plot1.4<- plot_ly(data_14, y = data_14$Category, type = "bar", x = data_14$`No paid employees`, marker = list(color = "#3A4750"), name = "No paid employees", orientation = 'h')
-
-
     plot1.4 <- add_trace(plot1.4, x = data_14$`1-49 employees`, name = "1-49 employees", marker = list(color = "#009D78"),
-
     plot1.4 <- layout(plot1.4, barmode = "stack")
 
 )
@@ -344,9 +351,66 @@ server <- function(input, output) {
     plot1.4
   })
 
-# end of example ----
+# plot 1.5----
 
 
+  data_15$type <-factor(data_15$type, levels = rev(c("Professional, scientific and technical services", "Specialty trade contractors",
+                                               "Ambulatory health care services", "Real estate", "Social assistance",
+                                               "Non-Standard Sectors", "High tech total", "Tourism", "Secondary manufacturing")))
+
+
+      output$plot1.5 <- renderPlotly({
+      plot1.5 <- plot_ly(data_15, x = ~number, type = "bar", y = ~type,
+                         marker = list(color = "#3A4750"), name = "adsfadsf",
+                         orientation = 'h')
+      # Display the plot
+      plot1.5
+  })
+
+      # plot 1.6----
+
+
+      data_16$type <-factor(data_16$type, levels = rev(c("Beverage and tobacco product manufacturing", "Social assistance",
+                                                         "Motion picture and sound recording industries", "Private households",
+                                                         "Couriers and messengers", "Non-Standard Sectors", "High Technology", "Tourism",
+                                                         "Secondary Manufacturing")))
+
+
+
+      output$plot1.6 <- renderPlotly({
+        plot1.6 <- plot_ly(data_16, x = ~number, type = "bar", y = ~type,
+                           marker = list(color = "#3ff555"), name = "adsfadsf",
+                           orientation = 'h')
+        # Display the plot
+        plot1.6
+      })
+
+
+
+      # plot1.7----
+
+      canada_average <- .6
+
+      data_17$Province <- factor(data_08$Province, levels = unique(data_08$Province))
+      selected_colour <- ifelse(data_08$Province == "BC", "#e3a82b", "#95b9c7")
+
+
+      output$plot1.7 <- renderPlotly({
+
+        footnote <- "Source: Statistics Canada / Prepared by BC Stats"
+
+        plot1.7 <- plot_ly(data_08, x = ~Province, y = ~Percent, type = "bar", marker = list(color = selected_colour))
+        plot1.7 <- plot1.7 %>%
+          add_trace(y = canada_average, type = 'scatter', mode = 'lines', marker = list(color = "#f5f5f5"), name = 'Canadian Average = 82.3%')
+
+        plot1.7 <- plot1.7 %>% layout(title = '',
+                                          yaxis = list(title = 'Value'),
+                                          showlegend = FALSE
+
+        )
+
+
+      })
 
   output$line_chart <- renderPlotly({
     line_chart <- plot_ly(df, x = ~Category, y = ~Value, type = "scatter", mode = "lines")
