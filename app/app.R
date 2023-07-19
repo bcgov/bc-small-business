@@ -89,9 +89,11 @@ ui <-
 
                              ),
 
-                             box(title = "Figure 1.3a: cccc",
+                             box(title = "Figure 1.3b: Distribution of small businesses with and without employees by industry, 2022",
                                  plotlyOutput("plot_1.3b"), width = 10
-                             )
+                             ),
+
+                             box(title = "Figure 1.4: Small businesses by industry, proportions with and without employees, 2022", plotlyOutput("plot_1.4"), width = 10)
 
                            )),
 
@@ -100,8 +102,7 @@ ui <-
                              tabItem(
                                tabName = "page2",
                                fluidRow(
-                                 box(title = "Horizontal Bar Chart", plotlyOutput("hbar_chart"), width = 6),
-                                 box(title = "Horizontal Bar Chart (Add to 100%)", plotlyOutput("hbar_chart_100"), width = 6)
+                                 box(title = "Horizontal Bar Chart", plotlyOutput("hbar_chart"), width = 6)
                                )
                              ),
 
@@ -130,16 +131,17 @@ server <- function(input, output) {
 
   bcsapps::bcsFooterServer(id = 'footer')
 
+
   df_long_result <- data_09_result %>%
     tidyr::gather(key = "Category", value = "value", -years)
 
   df_long$value <- as.numeric(df_long$value)
-
+  df_long
 
   custom_colors <- c("#FFC300", "#FF5733", "#C70039", "#900C3F", "#581845")
 
   output$plot1.1 <- renderPlotly({
-    plot1.1 <- plot_ly(df_long, x = ~years, y = ~value, color = ~Category,
+    plot1.1 <- plot_ly(df_long, y = ~years, x = ~value, color = ~Category,
                      type = "bar", colors = custom_colors) %>%
 
 
@@ -234,7 +236,7 @@ server <- function(input, output) {
   output$plot_1.3a <- renderPlotly({
     plot_1.3a <- plot_ly(data_12, labels = ~category, values = ~percentage,
                          textinfo = "label+percent", marker = list(colors = ~Colours),
-                         textposition = 'outside',  outsidetextorientation = 'horizontal', textfont = list(size = 10),
+                         textposition = 'outside',   textfont = list(size = 10),
 
                          type = "pie") %>%
       layout(title =  "",
@@ -260,7 +262,13 @@ server <- function(input, output) {
 
 
 
-  data_13_result <- data_13_result[order(data_13_result$`Small businesses with no paid employees`, decreasing = TRUE),]
+  data_13_result <- data_13_result[order(data_13_result$`Small businesses with no paid employees`),]
+
+  data_13_result$type <- factor(data_13_result$type, levels = data_13$type)
+
+
+
+
 
   output$plot_1.3b <- renderPlotly({
     plot_1.3b <- plot_ly(data_13_result, y = data_13_result$type,
@@ -304,11 +312,32 @@ server <- function(input, output) {
     hbar_chart
   })
 
-  output$hbar_chart_100 <- renderPlotly({
-    hbar_chart_100 <- plot_ly(df, x = ~Value, y = ~Category, type = "bar", orientation = "h") %>%
-      layout(barmode = "stack")
-    hbar_chart_100
+
+
+
+
+ # example----
+
+  data_14 <- data_14[order(-data_14$`1-49 employees`),  ]
+  data_14$Category <- factor(data_14$Category, levels = rev(data_14$Category))
+
+  output$plot_1.4 <- renderPlotly({
+    plot_1.4<- plot_ly(data_14, y = data_14$Category, type = "bar", x = data_14$`No paid employees`, marker = list(color = "#3A4750"), name = "No paid employees", orientation = 'h')
+
+
+    plot_1.4 <- add_trace(plot_1.4, x = data_14$`1-49 employees`, name = "1-49 employees", marker = list(color = "#009D78"),
+
+    plot_1.4 <- layout(plot_1.4, barmode = "stack")
+
+)
+
+    # Display the chart
+    plot_1.4
   })
+
+# end of example ----
+
+
 
   output$line_chart <- renderPlotly({
     line_chart <- plot_ly(df, x = ~Category, y = ~Value, type = "scatter", mode = "lines")
@@ -360,15 +389,15 @@ server <- function(input, output) {
                   ## add caption
                   caption = htmltools::tags$caption(
                     style = 'caption-side: bottom;',
-                    '*Figures do not add to 100% due to rounding' 
+                    '*Figures do not add to 100% due to rounding'
                   )
-        )  %>% 
+        )  %>%
           ## helper functions for formatting
           formatRound("Number of businesses", mark = ",", digits = 0) %>%  ## add commas to large numbers
           ## can use any css style in formatStyle by replacing "-" with camel case (e.g., text-align -- textAlign)
           formatStyle(c(1,2,3,4), backgroundColor = "#e6edf4", borderColor = "white") %>%
-          formatStyle(c(2,3,4), textAlign = "right") %>% 
-          formatStyle(columns = c(1,2,3,4), 
+          formatStyle(c(2,3,4), textAlign = "right") %>%
+          formatStyle(columns = c(1,2,3,4),
                       ## use styleRow to select which rows to apply style
                       backgroundColor = styleRow(rows = c(8,15,16), "#c4d6e7"),
                       color = styleRow(rows = c(8,15,16), "#015082"),

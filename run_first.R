@@ -12,7 +12,7 @@ options(scipen = 999)
 excel_file <- "C:/bc-small-business/app/data/SBP2023_Chart_data2.xlsx"
 
 
-# For 1. Small Business Growth
+# 1. Small Business Growth----
 
 data_01 <- read_excel(excel_file, sheet = "0.1", range = "a5:d8", col_names = TRUE)
 data_01
@@ -36,50 +36,60 @@ data_08 <- read_excel(excel_file, sheet = "Key3", range = "a2:b12", col_names = 
 data_08
 
 
-# 1.1 Growth of Small Businesses in BC
+# 1.1 Growth of Small Businesses in BC----
 data_09 <- read_excel(excel_file, sheet = "1.1", range = "a2:i8", col_names = FALSE)
+data_09
 data_09t <- t(data_09)
+data_09t
 data_09_result <- as.data.frame(data_09t)
 colnames(data_09_result) <- data_09_result[1, ]
 data_09_result <- data_09_result[-1, ]
+data_09_result
 
 
-# 1.2a Growth of BC businesses by size
+# 1.2a Growth of BC businesses by size----
 data_10 <- read_excel(excel_file, sheet = "1.2a", range = "a2:i18", col_names = TRUE)
 
-# 1.2b Breakdown of small businesses in British Columbia
+# 1.2b Breakdown of small businesses in British Columbia----
 data_11 <- read_excel(excel_file, sheet = "1.2b", range = "a2:d18", col_names = TRUE)
 
 data_11 <- data_11 %>%
-  mutate(## can format columns as percent with DT::datatable, but this removes the "-"s 
+  mutate(## can format columns as percent with DT::datatable, but this removes the "-"s
          ## use janitor::round_half_up to get expected rounding (round() rounds to closest even value)
          ## ignore janitor warning NAs introduced -- this is handled by the ifelse
          `Per cent of all businesses` = paste0(janitor::round_half_up(`Per cent of all businesses` * 100), "%"),
          `Per cent of small businesses` = ifelse(`Per cent of small businesses` == "-",
                                                   `Per cent of small businesses`,
-                                                  paste0(janitor::round_half_up(as.numeric(`Per cent of small businesses`) * 100), "%"))) 
+                                                  paste0(janitor::round_half_up(as.numeric(`Per cent of small businesses`) * 100), "%")))
 data_11
 
 
-# Figure 1.3a: Distribution of small businesses by industry
+# 1.3a: Distribution of small businesses by industry----
 data_12 <- read_excel(excel_file, sheet = "1.3a", range = "a2:d16", col_names = TRUE)
 data_12$`%` <- as.numeric(data_12$`%`)
 data_12
 
-# Figure 1.3b: Distribution of small businesses with and without employees by industry, 2022
-
+# 1.3b: Distribution of small businesses with and without employees by industry, 2022 ----
 data_13 <- read_excel(excel_file, sheet = "1.3b", range = "a3:c17", col_names = TRUE)
+data_13
 data_13_result <- as.data.frame(data_13)
-#print(data_13_result)
-data_13_result <- data_13_result[order(-data_13_result$`Small businesses with no paid employees`),  ]
-data_13_result
 
 data_13_result <- data_13_result %>%
   mutate(`Small businesses with no paid employees` = paste0(format(round(`Small businesses with no paid employees` * 100, 1), nsmall = 1), "%"),
          `Small businesses with 1-49 employee` = paste0(format(round(`Small businesses with 1-49 employee` * 100, 1), nsmall = 1), "%"))
+#data_13_result <- data_13_result[order(-data_13_result$`Small businesses with no paid employees`),  ]
+data_13_result
+
+# 1.4: Small business by industry, proportions with and without employees, 2022----
+data_14 <- read_excel(excel_file, sheet = "1.4", range = "a4:f17", col_names = TRUE)
+data_14 <- as.data.frame(data_14)
+data_14
+data_14 <- data_14[order(-data_14$`1-49 employees`),  ]
+data_14
 
 
-data_14 <- read_excel(excel_file, sheet = "1.4", range = "x2:y12", col_names = TRUE)
+
+
 data_15 <- read_excel(excel_file, sheet = "1.5", range = "x2:y12", col_names = TRUE)
 data_16 <- read_excel(excel_file, sheet = "1.6", range = "x2:y12", col_names = TRUE)
 data_17 <- read_excel(excel_file, sheet = "1.7", range = "x2:y12", col_names = TRUE)
