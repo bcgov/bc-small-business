@@ -142,6 +142,12 @@ ui <-
                                  box(title = "Figure 2.4b: Year-over-year growth in private sector employment", plotlyOutput("plot2.4b"), width = 10
                                  ),
 
+                                 box(title = "Figure 2.5a: One-year small business employment change, by province, 2020-2021", plotlyOutput("plot2.5a"), width = 10
+                                 ),
+
+                                 box(title = "Figure 2.5b: Five-year small business employment change by province, 2017-2022", plotlyOutput("plot2.5b"), width = 10
+                                 ),
+
                                  box(title = "Horizontal Bar Chart", plotlyOutput("hbar_chart"), width = 6)
                                )
                              ),
@@ -282,13 +288,27 @@ server <- function(input, output) {
 
 
   # plot1.3a ----
+  custom_colors2 <- c("#FFFF99",
+                      "#FFFF00",
+                      "#FFD700",
+                      "#AEEEEE",
+                      "#7AC5CD",
+                      "#5F9EA0",
+                      "#4682B4",
+                      "#4169E1",
+                      "#0000CD",
+                      "#00008B",
+                      "#000080",
+                      "#000060",
+                      "#191970"
+                      )
 
-  category = data_12$`...1`
-  percentage = data_12$`%`
+  category12 = data_12$`...1`
+  percentage12 = data_12$`%`
 
   output$plot1.3a <- renderPlotly({
-    plot1.3a <- plot_ly(data_12, labels = ~category, values = ~percentage,
-                         textinfo = "label+percent", marker = list(colors = custom_colors),
+    plot1.3a <- plot_ly(data_12, labels = ~category12, values = ~percentage12,
+                         textinfo = "label+percent", marker = list(colors = custom_colors2),
                          textposition = 'outside',   textfont = list(size = 10),
 
                          type = "pie") %>%
@@ -723,10 +743,50 @@ server <- function(input, output) {
 
   })
 
+  # plot2.5a----
+
+  canada_average <- 2.9
+  data_27$Province <- factor(data_27$Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
+                                                          "NB", "NS", "PE", "NL"))
+  selected_colour <- ifelse(data_27$Province == "BC", "#e3a82b", "#95b9c7")
+  output$plot2.5a <- renderPlotly({
+    footnote <- "Source: Statistics Canada / Prepared by BC Stats"
+
+    plot2.5a  <- plot_ly(data_27, x = ~Province, y = ~Percent, type = "bar", marker = list(color = selected_colour))
+    plot2.5a  <- plot2.5a  %>%
+      add_trace(y = canada_average, type = 'scatter', mode = 'lines', marker = list(color = "#f5f5f5"), name = 'Canadian Average = 82.3%')
+
+    plot2.5a  <- plot2.5a  %>% layout(title = '',
+                                  yaxis = list(title = 'Value'),
+                                  showlegend = FALSE
+    )
+    # Display the chart
+    plot2.5a
+
+  })
 
 
+  # plot2.5b----
 
+  canada_average <- 1
+  data_28$Province <- factor(data_28$Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
+                                                          "NB", "NS", "PE", "NL"))
+  selected_colour <- ifelse(data_28$Province == "BC", "#e3a82b", "#95b9c7")
+  output$plot2.5b <- renderPlotly({
+    footnote <- "Source: Statistics Canada / Prepared by BC Stats"
 
+    plot2.5b <- plot_ly(data_28, x = ~Province, y = ~Percent, type = "bar", marker = list(color = selected_colour))
+    plot2.5b <- plot2.5b %>%
+      add_trace(y = canada_average, type = 'scatter', mode = 'lines', marker = list(color = "#f5f5f5"), name = 'Canadian Average = 82.3%')
+
+    plot2.5b <- plot2.5b %>% layout(title = '',
+                                  yaxis = list(title = 'Value'),
+                                  showlegend = FALSE
+    )
+    # Display the chart
+    plot2.5b
+
+  })
 
 
   }

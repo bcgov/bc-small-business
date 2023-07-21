@@ -143,11 +143,14 @@ data_26_result <- data_26_result[-1, ]
 data_26_result <- data_26_result %>% mutate_if(is.character, function(x) as.numeric(gsub("\\..*", "", x)))
 data_26_result
 
+# 2.5a One-year small business employment change, by province, 2020-2021----
+data_27 <- read_excel(excel_file, sheet = "2.5", range = "a2:b12", col_names = TRUE)
+data_27
 
+# 2.5b Five-year small business employment change by province, 2017-2022----
+data_28 <- read_excel(excel_file, sheet = "2.5", range = "a16:b26", col_names = TRUE)
+data_28
 
-
-data_27 <- read_excel(excel_file, sheet = "2.6", range = "x2:y12", col_names = TRUE)
-data_28 <- read_excel(excel_file, sheet = "2.7", range = "x2:y12", col_names = TRUE)
 data_29 <- read_excel(excel_file, sheet = "2.8", range = "x2:y12", col_names = TRUE)
 data_30 <- read_excel(excel_file, sheet = "2.9", range = "x2:y12", col_names = TRUE)
 data_31 <- read_excel(excel_file, sheet = "2.10", range = "x2:y12", col_names = TRUE)
