@@ -37,7 +37,8 @@ ui <-
                              menuItem("1 Small Business Growth", tabName = "page1"),
                              menuItem("2 Small Business Employment", tabName = "page2"),
                              menuItem("3 Self-Employed", tabName = "page3"),
-                             menuItem("4 Contribution to Economy", tabName = "page4")
+                             menuItem("4 Contribution to Economy", tabName = "page4"),
+                             menuItem("5 Small Business Exports", tabName = "page4")
                            )
                          ),
                          dashboardBody(
@@ -121,6 +122,26 @@ ui <-
                              tabItem(
                                tabName = "page2",
                                fluidRow(
+
+                                 box(title = "Figure 2.1 Share of total employment in British Columbia, 2022", plotlyOutput("plot2.1"), width = 10
+
+                                 ),
+
+                                 box(title = "Figure xx: Number of net new small businesses - fastest growing sectors in B.C, 2017-2022", plotlyOutput(""), width = 10
+                                 ),
+
+                                 box(title = "Figure 2.3a: Share of British Columbia businesses and organizations by size, 2017-2020", plotlyOutput("plot2.3a"), width = 10
+                                 ),
+
+                                 box(title = "Figure 2.3b: Share of employment by establishment size, 2022", plotlyOutput("plot2.3b"), width = 10
+                                 ),
+
+                                 box(title = "Figure xx: Small business growth by province, 2022", plotlyOutput(""), width = 10
+                                 ),
+
+                                 box(title = "Figure 2.4b: Year-over-year growth in private sector employment", plotlyOutput("plot2.4b"), width = 10
+                                 ),
+
                                  box(title = "Horizontal Bar Chart", plotlyOutput("hbar_chart"), width = 6)
                                )
                              ),
@@ -158,7 +179,7 @@ server <- function(input, output) {
   df_long$value <- as.numeric(df_long$value)
   df_long
 
-  custom_colors <- c("#FFC300", "#FF5733", "#C70039", "#900C3F", "#581845")
+  custom_colors <- c("#FDB813", "#005182", "#92B6D3", "#0E84B1", "#14997C","#96C2B3")
 
   output$plot1.1 <- renderPlotly({
     plot1.1 <- plot_ly(df_long, y = df_long$value, x = df_long$years, color = ~Category,
@@ -267,7 +288,7 @@ server <- function(input, output) {
 
   output$plot1.3a <- renderPlotly({
     plot1.3a <- plot_ly(data_12, labels = ~category, values = ~percentage,
-                         textinfo = "label+percent", marker = list(colors = ~Colours),
+                         textinfo = "label+percent", marker = list(colors = custom_colors),
                          textposition = 'outside',   textfont = list(size = 10),
 
                          type = "pie") %>%
@@ -297,29 +318,26 @@ server <- function(input, output) {
 
   data_13_result <- data_13_result[order(data_13_result$`Small businesses with no paid employees`),]
 
-  data_13_result$type <- factor(data_13_result$type, levels = data_13$type)
+  data_13_result$segment <- factor(data_13_result$segment, levels = data_13_result$segment)
 
   output$plot1.3b <- renderPlotly({
-    plot1.3b <- plot_ly(data_13_result, y = data_13_result$type,
-                          x = data_13_result$`Small businesses with no paid employees`,
+    plot1.3b <- plot_ly(data_13_result, x = data_13_result$`Small businesses with no paid employees`,
+                        y = data_13_result$segment,
+
+                          name = 'Small businesses with no paid employees (Total 299,800, 59%)',
+                          marker = list(color = "#005182"),
                           type = "bar",
-                          orientation = 'h', name = 'Small businesses with no paid employees (Total 299,800, 59%)') %>%
-      add_trace(x = data_13_result$`Small businesses with 1-49 employees`,
-      name = 'Small businesses with 1-49 employees (Total 204,300, 37%)',
-                marker = list(color = 'rgba(58, 71, 80, 1.0)',
-                              line = list(color = 'rgba(58, 71, 80, 1.0)',
-                                          width = 1)))
+                        orientation = 'h') %>%
+
+                add_trace(y = data_13_result$segment, x = data_13_result$`Small businesses with 1-49 employee`,
+                          name = 'Small businesses with 1-49 employees (Total 204,300, 37%)', type = 'bar',
+                          marker = list(color = "#FDB813")
+                          )
     plot1.3b <- layout(plot1.3b,
                          legend = list(orientation = "h", x = -2, y = 1.2),
-                         xaxis = list(tickformat = '.0%'))
+                        xaxis = list(tickformat = '.0')
+                       )
     plot1.3b
-
-
-
-
-
-
-
 
 
   })
@@ -350,11 +368,17 @@ server <- function(input, output) {
   data_14$Category <- factor(data_14$Category, levels = rev(data_14$Category))
 
   output$plot1.4 <- renderPlotly({
-    plot1.4<- plot_ly(data_14, y = data_14$Category, type = "bar", x = data_14$`No paid employees`, marker = list(color = "#3A4750"), name = "No paid employees", orientation = 'h')
-    plot1.4 <- add_trace(plot1.4, x = data_14$`1-49 employees`, name = "1-49 employees", marker = list(color = "#009D78"),
+    plot1.4<- plot_ly(data_14, y = data_14$Category, type = "bar", x = data_14$`No paid employees`, marker = list(color = "#005182"), name = "No paid employees", orientation = 'h')
+    plot1.4 <- add_trace(plot1.4, x = data_14$`1-49 employees`, name = "1-49 employees", marker = list(color = "#FDB813"),
     plot1.4 <- layout(plot1.4, barmode = "stack")
 
 )
+    plot1.4 <- layout(plot1.4,
+                       legend = list(orientation = "h", x = -2, y = 1.2),
+                       xaxis = list(tickformat = '.0')
+    )
+
+
 
     # Display the chart
     plot1.4
@@ -370,8 +394,19 @@ server <- function(input, output) {
 
       output$plot1.5 <- renderPlotly({
       plot1.5 <- plot_ly(data_15, x = ~number, type = "bar", y = ~type,
-                         marker = list(color = "#3A4750"), name = "adsfadsf",
+                         marker = list(color = "#005182"), name = "adsfadsf",
                          orientation = 'h')
+
+
+      plot1.5 <- layout(plot1.5,
+                        legend = list(orientation = "h", x = -2, y = 1.2),
+                        xaxis = list(tickformat = '.0')
+      )
+
+
+
+
+
       # Display the plot
       plot1.5
   })
@@ -388,8 +423,14 @@ server <- function(input, output) {
 
       output$plot1.6 <- renderPlotly({
         plot1.6 <- plot_ly(data_16, x = ~number, type = "bar", y = ~type,
-                           marker = list(color = "#3ff555"), name = "adsfadsf",
+                           marker = list(color = "#005182"), name = "adsfadsf",
                            orientation = 'h')
+
+
+        plot1.6 <- layout(plot1.6,
+                          legend = list(orientation = "h", x = -2, y = 1.2),
+                          xaxis = list(tickformat = '.0',
+                                       title = ""))
         # Display the plot
         plot1.6
       })
@@ -475,7 +516,7 @@ server <- function(input, output) {
       output$plot1.10 <- renderPlotly({
         footnote <- "Source: Statistics Canada / Prepared by BC Stats"
 
-        plot1.10 <- plot_ly(data_20, y = ~region, x = data_20$`Total, 2022`, type = "bar", orientation = 'h')
+        plot1.10 <- plot_ly(data_20, y = ~region, x = data_20$`Total, 2022`, type = "bar", marker = list(color = custom_colors), orientation = 'h')
 
         plot1.10 <- plot1.10 %>% layout(title = '',
                                       yaxis = list(title = 'Value'),
@@ -553,6 +594,137 @@ server <- function(input, output) {
                       fontWeight = styleRow(rows = c(8,15,16), "bold")) %>%
           formatStyle(columns = 1, paddingLeft = styleRow(rows = c(2,3), "30px"))
   })
+
+
+  # plot2.1 ----
+
+  category = data_22$`sector`
+  percentage = data_22$`%`
+
+  output$plot2.1 <- renderPlotly({
+    plot2.1 <- plot_ly(data_22, labels = ~category, values = ~percentage,
+                        textinfo = "label+percent", marker = list(colors = custom_colors),
+                        textposition = 'outside',   textfont = list(size = 10),
+
+                        type = "pie") %>%
+      layout(title =  "",
+             width = 510,
+             height = 320,
+             autosize = FALSE,
+
+
+             showlegend = FALSE,
+             annotations = list(
+               list(
+                 x = 0,
+                 y = -0.15,
+                 text = "Source: BC Stats using data supplied by Statistics Canada",
+                 showarrow = FALSE
+               )
+             ))
+
+
+    plot2.1
+
+  })
+
+  # plot2.3a ----
+
+  category1 = data_24$sector
+  percentage1 = data_24$`%`
+
+  output$plot2.3a <- renderPlotly({
+    plot2.3a <- plot_ly(data_24, labels = ~category1, values = ~percentage1,
+                       textinfo = "label+percent", marker = list(colors = custom_colors),
+                       textposition = 'outside',   textfont = list(size = 10),
+
+                       type = "pie") %>%
+      layout(title =  "",
+             width = 510,
+             height = 320,
+             autosize = FALSE,
+
+
+             showlegend = FALSE,
+             annotations = list(
+               list(
+                 x = 0,
+                 y = -0.15,
+                 text = "Source: BC Stats using data supplied by Statistics Canada",
+                 showarrow = FALSE
+               )
+             ))
+
+
+    plot2.3a
+
+  })
+
+  # plot2.3b ----
+
+  category2 = data_25$sector
+  percentage2 = data_25$`%`
+
+  output$plot2.3b <- renderPlotly({
+    plot2.3b <- plot_ly(data_25, labels = ~category2, values = ~percentage2,
+                       textinfo = "label+percent", marker = list(colors = custom_colors),
+                       textposition = 'outside',   textfont = list(size = 10),
+
+                       type = "pie") %>%
+      layout(title =  "",
+             width = 510,
+             height = 320,
+             autosize = FALSE,
+
+
+             showlegend = FALSE,
+             annotations = list(
+               list(
+                 x = 0,
+                 y = -0.15,
+                 text = "Source: BC Stats using data supplied by Statistics Canada",
+                 showarrow = FALSE
+               )
+             ))
+
+
+    plot2.3b
+
+  })
+
+
+  # plot2.4b----
+
+  df_long1 <- data_26_result %>%
+    tidyr::gather(key = "Category", value = "value", -years)
+
+  df_long1$value <- as.numeric(df_long1$value)
+  df_long1
+
+  custom_colors <- c("#FDB813", "#005182", "#92B6D3", "#0E84B1", "#14997C","#96C2B3")
+
+  output$plot2.4b <- renderPlotly({
+    plot2.4b <- plot_ly(df_long1, y = df_long1$value, x = df_long1$years, color = ~Category,
+                       type = "bar", orientation = 'v', colors = custom_colors) %>%
+
+
+      layout(title = "",
+             xaxis = list(title = "Year"),
+
+             barmode = "stack")
+
+    plot2.4b <- layout(plot2.4b,
+                       legend = list(orientation = "h", x = .5, y =1.1)
+                     )
+
+
+    # Display the chart
+    plot2.4b
+
+  })
+
+
+
 
 
 

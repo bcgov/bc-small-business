@@ -38,7 +38,7 @@ data_08
 
 
 # 1.1 Growth of Small Businesses in BC----
-data_09 <- read_excel(excel_file, sheet = "1.1", range = "a2:i8", col_names = FALSE)
+data_09 <- read_excel(excel_file, sheet = "1.1", range = "a2:i7", col_names = FALSE)
 data_09
 data_09t <- t(data_09)
 data_09t
@@ -46,6 +46,7 @@ data_09_result <- as.data.frame(data_09t)
 colnames(data_09_result) <- data_09_result[1, ]
 data_09_result <- data_09_result[-1, ]
 data_09_result
+
 
 
 # 1.2a Growth of BC businesses by size----
@@ -72,14 +73,7 @@ data_12
 
 # 1.3b: Distribution of small businesses with and without employees by industry, 2022 ----
 data_13 <- read_excel(excel_file, sheet = "1.3b", range = "a3:c17", col_names = TRUE)
-data_13
-data_13_result <- as.data.frame(data_13)
 
-data_13_result <- data_13_result %>%
-  mutate(`Small businesses with no paid employees` = paste0(format(round(`Small businesses with no paid employees` * 100, 1), nsmall = 1), "%"),
-         `Small businesses with 1-49 employee` = paste0(format(round(`Small businesses with 1-49 employee` * 100, 1), nsmall = 1), "%"))
-#data_13_result <- data_13_result[order(-data_13_result$`Small businesses with no paid employees`),  ]
-data_13_result
 
 # 1.4: Small business by industry, proportions with and without employees, 2022----
 data_14 <- read_excel(excel_file, sheet = "1.4", range = "a4:f17", col_names = TRUE)
@@ -110,15 +104,48 @@ data_19 <- read_excel(excel_file, sheet = "1.9 and 1.10", range = "TODO", col_na
 data_20 <- read_excel(excel_file, sheet = "1.9 and 1.10", range = "p3:q11", col_names = TRUE)
 data_20 <- as.data.frame(data_20)
 
+# 1.11 Net change in number of small businesses by region, 2017-2022 ----
+data_21 <- read_excel(excel_file, sheet = "1.11", range = "a3:d11", col_names = TRUE)
+
+# 2.1 Share of total employment in British Columbia, 2022 ----
+data_22 <- read_excel(excel_file, sheet = "2.1", range = "a2:c5", col_names = TRUE)
+data_22$`%` <- as.numeric(data_22$`%`)
+data_22
 
 
 
-data_21 <- read_excel(excel_file, sheet = "2.1", range = "x2:y12", col_names = TRUE)
-data_22 <- read_excel(excel_file, sheet = "2.2", range = "x2:y12", col_names = TRUE)
-data_23 <- read_excel(excel_file, sheet = "2.3", range = "x2:y12", col_names = TRUE)
-data_24 <- read_excel(excel_file, sheet = "2.4", range = "x2:y12", col_names = TRUE)
-data_25 <- read_excel(excel_file, sheet = "2.4b", range = "x2:y12", col_names = TRUE)
-data_26 <- read_excel(excel_file, sheet = "2.5", range = "x2:y12", col_names = TRUE)
+# 2.2 Private sector employment in British Columbia by size of business, 2022 ----
+data_23 <- read_excel(excel_file, sheet = "2.2", range = "a3:d8", col_names = TRUE)
+
+# 2.3a Share of businesses and organizations by size, 2022 ----
+data_24 <- read_excel(excel_file, sheet = "2.3", range = "a23:c26", col_names = TRUE)
+data_24$`%` <- as.numeric(data_24$`%`)
+data_24
+
+
+
+
+# 2.3b Share of employment by establishment size, 2022 ----
+data_25 <- read_excel(excel_file, sheet = "2.3", range = "d21:f25", col_names = TRUE)
+data_25$`%` <- as.numeric(data_25$`%`)
+data_25
+
+
+# 2.4a TBD its a table currently ----
+
+# 2.4b Year-over-year growth in private sector employment----
+data_26 <- read_excel(excel_file, sheet = "2.4b", range = "j14:x17", col_names = FALSE)
+data_26t <- t(data_26)
+data_26t
+data_26_result <- as.data.frame(data_26t)
+colnames(data_26_result) <- data_26_result[1, ]
+data_26_result <- data_26_result[-1, ]
+data_26_result <- data_26_result %>% mutate_if(is.character, function(x) as.numeric(gsub("\\..*", "", x)))
+data_26_result
+
+
+
+
 data_27 <- read_excel(excel_file, sheet = "2.6", range = "x2:y12", col_names = TRUE)
 data_28 <- read_excel(excel_file, sheet = "2.7", range = "x2:y12", col_names = TRUE)
 data_29 <- read_excel(excel_file, sheet = "2.8", range = "x2:y12", col_names = TRUE)
