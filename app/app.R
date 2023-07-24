@@ -18,19 +18,18 @@ ui <-
     HTML("<html lang='en'>"),
     fluidRow(
 
-
       ## Replace appname with the title that will appear in the header
       bcsapps::bcsHeaderUI(id = 'header', appname = "Small Business in BC"),
 
+      ## main body column ----
       column(width = 12,
-             style = "margin-top:100px",
+             style = "margin-top:75px",
 
-             ""
-      )
-    ),
   shiny::tags$html(lang = "en",
+                   ## dashboard page ----
                        dashboardPage(skin = "black",
-                         dashboardHeader(title = ""),
+                         dashboardHeader(title = "", titleWidth = 187),
+                         ## dashboard sidebar ----
                          dashboardSidebar(minified = TRUE, collapsed = FALSE,
                            sidebarMenu(
                              menuItem("Home", tabName = "home"),
@@ -41,11 +40,14 @@ ui <-
                              menuItem("5 Small Business Exports", tabName = "page4")
                            )
                          ),
+                         ## dashboard body ----
                          dashboardBody(
                            shiny::tags$head(
                              shiny::tags$link(rel = "stylesheet", type = "text/css", href = "styles.css")
                            ),
+                           ## tabs ----
                            tabItems(
+                             ## home tab ----
                              tabItem(
                                tabName = "home",
                                fluidRow(
@@ -66,6 +68,7 @@ ui <-
                                  )
                                )
                              ),
+                             ## page 1 tab ----
                              tabItem(
                                tabName = "page1",
                                fluidRow(
@@ -119,7 +122,8 @@ ui <-
 
 
 
-                             tabItem(
+                           ## page 2 tab ----  
+                           tabItem(
                                tabName = "page2",
                                fluidRow(
 
@@ -152,7 +156,8 @@ ui <-
                                )
                              ),
 
-                             tabItem(
+                           ## page 4 tab ----  
+                           tabItem(
                                tabName = "page4",
                                fluidRow(
                                  box(title = "Line Chart", plotlyOutput("line_chart"), width = 6),
@@ -161,10 +166,18 @@ ui <-
                                fluidRow(
                                  box(title = "Static Table", DTOutput("static_table"))
                                )
-                             )
-                           ),
-                           ),
-                       ))  )
+                             ) ## end of tab 4
+                           
+                           ), ## end of tabs
+                           ), ## end of dashboard body
+                       ) ## end of dashboard page
+                   )),
+  
+  bcsapps::bcsFooterUI(id = 'footer')
+  
+  
+  
+  ))
 
 
 # Define server logic
@@ -336,6 +349,7 @@ server <- function(input, output) {
 
   # plot1.3b ----
 
+  data_13_result <- data_13
   data_13_result <- data_13_result[order(data_13_result$`Small businesses with no paid employees`),]
 
   data_13_result$segment <- factor(data_13_result$segment, levels = data_13_result$segment)
