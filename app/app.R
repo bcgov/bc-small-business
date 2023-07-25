@@ -32,6 +32,7 @@ ui <-
                          ## dashboard sidebar ----
                          dashboardSidebar(minified = TRUE, collapsed = FALSE,
                            sidebarMenu(
+                             id = "tabs", ## to be able to update with buttons on landing page
                              menuItem("Home", tabName = "home"),
                              menuItem("1 Small Business Growth", tabName = "page1"),
                              menuItem("2 Small Business Employment", tabName = "page2"),
@@ -53,10 +54,7 @@ ui <-
                                    tagList(
                                      HTML("There were 513,300 businesses in B.C. in 2022. Of these, 98 per cent (<b>504,200</b>) were <b>small businesses with fewer than 50 employees</b>."),
                                     br(),br(),
-                                    tags$button(
-                                      id = "counts",
-                                      class = "btn action-button btn-primary btn-landing-page",
-                                      "Explore")
+                                    actionButton("explore1", "Explore")
                                    ),
                                    width = 4
                                  ),
@@ -65,10 +63,7 @@ ui <-
                                    tagList(
                                      HTML("Overall, there was a new 0.2 per cent or <b>1,020 increase in the number of small businesses in 2022</b>. Between 2017 and 2022, the number of small businesses in B.C. grew by 3.1 per cent, for a new increase of 15,100 businesses."),
                                    br(),br(),
-                                   tags$button(
-                                     id = "counts",
-                                     class = "btn action-button btn-primary btn-landing-page",
-                                     "Explore")
+                                   actionButton("explore2", "Explore")
                                    ),
                                    width = 4
                                  ),
@@ -77,10 +72,7 @@ ui <-
                                    tagList(
                                    HTML("In 2022, B.C.'s small business sector generate aproximately <b>33 per cent</b> of provincial GDP."),
                                    br(),br(),
-                                   tags$button(
-                                     id = "counts",
-                                     class = "btn action-button btn-primary btn-landing-page",
-                                     "Explore")
+                                   actionButton("explore3", "Explore")
                                    ),
                                    width = 4
                                  )),
@@ -90,10 +82,7 @@ ui <-
                                    tagList(
                                      HTML("Small businesses in B.C. employed around <b>1,135,300 people</b> in 2022. This accounts for 51 per cent of private sector jobs in the province."),
                                    br(),br(),
-                                   tags$button(
-                                     id = "counts",
-                                     class = "btn action-button btn-primary btn-landing-page",
-                                     "Explore")
+                                   actionButton("explore4", "Explore")
                                    ),
                                    width = 4
                                  ),
@@ -102,10 +91,7 @@ ui <-
                                    tagList(
                                      HTML("In 2022, there were <b>423,800 self-employed people</b> in B.C., 0.8 per cent higher than in 2021. However, self-employment fell by 0.9 per cent compared to 2017."),
                                    br(),br(),
-                                   tags$button(
-                                     id = "counts",
-                                     class = "btn action-button btn-primary btn-landing-page",
-                                     "Explore")
+                                   actionButton("explore5", "Explore")
                                    ),
                                    width = 4
                                  ),
@@ -114,10 +100,7 @@ ui <-
                                    tagList(
                                      HTML("In 2022, <b>38.3 per cent</b> of all self-employed people in B.C. were <b>women</b>, ranking fourth among provinces."),
                                    br(),br(),
-                                   tags$button(
-                                     id = "counts",
-                                     class = "btn action-button btn-primary btn-landing-page",
-                                     "Explore")
+                                   actionButton("explore6", "Explore")
                                    ),
                                    width = 4
                                  )),
@@ -127,10 +110,7 @@ ui <-
                                    tagList(
                                      HTML("In 2022, only <b>9.5 per cent of all Indigenous workers were self-employed</b>, compared to a self-employment rate of 15.7 per cent for non-Indigenous workers."),
                                    br(),br(),
-                                   tags$button(
-                                     id = "counts",
-                                     class = "btn action-button btn-primary btn-landing-page",
-                                     "Explore")
+                                   actionButton("explore7", "Explore")
                                    ),
                                    width = 4
                                  ),
@@ -139,10 +119,7 @@ ui <-
                                    tagList(
                                    HTML("Small business employees earned an <b>average annual salary of $53,800</b> in 2022, around $10,300 less than the $64,100 earned by the average large business employee."),
                                    br(),br(),
-                                   tags$button(
-                                     id = "counts",
-                                     class = "btn action-button btn-primary btn-landing-page",
-                                     "Explore")
+                                   actionButton("explore8", "Explore")
                                    ),
                                    width = 4
                                  ),
@@ -151,10 +128,7 @@ ui <-
                                    tagList(
                                    HTML("In 2022 there were <b>6,555</b> BC businesses with fewer than 50 employees that <b>exported goods to international destinations</b>, accounting for 86 per cent of all exporting firms."),
                                    br(),br(),
-                                   tags$button(
-                                     id = "counts",
-                                     class = "btn action-button btn-primary btn-landing-page",
-                                     "Explore")
+                                   actionButton("explore9", "Explore")
                                    ),
                                    width = 4
                                  )
@@ -273,7 +247,7 @@ ui <-
 
 
 # Define server logic
-server <- function(input, output) {
+server <- function(input, output, session) {
 
 
 
@@ -281,6 +255,19 @@ server <- function(input, output) {
   bcsapps::bcsHeaderServer(id = 'header', links = TRUE)
 
   bcsapps::bcsFooterServer(id = 'footer')
+  
+  ## button navigation ----
+  observeEvent(input$explore1, updateTabItems(session, "tabs", selected = "page2"))
+  observeEvent(input$explore2, updateTabItems(session, "tabs", selected = "page2"))
+  observeEvent(input$explore3, updateTabItems(session, "tabs", selected = "page2"))
+  observeEvent(input$explore4, updateTabItems(session, "tabs", selected = "page2"))
+  observeEvent(input$explore5, updateTabItems(session, "tabs", selected = "page2"))
+  observeEvent(input$explore6, updateTabItems(session, "tabs", selected = "page2"))
+  observeEvent(input$explore7, updateTabItems(session, "tabs", selected = "page2"))
+  observeEvent(input$explore8, updateTabItems(session, "tabs", selected = "page2"))
+  observeEvent(input$explore9, updateTabItems(session, "tabs", selected = "page2"))
+  
+
 
   # plot1.1----
 
