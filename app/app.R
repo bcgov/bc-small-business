@@ -589,17 +589,24 @@ server <- function(input, output, session) {
         
         ## divide by 100 to be able to make y-axis percents
         canada_average <- 0.015
-        data_18$Percent <- data_18$Percent/100
         
-        data_18$Province <- factor(data_18$Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
-                                                                "NB", "NS", "PEI", "NL"))
-        
-        selected_colour <- ifelse(data_18$Province == "BC", "#fcb814", "#0e83b0")
+        plot_data <- data_18 %>%
+          mutate(Label = paste0(round_half_up(Percent, digits = 1), "%"),
+                 Percent = Percent/ 100,
+                 Province = factor(Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
+                                                        "NB", "NS", "PEI", "NL")),
+                 selected_color = ifelse(Province == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
         
         footnote <- "Source: Statistics Canada / Prepared by BC Stats"
         
-        plot1.8 <- plot_ly(data_18, x = ~Province, y = ~Percent, type = "bar", marker = list(color = selected_colour))
-        plot1.8 <- plot1.8 %>%
+        plot1.8 <- plot_ly(plot_data, 
+                           x = ~Province,
+                           y = ~Percent, 
+                           type = "bar",
+                           marker = list(color = ~selected_color),
+                           text = ~Label,
+                           textposition = "none",
+                           hovertemplate = "%{x}: %{text}<extra></extra>") %>%
           layout(xaxis = list(title = ""),
                  yaxis = list(title = "", tickformat = "0%"), ## make y-axis percents
                  shapes = list(hline(canada_average))) %>% ## add line
