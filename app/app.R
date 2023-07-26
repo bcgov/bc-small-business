@@ -49,12 +49,12 @@ ui <-
                              tabItem(
                                tabName = "home",
                                fluidRow(
-                                 box(
+                                 tags$div(id = "green", box(
                                    title = "Small business counts",
                                    tagList(
                                      HTML("There were 513,300 businesses in B.C. in 2022. Of these, 98 per cent (<b>504,200</b>) were <b>small businesses with fewer than 50 employees</b>."),
                                     br(),br(),
-                                    actionButton("explore1", "Explore")
+                                    actionButton("explore1", "Explore small business growth", icon= icon("line-chart"))
                                    ),
                                    width = 4
                                  ),
@@ -63,26 +63,27 @@ ui <-
                                    tagList(
                                      HTML("Overall, there was a new 0.2 per cent or <b>1,020 increase in the number of small businesses in 2022</b>. Between 2017 and 2022, the number of small businesses in B.C. grew by 3.1 per cent, for a new increase of 15,100 businesses."),
                                    br(),br(),
-                                   actionButton("explore2", "Explore")
+                                   actionButton("explore2", "Explore small business growth", icon = icon("line-chart"))
                                    ),
                                    width = 4
-                                 ),
+                                 )),
+                                 tags$div(id = "blue",
                                  box(
                                    title = "Contribution to the economy",
                                    tagList(
                                    HTML("In 2022, B.C.'s small business sector generate aproximately <b>33 per cent</b> of provincial GDP."),
                                    br(),br(),
-                                   actionButton("explore3", "Explore")
+                                   actionButton("explore3", "Explore contribution to economy", icon = icon("usd"))
                                    ),
                                    width = 4
-                                 )),
+                                 ))),
                                fluidRow(
-                                 box(
+                                 tags$div(id = "yellow", box(
                                    title = "Small business employment",
                                    tagList(
                                      HTML("Small businesses in B.C. employed around <b>1,135,300 people</b> in 2022. This accounts for 51 per cent of private sector jobs in the province."),
                                    br(),br(),
-                                   actionButton("explore4", "Explore")
+                                   actionButton("explore4", "Explore small business employment", icon = icon("users"))
                                    ),
                                    width = 4
                                  ),
@@ -91,47 +92,47 @@ ui <-
                                    tagList(
                                      HTML("In 2022, there were <b>423,800 self-employed people</b> in B.C., 0.8 per cent higher than in 2021. However, self-employment fell by 0.9 per cent compared to 2017."),
                                    br(),br(),
-                                   actionButton("explore5", "Explore")
+                                   actionButton("explore5", "Explore small business employment", icon = icon("users"))
                                    ),
                                    width = 4
-                                 ),
-                                 box(
+                                 )),
+                                 tags$div(id = "light-green", box(
                                    title = "Self-employment for women",
                                    tagList(
                                      HTML("In 2022, <b>38.3 per cent</b> of all self-employed people in B.C. were <b>women</b>, ranking fourth among provinces."),
                                    br(),br(),
-                                   actionButton("explore6", "Explore")
+                                   actionButton("explore6", "Explore self-employed", icon = icon("user"))
                                    ),
                                    width = 4
-                                 )),
+                                 ))),
                                fluidRow(
-                                 box(
+                                 tags$div(id = "light-green", box(
                                    title = "Self-employment for Indigenous people",
                                    tagList(
                                      HTML("In 2022, only <b>9.5 per cent of all Indigenous workers were self-employed</b>, compared to a self-employment rate of 15.7 per cent for non-Indigenous workers."),
                                    br(),br(),
-                                   actionButton("explore7", "Explore")
+                                   actionButton("explore7", "Explore self-employed", icon = icon("user"))
                                    ),
                                    width = 4
-                                 ),
-                                 box(
+                                 )),
+                                 tags$div(id = "blue", box(
                                    title = "Small business wages",
                                    tagList(
                                    HTML("Small business employees earned an <b>average annual salary of $53,800</b> in 2022, around $10,300 less than the $64,100 earned by the average large business employee."),
                                    br(),br(),
-                                   actionButton("explore8", "Explore")
+                                   actionButton("explore8", "Explore contribution to economy", icon = icon("usd"))
                                    ),
                                    width = 4
-                                 ),
-                                 box(
+                                 )),
+                                 tags$div(id = "light-blue",box(
                                    title = "Small business exporters",
                                    tagList(
                                    HTML("In 2022 there were <b>6,555</b> BC businesses with fewer than 50 employees that <b>exported goods to international destinations</b>, accounting for 86 per cent of all exporting firms."),
                                    br(),br(),
-                                   actionButton("explore9", "Explore")
+                                   actionButton("explore9", "Explore small business exports", icon = icon("truck"))
                                    ),
                                    width = 4
-                                 )
+                                 ))
                                )
                              ),
                              ## page 1 tab ----
@@ -257,18 +258,21 @@ server <- function(input, output, session) {
   bcsapps::bcsFooterServer(id = 'footer')
   
   ## button navigation ----
-  observeEvent(input$explore1, updateTabItems(session, "tabs", selected = "page2"))
-  observeEvent(input$explore2, updateTabItems(session, "tabs", selected = "page2"))
-  observeEvent(input$explore3, updateTabItems(session, "tabs", selected = "page2"))
+  observeEvent(input$explore1, updateTabItems(session, "tabs", selected = "page1"))
+  observeEvent(input$explore2, updateTabItems(session, "tabs", selected = "page1"))
+  observeEvent(input$explore3, updateTabItems(session, "tabs", selected = "page4"))
   observeEvent(input$explore4, updateTabItems(session, "tabs", selected = "page2"))
   observeEvent(input$explore5, updateTabItems(session, "tabs", selected = "page2"))
-  observeEvent(input$explore6, updateTabItems(session, "tabs", selected = "page2"))
-  observeEvent(input$explore7, updateTabItems(session, "tabs", selected = "page2"))
-  observeEvent(input$explore8, updateTabItems(session, "tabs", selected = "page2"))
-  observeEvent(input$explore9, updateTabItems(session, "tabs", selected = "page2"))
+  observeEvent(input$explore6, updateTabItems(session, "tabs", selected = "page3"))
+  observeEvent(input$explore7, updateTabItems(session, "tabs", selected = "page3"))
+  observeEvent(input$explore8, updateTabItems(session, "tabs", selected = "page4"))
+  observeEvent(input$explore9, updateTabItems(session, "tabs", selected = "page5"))
   
   ## color definition ----
-  custom_colors <- c("#FDB813", "#005182", "#92B6D3", "#0E84B1", "#14997C","#96C2B3")
+  #custom_colors <- c("#FDB813", "#005182", "#92B6D3", "#0E84B1", "#14997C","#96C2B3")
+  custom_colors <- c(yellow= "#fcb814", light_green = "#95c1b2", green = "#15987b",
+                     light_blue =  "#92b5d2", med_blue = "#0e83b0", dark_blue = "#015082",
+                     navy = "#143047")
   
 
 
