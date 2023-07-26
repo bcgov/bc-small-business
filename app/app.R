@@ -273,6 +273,9 @@ server <- function(input, output, session) {
   custom_colors <- c(yellow= "#fcb814", light_green = "#95c1b2", green = "#15987b",
                      light_blue =  "#92b5d2", med_blue = "#0e83b0", dark_blue = "#015082",
                      navy = "#143047")
+  custom_colors_rgb <- list(yellow= c(252,184,20), light_green = c(149,193,178), green = c(21,152,123),
+                         light_blue=c(146,181,210), med_blue=c(14,131,176), dark_blue = c(1,80,130),
+                         navy = c(20,48,71))
   
 
 
@@ -390,40 +393,40 @@ server <- function(input, output, session) {
  
   output$plot1.3a <- renderPlotly({
     
-    custom_colors2 <- c("#FFFF99",
-                        "#FFFF00",
-                        "#FFD700",
-                        "#AEEEEE",
-                        "#7AC5CD",
-                        "#5F9EA0",
-                        "#4682B4",
-                        "#4169E1",
-                        "#0000CD",
-                        "#00008B",
-                        "#000080",
-                        "#000060",
-                        "#191970"
-    )
+    plot_data <- data_12 %>%
+      rename(category = `...1`,
+             percent = `%`) %>%
+      mutate(sector = ifelse(category %in% c("Utilities","Primary*", "Manufacturing", "Construction"),
+                             "Goods", "Services"),
+             color = ifelse(sector == "Goods", 
+                            paste(custom_colors_rgb[["yellow"]], collapse = ","),
+                            paste(custom_colors_rgb[["dark_blue"]], collapse = ","))) %>%
+      group_by(sector) %>%
+      mutate(rank = rank(percent),
+             opacity = ifelse(sector == "Goods", rank/4,rank/10),
+             plot_color = paste0("rgba(", color, ",", opacity, ")"), ##https://plotly.com/r/marker-style/
+      )
     
-    category12 = data_12$`...1`
-    percentage12 = data_12$`%`
-    
-    plot1.3a <- plot_ly(data_12, labels = ~category12, values = ~percentage12,
-                         textinfo = "label+percent", marker = list(colors = custom_colors2),
-                         textposition = 'outside',   textfont = list(size = 10),
-
-                         type = "pie") %>%
+    plot1.3a <- plot_ly(plot_data) %>%
+      add_trace(type = "pie",
+                name = "",
+                labels = ~category,
+                values = ~percent,
+                text = ~sector,
+                marker = list(colors = ~plot_color),
+                textposition = "none",
+                hovertemplate = paste('<b>%{text} sector</b>',
+                                      '<br>%{label}',
+                                      '<br>%{percent}<extra></extra>')) %>%
       layout(title =  "",
-             width = 510,
-             height = 320,
-             autosize = FALSE,
-
-
-             showlegend = FALSE,
+             # width = 510,
+             # height = 320,
+             # autosize = FALSE,
+             #showlegend = FALSE,
              annotations = list(
                list(
                  x = 0,
-                 y = -0.15,
+                 y = -0.1,
                  text = "Source: BC Stats using data supplied by Statistics Canada",
                  showarrow = FALSE
                )
