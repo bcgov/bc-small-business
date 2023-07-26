@@ -267,19 +267,22 @@ server <- function(input, output, session) {
   observeEvent(input$explore8, updateTabItems(session, "tabs", selected = "page2"))
   observeEvent(input$explore9, updateTabItems(session, "tabs", selected = "page2"))
   
+  ## color definition ----
+  custom_colors <- c("#FDB813", "#005182", "#92B6D3", "#0E84B1", "#14997C","#96C2B3")
+  
 
 
   # plot1.1----
-
-  df_long <- data_09_result %>%
-    tidyr::gather(key = "Category", value = "value", -years)
-
-  df_long$value <- as.numeric(df_long$value)
-  df_long
-
-  custom_colors <- c("#FDB813", "#005182", "#92B6D3", "#0E84B1", "#14997C","#96C2B3")
-
   output$plot1.1 <- renderPlotly({
+    
+    df_long <- data_09_result %>%
+      tidyr::gather(key = "Category", value = "value", -years)
+    
+    df_long$value <- as.numeric(df_long$value)
+    df_long
+    
+    custom_colors <- c("#FDB813", "#005182", "#92B6D3", "#0E84B1", "#14997C","#96C2B3")
+    
     plot1.1 <- plot_ly(df_long, y = df_long$value, x = df_long$years, color = ~Category,
                        type = "bar", orientation = 'v', colors = custom_colors) %>%
 
@@ -380,25 +383,27 @@ server <- function(input, output, session) {
 
 
   # plot1.3a ----
-  custom_colors2 <- c("#FFFF99",
-                      "#FFFF00",
-                      "#FFD700",
-                      "#AEEEEE",
-                      "#7AC5CD",
-                      "#5F9EA0",
-                      "#4682B4",
-                      "#4169E1",
-                      "#0000CD",
-                      "#00008B",
-                      "#000080",
-                      "#000060",
-                      "#191970"
-                      )
-
-  category12 = data_12$`...1`
-  percentage12 = data_12$`%`
-
+ 
   output$plot1.3a <- renderPlotly({
+    
+    custom_colors2 <- c("#FFFF99",
+                        "#FFFF00",
+                        "#FFD700",
+                        "#AEEEEE",
+                        "#7AC5CD",
+                        "#5F9EA0",
+                        "#4682B4",
+                        "#4169E1",
+                        "#0000CD",
+                        "#00008B",
+                        "#000080",
+                        "#000060",
+                        "#191970"
+    )
+    
+    category12 = data_12$`...1`
+    percentage12 = data_12$`%`
+    
     plot1.3a <- plot_ly(data_12, labels = ~category12, values = ~percentage12,
                          textinfo = "label+percent", marker = list(colors = custom_colors2),
                          textposition = 'outside',   textfont = list(size = 10),
@@ -428,12 +433,13 @@ server <- function(input, output, session) {
 
   # plot1.3b ----
 
-  data_13_result <- data_13
-  data_13_result <- data_13_result[order(data_13_result$`Small businesses with no paid employees`),]
-
-  data_13_result$segment <- factor(data_13_result$segment, levels = data_13_result$segment)
-
   output$plot1.3b <- renderPlotly({
+    
+    data_13_result <- data_13
+    data_13_result <- data_13_result[order(data_13_result$`Small businesses with no paid employees`),]
+    
+    data_13_result$segment <- factor(data_13_result$segment, levels = data_13_result$segment)
+    
     plot1.3b <- plot_ly(data_13_result, x = data_13_result$`Small businesses with no paid employees`,
                         y = data_13_result$segment,
 
@@ -477,10 +483,11 @@ server <- function(input, output, session) {
 
  # plot1.4----
 
-  data_14 <- data_14[order(-data_14$`1-49 employees`),  ]
-  data_14$Category <- factor(data_14$Category, levels = rev(data_14$Category))
-
   output$plot1.4 <- renderPlotly({
+    
+    data_14 <- data_14[order(-data_14$`1-49 employees`),  ]
+    data_14$Category <- factor(data_14$Category, levels = rev(data_14$Category))
+    
     plot1.4<- plot_ly(data_14, y = data_14$Category, type = "bar", x = data_14$`No paid employees`, marker = list(color = "#005182"), name = "No paid employees", orientation = 'h')
     plot1.4 <- add_trace(plot1.4, x = data_14$`1-49 employees`, name = "1-49 employees", marker = list(color = "#FDB813"),
     plot1.4 <- layout(plot1.4, barmode = "stack")
@@ -498,14 +505,12 @@ server <- function(input, output, session) {
   })
 
 # plot 1.5----
-
-
-  data_15$type <-factor(data_15$type, levels = rev(c("Professional, scientific and technical services", "Specialty trade contractors",
-                                               "Ambulatory health care services", "Real estate", "Social assistance",
-                                               "Non-Standard Sectors", "High tech total", "Tourism", "Secondary manufacturing")))
-
-
       output$plot1.5 <- renderPlotly({
+        
+        data_15$type <-factor(data_15$type, levels = rev(c("Professional, scientific and technical services", "Specialty trade contractors",
+                                                           "Ambulatory health care services", "Real estate", "Social assistance",
+                                                           "Non-Standard Sectors", "High tech total", "Tourism", "Secondary manufacturing")))
+        
       plot1.5 <- plot_ly(data_15, x = ~number, type = "bar", y = ~type,
                          marker = list(color = "#005182"), name = "adsfadsf",
                          orientation = 'h')
@@ -526,15 +531,12 @@ server <- function(input, output, session) {
 
       # plot 1.6----
 
-
-      data_16$type <-factor(data_16$type, levels = rev(c("Beverage and tobacco product manufacturing", "Social assistance",
-                                                         "Motion picture and sound recording industries", "Private households",
-                                                         "Couriers and messengers", "Non-Standard Sectors", "High Technology", "Tourism",
-                                                         "Secondary Manufacturing")))
-
-
-
       output$plot1.6 <- renderPlotly({
+        data_16$type <-factor(data_16$type, levels = rev(c("Beverage and tobacco product manufacturing", "Social assistance",
+                                                           "Motion picture and sound recording industries", "Private households",
+                                                           "Couriers and messengers", "Non-Standard Sectors", "High Technology", "Tourism",
+                                                           "Secondary Manufacturing")))
+        
         plot1.6 <- plot_ly(data_16, x = ~number, type = "bar", y = ~type,
                            marker = list(color = "#005182"), name = "adsfadsf",
                            orientation = 'h')
@@ -551,15 +553,13 @@ server <- function(input, output, session) {
 
 
       # plot1.7----
-
-      canada_average <- 82.3
-
-      data_17$Province <- factor(data_17$Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
-                                                              "NB", "NS", "PEI", "NL"))
-      selected_colour <- ifelse(data_17$Province == "BC", "#e3a82b", "#95b9c7")
-
-
       output$plot1.7 <- renderPlotly({
+        
+        canada_average <- 82.3
+        
+        data_17$Province <- factor(data_17$Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
+                                                                "NB", "NS", "PEI", "NL"))
+        selected_colour <- ifelse(data_17$Province == "BC", "#e3a82b", "#95b9c7")
 
         footnote <- "Source: Statistics Canada / Prepared by BC Stats"
 
@@ -578,46 +578,57 @@ server <- function(input, output, session) {
 
 
       # plot1.8----
-
-      canada_average <- 1.5
-      data_18$Province <- factor(data_18$Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
-                                                             "NB", "NS", "PEI", "NL"))
-      selected_colour <- ifelse(data_18$Province == "BC", "#e3a82b", "#95b9c7")
       output$plot1.8 <- renderPlotly({
-      footnote <- "Source: Statistics Canada / Prepared by BC Stats"
-
+        
+        ## divide by 100 to be able to make y-axis percents
+        canada_average <- 0.015
+        data_18$Percent <- data_18$Percent/100
+        
+        data_18$Province <- factor(data_18$Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
+                                                                "NB", "NS", "PEI", "NL"))
+        
+        selected_colour <- ifelse(data_18$Province == "BC", "#fcb814", "#0e83b0")
+        
+        footnote <- "Source: Statistics Canada / Prepared by BC Stats"
+        
         plot1.8 <- plot_ly(data_18, x = ~Province, y = ~Percent, type = "bar", marker = list(color = selected_colour))
         plot1.8 <- plot1.8 %>%
-          add_trace(y = canada_average, type = 'scatter', mode = 'lines', marker = list(color = "#f5f5f5"), name = 'Canadian Average = 82.3%')
-
-        plot1.8 <- plot1.8 %>% layout(title = '',
-                                      yaxis = list(title = 'Value'),
-                                      showlegend = FALSE
-        )
-
+          layout(xaxis = list(title = ""),
+                 yaxis = list(title = "", tickformat = "0%"), ## make y-axis percents
+                 shapes = list(hline(canada_average))) %>% ## add line
+          add_annotations( ## add canadian average text
+            x = 0.01,
+            y = 0.99,
+            text = "— Canadian Average 1.5%",
+            xref = "paper", 
+            yref = "paper", 
+            xanchor = "left", 
+            yanchor = "bottom", 
+            showarrow = F
+          ) 
 
       })
 
       # plot1.9 TBD----
 
-      canada_average <- 1.5
-      data_18$Province <- factor(data_18$Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
-                                                              "NB", "NS", "PEI", "NL"))
-      selected_colour <- ifelse(data_18$Province == "BC", "#e3a82b", "#95b9c7")
-      output$plot1.8 <- renderPlotly({
-        footnote <- "Source: Statistics Canada / Prepared by BC Stats"
-
-        plot1.8 <- plot_ly(data_18, x = ~Province, y = ~Percent, type = "bar", marker = list(color = selected_colour))
-        plot1.8 <- plot1.8 %>%
-          add_trace(y = canada_average, type = 'scatter', mode = 'lines', marker = list(color = "#f5f5f5"), name = 'Canadian Average = 82.3%')
-
-        plot1.8 <- plot1.8 %>% layout(title = '',
-                                      yaxis = list(title = 'Value'),
-                                      showlegend = FALSE
-        )
-
-
-      })
+      # canada_average <- 1.5
+      # data_18$Province <- factor(data_18$Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
+      #                                                         "NB", "NS", "PEI", "NL"))
+      # selected_colour <- ifelse(data_18$Province == "BC", "#e3a82b", "#95b9c7")
+      # output$plot1.8 <- renderPlotly({
+      #   footnote <- "Source: Statistics Canada / Prepared by BC Stats"
+      # 
+      #   plot1.8 <- plot_ly(data_18, x = ~Province, y = ~Percent, type = "bar", marker = list(color = selected_colour))
+      #   plot1.8 <- plot1.8 %>%
+      #     add_trace(y = canada_average, type = 'scatter', mode = 'lines', marker = list(color = "#f5f5f5"), name = 'Canadian Average = 82.3%')
+      # 
+      #   plot1.8 <- plot1.8 %>% layout(title = '',
+      #                                 yaxis = list(title = 'Value'),
+      #                                 showlegend = FALSE
+      #   )
+      # 
+      # 
+      # })
 
       # plot1.10----
 
@@ -808,26 +819,25 @@ server <- function(input, output, session) {
 
   # plot2.4b----
 
-  df_long1 <- data_26_result %>%
-    tidyr::gather(key = "Category", value = "value", -years)
-
-  df_long1$value <- as.numeric(df_long1$value)
-  df_long1
-
-  custom_colors <- c("#FDB813", "#005182", "#92B6D3", "#0E84B1", "#14997C","#96C2B3")
-
   output$plot2.4b <- renderPlotly({
+    
+    df_long1 <- data_26_result %>%
+      tidyr::gather(key = "Category", value = "value", -years)
+    
+    df_long1$value <- as.numeric(df_long1$value)
+    df_long1
+    
+   # custom_colors <- c("#FDB813", "#005182", "#92B6D3", "#0E84B1", "#14997C","#96C2B3")
+    custom_colors <- c("#fcb814", "#0e83b0", "#015082")
+    
     plot2.4b <- plot_ly(df_long1, y = df_long1$value, x = df_long1$years, color = ~Category,
                        type = "bar", orientation = 'v', colors = custom_colors) %>%
-
-
       layout(title = "",
-             xaxis = list(title = "Year"),
-
-             barmode = "stack")
-
-    plot2.4b <- layout(plot2.4b,
-                       legend = list(orientation = "h", x = .5, y =1.1)
+            # xaxis = list(title = ""),
+             barmode = "relative", ## stack overlaps so use relative
+             legend = list(x = 0, y = 1),
+             hovermode = "x unified"
+             # legend = list(orientation = "h", x = .5, y =1.1)
                      )
 
 
@@ -838,11 +848,14 @@ server <- function(input, output, session) {
 
   # plot2.5a----
 
-  canada_average <- 2.9
-  data_27$Province <- factor(data_27$Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
-                                                          "NB", "NS", "PE", "NL"))
-  selected_colour <- ifelse(data_27$Province == "BC", "#e3a82b", "#95b9c7")
+  
   output$plot2.5a <- renderPlotly({
+    
+    canada_average <- 2.9
+    data_27$Province <- factor(data_27$Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
+                                                            "NB", "NS", "PE", "NL"))
+    selected_colour <- ifelse(data_27$Province == "BC", "#e3a82b", "#95b9c7")
+    
     footnote <- "Source: Statistics Canada / Prepared by BC Stats"
 
     plot2.5a  <- plot_ly(data_27, x = ~Province, y = ~Percent, type = "bar", marker = list(color = selected_colour))
