@@ -604,9 +604,9 @@ server <- function(input, output, session) {
                            y = ~Percent, 
                            type = "bar",
                            marker = list(color = ~selected_color),
-                           text = ~Label,
+                           text = ~paste(Province,":",Label),
                            textposition = "none",
-                           hovertemplate = "%{x}: %{text}<extra></extra>") %>%
+                           hoverinfo = 'text') %>%
           layout(xaxis = list(title = ""),
                  yaxis = list(title = "", tickformat = "0%"), ## make y-axis percents
                  shapes = list(hline(canada_average))) %>% ## add line
