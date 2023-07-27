@@ -622,34 +622,20 @@ server <- function(input, output, session) {
       })
 
       # plot1.9 TBD----
+  
+  output$plot1.9 <- renderPlotly({
+    
+  })
 
-      # canada_average <- 1.5
-      # data_18$Province <- factor(data_18$Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
-      #                                                         "NB", "NS", "PEI", "NL"))
-      # selected_colour <- ifelse(data_18$Province == "BC", "#e3a82b", "#95b9c7")
-      # output$plot1.8 <- renderPlotly({
-      #   footnote <- "Source: Statistics Canada / Prepared by BC Stats"
-      # 
-      #   plot1.8 <- plot_ly(data_18, x = ~Province, y = ~Percent, type = "bar", marker = list(color = selected_colour))
-      #   plot1.8 <- plot1.8 %>%
-      #     add_trace(y = canada_average, type = 'scatter', mode = 'lines', marker = list(color = "#f5f5f5"), name = 'Canadian Average = 82.3%')
-      # 
-      #   plot1.8 <- plot1.8 %>% layout(title = '',
-      #                                 yaxis = list(title = 'Value'),
-      #                                 showlegend = FALSE
-      #   )
-      # 
-      # 
-      # })
+
 
       # plot1.10----
-
-
-      data_20$region <- factor(data_20$region, levels = rev(c("Cariboo", "Kootenay", "North Coast & Nechako",
-                                                              "Vancouver Island/ Coast", "Northeast",
-                                                              "Thompson - Okanagan", "Mainland/ Southwest")))
-
       output$plot1.10 <- renderPlotly({
+        
+        data_20$region <- factor(data_20$region, levels = rev(c("Cariboo", "Kootenay", "North Coast & Nechako",
+                                                                "Vancouver Island/ Coast", "Northeast",
+                                                                "Thompson - Okanagan", "Mainland/ Southwest")))
+        
         footnote <- "Source: Statistics Canada / Prepared by BC Stats"
 
         plot1.10 <- plot_ly(data_20, y = ~region, x = data_20$`Total, 2022`, type = "bar", marker = list(color = custom_colors), orientation = 'h')
@@ -733,11 +719,11 @@ server <- function(input, output, session) {
 
 
   # plot2.1 ----
-
-  category = data_22$`sector`
-  percentage = data_22$`%`
-
   output$plot2.1 <- renderPlotly({
+    
+    category = data_22$`sector`
+    percentage = data_22$`%`
+    
     plot2.1 <- plot_ly(data_22, labels = ~category, values = ~percentage,
                         textinfo = "label+percent", marker = list(colors = custom_colors),
                         textposition = 'outside',   textfont = list(size = 10),
@@ -765,11 +751,11 @@ server <- function(input, output, session) {
   })
 
   # plot2.3a ----
-
-  category1 = data_24$sector
-  percentage1 = data_24$`%`
-
   output$plot2.3a <- renderPlotly({
+    
+    category1 = data_24$sector
+    percentage1 = data_24$`%`
+    
     plot2.3a <- plot_ly(data_24, labels = ~category1, values = ~percentage1,
                        textinfo = "label+percent", marker = list(colors = custom_colors),
                        textposition = 'outside',   textfont = list(size = 10),
@@ -797,11 +783,11 @@ server <- function(input, output, session) {
   })
 
   # plot2.3b ----
-
-  category2 = data_25$sector
-  percentage2 = data_25$`%`
-
   output$plot2.3b <- renderPlotly({
+    
+    category2 = data_25$sector
+    percentage2 = data_25$`%`
+    
     plot2.3b <- plot_ly(data_25, labels = ~category2, values = ~percentage2,
                        textinfo = "label+percent", marker = list(colors = custom_colors),
                        textposition = 'outside',   textfont = list(size = 10),
@@ -897,12 +883,12 @@ server <- function(input, output, session) {
 
 
   # plot2.5b----
-
-  canada_average <- 1
-  data_28$Province <- factor(data_28$Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
-                                                          "NB", "NS", "PE", "NL"))
-  selected_colour <- ifelse(data_28$Province == "BC", "#e3a82b", "#95b9c7")
   output$plot2.5b <- renderPlotly({
+    canada_average <- 1
+    data_28$Province <- factor(data_28$Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
+                                                            "NB", "NS", "PE", "NL"))
+    selected_colour <- ifelse(data_28$Province == "BC", "#e3a82b", "#95b9c7")
+    
     footnote <- "Source: Statistics Canada / Prepared by BC Stats"
 
     plot2.5b <- plot_ly(data_28, x = ~Province, y = ~Percent, type = "bar", marker = list(color = selected_colour))
