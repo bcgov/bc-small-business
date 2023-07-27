@@ -35,12 +35,12 @@ ui <-
                          dashboardSidebar(minified = TRUE, collapsed = FALSE,
                            sidebarMenu(
                              id = "tabs", ## to be able to update with buttons on landing page
-                             menuItem("Home", tabName = "home"),
-                             menuItem("1 Small Business Growth", tabName = "page1"),
-                             menuItem("2 Small Business Employment", tabName = "page2"),
-                             menuItem("3 Self-Employed", tabName = "page3"),
-                             menuItem("4 Contribution to Economy", tabName = "page4"),
-                             menuItem("5 Small Business Exports", tabName = "page4")
+                             menuItem("Home", tabName = "home", icon = icon("home")),
+                             menuItem("Small Business Growth", tabName = "page1", icon = icon("line-chart")),
+                             menuItem("Small Business Employment", tabName = "page2", icon = icon("users")),
+                             menuItem("Self-Employed", tabName = "page3", icon = icon("user")),
+                             menuItem("Contribution to Economy", tabName = "page4", icon = icon("usd")),
+                             menuItem("Small Business Exports", tabName = "page4", icon = icon("truck"))
                            )
                          ),
                          ## dashboard body ----
