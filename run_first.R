@@ -6,6 +6,9 @@ library(shinydashboard)
 library(shinydashboardPlus)
 library(dplyr)
 library(DT)
+library(bcdata)
+library(rmapshaper)
+library(sf)
 options(scipen = 999)
 
 # Read the Excel file
