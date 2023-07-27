@@ -836,24 +836,36 @@ server <- function(input, output, session) {
   output$plot2.4b <- renderPlotly({
     
     df_long1 <- data_26_result %>%
-      tidyr::gather(key = "Category", value = "value", -years)
+      pivot_longer(-years, names_to = "Category", values_to = "value") %>%
+      mutate(value = as.numeric(value),
+             Category = factor(Category, levels = c("Large business", "Small business employees", "Self-employed with no paid help")))
+
+    custom_colors1 <- custom_colors[c("yellow", "med_blue", "dark_blue")] %>% unname()
     
-    df_long1$value <- as.numeric(df_long1$value)
-    df_long1
-    
-   # custom_colors <- c("#FDB813", "#005182", "#92B6D3", "#0E84B1", "#14997C","#96C2B3")
-    custom_colors <- c("#fcb814", "#0e83b0", "#015082")
-    
-    plot2.4b <- plot_ly(df_long1, y = df_long1$value, x = df_long1$years, color = ~Category,
-                       type = "bar", orientation = 'v', colors = custom_colors) %>%
+    plot2.4b <- plot_ly(df_long1, y = ~value, x = ~years, color = ~Category,
+                       type = "bar", orientation = 'v', colors = custom_colors1,
+                       text = ~paste(Category, ":", format(value, big.mark = ",")),
+                       textposition = "none",
+                       hoverinfo = 'text') %>%
       layout(title = "",
-            # xaxis = list(title = ""),
+             yaxis = list(title = ""),
+             xaxis = list(title = ""),
              barmode = "relative", ## stack overlaps so use relative
              legend = list(x = 0, y = 1),
-             hovermode = "x unified"
-             # legend = list(orientation = "h", x = .5, y =1.1)
-                     )
-
+             hovermode = "x unified",
+             ## to show all label regardless of length
+             hoverlabel = list(namelength = -1)) %>%
+      add_annotations(
+        x = 0.04,
+        y = 1.01,
+        text = "Number of jobs",
+        xref = "paper",
+        yref = "paper",
+        xanchor = "right",
+        yanchor = "bottom",
+        showarrow = F
+      )
+            
 
     # Display the chart
     plot2.4b
