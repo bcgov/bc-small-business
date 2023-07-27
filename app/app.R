@@ -3,6 +3,8 @@ library(shiny)
 library(shinydashboard)
 library(plotly)
 library(DT)
+library(ggplot2)
+library(sf)
 
 # Test dataframe
 df <- data.frame(
@@ -180,7 +182,7 @@ ui <-
                              box(title = "Figure 1.8: Small business growth by province, 2022", plotlyOutput("plot1.8"), width = 10
                              ),
 
-                             box(title = "Figure 1.9: Small business and population distribution by region in British Columbia, 2022", plotlyOutput("plot1.9"), width = 10
+                             box(title = "Figure 1.9: Small business and population distribution by region in British Columbia, 2022", plotOutput("plot1.9", height = "470px"), width = 10
                              ),
 
                              box(title = "Figure 1.10: Small businesses per 1,000 persons", plotlyOutput("plot1.10"), width = 10
@@ -621,9 +623,34 @@ server <- function(input, output, session) {
 
       })
 
-      # plot1.9 TBD----
+      # plot1.9 ----
   
-  output$plot1.9 <- renderPlotly({
+  output$plot1.9 <- renderPlot({
+    
+    plot_data <- data_19 %>%
+      mutate(label = paste(geo, "\n",sb_perc, "SB\n", pop_perc,"population"),
+             geo = factor(geo, levels = c("North Coast &\nNechako", "Cariboo", "Kootenay", 
+                                          "Vancouver\nIsland/ Coast", "Mainland/Southwest", "Thompson-\nOkanagan",
+                                          "Northeast")),
+             text_color = case_when(geo %in%  c("Vancouver\nIsland/ Coast", "Mainland/Southwest", "North Coast &\nNechako") ~ "black",
+                                    TRUE ~ "white")) %>%
+      arrange(geo)
+    
+    ggplot(data = plot_data) + 
+      geom_sf(aes(fill = geo), color = "white", linewidth = 0.5) +
+      geom_sf_text(aes(label = label, color = text_color),
+                   size = 4, lineheight = 0.8, fontface = "bold",
+                   ##northcoast, vi, mainland, cariboo, kootenay, t-o, northeast
+                   nudge_x = c(120000,-280000,150000,-90000,0,-10000,20000), 
+                   nudge_y = c(-190000,-120000,-180000,-100000,-50000,20000,0)
+                   ) +
+      scale_fill_manual(values = custom_colors %>% unname()) +
+      scale_color_manual(values = c(white = "white", black = "black")) +
+      theme_void() +
+      theme(legend.position = "none",
+            text = element_text(face = "bold"))
+    
+    
     
   })
 
