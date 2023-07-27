@@ -98,7 +98,38 @@ data_18 <- read_excel(excel_file, sheet = "1.8", range = "a2:b12", col_names = T
 data_18
 
 # 1.9 Small business and population distribution by region in British Columbia, 2022----
-data_19 <- read_excel(excel_file, sheet = "1.9 and 1.10", range = "TODO", col_names = TRUE)
+#data_19 <- read_excel(excel_file, sheet = "1.9 and 1.10", range = "TODO", col_names = TRUE)
+data_19 <- tibble::tribble(
+                               ~region, ~pop_perc,  ~sb_perc,
+                             "Cariboo",    "3.2%",    "2.5%",
+                            "Kootenay",    "3.1%",    "2.5%",
+              "North Coast &\nNechako",    "1.9%",    "1.6%",
+            "Vancouver\nIsland/ Coast",   "17.1%",    "1.6%",
+                           "Northeast",    "1.4%",    "1.3%",
+                 "Thompson-\nOkanagan",   "11.9%",   "12.3%",
+                "Mainland/Southwest",   "61.5%",   "63.8%"
+             )
+
+#economic regions spatial data from the B.C. Data Catalogue using the bcdata package
+# https://catalogue.data.gov.bc.ca/dataset/1aebc451-a41c-496f-8b18-6f414cde93b7
+economic_regions <-
+  bcdc_get_data("1aebc451-a41c-496f-8b18-6f414cde93b7") %>%
+  mutate(geo = case_when(ECONOMIC_REGION_ID == 5910 ~ "Vancouver\nIsland/ Coast",
+                         ECONOMIC_REGION_ID == 5920 ~ "Mainland/Southwest",
+                         ECONOMIC_REGION_ID == 5930 ~ "Thompson-\nOkanagan",
+                         ECONOMIC_REGION_ID == 5940 ~ "Kootenay",
+                         ECONOMIC_REGION_ID == 5950 ~ "Cariboo",
+                         ECONOMIC_REGION_ID == 5960 ~ "North Coast &\nNechako",
+                         ECONOMIC_REGION_ID == 5970 ~ "North Coast &\nNechako",
+                         ECONOMIC_REGION_ID == 5980 ~ "Northeast")) %>%
+  group_by(geo) %>%
+  summarise() %>%
+  rmapshaper::ms_clip(bcmaps::bc_bound(class = "sf")) %>%
+  rmapshaper::ms_simplify(keep = 0.075, sys = TRUE)
+
+data_19 <- economic_regions %>%
+  left_join(data_19, by = c("geo" = "region")) 
+
 
 # 1.10 Small businesses per 1,000 persons----
 data_20 <- read_excel(excel_file, sheet = "1.9 and 1.10", range = "p3:q11", col_names = TRUE)
