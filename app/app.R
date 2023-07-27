@@ -412,12 +412,10 @@ server <- function(input, output, session) {
                 name = "",
                 labels = ~category,
                 values = ~percent,
-                text = ~sector,
+                text = ~paste0("<b>",sector," sector</b><br>", category,"<br>", round_half_up(100*percent, digits = 1), "%"),
                 marker = list(colors = ~plot_color),
                 textposition = "none",
-                hovertemplate = paste('<b>%{text} sector</b>',
-                                      '<br>%{label}',
-                                      '<br>%{percent}<extra></extra>')) %>%
+                hoverinfo = 'text') %>%
       layout(title =  "",
              # width = 510,
              # height = 320,
