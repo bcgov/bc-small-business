@@ -86,5 +86,38 @@ html, body, h1, h2, h3, h4, h5, h6 {
   font-family: BCSans;
 }
 
+.btn-default {
+    background-color: #015082;
+    color: white;
+}
+
+.box.box-solid {
+    border-top: 0;
+    min-height: 200px;
+    min-width:250px;
+    margin-top:25px;
+    margin-bottom: 25px;
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+#green .box.box-solid {
+    background-color: rgba(21, 152, 123, 0.5);
+}
+
+#yellow .box.box-solid {
+    background-color: rgba(252,184,20, 0.5);
+}
+
+#blue .box.box-solid {
+    background-color: rgba(14,131,176, 0.5);
+}
+
+#light-green .box.box-solid {
+    background-color: rgba(149,193,178, 0.5);
+}
+
+#light-blue .box.box-solid {
+    background-color: rgba(146,181,210, 0.5);
+}
 
 
