@@ -21,7 +21,7 @@ data_01 <- read_excel(excel_file, sheet = "0.1", range = "a5:d8", col_names = TR
 data_01
 
 data_02 <- read_excel(excel_file, sheet = "0.2", range = "a3:e6", col_names = TRUE)
-data_03 <- read_excel(excel_file, sheet = "0.3", range = "a2:e12", col_names = TRUE)
+
 
 data_04 <- read_excel(excel_file, sheet = "0.4", range = "a3:n5", col_names = FALSE)
 data_04t <- t(data_04)
@@ -131,7 +131,7 @@ economic_regions <-
   rmapshaper::ms_simplify(keep = 0.075, sys = TRUE)
 
 data_19 <- economic_regions %>%
-  left_join(data_19, by = c("geo" = "region")) 
+  left_join(data_19, by = c("geo" = "region"))
 
 
 # 1.10 Small businesses per 1,000 persons----
@@ -155,9 +155,6 @@ data_23 <- read_excel(excel_file, sheet = "2.2", range = "a3:d8", col_names = TR
 data_24 <- read_excel(excel_file, sheet = "2.3", range = "a23:c26", col_names = TRUE)
 data_24$`%` <- as.numeric(data_24$`%`)
 data_24
-
-
-
 
 # 2.3b Share of employment by establishment size, 2022 ----
 data_25 <- read_excel(excel_file, sheet = "2.3", range = "d21:f25", col_names = TRUE)
@@ -185,13 +182,47 @@ data_27
 data_28 <- read_excel(excel_file, sheet = "2.5", range = "a16:b26", col_names = TRUE)
 data_28
 
-data_29 <- read_excel(excel_file, sheet = "2.8", range = "x2:y12", col_names = TRUE)
-data_30 <- read_excel(excel_file, sheet = "2.9", range = "x2:y12", col_names = TRUE)
-data_31 <- read_excel(excel_file, sheet = "2.10", range = "x2:y12", col_names = TRUE)
-data_32 <- read_excel(excel_file, sheet = "2.11", range = "x2:y12", col_names = TRUE)
-data_33 <- read_excel(excel_file, sheet = "3.2", range = "x2:y12", col_names = TRUE)
-data_34 <- read_excel(excel_file, sheet = "3.3", range = "x2:y12", col_names = TRUE)
+# 2.6 Small business as a per cent of private sector employment by province, 2022----
+data_29 <- read_excel(excel_file, sheet = "2.6", range = "a2:b12", col_names = TRUE)
+data_29
 
+# 2.7a One-year top and bottom industries for small business employment growth in British Columbia ----
+data_30 <- read_excel(excel_file, sheet = "2.7", range = "a18:c27", col_names = FALSE)
+data_30
+
+# 2.7b Two-year top and bottom industries for small business employment growth in British Columbia ----
+data_31 <- read_excel(excel_file, sheet = "2.7", range = "a36:c45", col_names = FALSE)
+data_31
+
+# 2.7c Five-year top and bottom industries for small business employment growth in British Columbia ----
+data_32 <- read_excel(excel_file, sheet = "2.7", range = "a4:c13", col_names = FALSE)
+data_32
+
+# 2.8 Self-employment as a per cent of total employment by province, 2022 ----
+data_33 <- read_excel(excel_file, sheet = "2.8", range = "a2:b12", col_names = TRUE)
+data_33
+
+# 2.9 Self-employment per cent change by province, 2017-2022----
+data_34 <- read_excel(excel_file, sheet = "2.9", range = "a2:b12", col_names = TRUE)
+data_34
+
+# 2.10a Self-employment per cent change for regions in British Columbia, 2021-2022----
+data_36 <- read_excel(excel_file, sheet = "2.10", range = "a13:b20", col_names = TRUE)
+data_36
+
+# 2.10b Self-employment per cent change for regions in British Columbia, 2017-2022----
+data_37 <- read_excel(excel_file, sheet = "2.10", range = "a2:b9", col_names = TRUE)
+
+# 3.1 TABLE Number of self-employed business owners in British Columbia ----
+data_38 <- read_excel(excel_file, sheet = "3.1", range = "a3:e6", col_names = TRUE)
+
+# 3.2 Number of self-employed with paid help compared to elf-employed without paid help, British Columbia, 2017-2022----
+data_39 <- read_excel(excel_file, sheet = "3.2", range = "a3:c9", col_names = TRUE)
+
+# 3.3 Age distribution of self-employed workers compared to employees, British Columbia, 2022----
+data_40 <- read_excel(excel_file, sheet = "3.3", range = "a3:c9", col_names = TRUE)
+
+# 3.3b Share of British Columbia workers who are self-employed, by age ----
 data_35 <- read_excel(excel_file, sheet = "3.3b", range = "a3:r9", col_names = FALSE)
 data_35t <- t(data_35)
 data_35_result <- as.data.frame(data_35t)
@@ -205,11 +236,8 @@ data_35_result
 
 
 
-data_xx <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
-data_xx <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
-data_xx <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
-data_xx <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
-data_xx <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
+
+
 data_xx <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
 data_xx <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
 data_xx <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
