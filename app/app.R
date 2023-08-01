@@ -141,7 +141,15 @@ ui <-
                              tabItem(
                                tabName = "page1",
                                fluidRow(
-                                 box(title = "Figure 1.1 - Count of small businesses in British Columbia", plotlyOutput("plot1.1"), width = 10),
+
+                                 box(title = "Figure 1.1 - Count of small businesses in British Columbia",
+                                     plotlyOutput("plot1.1"), width = 10,
+                                 br(),
+                                 HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+
+                               ),
+
+
                                  box(title = "Figure 1.2a - One, two and five-year growth of B.C. businesses by size",
                                      width = 10,
                                      solidHeader = TRUE,
@@ -149,8 +157,11 @@ ui <-
                                        tabPanel("1 year", plotlyOutput("plot1.2a1"), style = "width: 4"),
                                        tabPanel("2 year", plotlyOutput("plot1.2a2")),
                                        tabPanel("5 year", plotlyOutput("plot1.2a3"))
-                                     )
-                                  ),
+                                     ),
+                                     br(),
+                                     HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+
+                                 ),
 
                                 box(title = "Figure 1.2b: Breakdown of businesses in British Columbia, 2022", DTOutput("datatable"),
                                        style = "border: 1px solid white;", width = 10
@@ -189,19 +200,37 @@ ui <-
                                       <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
                              ),
 
-                             box(title = "Figure 1.6: Sector growth rates for number of small businesses with employees, BC, 2017-2020", plotlyOutput("plot1.6"), width = 10
+                             box(title = "Figure 1.6: Sector growth rates for number of small businesses with employees, BC, 2017-2020", plotlyOutput("plot1.6"), width = 10,
+                                 br(),
+                                 HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
+                                      <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+
+
+                                                              ),
+
+                             box(title = "Figure 1.7: Small businesses per capita by province, 2022", plotlyOutput("plot1.7"), width = 10,
+                                 br(),
+                                 HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+
+                                                              ),
+
+                             box(title = "Figure 1.8: Small business growth by province, 2022", plotlyOutput("plot1.8"), width = 10,
+                                 br(),
+                                 HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+
                              ),
 
-                             box(title = "Figure 1.7: Small businesses per capita by province, 2022", plotlyOutput("plot1.7"), width = 10
+                             box(title = "Figure 1.9: Small business and population distribution by region in British Columbia, 2022", plotOutput("plot1.9", height = "470px"), width = 10,
+                                 br(),
+                                 HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+
                              ),
 
-                             box(title = "Figure 1.8: Small business growth by province, 2022", plotlyOutput("plot1.8"), width = 10
-                             ),
+                             box(title = "Figure 1.10: Small businesses per 1,000 persons", plotlyOutput("plot1.10"), width = 10,
+                                 br(),
+                                 HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
 
-                             box(title = "Figure 1.9: Small business and population distribution by region in British Columbia, 2022", plotOutput("plot1.9", height = "470px"), width = 10
-                             ),
 
-                             box(title = "Figure 1.10: Small businesses per 1,000 persons", plotlyOutput("plot1.10"), width = 10
                              )
                            )),
 
@@ -241,11 +270,17 @@ ui <-
                                )
                              ),
 
-                           ## page 4 tab ----
+                           ## page 3 tab ----
                            tabItem(
-                               tabName = "page4",
+                               tabName = "page3",
                                fluidRow(
-                                 box(title = "Line Chart", plotlyOutput("line_chart"), width = 6),
+
+                                 box(title = "Figure 3.3b: Share of British Columbian workers who are self-employed, by age", plotlyOutput("plot3.3b"), width = 10,
+                                     br(),
+                                     HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
+                                      <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                 ),
+
                                  box(title = "Area Chart", plotlyOutput("area_chart"), width = 6)
                                ),
                                fluidRow(
@@ -1001,6 +1036,35 @@ server <- function(input, output, session) {
       )
 
   })
+
+  # plot3.3b----
+
+
+
+  output$plot3.3b <- renderPlotly({
+    line_chart <- plot_ly(data_35_result, x = ~years, y = data_35_result$`15-24`, type = "scatter", mode = "lines",  name = "15-24 years old", line = list(color = "yellow")) %>%
+      add_trace(y = data_35_result$`25-34`, type = 'scatter', mode = "lines", name = "25-34 years", line = list(color = "lightgreen")) %>%
+      add_trace(y = data_35_result$`35-44`, type = 'scatter', mode = "lines", name = "35-44 years", line = list(color = "darkgreen")  ) %>%
+      add_trace(y = data_35_result$`45-54`, type = 'scatter', mode = "lines", name = "45-54 years", line = list(color = "lightblue")  ) %>%
+      add_trace(y = data_35_result$`55-64`, type = 'scatter', mode = "lines", name = "55-64 years", line = list(color = "darkblue")  ) %>%
+      add_trace(y = data_35_result$`65+`, type = 'scatter', mode = "lines", name = "65+ years", line = list(color = "black")  )
+
+    plot3.3b <- layout(line_chart,
+                         xaxis = list(title = ""),
+                         yaxis = list(
+                           tickvals = seq(0, 1, 0.05),
+                           ticktext = paste0(seq(0, 100, 5), "%"),
+                           legend = list(title = "Age Group")
+                         )
+    )
+
+
+    plot3.3b
+  })
+
+
+
+
 
 
 
