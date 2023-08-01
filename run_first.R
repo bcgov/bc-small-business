@@ -107,7 +107,7 @@ data_19 <- tibble::tribble(
                              "Cariboo",    "3.2%",    "2.5%",
                             "Kootenay",    "3.1%",    "2.5%",
               "North Coast &\nNechako",    "1.9%",    "1.6%",
-            "Vancouver\nIsland/ Coast",   "17.1%",    "1.6%",
+            "Vancouver\nIsland/ Coast",   "17.1%",    "16.0%",
                            "Northeast",    "1.4%",    "1.3%",
                  "Thompson-\nOkanagan",   "11.9%",   "12.3%",
                 "Mainland/Southwest",   "61.5%",   "63.8%"
