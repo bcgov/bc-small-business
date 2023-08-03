@@ -11,6 +11,10 @@ library(rmapshaper)
 library(sf)
 options(scipen = 999)
 
+## clear environment
+## important for code to save data as rds file at bottom of script
+rm(list = ls())
+
 # Read the Excel file
 excel_file <- "C:/bc-small-business/SBP2023_Chart_data2.xlsx"
 
@@ -42,7 +46,11 @@ data_08
 
 
 # 1.1 Growth of Small Businesses in BC----
-data_09 <- read_excel(excel_file, sheet = "1.1", range = "a29:f37", col_names = TRUE)
+## don't read in total, not needed in chart
+data_09 <- read_excel(excel_file, sheet = "1.1", range = "a2:i7", col_names = TRUE) %>%
+  rename(category = years) %>%
+  pivot_longer(-category, names_to = "years", values_to = "count") %>%
+  mutate(category = fct_inorder(category))
 data_09
 
 
@@ -218,6 +226,7 @@ data_39
 
 # 3.3a Age distribution of self-employed workers compared to employees, British Columbia, 2022----
 data_40 <- read_excel(excel_file, sheet = "3.3", range = "a3:c9", col_names = TRUE)
+names(data_40) <- c("agegroup", "Employees", "self-employed")
 data_40
 
 # 3.3b Share of British Columbia workers who are self-employed, by age ----
@@ -232,5 +241,19 @@ data_35_result
 
 # 3.4  Proportion of self-employed who are women by province, 2022----
 data_41 <- read_excel(excel_file, sheet = "3.4", range = "a2:b12", col_names = TRUE)
+names(data_41) <- c("Province", "Percent")
 data_41
 
+## Save data for app ----
+## remove unneeded environment variables
+rm(excel_file,economic_regions,data_04,data_04t,data_26,data_26t,data_35,data_35t)
+
+## combine all dataset in environment into one list
+## ls() lists everything in you environment
+## get("name_of_data") returns the data
+## map iterates over all the objects and appends the results to a list
+all_data <- map(ls(), get)
+names(all_data) <- ls()[-1]  ## removing first environment variable (should be all_data - it is important this comes first alphabetically)
+
+saveRDS(all_data, "app/data/data.rds")
+rm(list = ls())
