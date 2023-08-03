@@ -299,7 +299,11 @@ ui <-
                                       <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
                                  ),
 
-
+                                 box(title = "Figure 3.3a: Age distribution of self-employed workers compared to employees, British Columbia, 2022", plotlyOutput("plot3.3a"), width = 10,
+                                     br(),
+                                     HTML("<b><small><small></b> <p>Notes: Figures do not add to 100% due to rounding.
+                                      <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                 ),
 
                                box(title = "Figure 3.3b: Share of British Columbian workers who are self-employed, by age", plotlyOutput("plot3.3b"), width = 10,
                                    br(),
@@ -1096,7 +1100,32 @@ server <- function(input, output, session) {
   })
 
 
+  # plot3.3a----
+  output$plot3.3a <- renderPlotly({
 
+    df_long <- data_40 %>%
+      tidyr::gather(key = "Category", value = "value", -agegroup)
+
+    df_long$value <- as.numeric(df_long$value)
+    df_long
+
+    custom_colors <- c("#FDB813", "#005182", "#92B6D3", "#0E84B1", "#14997C","#96C2B3")
+
+    plot3.3a <- plot_ly(df_long, x = df_long$value, y = df_long$agegroup, color = ~Category,
+                       type = "bar", orientation = 'h', colors = custom_colors) %>%
+
+
+
+    layout(legend = list(orientation = "h", x = 0, y = 1.2),
+    xaxis = list(tickformat = '.0%'),
+    barmode = "relative")
+
+
+
+    # Display the chart
+    plot3.3a
+
+  })
 
 
 
@@ -1107,13 +1136,14 @@ server <- function(input, output, session) {
 
 
 
+
   output$plot3.3b <- renderPlotly({
     line_chart <- plot_ly(data_35_result, x = ~years, y = data_35_result$`15-24`, type = "scatter", mode = "lines",  name = "15-24 years old", line = list(color = "yellow")) %>%
-      add_trace(y = data_35_result$`25-34`, type = 'scatter', mode = "lines", name = "25-34 years", line = list(color = "lightgreen")) %>%
-      add_trace(y = data_35_result$`35-44`, type = 'scatter', mode = "lines", name = "35-44 years", line = list(color = "darkgreen")  ) %>%
-      add_trace(y = data_35_result$`45-54`, type = 'scatter', mode = "lines", name = "45-54 years", line = list(color = "lightblue")  ) %>%
-      add_trace(y = data_35_result$`55-64`, type = 'scatter', mode = "lines", name = "55-64 years", line = list(color = "darkblue")  ) %>%
-      add_trace(y = data_35_result$`65+`, type = 'scatter', mode = "lines", name = "65+ years", line = list(color = "black")  )
+      add_trace(y = data_35_result$`25-34`, type = 'scatter', mode = "lines", name = "25-34 years", line = list(color = "#FDB813")) %>%
+      add_trace(y = data_35_result$`35-44`, type = 'scatter', mode = "lines", name = "35-44 years", line = list(color = "#005182")  ) %>%
+      add_trace(y = data_35_result$`45-54`, type = 'scatter', mode = "lines", name = "45-54 years", line = list(color = "#92B6D3")  ) %>%
+      add_trace(y = data_35_result$`55-64`, type = 'scatter', mode = "lines", name = "55-64 years", line = list(color = "#0E84B1")  ) %>%
+      add_trace(y = data_35_result$`65+`, type = 'scatter', mode = "lines", name = "65+ years", line = list(color = "#14997C")  )
 
     plot3.3b <- layout(line_chart,
                          xaxis = list(title = ""),

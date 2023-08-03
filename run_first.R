@@ -82,6 +82,7 @@ data_14
 
 # 1.5: Number of net new small businesses - fastest growing sectors in BC, 2017-2022 ----
 data_15 <- read_excel(excel_file, sheet = "1.5", range = "a2:b11", col_names = TRUE)
+data_15
 
 # 1.6 Sector growth rates for number of small businesses with employees, BC, 2017-2020 ----
 data_16 <- read_excel(excel_file, sheet = "1.6", range = "a3:b12", col_names = TRUE)
@@ -215,8 +216,9 @@ data_38 <- read_excel(excel_file, sheet = "3.1", range = "a3:e6", col_names = TR
 data_39 <- read_excel(excel_file, sheet = "3.2", range = "a3:c9", col_names = TRUE)
 data_39
 
-# 3.3 Age distribution of self-employed workers compared to employees, British Columbia, 2022----
+# 3.3a Age distribution of self-employed workers compared to employees, British Columbia, 2022----
 data_40 <- read_excel(excel_file, sheet = "3.3", range = "a3:c9", col_names = TRUE)
+data_40
 
 # 3.3b Share of British Columbia workers who are self-employed, by age ----
 data_35 <- read_excel(excel_file, sheet = "3.3b", range = "a3:r9", col_names = FALSE)
