@@ -7,7 +7,7 @@ library(ggplot2)
 library(sf)
 library(tidyr)
 
-#source("run_first.R")
+data <- readRDS("data/data.rds")
 
 
 # Define UI
@@ -373,7 +373,7 @@ server <- function(input, output, session) {
     custom_colors <- custom_colors[c("navy", "dark_blue", "med_blue", "green", "yellow")] %>% unname()
 
     # Create the stacked bar chart with custom colors
-    plot1.1 <- plot_ly(data_09, x = ~years, y = ~count, color = ~category, type = "bar", textposition = 'inside',
+    plot1.1 <- plot_ly(data$data_09, x = ~years, y = ~count, color = ~category, type = "bar", textposition = 'inside',
                     colors = custom_colors) %>%
       layout(title = "",
              xaxis = list(title = "Years"),
@@ -393,7 +393,7 @@ server <- function(input, output, session) {
 
   output$plot1.2a1 <- renderPlotly({
   # Create the plot
-  plot1.2a1 <- plot_ly(data = data_10, x = ~`1-yr growth rate`, y = ~`employee count`, type = "bar",
+  plot1.2a1 <- plot_ly(data = data$data_10, x = ~`1-yr growth rate`, y = ~`employee count`, type = "bar",
                   orientation = "h",  colors = c("red", "green"),
                   hoverinfo = "x", width = 600, height = 400)
 
@@ -420,7 +420,7 @@ server <- function(input, output, session) {
 
   output$plot1.2a2 <- renderPlotly({
     # Create the plot
-    plot1.2a2 <- plot_ly(data = data_10, x = ~`2-yr growth rate`, y = ~`employee count`, type = "bar",
+    plot1.2a2 <- plot_ly(data = data$data_10, x = ~`2-yr growth rate`, y = ~`employee count`, type = "bar",
                          orientation = "h",  colors = c("red", "green"),
                          hoverinfo = "x", width = 600, height = 400)
 
@@ -446,7 +446,7 @@ server <- function(input, output, session) {
 
   output$plot1.2a3 <- renderPlotly({
     # Create the plot
-    plot1.2a3 <- plot_ly(data = data_10, x = ~`5-yr growth rate`, y = ~`employee count`, type = "bar",
+    plot1.2a3 <- plot_ly(data = data$data_10, x = ~`5-yr growth rate`, y = ~`employee count`, type = "bar",
                          orientation = "h",  colors = c("red", "green"),
                          hoverinfo = "x", width = 600, height = 400)
 
@@ -472,7 +472,7 @@ server <- function(input, output, session) {
 
   output$plot1.3a <- renderPlotly({
 
-    plot_data <- data_12 %>%
+    plot_data <- data$data_12 %>%
       rename(category = `...1`,
              percent = `%`) %>%
       mutate(sector = ifelse(category %in% c("Utilities","Primary*", "Manufacturing", "Construction"),
@@ -519,7 +519,7 @@ server <- function(input, output, session) {
 
   output$plot1.3b <- renderPlotly({
 
-    data_13_result <- data_13
+    data_13_result <- data$data_13
     data_13_result <- data_13_result[order(data_13_result$`Small businesses with no paid employees`),]
 
     data_13_result$segment <- factor(data_13_result$segment, levels = data_13_result$segment)
@@ -557,15 +557,15 @@ server <- function(input, output, session) {
 
 
 
-  output$bar_chart <- renderPlotly({
-    bar_chart <- plot_ly(df, x = ~Category, y = ~Value, type = "bar")
-    bar_chart
-  })
-
-  output$hbar_chart <- renderPlotly({
-    hbar_chart <- plot_ly(df, x = ~Value, y = ~Category, type = "bar", orientation = "h")
-    hbar_chart
-  })
+  # output$bar_chart <- renderPlotly({
+  #   bar_chart <- plot_ly(df, x = ~Category, y = ~Value, type = "bar")
+  #   bar_chart
+  # })
+  # 
+  # output$hbar_chart <- renderPlotly({
+  #   hbar_chart <- plot_ly(df, x = ~Value, y = ~Category, type = "bar", orientation = "h")
+  #   hbar_chart
+  # })
 
 
 
@@ -575,7 +575,7 @@ server <- function(input, output, session) {
 
   output$plot1.4 <- renderPlotly({
 
-    data_14 <- data_14[order(-data_14$`1-49 employees`),  ]
+    data_14 <- data$data_14[order(-data$data_14$`1-49 employees`),  ]
     data_14$Category <- factor(data_14$Category, levels = rev(data_14$Category))
 
     plot1.4<- plot_ly(data_14, y = data_14$Category, type = "bar", x = data_14$`No paid employees`, marker = list(color = "#005182"), name = "No paid employees", orientation = 'h')
@@ -598,6 +598,8 @@ server <- function(input, output, session) {
 
 # plot 1.5----
       output$plot1.5 <- renderPlotly({
+        
+        data_15 <- data$data_15
 
       data_15$type <-factor(data_15$type, levels = rev(c("Professional, scientific and technical services", "Specialty trade contractors",
                                                            "Ambulatory health care services", "Real estate", "Social assistance",
@@ -624,6 +626,9 @@ server <- function(input, output, session) {
       # plot 1.6----
 
       output$plot1.6 <- renderPlotly({
+        
+        data_16 <- data$data_16
+        
         data_16$type <-factor(data_16$type, levels = rev(c("Beverage and tobacco product manufacturing", "Social assistance",
                                                            "Motion picture and sound recording industries", "Private households",
                                                            "Couriers and messengers", "Non-Standard Sectors", "High Technology", "Tourism",
@@ -650,7 +655,7 @@ server <- function(input, output, session) {
         ## divide by 100 to be able to make y-axis percents
         canada_average <- 0.823
 
-        plot_data <- data_17 %>%
+        plot_data <- data$data_17 %>%
           mutate(Label = paste0(round_half_up(Percent, digits = 1), "%"),
                  Percent = Percent/ 100,
                  Province = factor(Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
@@ -690,7 +695,7 @@ server <- function(input, output, session) {
         ## divide by 100 to be able to make y-axis percents
         canada_average <- 0.015
 
-        plot_data <- data_18 %>%
+        plot_data <- data$data_18 %>%
           mutate(Label = paste0(round_half_up(Percent, digits = 1), "%"),
                  Percent = Percent/ 100,
                  Province = factor(Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
@@ -727,7 +732,7 @@ server <- function(input, output, session) {
 
   output$plot1.9 <- renderPlot({
 
-    plot_data <- data_19 %>%
+    plot_data <- data$data_19 %>%
       mutate(label = paste(geo, "\n",sb_perc, "SB\n", pop_perc,"population"),
              geo = factor(geo, levels = c("North Coast &\nNechako", "Cariboo", "Kootenay",
                                           "Vancouver\nIsland/ Coast", "Mainland/Southwest", "Thompson-\nOkanagan",
@@ -758,6 +763,8 @@ server <- function(input, output, session) {
 
       # plot1.10----
       output$plot1.10 <- renderPlotly({
+        
+        data_20 <- data$data_20
 
         data_20$region <- factor(data_20$region, levels = rev(c("Cariboo", "Kootenay", "North Coast & Nechako",
                                                                 "Vancouver Island/ Coast", "Northeast",
@@ -778,15 +785,15 @@ server <- function(input, output, session) {
 
 
 
-  output$line_chart <- renderPlotly({
-    line_chart <- plot_ly(df, x = ~Category, y = ~Value, type = "scatter", mode = "lines")
-    line_chart
-  })
-
-  output$area_chart <- renderPlotly({
-    area_chart <- plot_ly(df, x = ~Category, y = ~Value, type = "scatter", mode = "lines", fill = "tozeroy")
-    area_chart
-  })
+  # output$line_chart <- renderPlotly({
+  #   line_chart <- plot_ly(df, x = ~Category, y = ~Value, type = "scatter", mode = "lines")
+  #   line_chart
+  # })
+  # 
+  # output$area_chart <- renderPlotly({
+  #   area_chart <- plot_ly(df, x = ~Category, y = ~Value, type = "scatter", mode = "lines", fill = "tozeroy")
+  #   area_chart
+  # })
 
 
 
@@ -795,12 +802,12 @@ server <- function(input, output, session) {
   output$datatable <- renderDT({
     # Create your dataframe with the desired data
 
-        data <- data_11
+        table_data <- data$data_11
 
 
 
     # Create the datatable
-        datatable(data,
+        datatable(table_data,
                   rownames = FALSE,
                   colnames = c("", "Number of businesses", "Per cent of all businesses*", "Per cent of small businesses*"),
                   ## change default class (table-striped) to cell-border (borders around all cells, no striping)
@@ -848,6 +855,7 @@ server <- function(input, output, session) {
   # plot2.1 ----
   output$plot2.1 <- renderPlotly({
 
+    data_22 <- data$data_22
     category = data_22$`sector`
     percentage = data_22$`%`
 
@@ -880,6 +888,7 @@ server <- function(input, output, session) {
   # plot2.3a ----
   output$plot2.3a <- renderPlotly({
 
+    data_24 <- data$data_24
     category1 = data_24$sector
     percentage1 = data_24$`%`
 
@@ -912,6 +921,7 @@ server <- function(input, output, session) {
   # plot2.3b ----
   output$plot2.3b <- renderPlotly({
 
+    data_25 <- data$data_25
     category2 = data_25$sector
     percentage2 = data_25$`%`
 
@@ -946,7 +956,7 @@ server <- function(input, output, session) {
 
   output$plot2.4b <- renderPlotly({
 
-    df_long1 <- data_26_result %>%
+    df_long1 <- data$data_26_result %>%
       pivot_longer(-years, names_to = "Category", values_to = "value") %>%
       mutate(value = as.numeric(value),
              Category = factor(Category, levels = c("Large business", "Small business employees", "Self-employed with no paid help")))
@@ -990,7 +1000,7 @@ server <- function(input, output, session) {
     ## divide by 100 to be able to make y-axis percents
     canada_average <- .018
 
-     plot_data <- data_27 %>%
+     plot_data <- data$data_27 %>%
       mutate(Label = paste0(round_half_up(Percent, digits = 1), "%"),
              Percent = Percent/ 100,
              Province = factor(Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
@@ -1030,7 +1040,7 @@ server <- function(input, output, session) {
     ## divide by 100 to be able to make y-axis percents
     canada_average <- .018
 
-    plot_data <- data_28 %>%
+    plot_data <- data$data_28 %>%
       mutate(Label = paste0(round_half_up(Percent, digits = 1), "%"),
              Percent = Percent/ 100,
              Province = factor(Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
@@ -1066,7 +1076,7 @@ server <- function(input, output, session) {
   # plot3.2----
   output$plot3.2 <- renderPlotly({
 
-    df_long1 <- data_39 %>%
+    df_long1 <- data$data_39 %>%
       tidyr::gather(key = "Category", value = "value", -years)
 
     df_long1$value <- as.numeric(df_long1$value)
@@ -1100,7 +1110,7 @@ server <- function(input, output, session) {
   # plot3.3a----
   output$plot3.3a <- renderPlotly({
 
-    df_long <- data_40 %>%
+    df_long <- data$data_40 %>%
       tidyr::gather(key = "Category", value = "value", -agegroup)
 
     df_long$value <- as.numeric(df_long$value)
@@ -1133,12 +1143,12 @@ server <- function(input, output, session) {
 
 
   output$plot3.3b <- renderPlotly({
-    line_chart <- plot_ly(data_35_result, x = ~years, y = data_35_result$`15-24`, type = "scatter", mode = "lines",  name = "15-24 years old", line = list(color = "yellow")) %>%
-      add_trace(y = data_35_result$`25-34`, type = 'scatter', mode = "lines", name = "25-34 years", line = list(color = "#FDB813")) %>%
-      add_trace(y = data_35_result$`35-44`, type = 'scatter', mode = "lines", name = "35-44 years", line = list(color = "#005182")  ) %>%
-      add_trace(y = data_35_result$`45-54`, type = 'scatter', mode = "lines", name = "45-54 years", line = list(color = "#92B6D3")  ) %>%
-      add_trace(y = data_35_result$`55-64`, type = 'scatter', mode = "lines", name = "55-64 years", line = list(color = "#0E84B1")  ) %>%
-      add_trace(y = data_35_result$`65+`, type = 'scatter', mode = "lines", name = "65+ years", line = list(color = "#14997C")  )
+    line_chart <- plot_ly(data$data_35_result, x = ~years, y = data$data_35_result$`15-24`, type = "scatter", mode = "lines",  name = "15-24 years old", line = list(color = "yellow")) %>%
+      add_trace(y = data$data_35_result$`25-34`, type = 'scatter', mode = "lines", name = "25-34 years", line = list(color = "#FDB813")) %>%
+      add_trace(y = data$data_35_result$`35-44`, type = 'scatter', mode = "lines", name = "35-44 years", line = list(color = "#005182")  ) %>%
+      add_trace(y = data$data_35_result$`45-54`, type = 'scatter', mode = "lines", name = "45-54 years", line = list(color = "#92B6D3")  ) %>%
+      add_trace(y = data$data_35_result$`55-64`, type = 'scatter', mode = "lines", name = "55-64 years", line = list(color = "#0E84B1")  ) %>%
+      add_trace(y = data$data_35_result$`65+`, type = 'scatter', mode = "lines", name = "65+ years", line = list(color = "#14997C")  )
 
     plot3.3b <- layout(line_chart,
                          xaxis = list(title = ""),
@@ -1160,7 +1170,7 @@ server <- function(input, output, session) {
     ## divide by 100 to be able to make y-axis percents
     canada_average <- 0.371
 
-    plot_data <- data_41 %>%
+    plot_data <- data$data_41 %>%
       mutate(Label = paste0(round_half_up(Percent, digits = 1), "%"),
              Percent = Percent/ 100,
              Province = factor(Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
