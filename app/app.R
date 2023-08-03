@@ -370,17 +370,10 @@ server <- function(input, output, session) {
   # plot1.1----
   output$plot1.1 <- renderPlotly({
 
-    custom_colors <- c("#FDB813", "#005182", "#92B6D3", "#0E84B1", "#14997C","#96C2B3")
-
-
-    # Reshape the data into long format
-    data_long <- tidyr::pivot_longer(data_09, cols = -years, names_to = "category", values_to = "count")
-
-    data_long$category <- factor(data_long$category, levels = rev(c("20-49 employees", "10-19 employees", "5-9 employees",
-                                                                   "1-4 employees", "No employees")))
+    custom_colors <- custom_colors[c("navy", "dark_blue", "med_blue", "green", "yellow")] %>% unname()
 
     # Create the stacked bar chart with custom colors
-    plot1.1 <- plot_ly(data_long, x = ~years, y = ~count, color = ~category, type = "bar", textposition = 'inside',
+    plot1.1 <- plot_ly(data_09, x = ~years, y = ~count, color = ~category, type = "bar", textposition = 'inside',
                     colors = custom_colors) %>%
       layout(title = "",
              xaxis = list(title = "Years"),

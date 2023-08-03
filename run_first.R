@@ -42,7 +42,11 @@ data_08
 
 
 # 1.1 Growth of Small Businesses in BC----
-data_09 <- read_excel(excel_file, sheet = "1.1", range = "a29:f37", col_names = TRUE)
+## don't read in total, not needed in chart
+data_09 <- read_excel(excel_file, sheet = "1.1", range = "a2:i7", col_names = TRUE) %>%
+  rename(category = years) %>%
+  pivot_longer(-category, names_to = "years", values_to = "count") %>%
+  mutate(category = fct_inorder(category))
 data_09
 
 
