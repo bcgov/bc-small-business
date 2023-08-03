@@ -365,12 +365,11 @@ server <- function(input, output, session) {
     custom_colors <- c("#FDB813", "#005182", "#92B6D3", "#0E84B1", "#14997C","#96C2B3")
 
 
-
-
     # Reshape the data into long format
     data_long <- tidyr::pivot_longer(data_09, cols = -years, names_to = "category", values_to = "count")
 
-
+    data_long$category <- factor(data_long$category, levels = rev(c("20-49 employees", "10-19 employees", "5-9 employees",
+                                                                   "1-4 employees", "No employees")))
 
     # Create the stacked bar chart with custom colors
     plot1.1 <- plot_ly(data_long, x = ~years, y = ~count, color = ~category, type = "bar", textposition = 'inside',
@@ -378,13 +377,9 @@ server <- function(input, output, session) {
       layout(title = "",
              xaxis = list(title = "Years"),
              yaxis = list(title = "Employee Count"),
-             barmode = "stack",
-             showlegend = TRUE)
-
-
-
-
-
+             barmode = "relative",
+             showlegend = TRUE,
+             legend = list(orientation = "h", x = 0, y = 1.3))
 
     # Display the chart
     plot1.1

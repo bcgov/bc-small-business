@@ -42,22 +42,8 @@ data_08
 
 
 # 1.1 Growth of Small Businesses in BC----
-# data_09 <- read_excel(excel_file, sheet = "1.1", range = "a2:i7", col_names = FALSE)
-# data_09 <- as.data.frame(data_09)
-# data_09t <- t(data_09)
-# data_09_result <- as.data.frame(data_09t)
-# colnames(data_09_result) <- data_09_result[1, ]
-# data_09_result <- data_09_result[-1, ]
-# str(data_09_result)
-
-data_09 <- data.frame(
-  years = c("2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022"),
-  `No employees` = c(279000, 289900, 298700, 315000, 328200, 319500, 304400, 299800),
-  `1 to 4 employees` = c(109539, 111072, 111547, 113186, 116705, 117475, 118749, 120909),
-  `5 to 9 employees` = c(37053, 37890, 38636, 39050, 39173, 38506, 38962, 39993),
-  `10 to 19 employees` = c(23152, 24210, 25098, 25821, 25664, 25158, 25272, 26593),
-  `20 to 49 employees` = c(14773, 14885, 15120, 15451, 16283, 15988, 15794, 16906)
-)
+data_09 <- read_excel(excel_file, sheet = "1.1", range = "a29:f37", col_names = TRUE)
+data_09
 
 
 
