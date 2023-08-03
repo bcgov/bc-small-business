@@ -11,6 +11,10 @@ library(rmapshaper)
 library(sf)
 options(scipen = 999)
 
+## clear environment
+## important for code to save data as rds file at bottom of script
+rm(list = ls())
+
 # Read the Excel file
 excel_file <- "C:/bc-small-business/SBP2023_Chart_data2.xlsx"
 
@@ -222,6 +226,7 @@ data_39
 
 # 3.3a Age distribution of self-employed workers compared to employees, British Columbia, 2022----
 data_40 <- read_excel(excel_file, sheet = "3.3", range = "a3:c9", col_names = TRUE)
+names(data_40) <- c("agegroup", "Employees", "self-employed")
 data_40
 
 # 3.3b Share of British Columbia workers who are self-employed, by age ----
@@ -236,5 +241,19 @@ data_35_result
 
 # 3.4  Proportion of self-employed who are women by province, 2022----
 data_41 <- read_excel(excel_file, sheet = "3.4", range = "a2:b12", col_names = TRUE)
+names(data_41) <- c("Province", "Percent")
 data_41
 
+## Save data for app ----
+## remove unneeded environment variables
+rm(excel_file,economic_regions,data_04,data_04t,data_26,data_26t,data_35,data_35t)
+
+## combine all dataset in environment into one list
+## ls() lists everything in you environment
+## get("name_of_data") returns the data
+## map iterates over all the objects and appends the results to a list
+data <- map(ls(), get)
+names(data) <- ls()[-1]
+
+saveRDS(data, "app/data/data.rds")
+rm(list = ls())
