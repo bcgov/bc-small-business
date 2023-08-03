@@ -230,3 +230,7 @@ data_35_result$years <- round(as.numeric(data_35_result$years))
 data_35_result
 
 
+# 3.4 ----
+data_41 <- read_excel(excel_file, sheet = "3.4", range = "a2:b12", col_names = TRUE)
+data_41
+
