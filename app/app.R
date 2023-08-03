@@ -8,6 +8,7 @@ library(sf)
 library(tidyr)
 
 data <- readRDS("data/data.rds")
+last_updated <- "August 2023"
 
 
 # Define UI
@@ -38,7 +39,14 @@ ui <-
                              menuItem("Small Business Employment", tabName = "page2", icon = icon("users")),
                              menuItem("Self-Employed", tabName = "page3", icon = icon("user")),
                              menuItem("Contribution to Economy", tabName = "page4", icon = icon("usd")),
-                             menuItem("Small Business Exports", tabName = "page5", icon = icon("truck"))
+                             menuItem("Small Business Exports", tabName = "page5", icon = icon("truck")),
+                             tags$div(style = "text-align:center;color:#b8c7ce",
+                                      br(),
+                                      downloadButton(outputId = "download_data", "Download data as excel"),
+                                      br(),br(),
+                                      uiOutput("update_date")
+                                      
+                             )
                            )
                          ),
                          ## dashboard body ----
@@ -344,6 +352,11 @@ server <- function(input, output, session) {
   bcsapps::bcsHeaderServer(id = 'header', links = TRUE)
 
   bcsapps::bcsFooterServer(id = 'footer')
+  
+  ## update date ----
+  output$update_date <- renderUI(
+    paste("Last updated:", last_updated)
+  )
 
   ## button navigation ----
   observeEvent(input$explore1, updateTabItems(session, "tabs", selected = "page1"))
@@ -355,6 +368,14 @@ server <- function(input, output, session) {
   observeEvent(input$explore7, updateTabItems(session, "tabs", selected = "page3"))
   observeEvent(input$explore8, updateTabItems(session, "tabs", selected = "page4"))
   observeEvent(input$explore9, updateTabItems(session, "tabs", selected = "page5"))
+  
+  ## download button ----
+  output$download_data <- downloadHandler(
+    filename = "bc-small-business-profile-data.xlsx",
+    content = function(file) {
+      file.copy("data/bc-small-business-profile-data.xlsx", file)
+    }
+  )
 
   ## color definition ----
   #custom_colors <- c("#FDB813", "#005182", "#92B6D3", "#0E84B1", "#14997C","#96C2B3")
