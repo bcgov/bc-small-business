@@ -230,7 +230,7 @@ data_35_result$years <- round(as.numeric(data_35_result$years))
 data_35_result
 
 
-# 3.4 ----
+# 3.4  Proportion of self-employed who are women by province, 2022----
 data_41 <- read_excel(excel_file, sheet = "3.4", range = "a2:b12", col_names = TRUE)
 data_41
 
