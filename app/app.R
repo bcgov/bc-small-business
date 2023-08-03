@@ -5,12 +5,10 @@ library(plotly)
 library(DT)
 library(ggplot2)
 library(sf)
+library(tidyr)
 
-# Test dataframe
-df <- data.frame(
-  Category = c("A", "B", "C", "D", "E"),
-  Value = c(10, 20, 30, 40, 50)
-)
+#source("run_first.R")
+
 
 # Define UI
 ui <-
@@ -21,7 +19,7 @@ ui <-
     fluidRow(
 
       ## Replace appname with the title that will appear in the header
-      bcsapps::bcsHeaderUI(id = 'header', appname = "Small Business in BC"),
+      bcsapps::bcsHeaderUI(id = 'header', appname = "Small Business Profile"),
 
       ## main body column ----
       column(width = 12,
@@ -29,7 +27,7 @@ ui <-
 
   shiny::tags$html(lang = "en",
                    ## dashboard page ----
-                       dashboardPage(skin = "black",
+                       dashboardPage(skin = "blue",
                          dashboardHeader(title = "", titleWidth = 187),
                          ## dashboard sidebar ----
                          dashboardSidebar(minified = TRUE, collapsed = FALSE,
@@ -241,29 +239,49 @@ ui <-
                                tabName = "page2",
                                fluidRow(
 
-                                 box(title = "Figure 2.1 Share of total employment in British Columbia, 2022", plotlyOutput("plot2.1"), width = 10
+                                 box(title = "Figure 2.1 Share of total employment in British Columbia, 2022", plotlyOutput("plot2.1"), width = 10,
+                                     br(),
+                                     HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
 
                                  ),
 
-                                 box(title = "Figure xx: Number of net new small businesses - fastest growing sectors in B.C, 2017-2022", plotlyOutput(""), width = 10
+                                 box(title = "Figure xx: Number of net new small businesses - fastest growing sectors in B.C, 2017-2022", plotlyOutput(""), width = 10,
+                                     br(),
+                                     HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+
                                  ),
 
-                                 box(title = "Figure 2.3a: Share of British Columbia businesses and organizations by size, 2017-2020", plotlyOutput("plot2.3a"), width = 10
+                                 box(title = "Figure 2.3a: Share of British Columbia businesses and organizations by size, 2017-2020", plotlyOutput("plot2.3a"), width = 10,
+                                     br(),
+                                     HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+
                                  ),
 
-                                 box(title = "Figure 2.3b: Share of employment by establishment size, 2022", plotlyOutput("plot2.3b"), width = 10
+                                 box(title = "Figure 2.3b: Share of employment by establishment size, 2022", plotlyOutput("plot2.3b"), width = 10,
+                                     br(),
+                                     HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+
                                  ),
 
                                  box(title = "Figure xx: Small business growth by province, 2022", plotlyOutput(""), width = 10
                                  ),
 
-                                 box(title = "Figure 2.4b: Year-over-year growth in private sector employment", plotlyOutput("plot2.4b"), width = 10
+                                 box(title = "Figure 2.4b: Year-over-year growth in private sector employment", plotlyOutput("plot2.4b"), width = 10,
+                                     br(),
+                                     HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+
                                  ),
 
-                                 box(title = "Figure 2.5a: One-year small business employment change, by province, 2020-2021", plotlyOutput("plot2.5a"), width = 10
+                                 box(title = "Figure 2.5a: One-year small business employment change, by province, 2020-2021", plotlyOutput("plot2.5a"), width = 10,
+                                     br(),
+                                     HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+
                                  ),
 
-                                 box(title = "Figure 2.5b: Five-year small business employment change by province, 2017-2022", plotlyOutput("plot2.5b"), width = 10
+                                 box(title = "Figure 2.5b: Five-year small business employment change by province, 2017-2022", plotlyOutput("plot2.5b"), width = 10,
+                                     br(),
+                                     HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+
                                  ),
 
                                  box(title = "Horizontal Bar Chart", plotlyOutput("hbar_chart"), width = 6)
@@ -275,14 +293,23 @@ ui <-
                                tabName = "page3",
                                fluidRow(
 
-                                 box(title = "Figure 3.3b: Share of British Columbian workers who are self-employed, by age", plotlyOutput("plot3.3b"), width = 10,
+                                 box(title = "Figure 3.2: Number of self-employed with paid help compared to self-employed without paid help, British Columbia, 2017-2022, by age", plotlyOutput("plot3.2"), width = 10,
                                      br(),
                                      HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
                                       <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
                                  ),
 
-                                 box(title = "Area Chart", plotlyOutput("area_chart"), width = 6)
+
+
+                               box(title = "Figure 3.3b: Share of British Columbian workers who are self-employed, by age", plotlyOutput("plot3.3b"), width = 10,
+                                   br(),
+                                   HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
+                                      <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
                                ),
+
+                               box(title = "Area Chart", plotlyOutput("area_chart"), width = 6)
+                           ),
+
                                fluidRow(
                                  box(title = "Static Table", DTOutput("static_table"))
                                )
@@ -335,33 +362,36 @@ server <- function(input, output, session) {
   # plot1.1----
   output$plot1.1 <- renderPlotly({
 
-    df_long <- data_09_result %>%
-      tidyr::gather(key = "Category", value = "value", -years)
-
-    df_long$value <- as.numeric(df_long$value)
-    df_long
-
     custom_colors <- c("#FDB813", "#005182", "#92B6D3", "#0E84B1", "#14997C","#96C2B3")
 
-    plot1.1 <- plot_ly(df_long, y = df_long$value, x = df_long$years, color = ~Category,
-                       type = "bar", orientation = 'v', colors = custom_colors) %>%
 
 
+
+    # Reshape the data into long format
+    data_long <- tidyr::pivot_longer(data_09, cols = -years, names_to = "category", values_to = "count")
+
+
+
+    # Create the stacked bar chart with custom colors
+    plot1.1 <- plot_ly(data_long, x = ~years, y = ~count, color = ~category, type = "bar", textposition = 'inside',
+                    colors = custom_colors) %>%
       layout(title = "",
-             xaxis = list(title = "Year"),
-             yaxis = list(title = "Number of dfgf",
-                          tickformat = ",.0",
-                          tickprefix = "",
-                          ticksuffix = "K",
-                          dtick = 100000),
-             barmode = "stack")
+             xaxis = list(title = "Years"),
+             yaxis = list(title = "Employee Count"),
+             barmode = "stack",
+             showlegend = TRUE)
+
+
+
 
 
 
     # Display the chart
     plot1.1
 
-})
+  })
+
+
 
   # plot1.2a1 ----
 
@@ -374,7 +404,7 @@ server <- function(input, output, session) {
   # Customize the layout
   layout <- list(
     xaxis = list(title = "1 Yr"),
-    yaxis = list(title = "Employee Count"),
+    yaxis = list(title = ""),
     barmode = "relative",
     bargap = 0.1,
     autosize = TRUE
@@ -400,8 +430,8 @@ server <- function(input, output, session) {
 
     # Customize the layout
     layout <- list(
-      xaxis = list(title = "1 Yr"),
-      yaxis = list(title = "Employee Count"),
+      xaxis = list(title = "2 Yr"),
+      yaxis = list(title = " "),
       barmode = "relative",
       bargap = 0.1,
       autosize = TRUE
@@ -426,8 +456,8 @@ server <- function(input, output, session) {
 
     # Customize the layout
     layout <- list(
-      xaxis = list(title = "1 Yr"),
-      yaxis = list(title = "Employee Count"),
+      xaxis = list(title = "5 Yr"),
+      yaxis = list(title = ""),
       barmode = "relative",
       bargap = 0.1,
       autosize = TRUE
@@ -478,7 +508,7 @@ server <- function(input, output, session) {
                list(
                  x = 0,
                  y = -0.1,
-                 text = "Source: BC Stats using data supplied by Statistics Canada",
+                 text = "",
                  showarrow = FALSE
                )
              ))
@@ -573,7 +603,7 @@ server <- function(input, output, session) {
 # plot 1.5----
       output$plot1.5 <- renderPlotly({
 
-        data_15$type <-factor(data_15$type, levels = rev(c("Professional, scientific and technical services", "Specialty trade contractors",
+      data_15$type <-factor(data_15$type, levels = rev(c("Professional, scientific and technical services", "Specialty trade contractors",
                                                            "Ambulatory health care services", "Real estate", "Social assistance",
                                                            "Non-Standard Sectors", "High tech total", "Tourism", "Secondary manufacturing")))
 
@@ -826,10 +856,10 @@ server <- function(input, output, session) {
     percentage = data_22$`%`
 
     plot2.1 <- plot_ly(data_22, labels = ~category, values = ~percentage,
-                        textinfo = "label+percent", marker = list(colors = custom_colors),
-                        textposition = 'outside',   textfont = list(size = 10),
+                       textinfo = "label+percent", marker = list(colors = custom_colors),
+                       textposition = 'outside',   textfont = list(size = 10),
 
-                        type = "pie") %>%
+                       type = "pie") %>%
       layout(title =  "",
              width = 510,
              height = 320,
@@ -841,7 +871,7 @@ server <- function(input, output, session) {
                list(
                  x = 0,
                  y = -0.15,
-                 text = "Source: BC Stats using data supplied by Statistics Canada",
+                 text = "",
                  showarrow = FALSE
                )
              ))
@@ -858,10 +888,10 @@ server <- function(input, output, session) {
     percentage1 = data_24$`%`
 
     plot2.3a <- plot_ly(data_24, labels = ~category1, values = ~percentage1,
-                       textinfo = "label+percent", marker = list(colors = custom_colors),
-                       textposition = 'outside',   textfont = list(size = 10),
+                        textinfo = "label+percent", marker = list(colors = custom_colors),
+                        textposition = 'outside',   textfont = list(size = 10),
 
-                       type = "pie") %>%
+                        type = "pie") %>%
       layout(title =  "",
              width = 510,
              height = 320,
@@ -873,7 +903,7 @@ server <- function(input, output, session) {
                list(
                  x = 0,
                  y = -0.15,
-                 text = "Source: BC Stats using data supplied by Statistics Canada",
+                 text = "",
                  showarrow = FALSE
                )
              ))
@@ -890,10 +920,10 @@ server <- function(input, output, session) {
     percentage2 = data_25$`%`
 
     plot2.3b <- plot_ly(data_25, labels = ~category2, values = ~percentage2,
-                       textinfo = "label+percent", marker = list(colors = custom_colors),
-                       textposition = 'outside',   textfont = list(size = 10),
+                        textinfo = "label+percent", marker = list(colors = custom_colors),
+                        textposition = 'outside',   textfont = list(size = 10),
 
-                       type = "pie") %>%
+                        type = "pie") %>%
       layout(title =  "",
              width = 510,
              height = 320,
@@ -905,7 +935,7 @@ server <- function(input, output, session) {
                list(
                  x = 0,
                  y = -0.15,
-                 text = "Source: BC Stats using data supplied by Statistics Canada",
+                 text = "",
                  showarrow = FALSE
                )
              ))
@@ -1036,6 +1066,47 @@ server <- function(input, output, session) {
       )
 
   })
+
+  # plot3.2----
+  output$plot3.2 <- renderPlotly({
+
+    df_long1 <- data_39 %>%
+      tidyr::gather(key = "Category", value = "value", -years)
+
+    df_long1$value <- as.numeric(df_long1$value)
+    df_long1
+
+    custom_colors <- c("#FDB813", "#005182", "#92B6D3", "#0E84B1", "#14997C","#96C2B3")
+
+    plot3.2 <- plot_ly(df_long1, y = df_long1$value, x = df_long1$years, color = ~Category,
+                       type = "bar", orientation = 'v', colors = custom_colors) %>%
+
+
+      layout(title = "",
+             legend = list(orientation = "h", x = 0, y = 1.2),
+             xaxis = list(title = "Year"),
+             yaxis = list(title = "",
+                          tickformat = ",",
+                          tickprefix = "",
+                          ticksuffix = "K",
+                          dtick = 100),
+             barmode = "group")
+
+
+
+
+    # Display the chart
+    plot3.2
+
+  })
+
+
+
+
+
+
+
+
 
   # plot3.3b----
 

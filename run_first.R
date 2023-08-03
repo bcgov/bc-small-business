@@ -12,7 +12,7 @@ library(sf)
 options(scipen = 999)
 
 # Read the Excel file
-excel_file <- "C:/bc-small-business/app/data/SBP2023_Chart_data2.xlsx"
+excel_file <- "C:/bc-small-business/SBP2023_Chart_data2.xlsx"
 
 
 # 1. Small Business Growth----
@@ -40,15 +40,24 @@ data_08 <- read_excel(excel_file, sheet = "Key3", range = "a2:b12", col_names = 
 data_08
 
 
+
 # 1.1 Growth of Small Businesses in BC----
-data_09 <- read_excel(excel_file, sheet = "1.1", range = "a2:i7", col_names = FALSE)
-data_09
-data_09t <- t(data_09)
-data_09t
-data_09_result <- as.data.frame(data_09t)
-colnames(data_09_result) <- data_09_result[1, ]
-data_09_result <- data_09_result[-1, ]
-data_09_result
+# data_09 <- read_excel(excel_file, sheet = "1.1", range = "a2:i7", col_names = FALSE)
+# data_09 <- as.data.frame(data_09)
+# data_09t <- t(data_09)
+# data_09_result <- as.data.frame(data_09t)
+# colnames(data_09_result) <- data_09_result[1, ]
+# data_09_result <- data_09_result[-1, ]
+# str(data_09_result)
+
+data_09 <- data.frame(
+  years = c("2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022"),
+  `No employees` = c(279000, 289900, 298700, 315000, 328200, 319500, 304400, 299800),
+  `1 to 4 employees` = c(109539, 111072, 111547, 113186, 116705, 117475, 118749, 120909),
+  `5 to 9 employees` = c(37053, 37890, 38636, 39050, 39173, 38506, 38962, 39993),
+  `10 to 19 employees` = c(23152, 24210, 25098, 25821, 25664, 25158, 25272, 26593),
+  `20 to 49 employees` = c(14773, 14885, 15120, 15451, 16283, 15988, 15794, 16906)
+)
 
 
 
@@ -76,7 +85,7 @@ data_12
 
 # 1.3b: Distribution of small businesses with and without employees by industry, 2022 ----
 data_13 <- read_excel(excel_file, sheet = "1.3b", range = "a3:c17", col_names = TRUE)
-
+data_13
 
 # 1.4: Small business by industry, proportions with and without employees, 2022----
 data_14 <- read_excel(excel_file, sheet = "1.4", range = "a4:f17", col_names = TRUE)
@@ -216,8 +225,9 @@ data_37 <- read_excel(excel_file, sheet = "2.10", range = "a2:b9", col_names = T
 # 3.1 TABLE Number of self-employed business owners in British Columbia ----
 data_38 <- read_excel(excel_file, sheet = "3.1", range = "a3:e6", col_names = TRUE)
 
-# 3.2 Number of self-employed with paid help compared to elf-employed without paid help, British Columbia, 2017-2022----
+# 3.2 Number of self-employed with paid help compared to self-employed without paid help, British Columbia, 2017-2022----
 data_39 <- read_excel(excel_file, sheet = "3.2", range = "a3:c9", col_names = TRUE)
+data_39
 
 # 3.3 Age distribution of self-employed workers compared to employees, British Columbia, 2022----
 data_40 <- read_excel(excel_file, sheet = "3.3", range = "a3:c9", col_names = TRUE)
@@ -232,20 +242,3 @@ data_35_result$years <- round(as.numeric(data_35_result$years))
 data_35_result
 
 
-
-
-
-
-
-
-data_xx <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
-data_xx <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
-data_xx <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
-data_xx <- read_excel(excel_file, sheet = "x.x", range = "x2:y12", col_names = TRUE)
-
-
-
-
-
-
-print(data_03)
