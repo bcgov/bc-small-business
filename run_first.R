@@ -252,8 +252,8 @@ rm(excel_file,economic_regions,data_04,data_04t,data_26,data_26t,data_35,data_35
 ## ls() lists everything in you environment
 ## get("name_of_data") returns the data
 ## map iterates over all the objects and appends the results to a list
-data <- map(ls(), get)
-names(data) <- ls()[-1]
+all_data <- map(ls(), get)
+names(all_data) <- ls()[-1]  ## removing first environment variable (should be all_data - it is important this comes first alphabetically)
 
-saveRDS(data, "app/data/data.rds")
+saveRDS(all_data, "app/data/data.rds")
 rm(list = ls())
