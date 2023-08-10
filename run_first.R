@@ -111,18 +111,23 @@ data_20 <- read_excel(excel_file, sheet = "1.9 and 1.10", range = "p3:q11", col_
 data_20 <- as.data.frame(data_20)
 
 
-# 1.11 Net change in number of small businesses by region, 2017-2022 ----
-data_21 <- read_excel(excel_file, sheet = "1.11", range = "a3:d11", col_names = TRUE)
-data_21 <- as.data.frame(data_21)
+# 1.11a Net change in number of small businesses by region, 2017-2022 ----
+data_21a <- read_excel(excel_file, sheet = "1.11", range = "a3:d11", col_names = TRUE)
+data_21a <- as.data.frame(data_21a)
+
+# 1.11a Net change in number of small businesses by region, 2017-2022 ----
+data_21b <- read_excel(excel_file, sheet = "1.11", range = "a3:d11", col_names = TRUE)
+data_21b <- as.data.frame(data_21b)
+
 
 # 2.1 Share of total employment in British Columbia, 2022 ----
-data_21a <- read_excel(excel_file, sheet = "2.0", range = "a17:h22", col_names = TRUE)
+data_21c <- read_excel(excel_file, sheet = "2.0", range = "a17:h22", col_names = TRUE)
 
 
 # 2.1 Share of total employment in British Columbia, 2022 ----
 data_22 <- read_excel(excel_file, sheet = "2.1", range = "a2:c5", col_names = TRUE)
 data_22$`%` <- as.numeric(data_22$`%`)
-data_22
+
 
 # 2.3 Share of employment by establishment size, 2022 ----
 data_25 <- read_excel(excel_file, sheet = "2.3", range = "a21:c25", col_names = TRUE)
@@ -143,17 +148,17 @@ data_27 <- read_excel(excel_file, sheet = "2.5", range = "a2:b12", col_names = T
 # 2.5b Five-year small business employment change by province, 2017-2022----
 data_28 <- read_excel(excel_file, sheet = "2.5", range = "a16:b26", col_names = TRUE)
 
-# # 2.6 Small business as a per cent of private sector employment by province, 2022----
-# data_29 <- read_excel(excel_file, sheet = "2.6", range = "a2:b12", col_names = TRUE)
-#
-# # 2.7a One-year top and bottom industries for small business employment growth in British Columbia ----
-# data_30 <- read_excel(excel_file, sheet = "2.7", range = "a18:c27", col_names = FALSE)
-#
-# # 2.7b Two-year top and bottom industries for small business employment growth in British Columbia ----
-# data_31 <- read_excel(excel_file, sheet = "2.7", range = "a36:c45", col_names = FALSE)
-#
-# # 2.7c Five-year top and bottom industries for small business employment growth in British Columbia ----
-# data_32 <- read_excel(excel_file, sheet = "2.7", range = "a4:c13", col_names = FALSE)
+# 2.6 Small business as a per cent of private sector employment by province, 2022----
+data_29 <- read_excel(excel_file, sheet = "2.6", range = "a2:b12", col_names = TRUE)
+
+# 2.7a One-year top and bottom industries for small business employment growth in British Columbia ----
+data_30 <- read_excel(excel_file, sheet = "2.7", range = "a17:c27", col_names = TRUE)
+
+# 2.7b Two-year top and bottom industries for small business employment growth in British Columbia ----
+data_31 <- read_excel(excel_file, sheet = "2.7", range = "a35:c45", col_names = TRUE)
+
+# 2.7c Five-year top and bottom industries for small business employment growth in British Columbia ----
+data_32 <- read_excel(excel_file, sheet = "2.7", range = "a3:c13", col_names = TRUE)
 
 #data_02 <- read_excel(excel_file, sheet = "0.2", range = "a3:e6", col_names = TRUE)
 

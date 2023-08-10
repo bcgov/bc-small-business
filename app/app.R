@@ -26,382 +26,397 @@ ui <-
       column(width = 12,
              style = "margin-top:75px",
 
-  shiny::tags$html(lang = "en",
-                   ## dashboard page ----
-                       dashboardPage(skin = "blue",
-                         dashboardHeader(title = "", titleWidth = 187),
-                         ## dashboard sidebar ----
-                         dashboardSidebar(minified = TRUE, collapsed = FALSE,
-                           sidebarMenu(
-                             id = "tabs", ## to be able to update with buttons on landing page
-                             menuItem("Home", tabName = "home", icon = icon("home")),
-                             menuItem("Additional Indicators", tabName = "page0", icon = icon("file-text")),
-                             menuItem("Small Business Growth", tabName = "page1", icon = icon("line-chart")),
-                             menuItem("Small Business Employment", tabName = "page2",
-                                      icon = icon("users")),
+             shiny::tags$html(lang = "en",
+                              ## dashboard page ----
+                              dashboardPage(skin = "blue",
+                                            dashboardHeader(title = "", titleWidth = 187),
+                                            ## dashboard sidebar ----
+                                            dashboardSidebar(minified = TRUE, collapsed = FALSE,
+                                                             sidebarMenu(
+                                                               id = "tabs", ## to be able to update with buttons on landing page
+                                                               menuItem("Home", tabName = "home", icon = icon("home")),
+                                                               menuItem("Additional Indicators", tabName = "page0", icon = icon("file-text")),
+                                                               menuItem("Small Business Growth", tabName = "page1", icon = icon("line-chart")),
+                                                               menuItem("Small Business Employment", tabName = "page2",
+                                                                        icon = icon("users")),
 
-                             menuItem("Self-Employed", tabName = "page3", icon = icon("user"),
-                           menuSubItem("For women", tabName = "women"),
-                           menuSubItem("For Indigenous people", tabName = "indigenous")
-                           ),
+                                                               menuItem("Self-Employed", tabName = "page3", icon = icon("user"),
+                                                                        menuSubItem("For women", tabName = "women"),
+                                                                        menuSubItem("For Indigenous people", tabName = "indigenous")
+                                                               ),
 
 
 
-                             menuItem("Contribution to Economy", tabName = "page4", icon = icon("usd")),
-                             menuItem("Small Business Exports", tabName = "page5", icon = icon("truck")),
-                             tags$div(style = "text-align:center;color:#b8c7ce",
-                                      br(),
-                                      downloadButton(outputId = "download_data", "Download data as excel"),
-                                      br(),br(),
-                                      uiOutput("update_date")
+                                                               menuItem("Contribution to Economy", tabName = "page4", icon = icon("usd")),
+                                                               menuItem("Small Business Exports", tabName = "page5", icon = icon("truck")),
+                                                               tags$div(style = "text-align:center;color:#b8c7ce",
+                                                                        br(),
+                                                                        downloadButton(outputId = "download_data", "Download data as excel"),
+                                                                        br(),br(),
+                                                                        uiOutput("update_date")
 
-                             )
-                           )
-                         ),
-                         ## dashboard body ----
-                         dashboardBody(
-                           ## tabs ----
-                           tabItems(
-                             ## home tab ----
-                             tabItem(
-                               tabName = "home",
-
-                               # row 1 of landing page boxes
-
-                               fluidRow(
-                                 tags$div(id = "green",
-                                box(
-                                   title = "Small business counts",
-                                   tagList(
-                                     HTML("There were 513,300 businesses in B.C. in 2022. Of these, 98 per cent (<b>504,200</b>) were <b>small businesses with fewer than 50 employees</b>."),
-                                    br(),br(),
-                                    actionButton("explore1", "Explore small business growth", icon= icon("line-chart"))
-                                   ),
-                                   width = 4
-                                 ),
-                                 box(
-                                   title = "Small business growth",
-                                   tagList(
-                                     HTML("Overall, there was a new 0.2 per cent or <b>1,020 increase in the number of small businesses in 2022</b>. Between 2017 and 2022, the number of small businesses in B.C. grew by 3.1 per cent, for a new increase of 15,100 businesses."),
-                                   br(),br(),
-                                   actionButton("explore2", "Explore small business growth", icon = icon("line-chart"))
-                                   ),
-                                   width = 4
-                                 )),
-                                 tags$div(id = "blue",
-                                 box(
-                                   title = "Contribution to the economy",
-                                   tagList(
-                                   HTML("In 2022, B.C.'s small business sector generate aproximately <b>33 per cent</b> of provincial GDP."),
-                                   br(),br(),
-                                   actionButton("explore3", "Explore contribution to economy", icon = icon("usd"))
-                                   ),
-                                   width = 4
-                                 ))),
-
-                               # row 2 of landing page boxes
-                               fluidRow(
-                                 tags$div(id = "light-green",
-
-                                             box(
-                                            title = "Small business employment",
-                                            tagList(
-                                              HTML("Small businesses in B.C. employed around <b>1,135,300 people</b> in 2022. This accounts for 51 per cent of private sector jobs in the province."),
-                                              br(),br(),
-                                              actionButton("explore4", "Explore small business employment", icon = icon("users"))
+                                                               )
+                                                             )
                                             ),
-                                            width = 4
-                                          )),
-                                 tags$div(id = "grey",
+                                            ## dashboard body ----
+                                            dashboardBody(
+                                              ## tabs ----
+                                              tabItems(
+                                                ## home tab ----
+                                                tabItem(
+                                                  tabName = "home",
+
+                                                  # row 1 of landing page boxes
+
+                                                  fluidRow(
+                                                    tags$div(id = "green",
+                                                             box(
+                                                               title = "Small business counts",
+                                                               tagList(
+                                                                 HTML("There were 513,300 businesses in B.C. in 2022. Of these, 98 per cent (<b>504,200</b>) were <b>small businesses with fewer than 50 employees</b>."),
+                                                                 br(),br(),
+                                                                 actionButton("explore1", "Explore small business growth", icon= icon("line-chart"))
+                                                               ),
+                                                               width = 4
+                                                             ),
+                                                             box(
+                                                               title = "Small business growth",
+                                                               tagList(
+                                                                 HTML("Overall, there was a new 0.2 per cent or <b>1,020 increase in the number of small businesses in 2022</b>. Between 2017 and 2022, the number of small businesses in B.C. grew by 3.1 per cent, for a new increase of 15,100 businesses."),
+                                                                 br(),br(),
+                                                                 actionButton("explore2", "Explore small business growth", icon = icon("line-chart"))
+                                                               ),
+                                                               width = 4
+                                                             )),
+                                                    tags$div(id = "blue",
+                                                             box(
+                                                               title = "Contribution to the economy",
+                                                               tagList(
+                                                                 HTML("In 2022, B.C.'s small business sector generate aproximately <b>33 per cent</b> of provincial GDP."),
+                                                                 br(),br(),
+                                                                 actionButton("explore3", "Explore contribution to economy", icon = icon("usd"))
+                                                               ),
+                                                               width = 4
+                                                             ))),
+
+                                                  # row 2 of landing page boxes
+                                                  fluidRow(
+                                                    tags$div(id = "light-green",
+
+                                                             box(
+                                                               title = "Small business employment",
+                                                               tagList(
+                                                                 HTML("Small businesses in B.C. employed around <b>1,135,300 people</b> in 2022. This accounts for 51 per cent of private sector jobs in the province."),
+                                                                 br(),br(),
+                                                                 actionButton("explore4", "Explore small business employment", icon = icon("users"))
+                                                               ),
+                                                               width = 4
+                                                             )),
+                                                    tags$div(id = "grey",
 
 
 
-                                 box(
-                                   title = "Self-employment growth",
-                                   tagList(
-                                     HTML("In 2022, there were <b>423,800 self-employed people</b> in B.C., 0.8 per cent higher than in 2021. However, self-employment fell by 0.9 per cent compared to 2017."),
-                                   br(),br(),
-                                   actionButton("explore5", "Explore small business employment", icon = icon("users"))
-                                   ),
-                                   width = 4
-                                 )),
-                                 tags$div(id = "grey", box(
-                                   title = "Self-employment for women",
-                                   tagList(
-                                     HTML("In 2022, <b>38.3 per cent</b> of all self-employed people in B.C. were <b>women</b>, ranking fourth among provinces."),
-                                   br(),br(),
-                                   actionButton("explore6", "Explore self-employed", icon = icon("user"))
-                                   ),
-                                   width = 4
-                                 ))),
+                                                             box(
+                                                               title = "Self-employment growth",
+                                                               tagList(
+                                                                 HTML("In 2022, there were <b>423,800 self-employed people</b> in B.C., 0.8 per cent higher than in 2021. However, self-employment fell by 0.9 per cent compared to 2017."),
+                                                                 br(),br(),
+                                                                 actionButton("explore5", "Explore small business employment", icon = icon("users"))
+                                                               ),
+                                                               width = 4
+                                                             )),
+                                                    tags$div(id = "grey", box(
+                                                      title = "Self-employment for women",
+                                                      tagList(
+                                                        HTML("In 2022, <b>38.3 per cent</b> of all self-employed people in B.C. were <b>women</b>, ranking fourth among provinces."),
+                                                        br(),br(),
+                                                        actionButton("explore6", "Explore self-employed", icon = icon("user"))
+                                                      ),
+                                                      width = 4
+                                                    ))),
 
 
-                                 # row 3 of landing page boxes
-                                 fluidRow(
+                                                  # row 3 of landing page boxes
+                                                  fluidRow(
 
-                                   tags$div(id = "grey", box(
-                                   title = "Self-employment for Indigenous people",
-                                   tagList(
-                                     HTML("In 2022, only <b>9.5 per cent of all Indigenous workers were self-employed</b>, compared to a self-employment rate of 15.7 per cent for non-Indigenous workers."),
-                                   br(),br(),
-                                   actionButton("explore7", "Explore self-employed", icon = icon("user"))
-                                   ),
-                                   width = 4
-                                 )),
+                                                    tags$div(id = "grey", box(
+                                                      title = "Self-employment for Indigenous people",
+                                                      tagList(
+                                                        HTML("In 2022, only <b>9.5 per cent of all Indigenous workers were self-employed</b>, compared to a self-employment rate of 15.7 per cent for non-Indigenous workers."),
+                                                        br(),br(),
+                                                        actionButton("explore7", "Explore self-employed", icon = icon("user"))
+                                                      ),
+                                                      width = 4
+                                                    )),
 
-                                 tags$div(id = "blue", box(
-                                   title = "Small business wages",
-                                   tagList(
-                                   HTML("Small business employees earned an <b>average annual salary of $53,800</b> in 2022, around $10,300 less than the $64,100 earned by the average large business employee."),
-                                   br(),br(),
-                                   actionButton("explore8", "Explore contribution to economy", icon = icon("usd"))
-                                   ),
-                                   width = 4
-                                 )),
-                                 tags$div(id = "light-blue", box(
-                                   title = "Small business exporters",
-                                   tagList(
-                                   HTML("In 2022 there were <b>6,555</b> BC businesses with fewer than 50 employees that <b>exported goods to international destinations</b>, accounting for 86 per cent of all exporting firms."),
-                                   br(),br(),
-                                   actionButton("explore9", "Explore small business exports", icon = icon("truck"))
-                                   ),
-                                   width = 4
-                                 ))
-                               )
-                             ),
-                             ## page 1 tab ----
-                             tabItem(
-                               tabName = "page1",
-                               fluidRow(
+                                                    tags$div(id = "blue", box(
+                                                      title = "Small business wages",
+                                                      tagList(
+                                                        HTML("Small business employees earned an <b>average annual salary of $53,800</b> in 2022, around $10,300 less than the $64,100 earned by the average large business employee."),
+                                                        br(),br(),
+                                                        actionButton("explore8", "Explore contribution to economy", icon = icon("usd"))
+                                                      ),
+                                                      width = 4
+                                                    )),
+                                                    tags$div(id = "light-blue", box(
+                                                      title = "Small business exporters",
+                                                      tagList(
+                                                        HTML("In 2022 there were <b>6,555</b> BC businesses with fewer than 50 employees that <b>exported goods to international destinations</b>, accounting for 86 per cent of all exporting firms."),
+                                                        br(),br(),
+                                                        actionButton("explore9", "Explore small business exports", icon = icon("truck"))
+                                                      ),
+                                                      width = 4
+                                                    ))
+                                                  )
+                                                ),
+                                                ## page 1 tab ----
+                                                tabItem(
+                                                  tabName = "page1",
+                                                  fluidRow(
 
-                                 box(title = "Figure 1.0.0: Breakdown of businesses in British Columbia, 2022", DTOutput("datatable1"),
-                                     style = "border: 1px solid white;", width = 10
-                                 ),
-
-
+                                                    box(title = "Figure 1.0.0: Breakdown of businesses in British Columbia, 2022", DTOutput("datatable1"),
+                                                        style = "border: 1px solid white;", width = 10
+                                                    ),
 
 
-                                 box(title = "Figure 1.0.1 - Count of small businesses in British Columbia",
-                                     plotlyOutput("plot1.0.1"), width = 10,
-                                 br(),
-                                 HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
-
-                               ),
 
 
-                               box(title = "Figure 1.1 - Growth of small businesses in British Columbia",
-                                   plotlyOutput("plot1.1"), width = 10,
-                                   br(),
-                                   HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                    box(title = "Figure 1.0.1 - Count of small businesses in British Columbia",
+                                                        plotlyOutput("plot1.0.1"), width = 10,
+                                                        br(),
+                                                        HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
 
-                               ),
-
-                                 box(title = "Figure 1.2a - One, two and five-year growth of B.C. businesses by size",
-                                     width = 10,
-                                     solidHeader = TRUE,
-                                     tabsetPanel(
-                                       tabPanel("1 year", plotlyOutput("plot1.2a1"), style = "width: 4"),
-                                       tabPanel("2 year", plotlyOutput("plot1.2a2")),
-                                       tabPanel("5 year", plotlyOutput("plot1.2a3"))
-                                     ),
-                                     br(),
-                                     HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
-
-                                 ),
+                                                    ),
 
 
-                                box(title = "Figure 1.3a: Distribution of small businesses by industry, 2022",
-                                   plotlyOutput("plot1.3a"), width = 10,
-                                   br(),
-                                   HTML("<b><small><small></b> <p>Notes: Primary is comprised of the agriculture, forestry,
+                                                    box(title = "Figure 1.1 - Growth of small businesses in British Columbia",
+                                                        plotlyOutput("plot1.1"), width = 10,
+                                                        br(),
+                                                        HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+
+                                                    ),
+
+                                                    box(title = "Figure 1.2a - One, two and five-year growth of B.C. businesses by size",
+                                                        width = 10,
+                                                        solidHeader = TRUE,
+                                                        tabsetPanel(
+                                                          tabPanel("1 year", plotlyOutput("plot1.2a1"), style = "width: 4"),
+                                                          tabPanel("2 year", plotlyOutput("plot1.2a2")),
+                                                          tabPanel("5 year", plotlyOutput("plot1.2a3"))
+                                                        ),
+                                                        br(),
+                                                        HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+
+                                                    ),
+
+
+                                                    box(title = "Figure 1.3a: Distribution of small businesses by industry, 2022",
+                                                        plotlyOutput("plot1.3a"), width = 10,
+                                                        br(),
+                                                        HTML("<b><small><small></b> <p>Notes: Primary is comprised of the agriculture, forestry,
                                       fishing, mining, oil and gas industries. The total does not sum to 100% as some businesses
                                       with employees could not be classified by industry.
                                       <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
 
-                             ),
+                                                    ),
 
-                             box(title = "Figure 1.3b: Distribution of small businesses with and without employees by industry, 2022",
-                                 plotlyOutput("plot1.3b"), width = 10, br(),
-                                 HTML("<b><small><small></b> <p>Notes: Primary is comprised of the agriculture, forestry,
+                                                    box(title = "Figure 1.3b: Distribution of small businesses with and without employees by industry, 2022",
+                                                        plotlyOutput("plot1.3b"), width = 10, br(),
+                                                        HTML("<b><small><small></b> <p>Notes: Primary is comprised of the agriculture, forestry,
                                       fishing, mining, oil and gas industries. Self-employment in utilities is less than 1500. Industries
                                       do not sum to 100% as some businesses with employees could not be classified by industry.
                                       <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
-                                 ),
+                                                    ),
 
-                             box(title = "Figure 1.4: Small businesses by industry, proportions with and without employees, 2022", plotlyOutput("plot1.4"), width = 10,
-                                 br(),
-                                 HTML("<b><small><small></b> <p>Notes: Primary is comprised of the agriculture, forestry,
+                                                    box(title = "Figure 1.4: Small businesses by industry, proportions with and without employees, 2022", plotlyOutput("plot1.4"), width = 10,
+                                                        br(),
+                                                        HTML("<b><small><small></b> <p>Notes: Primary is comprised of the agriculture, forestry,
                                       fishing, mining, oil and gas industries. Utilities is not shown because the number of small businesses
                                       with employees is <200 and self-employment without paid help is very small and suppressed for confidentiality reasons.
                                       <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
 
-                               ),
+                                                    ),
 
-                             box(title = "Figure 1.5: Number of net new small businesses - fastest growing sectors in B.C, 2017-2022", plotlyOutput("plot1.5"), width = 10,
-                                 br(),
-                                 HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
+                                                    box(title = "Figure 1.5: Number of net new small businesses - fastest growing sectors in B.C, 2017-2022", plotlyOutput("plot1.5"), width = 10,
+                                                        br(),
+                                                        HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
                                       <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
-                             ),
+                                                    ),
 
-                             box(title = "Figure 1.6: Sector growth rates for number of small businesses with employees, BC, 2017-2020", plotlyOutput("plot1.6"), width = 10,
-                                 br(),
-                                 HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
+                                                    box(title = "Figure 1.6: Sector growth rates for number of small businesses with employees, BC, 2017-2020", plotlyOutput("plot1.6"), width = 10,
+                                                        br(),
+                                                        HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
                                       <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
 
 
-                                                              ),
+                                                    ),
 
-                             box(title = "Figure 1.7: Small businesses per capita by province, 2022", plotlyOutput("plot1.7"), width = 10,
-                                 br(),
-                                 HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                    box(title = "Figure 1.7: Small businesses per capita by province, 2022", plotlyOutput("plot1.7"), width = 10,
+                                                        br(),
+                                                        HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
 
-                                                              ),
+                                                    ),
 
-                             box(title = "Figure 1.8: Small business growth by province, 2022", plotlyOutput("plot1.8"), width = 10,
-                                 br(),
-                                 HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                    box(title = "Figure 1.8: Small business growth by province, 2022", plotlyOutput("plot1.8"), width = 10,
+                                                        br(),
+                                                        HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
 
-                             ),
+                                                    ),
 
-                             box(title = "Figure 1.9: Small business and population distribution by region in British Columbia, 2022", plotOutput("plot1.9", height = "470px"), width = 10,
-                                 br(),
-                                 HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                    box(title = "Figure 1.9: Small business and population distribution by region in British Columbia, 2022", plotOutput("plot1.9", height = "470px"), width = 10,
+                                                        br(),
+                                                        HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
 
-                             ),
+                                                    ),
 
-                             box(title = "Figure 1.10: Small businesses per 1,000 persons", plotlyOutput("plot1.10"), width = 10,
-                                 br(),
-                                 HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
-
-
-                             ),
-
-                             box(title = "Figure 1.11a: Small businesses by region, 2022", plotlyOutput("plot1.11a"), width = 10,
-                                 br(),
-                                 HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                    box(title = "Figure 1.10: Small businesses per 1,000 persons", plotlyOutput("plot1.10"), width = 10,
+                                                        br(),
+                                                        HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
 
 
-                             ),
-                             box(title = "Figure 1.11b: Small businesses by region, growth 2017-2022", plotlyOutput("plot1.11b"), width = 10,
-                                 br(),
-                                 HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                    ),
+
+                                                    box(title = "Figure 1.11a: Small businesses by region, 2022", plotlyOutput("plot1.11a"), width = 10,
+                                                        br(),
+                                                        HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
 
 
-                             )
-
-                           )),
-
-
-
-                           ## page 2 tab ----
-                           tabItem(
-                               tabName = "page2",
-                               fluidRow(
-
-                                 box(title = "Figure 2.0.0: asfdsafa, 2022", DTOutput("datatable2"),
-                                     style = "border: 1px solid white;", width = 10
-                                 ),
+                                                    ),
+                                                    box(title = "Figure 1.11b: Small businesses by region, growth 2017-2022", plotlyOutput("plot1.11b"), width = 10,
+                                                        br(),
+                                                        HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
 
 
-                                 box(title = "Figure 2.1 Share of total employment in British Columbia, 2022", plotlyOutput("plot2.1"), width = 10,
-                                     br(),
-                                     HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                    )
 
-                                 ),
+                                                  )),
 
 
 
-                                 box(title = "Figure 2.3: Share of employment by establishment size, 2022", plotlyOutput("plot2.3"), width = 10,
-                                     br(),
-                                     HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                ## page 2 tab ----
+                                                tabItem(
+                                                  tabName = "page2",
+                                                  fluidRow(
 
-                                 ),
+                                                    box(title = "Figure 2.0.0: asfdsafa, 2022", DTOutput("datatable2"),
+                                                        style = "border: 1px solid white;", width = 10
+                                                    ),
 
 
-                                 box(title = "Figure 2.4b: Year-over-year growth in private sector employment", plotlyOutput("plot2.4b"), width = 10,
-                                     br(),
-                                     HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                    box(title = "Figure 2.1 Share of total employment in British Columbia, 2022", plotlyOutput("plot2.1"), width = 10,
+                                                        br(),
+                                                        HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
 
-                                 ),
+                                                    ),
 
-                                 box(title = "Figure 2.5a: One-year small business employment change, by province, 2020-2021", plotlyOutput("plot2.5a"), width = 10,
-                                     br(),
-                                     HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
 
-                                 ),
 
-                                 box(title = "Figure 2.5b: Five-year small business employment change by province, 2017-2022", plotlyOutput("plot2.5b"), width = 10,
-                                     br(),
-                                     HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                    box(title = "Figure 2.3: Share of employment by establishment size, 2022", plotlyOutput("plot2.3"), width = 10,
+                                                        br(),
+                                                        HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
 
-                                 )
-#
-#                                  box(title = "Figure 2.6: Small Business as a percent of private-sector employment by province, 2017-2022", plotlyOutput("plot2.6"), width = 10,
-#                                      br(),
-#                                      HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
-#
-#                                  ),
-#
-#
-#                                  box(title = "Figure 2.7a: Five-year small business employment change by province, 2017-2022", plotlyOutput("plot2.7b"), width = 10,
-#                                      br(),
-#                                      HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
-#
-#                                  ),
-#
-#
-#                                  box(title = "Figure 2.7b: Five-year small business employment change by province, 2017-2022", plotlyOutput("plot2.7b"), width = 10,
-#                                      br(),
-#                                      HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
-#
-                                 )
-                             ),
+                                                    ),
 
-                           ## page 3 tab ----
-                           tabItem(
-                               tabName = "page3",
-                               fluidRow(
 
-                                 box(title = "Figure 3.2: Number of self-employed with paid help compared to self-employed without paid help, British Columbia, 2017-2022, by age", plotlyOutput("plot3.2"), width = 10,
-                                     br(),
-                                     HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
+                                                    box(title = "Figure 2.4b: Year-over-year growth in private sector employment", plotlyOutput("plot2.4b"), width = 10,
+                                                        br(),
+                                                        HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+
+                                                    ),
+
+                                                    box(title = "Figure 2.5a: One-year small business employment change, by province, 2020-2021", plotlyOutput("plot2.5a"), width = 10,
+                                                        br(),
+                                                        HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+
+                                                    ),
+
+                                                    box(title = "Figure 2.5b: Five-year small business employment change by province, 2017-2022", plotlyOutput("plot2.5b"), width = 10,
+                                                        br(),
+                                                        HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+
+                                                    ),
+
+                                                    box(title = "Figure 2.6: Small Business as a percent of private-sector employment by province, 2017-2022", plotlyOutput("plot2.6"), width = 10,
+                                                    br(),
+                                                    HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+
+                                                    ),
+
+
+                                                     box(title = "Figure 2.7a: Five-year small business employment change by province, 2017-2022", plotlyOutput("plot2.7a"), width = 10,
+                                                     br(),
+                                                     HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+
+                                                    ),
+
+                                                    box(title = "Figure 2.7b: Five-year small business employment change by province, 2017-2022", plotlyOutput("plot2.7b"), width = 10,
+                                                        br(),
+                                                        HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+
+                                                    ),
+
+
+                                                    box(title = "Figure 2.7c: Five-year small business employment change by province, 2017-2022", plotlyOutput("plot2.7c"), width = 10,
+                                                        br(),
+                                                        HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+
+                                                    )
+
+
+                                                    #
+                                                    #
+                                                    #                                  box(title = "Figure 2.7b: Five-year small business employment change by province, 2017-2022", plotlyOutput("plot2.7b"), width = 10,
+                                                    #                                      br(),
+                                                    #                                      HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                    #
+                                                  )
+                                                ),
+
+                                                ## page 3 tab ----
+                                                tabItem(
+                                                  tabName = "page3",
+                                                  fluidRow(
+
+                                                    box(title = "Figure 3.2: Number of self-employed with paid help compared to self-employed without paid help, British Columbia, 2017-2022, by age", plotlyOutput("plot3.2"), width = 10,
+                                                        br(),
+                                                        HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
                                       <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
-                                 ),
+                                                    ),
 
-                                 box(title = "Figure 3.3a: Age distribution of self-employed workers compared to employees, British Columbia, 2022", plotlyOutput("plot3.3a"), width = 10,
-                                     br(),
-                                     HTML("<b><small><small></b> <p>Notes: Figures do not add to 100% due to rounding.
+                                                    box(title = "Figure 3.3a: Age distribution of self-employed workers compared to employees, British Columbia, 2022", plotlyOutput("plot3.3a"), width = 10,
+                                                        br(),
+                                                        HTML("<b><small><small></b> <p>Notes: Figures do not add to 100% due to rounding.
                                       <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
-                                 ),
+                                                    ),
 
-                               box(title = "Figure 3.3b: Share of British Columbian workers who are self-employed, by age", plotlyOutput("plot3.3b"), width = 10,
-                                   br(),
-                                   HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
+                                                    box(title = "Figure 3.3b: Share of British Columbian workers who are self-employed, by age", plotlyOutput("plot3.3b"), width = 10,
+                                                        br(),
+                                                        HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
                                       <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
-                               ),
-                               box(title = "Figure 3.4: Proportion of self-employed who are women by province, 2022", plotlyOutput("plot3.4"), width = 10,
-                                   br(),
-                                   HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
+                                                    ),
+                                                    box(title = "Figure 3.4: Proportion of self-employed who are women by province, 2022", plotlyOutput("plot3.4"), width = 10,
+                                                        br(),
+                                                        HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
                                       <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
-                               ),
-                               box(title = "Area Chart", plotlyOutput("area_chart"), width = 6)
-                           ),
+                                                    ),
+                                                    box(title = "Area Chart", plotlyOutput("area_chart"), width = 6)
+                                                  ),
 
-                               fluidRow(
-                                 box(title = "Static Table", DTOutput("static_table"))
-                               )
-                             ) ## end of tab 4
+                                                  fluidRow(
+                                                    box(title = "Static Table", DTOutput("static_table"))
+                                                  )
+                                                ) ## end of tab 4
 
-                           ), ## end of tabs
-                           ), ## end of dashboard body
-                       ) ## end of dashboard page
-                   )),
+                                              ), ## end of tabs
+                                            ), ## end of dashboard body
+                              ) ## end of dashboard page
+             )),
 
-  bcsapps::bcsFooterUI(id = 'footer')
+      bcsapps::bcsFooterUI(id = 'footer')
 
 
 
-  ))
+    ))
 
 
 # Define server logic
@@ -444,21 +459,21 @@ server <- function(input, output, session) {
                      light_blue =  "#92b5d2", med_blue = "#0e83b0", dark_blue = "#015082",
                      navy = "#143047")
   custom_colors_rgb <- list(yellow= c(252,184,20), light_green = c(149,193,178), green = c(21,152,123),
-                         light_blue=c(146,181,210), med_blue=c(14,131,176), dark_blue = c(1,80,130),
-                         navy = c(20,48,71))
+                            light_blue=c(146,181,210), med_blue=c(14,131,176), dark_blue = c(1,80,130),
+                            navy = c(20,48,71))
 
 
 
-#datatable1.0.0----
+  #datatable1.0.0----
 
   # Render the table
   output$datatable1 <- renderDT({
     # Create your dataframe with the desired data
     table_data <- data$data_11
-  # Create the datatable
+    # Create the datatable
     datatable(table_data,
               rownames = FALSE,
-             ## colnames = c("", "Number of businesses", "Per cent of all businesses*", "Per cent of small businesses*"),
+              ## colnames = c("", "Number of businesses", "Per cent of all businesses*", "Per cent of small businesses*"),
               ## change default class (table-striped) to cell-border (borders around all cells, no striping)
               class = 'cell-border',
               options = list(
@@ -507,16 +522,16 @@ server <- function(input, output, session) {
     data_001 <- data$data_001
 
     data_001$Type <- factor(data_001$Type, levels = rev(c("Small businesses without employees (Self-employed without paid help)",
-                                                            "Small businesses with employees (Fewer than 50)",
-                                                            "Large Businesses (Businesses with 50 or more)")))
+                                                          "Small businesses with employees (Fewer than 50)",
+                                                          "Large Businesses (Businesses with 50 or more)")))
 
     footnote <- "Source: Statistics Canada / Prepared by BC Stats"
 
     plot1.0.1 <- plot_ly(data_001, y = ~Type, x = data_001$`Percentage`, type = "bar", marker = list(color = custom_colors), orientation = 'h')
 
     plot1.0.1 <- plot1.0.1 %>% layout(title = '',
-                                    yaxis = list(title = ''),
-                                    showlegend = FALSE
+                                      yaxis = list(title = ''),
+                                      showlegend = FALSE
     )
 
 
@@ -536,7 +551,7 @@ server <- function(input, output, session) {
 
     # Create the stacked bar chart with custom colors
     plot1.1 <- plot_ly(data$data_09, x = ~years, y = ~count, color = ~category, type = "bar", textposition = 'inside',
-                    colors = custom_colors) %>%
+                       colors = custom_colors) %>%
       layout(title = "",
              xaxis = list(title = "Years"),
              yaxis = list(title = "Employee Count"),
@@ -554,25 +569,25 @@ server <- function(input, output, session) {
   # plot1.2a1 ----
 
   output$plot1.2a1 <- renderPlotly({
-  # Create the plot
-  plot1.2a1 <- plot_ly(data = data$data_10, x = ~`1-yr growth rate`, y = ~`employee count`, type = "bar",
-                  orientation = "h",  colors = c("red", "green"),
-                  hoverinfo = "x", width = 600, height = 400)
+    # Create the plot
+    plot1.2a1 <- plot_ly(data = data$data_10, x = ~`1-yr growth rate`, y = ~`employee count`, type = "bar",
+                         orientation = "h",  colors = c("red", "green"),
+                         hoverinfo = "x", width = 600, height = 400)
 
-  # Customize the layout
-  layout <- list(
-    xaxis = list(title = "1 Yr"),
-    yaxis = list(title = ""),
-    barmode = "relative",
-    bargap = 0.1,
-    autosize = TRUE
-  )
+    # Customize the layout
+    layout <- list(
+      xaxis = list(title = "1 Yr"),
+      yaxis = list(title = ""),
+      barmode = "relative",
+      bargap = 0.1,
+      autosize = TRUE
+    )
 
-  # Combine the plot and layout
-  plot1.2a1 <- plot1.2a1 %>% layout(layout)
+    # Combine the plot and layout
+    plot1.2a1 <- plot1.2a1 %>% layout(layout)
 
-  # Display the plot
-  plot1.2a1
+    # Display the plot
+    plot1.2a1
 
   })
 
@@ -630,39 +645,39 @@ server <- function(input, output, session) {
   })
 
 
-# plot1.3a ----
+  # plot1.3a ----
 
-output$plot1.3a <- renderPlotly({
+  output$plot1.3a <- renderPlotly({
 
-data_12 <- data$data_12
+    data_12 <- data$data_12
 
-data_12$type <-factor(data_12$type, levels = rev(c("Construction", "Primary*", "Manufacturing", "Utilities",
-                                                   "Professional, scientific and technical services",
-                                                   "Health & Social Services", "Finance, Insurance & Real Estate",
-                                                   "Trade", "Other Services", "Transportation & Storage",
-                                                   "Business, building, and other supports",
-                                                   "Information, Culture & Recreation", "Accomodation & Food")))
+    data_12$type <-factor(data_12$type, levels = rev(c("Construction", "Primary*", "Manufacturing", "Utilities",
+                                                       "Professional, scientific and technical services",
+                                                       "Health & Social Services", "Finance, Insurance & Real Estate",
+                                                       "Trade", "Other Services", "Transportation & Storage",
+                                                       "Business, building, and other supports",
+                                                       "Information, Culture & Recreation", "Accomodation & Food")))
 
-plot1.3a <- plot_ly(data_12, x = ~number, type = "bar", y = ~type,
-                         marker = list(color = "#005182"), name = "",
-                                                   orientation = 'h')
+    plot1.3a <- plot_ly(data_12, x = ~number, type = "bar", y = ~type,
+                        marker = list(color = "#005182"), name = "",
+                        orientation = 'h')
 
-plot1.3a <- layout(plot1.3a,
-                  legend = list(orientation = "h", x = -2, y = 1.2),
-                  xaxis = list(tickformat = '.0')
-)
+    plot1.3a <- layout(plot1.3a,
+                       legend = list(orientation = "h", x = -2, y = 1.2),
+                       xaxis = list(tickformat = '.0')
+    )
 
-# Display the plot
-   plot1.3a
+    # Display the plot
+    plot1.3a
   })
 
 
 
 
 
-# plot1.3b ----
+  # plot1.3b ----
 
-output$plot1.3b <- renderPlotly({
+  output$plot1.3b <- renderPlotly({
 
     data_13_result <- data$data_13
     data_13_result <- data_13_result[order(data_13_result$`Small businesses with no paid employees`),]
@@ -672,21 +687,21 @@ output$plot1.3b <- renderPlotly({
     plot1.3b <- plot_ly(data_13_result, x = data_13_result$`Small businesses with no paid employees`,
                         y = data_13_result$segment,
 
-                          name = 'Small businesses with no paid employees (Total 299,800, 59%)',
-                          marker = list(color = "#005182"),
-                          type = "bar",
+                        name = 'Small businesses with no paid employees (Total 299,800, 59%)',
+                        marker = list(color = "#005182"),
+                        type = "bar",
                         orientation = 'h') %>%
 
-                add_trace(y = data_13_result$segment, x = data_13_result$`Small businesses with 1-49 employee`,
-                          name = 'Small businesses with 1-49 employees (Total 204,300, 37%)', type = 'bar',
-                          marker = list(color = "#FDB813")
-                          )
+      add_trace(y = data_13_result$segment, x = data_13_result$`Small businesses with 1-49 employee`,
+                name = 'Small businesses with 1-49 employees (Total 204,300, 37%)', type = 'bar',
+                marker = list(color = "#FDB813")
+      )
     plot1.3b <- layout(plot1.3b,
-                         legend = list(orientation = "h", x = -2, y = 1.2),
-                        xaxis = list(tickformat = '.0')
+                       legend = list(orientation = "h", x = -2, y = 1.2),
+                       xaxis = list(tickformat = '.0')
 
 
-)
+    )
 
 
 
@@ -698,21 +713,21 @@ output$plot1.3b <- renderPlotly({
 
 
 
-# plot1.4----
+  # plot1.4----
 
-output$plot1.4 <- renderPlotly({
+  output$plot1.4 <- renderPlotly({
 
     data_14 <- data$data_14[order(-data$data_14$`1-49 employees`),  ]
     data_14$Category <- factor(data_14$Category, levels = rev(data_14$Category))
 
     plot1.4<- plot_ly(data_14, y = data_14$Category, type = "bar", x = data_14$`No paid employees`, marker = list(color = "#005182"), name = "No paid employees", orientation = 'h')
     plot1.4 <- add_trace(plot1.4, x = data_14$`1-49 employees`, name = "1-49 employees", marker = list(color = "#FDB813"),
-    plot1.4 <- layout(plot1.4, barmode = "stack")
+                         plot1.4 <- layout(plot1.4, barmode = "stack")
 
-)
+    )
     plot1.4 <- layout(plot1.4,
-                       legend = list(orientation = "h", x = -2, y = 1.2),
-                       xaxis = list(tickformat = '.0')
+                      legend = list(orientation = "h", x = -2, y = 1.2),
+                      xaxis = list(tickformat = '.0')
 
 
     )
@@ -723,139 +738,139 @@ output$plot1.4 <- renderPlotly({
     plot1.4
   })
 
-# plot 1.5----
-      output$plot1.5 <- renderPlotly({
+  # plot 1.5----
+  output$plot1.5 <- renderPlotly({
 
-        data_15 <- data$data_15
+    data_15 <- data$data_15
 
-      data_15$type <-factor(data_15$type, levels = rev(c("Professional, scientific and technical services", "Specialty trade contractors",
-                                                           "Ambulatory health care services", "Real estate", "Social assistance",
-                                                           "Non-Standard Sectors", "High tech total", "Tourism", "Secondary manufacturing")))
+    data_15$type <-factor(data_15$type, levels = rev(c("Professional, scientific and technical services", "Specialty trade contractors",
+                                                       "Ambulatory health care services", "Real estate", "Social assistance",
+                                                       "Non-Standard Sectors", "High tech total", "Tourism", "Secondary manufacturing")))
 
-      plot1.5 <- plot_ly(data_15, x = ~number, type = "bar", y = ~type,
-                         marker = list(color = "#005182"), name = "adsfadsf",
-                         orientation = 'h')
-
-
-      plot1.5 <- layout(plot1.5,
-                        legend = list(orientation = "h", x = -2, y = 1.2),
-                        xaxis = list(tickformat = '.0')
-      )
+    plot1.5 <- plot_ly(data_15, x = ~number, type = "bar", y = ~type,
+                       marker = list(color = "#005182"), name = "adsfadsf",
+                       orientation = 'h')
 
 
+    plot1.5 <- layout(plot1.5,
+                      legend = list(orientation = "h", x = -2, y = 1.2),
+                      xaxis = list(tickformat = '.0')
+    )
 
 
 
-      # Display the plot
-      plot1.5
+
+
+    # Display the plot
+    plot1.5
   })
 
-      # plot 1.6----
+  # plot 1.6----
 
-      output$plot1.6 <- renderPlotly({
+  output$plot1.6 <- renderPlotly({
 
-        data_16 <- data$data_16
+    data_16 <- data$data_16
 
-        data_16$type <-factor(data_16$type, levels = rev(c("Beverage and tobacco product manufacturing", "Social assistance",
-                                                           "Motion picture and sound recording industries", "Private households",
-                                                           "Couriers and messengers", "Non-Standard Sectors", "High Technology", "Tourism",
-                                                           "Secondary Manufacturing")))
+    data_16$type <-factor(data_16$type, levels = rev(c("Beverage and tobacco product manufacturing", "Social assistance",
+                                                       "Motion picture and sound recording industries", "Private households",
+                                                       "Couriers and messengers", "Non-Standard Sectors", "High Technology", "Tourism",
+                                                       "Secondary Manufacturing")))
 
-        plot1.6 <- plot_ly(data_16, x = ~number, type = "bar", y = ~type,
-                           marker = list(color = "#005182"), name = "adsfadsf",
-                           orientation = 'h')
-
-
-        plot1.6 <- layout(plot1.6,
-                          legend = list(orientation = "h", x = -2, y = 1.2),
-                          xaxis = list(tickformat = '.0',
-                                       title = ""))
-        # Display the plot
-        plot1.6
-      })
+    plot1.6 <- plot_ly(data_16, x = ~number, type = "bar", y = ~type,
+                       marker = list(color = "#005182"), name = "adsfadsf",
+                       orientation = 'h')
 
 
-
-# plot1.7----
-output$plot1.7 <- renderPlotly({
-
-        ## divide by 100 to be able to make y-axis percents
-        canada_average <- 0.823
-
-        plot_data <- data$data_17 %>%
-          mutate(Label = paste0(round_half_up(Percent, digits = 1), "%"),
-                 Percent = Percent/ 100,
-                 Province = factor(Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
-                                                        "NB", "NS", "PEI", "NL")),
-                 selected_color = ifelse(Province == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
-
-        footnote <- "Source: Statistics Canada / Prepared by BC Stats"
-
-        plot1.7 <- plot_ly(plot_data,
-                           x = ~Province,
-                           y = ~Percent,
-                           type = "bar",
-                           marker = list(color = ~selected_color),
-                           text = ~paste(Province,":",Label),
-                           textposition = "none",
-                           hoverinfo = 'text') %>%
-          layout(xaxis = list(title = ""),
-                 yaxis = list(title = "", tickformat = "0%"), ## make y-axis percents
-                 shapes = list(hline(canada_average))) %>% ## add line
-          add_annotations( ## add canadian average text
-            x = 0.01,
-            y = 0.99,
-            text = "— Canadian Average 82.3%",
-            xref = "paper",
-            yref = "paper",
-            xanchor = "left",
-            yanchor = "bottom",
-            showarrow = F
-          )
-
-      })
+    plot1.6 <- layout(plot1.6,
+                      legend = list(orientation = "h", x = -2, y = 1.2),
+                      xaxis = list(tickformat = '.0',
+                                   title = ""))
+    # Display the plot
+    plot1.6
+  })
 
 
-      # plot1.8----
-      output$plot1.8 <- renderPlotly({
 
-        ## divide by 100 to be able to make y-axis percents
-        canada_average <- 0.015
+  # plot1.7----
+  output$plot1.7 <- renderPlotly({
 
-        plot_data <- data$data_18 %>%
-          mutate(Label = paste0(round_half_up(Percent, digits = 1), "%"),
-                 Percent = Percent/ 100,
-                 Province = factor(Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
-                                                        "NB", "NS", "PEI", "NL")),
-                 selected_color = ifelse(Province == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
+    ## divide by 100 to be able to make y-axis percents
+    canada_average <- 0.823
 
-        footnote <- "Source: Statistics Canada / Prepared by BC Stats"
+    plot_data <- data$data_17 %>%
+      mutate(Label = paste0(round_half_up(Percent, digits = 1), "%"),
+             Percent = Percent/ 100,
+             Province = factor(Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
+                                                    "NB", "NS", "PEI", "NL")),
+             selected_color = ifelse(Province == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
 
-        plot1.8 <- plot_ly(plot_data,
-                           x = ~Province,
-                           y = ~Percent,
-                           type = "bar",
-                           marker = list(color = ~selected_color),
-                           text = ~paste(Province,":",Label),
-                           textposition = "none",
-                           hoverinfo = 'text') %>%
-          layout(xaxis = list(title = ""),
-                 yaxis = list(title = "", tickformat = "0%"), ## make y-axis percents
-                 shapes = list(hline(canada_average))) %>% ## add line
-          add_annotations( ## add canadian average text
-            x = 0.01,
-            y = 0.99,
-            text = "— Canadian Average 1.5%",
-            xref = "paper",
-            yref = "paper",
-            xanchor = "left",
-            yanchor = "bottom",
-            showarrow = F
-          )
+    footnote <- "Source: Statistics Canada / Prepared by BC Stats"
 
-      })
+    plot1.7 <- plot_ly(plot_data,
+                       x = ~Province,
+                       y = ~Percent,
+                       type = "bar",
+                       marker = list(color = ~selected_color),
+                       text = ~paste(Province,":",Label),
+                       textposition = "none",
+                       hoverinfo = 'text') %>%
+      layout(xaxis = list(title = ""),
+             yaxis = list(title = "", tickformat = "0%"), ## make y-axis percents
+             shapes = list(hline(canada_average))) %>% ## add line
+      add_annotations( ## add canadian average text
+        x = 0.01,
+        y = 0.99,
+        text = "— Canadian Average 82.3%",
+        xref = "paper",
+        yref = "paper",
+        xanchor = "left",
+        yanchor = "bottom",
+        showarrow = F
+      )
 
-      # plot1.9 ----
+  })
+
+
+  # plot1.8----
+  output$plot1.8 <- renderPlotly({
+
+    ## divide by 100 to be able to make y-axis percents
+    canada_average <- 0.015
+
+    plot_data <- data$data_18 %>%
+      mutate(Label = paste0(round_half_up(Percent, digits = 1), "%"),
+             Percent = Percent/ 100,
+             Province = factor(Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
+                                                    "NB", "NS", "PEI", "NL")),
+             selected_color = ifelse(Province == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
+
+    footnote <- "Source: Statistics Canada / Prepared by BC Stats"
+
+    plot1.8 <- plot_ly(plot_data,
+                       x = ~Province,
+                       y = ~Percent,
+                       type = "bar",
+                       marker = list(color = ~selected_color),
+                       text = ~paste(Province,":",Label),
+                       textposition = "none",
+                       hoverinfo = 'text') %>%
+      layout(xaxis = list(title = ""),
+             yaxis = list(title = "", tickformat = "0%"), ## make y-axis percents
+             shapes = list(hline(canada_average))) %>% ## add line
+      add_annotations( ## add canadian average text
+        x = 0.01,
+        y = 0.99,
+        text = "— Canadian Average 1.5%",
+        xref = "paper",
+        yref = "paper",
+        xanchor = "left",
+        yanchor = "bottom",
+        showarrow = F
+      )
+
+  })
+
+  # plot1.9 ----
 
   output$plot1.9 <- renderPlot({
 
@@ -875,7 +890,7 @@ output$plot1.7 <- renderPlotly({
                    ##northcoast, vi, mainland, cariboo, kootenay, t-o, northeast
                    nudge_x = c(120000,-280000,150000,-90000,0,-10000,20000),
                    nudge_y = c(-190000,-120000,-180000,-100000,-50000,20000,0)
-                   ) +
+      ) +
       scale_fill_manual(values = custom_colors %>% unname()) +
       scale_color_manual(values = c(white = "white", black = "black")) +
       theme_void() +
@@ -888,54 +903,20 @@ output$plot1.7 <- renderPlotly({
 
 
 
-      # plot1.10----
-      output$plot1.10 <- renderPlotly({
+  # plot1.10----
+  output$plot1.10 <- renderPlotly({
 
-        data_20 <- data$data_20
+    data_20 <- data$data_20
 
-        data_20$region <- factor(data_20$region, levels = rev(c("Cariboo", "Kootenay", "North Coast & Nechako",
-                                                                "Vancouver Island/ Coast", "Northeast",
-                                                                "Thompson - Okanagan", "Mainland/ Southwest")))
-
-        footnote <- "Source: Statistics Canada / Prepared by BC Stats"
-
-        plot1.10 <- plot_ly(data_20, y = ~region, x = data_20$`Total, 2022`, type = "bar", marker = list(color = custom_colors), orientation = 'h')
-
-        plot1.10 <- plot1.10 %>% layout(title = '',
-                                      yaxis = list(title = 'Value'),
-                                      showlegend = FALSE
-        )
-
-
-      })
-
-
-  # plot1.11a----
-  output$plot1.11a <- renderPlotly({
-
-    data_21 <- data$data_21
-
-    data_21$region <- factor(data_21$region, levels = rev(c(   "Provincial Total",
-                                                                "Mainland/Southwest",
-                                                                "Vancouver Island/Coast",
-                                                                "Thompson-Okanagan",
-                                                                "Kootenay",
-                                                                "Cariboo",
-                                                                "North Coast & Nechako",
-                                                                "Northeast")))
-
-
-
-
-
-
-
+    data_20$region <- factor(data_20$region, levels = rev(c("Cariboo", "Kootenay", "North Coast & Nechako",
+                                                            "Vancouver Island/ Coast", "Northeast",
+                                                            "Thompson - Okanagan", "Mainland/ Southwest")))
 
     footnote <- "Source: Statistics Canada / Prepared by BC Stats"
 
-    plot1.11a <- plot_ly(data_21, y = ~region, x = data_21$`Total, 2022`, type = "bar", marker = list(color = custom_colors), orientation = 'h')
+    plot1.10 <- plot_ly(data_20, y = ~region, x = data_20$`Total, 2022`, type = "bar", marker = list(color = custom_colors), orientation = 'h')
 
-    plot1.11a <- plot1.11a %>% layout(title = '',
+    plot1.10 <- plot1.10 %>% layout(title = '',
                                     yaxis = list(title = 'Value'),
                                     showlegend = FALSE
     )
@@ -943,12 +924,13 @@ output$plot1.7 <- renderPlotly({
 
   })
 
-  # plot1.11b----
-  output$plot1.11b <- renderPlotly({
 
-    data_21 <- data$data_21
+  # plot1.11a----
+  output$plot1.11a <- renderPlotly({
 
-    data_21$region <- factor(data_21$region, levels = rev(c(   "Provincial Total",
+    data_21a <- data$data_21a
+
+    data_21a$region <- factor(data_21a$region, levels = rev(c(   "Provincial Total",
                                                                "Mainland/Southwest",
                                                                "Vancouver Island/Coast",
                                                                "Thompson-Okanagan",
@@ -966,9 +948,42 @@ output$plot1.7 <- renderPlotly({
 
     footnote <- "Source: Statistics Canada / Prepared by BC Stats"
 
-    plot1.11b <- plot_ly(data_21, y = ~region, x = data_21$`Growth rate`, type = "bar", marker = list(color = custom_colors), orientation = 'h')
+    plot1.11a <- plot_ly(data_21a, y = ~region, x = data_21a$`Total, 2022`, type = "bar", marker = list(color = custom_colors), orientation = 'h')
 
-    plot1.11b <- plot1.11a %>% layout(title = '',
+    plot1.11a <- plot1.11a %>% layout(title = '',
+                                      yaxis = list(title = 'Value'),
+                                      showlegend = FALSE
+    )
+
+
+  })
+
+  # plot1.11b----
+  output$plot1.11b <- renderPlotly({
+
+    data_21b <- data$data_21b
+
+    data_21b$region <- factor(data_21b$region, levels = rev(c(   "Provincial Total",
+                                                               "Mainland/Southwest",
+                                                               "Vancouver Island/Coast",
+                                                               "Thompson-Okanagan",
+                                                               "Kootenay",
+                                                               "Cariboo",
+                                                               "North Coast & Nechako",
+                                                               "Northeast")))
+
+
+
+
+
+
+
+
+    footnote <- "Source: Statistics Canada / Prepared by BC Stats"
+
+    plot1.11b <- plot_ly(data_21b, y = ~region, x = data_21b$`Growth rate`, type = "bar", marker = list(color = custom_colors), orientation = 'h')
+
+    plot1.11b <- plot1.11b %>% layout(title = '',
                                       yaxis = list(title = 'Value'),
                                       showlegend = FALSE
     )
@@ -978,18 +993,18 @@ output$plot1.7 <- renderPlotly({
 
 
 
-#datatable2.0----
+  #datatable2.0----
 
-# Render the table
+  # Render the table
   output$datatable2 <- renderDT({
 
-# Create your dataframe with the desired data
+    # Create your dataframe with the desired data
 
-   table_data2 <- data$data_21a
+    table_data2 <- data$data_21a
 
 
 
-# Create the datatable
+    # Create the datatable
     datatable(table_data2,
               rownames = FALSE,
               colnames = c("...1", "Employment", "Per cent of small business", "Per cent of private sector",
@@ -1037,26 +1052,26 @@ output$plot1.7 <- renderPlotly({
   })
 
 
-# plot2.1 ----
-output$plot2.1 <- renderPlotly({
+  # plot2.1 ----
+  output$plot2.1 <- renderPlotly({
 
     data_22 <- data$data_22
 
     data_22$sector <- factor(data_22$sector, levels = rev(c("Small Business",
-                                                          "Large Business",
-                                                          "Public Sector")))
+                                                            "Large Business",
+                                                            "Public Sector")))
 
     footnote <- "Source: Statistics Canada / Prepared by BC Stats"
 
     plot2.1 <- plot_ly(data_22, y = ~sector, x = data_22$`%`, type = "bar", marker = list(color = custom_colors), orientation = 'h')
 
     plot2.1 <- plot2.1 %>% layout(title = '',
-                                      yaxis = list(title = ''),
-                                      showlegend = FALSE
+                                  yaxis = list(title = ''),
+                                  showlegend = FALSE
     )
 
 
-})
+  })
 
   # plot2.3 ----
   output$plot2.3 <- renderPlotly({
@@ -1101,10 +1116,10 @@ output$plot2.1 <- renderPlotly({
     custom_colors1 <- custom_colors[c("yellow", "med_blue", "dark_blue")] %>% unname()
 
     plot2.4b <- plot_ly(df_long1, y = ~value, x = ~years, color = ~Category,
-                       type = "bar", orientation = 'v', colors = custom_colors1,
-                       text = ~paste(Category, ":", format(value, big.mark = ",")),
-                       textposition = "none",
-                       hoverinfo = 'text') %>%
+                        type = "bar", orientation = 'v', colors = custom_colors1,
+                        text = ~paste(Category, ":", format(value, big.mark = ",")),
+                        textposition = "none",
+                        hoverinfo = 'text') %>%
       layout(title = "",
              yaxis = list(title = ""),
              xaxis = list(title = ""),
@@ -1137,7 +1152,7 @@ output$plot2.1 <- renderPlotly({
     ## divide by 100 to be able to make y-axis percents
     canada_average <- .018
 
-     plot_data <- data$data_27 %>%
+    plot_data <- data$data_27 %>%
       mutate(Label = paste0(round_half_up(Percent, digits = 1), "%"),
              Percent = Percent/ 100,
              Province = factor(Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
@@ -1147,13 +1162,13 @@ output$plot2.1 <- renderPlotly({
     footnote <- "Source: Statistics Canada / Prepared by BC Stats"
 
     plot2.5a <- plot_ly(plot_data,
-                       x = ~Province,
-                       y = ~Percent,
-                       type = "bar",
-                       marker = list(color = ~selected_color),
-                       text = ~paste(Province,":",Label),
-                       textposition = "none",
-                       hoverinfo = 'text') %>%
+                        x = ~Province,
+                        y = ~Percent,
+                        type = "bar",
+                        marker = list(color = ~selected_color),
+                        text = ~paste(Province,":",Label),
+                        textposition = "none",
+                        hoverinfo = 'text') %>%
       layout(xaxis = list(title = ""),
              yaxis = list(title = "", tickformat = "0%"), ## make y-axis percents
              shapes = list(hline(canada_average))) %>% ## add line
@@ -1229,13 +1244,13 @@ output$plot2.1 <- renderPlotly({
     footnote <- "Source: Statistics Canada / Prepared by BC Stats"
 
     plot2.6 <- plot_ly(plot_data,
-                        x = ~Province,
-                        y = ~Percent,
-                        type = "bar",
-                        marker = list(color = ~selected_color),
-                        text = ~paste(Province,":",Label),
-                        textposition = "none",
-                        hoverinfo = 'text') %>%
+                       x = ~Province,
+                       y = ~Percent,
+                       type = "bar",
+                       marker = list(color = ~selected_color),
+                       text = ~paste(Province,":",Label),
+                       textposition = "none",
+                       hoverinfo = 'text') %>%
       layout(xaxis = list(title = ""),
              yaxis = list(title = "", tickformat = "0%"), ## make y-axis percents
              shapes = list(hline(canada_average))) %>% ## add line
@@ -1253,11 +1268,112 @@ output$plot2.1 <- renderPlotly({
   })
 
 
+  # plot2.7a----
+  output$plot2.7a <- renderPlotly({
+
+    data_30 <- data$data_30
+
+    custom_colors2 <- c(yellow= "#fcb814",navy = "#143047")
+
+    data_30$area <- factor(data_30$area, levels = rev(c(    "Arts, entertainment and recreation",
+                                                                "Accommodation and food services",
+                                                                "Management of companies and enterprises",
+                                                                "Information and cultural industries",
+                                                                "Transportation and warehousing",
+                                                                "Wholesale trade",
+                                                                "Finance and insurance",
+                                                                "Forestry and logging",
+                                                                "Public administration",
+                                                                "Mining, quarrying, oil and gas")))
+
+
+
+
+    footnote <- "Source: Statistics Canada / Prepared by BC Stats"
+
+    plot2.7a <- plot_ly(data_30, y = ~area, x = data_30$`percent`, type = "bar", marker = list(color = custom_colors2), orientation = 'h')
+
+    plot2.7a <- plot2.7a %>% layout(title = '',
+                                      yaxis = list(title = 'Value'),
+                                      showlegend = FALSE
+    )
+
+
+  })
 
 
 
 
 
+
+
+
+
+  # plot2.7b----
+  output$plot2.7b <- renderPlotly({
+
+    data_31 <- data$data_31
+
+    custom_colors2 <- c(yellow= "#fcb814",navy = "#143047")
+
+    data_31$area <- factor(data_31$area, levels = rev(c(    "Arts, entertainment and recreation",
+                                                            "Accommodation and food services",
+                                                            "Management of companies and enterprises",
+                                                            "Information and cultural industries",
+                                                            "Transportation and warehousing",
+                                                            "Wholesale trade",
+                                                            "Finance and insurance",
+                                                            "Forestry and logging",
+                                                            "Public administration",
+                                                            "Mining, quarrying, oil and gas")))
+
+
+
+
+    footnote <- "Source: Statistics Canada / Prepared by BC Stats"
+
+    plot2.7b <- plot_ly(data_31, y = ~area, x = data_31$`percent`, type = "bar", marker = list(color = custom_colors2), orientation = 'h')
+
+    plot2.7b <- plot2.7b %>% layout(title = '',
+                                    yaxis = list(title = 'Value'),
+                                    showlegend = FALSE
+    )
+
+
+  })
+
+  # plot2.7c----
+  output$plot2.7c <- renderPlotly({
+
+    data_32 <- data$data_32
+
+    custom_colors2 <- c(yellow= "#fcb814",navy = "#143047")
+
+    data_32$area <- factor(data_32$area, levels = rev(c(    "Arts, entertainment and recreation",
+                                                            "Accommodation and food services",
+                                                            "Management of companies and enterprises",
+                                                            "Information and cultural industries",
+                                                            "Transportation and warehousing",
+                                                            "Wholesale trade",
+                                                            "Finance and insurance",
+                                                            "Forestry and logging",
+                                                            "Public administration",
+                                                            "Mining, quarrying, oil and gas")))
+
+
+
+
+    footnote <- "Source: Statistics Canada / Prepared by BC Stats"
+
+    plot2.7c <- plot_ly(data_32, y = ~area, x = data_32$`percent`, type = "bar", marker = list(color = custom_colors2), orientation = 'h')
+
+    plot2.7c <- plot2.7c %>% layout(title = '',
+                                    yaxis = list(title = 'Value'),
+                                    showlegend = FALSE
+    )
+
+
+  })
 
 
 
@@ -1330,13 +1446,13 @@ output$plot2.1 <- renderPlotly({
     custom_colors <- c("#FDB813", "#005182", "#92B6D3", "#0E84B1", "#14997C","#96C2B3")
 
     plot3.3a <- plot_ly(df_long, x = df_long$value, y = df_long$agegroup, color = ~Category,
-                       type = "bar", orientation = 'h', colors = custom_colors) %>%
+                        type = "bar", orientation = 'h', colors = custom_colors) %>%
 
 
 
-    layout(legend = list(orientation = "h", x = 0, y = 1.2),
-    xaxis = list(tickformat = '.0%'),
-    barmode = "relative")
+      layout(legend = list(orientation = "h", x = 0, y = 1.2),
+             xaxis = list(tickformat = '.0%'),
+             barmode = "relative")
 
 
 
@@ -1362,12 +1478,12 @@ output$plot2.1 <- renderPlotly({
       add_trace(y = data$data_35_result$`65+`, type = 'scatter', mode = "lines", name = "65+ years", line = list(color = "#14997C")  )
 
     plot3.3b <- layout(line_chart,
-                         xaxis = list(title = ""),
-                         yaxis = list(
-                           tickvals = seq(0, 1, 0.05),
-                           ticktext = paste0(seq(0, 100, 5), "%"),
-                           legend = list(title = "Age Group")
-                         )
+                       xaxis = list(title = ""),
+                       yaxis = list(
+                         tickvals = seq(0, 1, 0.05),
+                         ticktext = paste0(seq(0, 100, 5), "%"),
+                         legend = list(title = "Age Group")
+                       )
     )
 
 
@@ -1421,7 +1537,7 @@ output$plot2.1 <- renderPlotly({
 
 
 
-  }
+}
 
 # Run the app
 shinyApp(ui, server)
