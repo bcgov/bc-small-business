@@ -7,7 +7,7 @@ library(ggplot2)
 library(sf)
 library(tidyr)
 
-data <- readRDS("data/data.rds")
+#data <- readRDS("data/data.rds")
 last_updated <- "August 2023"
 
 
@@ -35,9 +35,18 @@ ui <-
                            sidebarMenu(
                              id = "tabs", ## to be able to update with buttons on landing page
                              menuItem("Home", tabName = "home", icon = icon("home")),
+                             menuItem("Additional Indicators", tabName = "page0", icon = icon("file-text")),
                              menuItem("Small Business Growth", tabName = "page1", icon = icon("line-chart")),
-                             menuItem("Small Business Employment", tabName = "page2", icon = icon("users")),
-                             menuItem("Self-Employed", tabName = "page3", icon = icon("user")),
+                             menuItem("Small Business Employment", tabName = "page2",
+                                      icon = icon("users")),
+
+                             menuItem("Self-Employed", tabName = "page3", icon = icon("user"),
+                           menuSubItem("For women", tabName = "women"),
+                           menuSubItem("For Indigenous people", tabName = "indigenous")
+                           ),
+
+
+
                              menuItem("Contribution to Economy", tabName = "page4", icon = icon("usd")),
                              menuItem("Small Business Exports", tabName = "page5", icon = icon("truck")),
                              tags$div(style = "text-align:center;color:#b8c7ce",
@@ -45,7 +54,7 @@ ui <-
                                       downloadButton(outputId = "download_data", "Download data as excel"),
                                       br(),br(),
                                       uiOutput("update_date")
-                                      
+
                              )
                            )
                          ),
@@ -56,8 +65,12 @@ ui <-
                              ## home tab ----
                              tabItem(
                                tabName = "home",
+
+                               # row 1 of landing page boxes
+
                                fluidRow(
-                                 tags$div(id = "green", box(
+                                 tags$div(id = "green",
+                                box(
                                    title = "Small business counts",
                                    tagList(
                                      HTML("There were 513,300 businesses in B.C. in 2022. Of these, 98 per cent (<b>504,200</b>) were <b>small businesses with fewer than 50 employees</b>."),
@@ -85,16 +98,24 @@ ui <-
                                    ),
                                    width = 4
                                  ))),
+
+                               # row 2 of landing page boxes
                                fluidRow(
-                                 tags$div(id = "yellow", box(
-                                   title = "Small business employment",
-                                   tagList(
-                                     HTML("Small businesses in B.C. employed around <b>1,135,300 people</b> in 2022. This accounts for 51 per cent of private sector jobs in the province."),
-                                   br(),br(),
-                                   actionButton("explore4", "Explore small business employment", icon = icon("users"))
-                                   ),
-                                   width = 4
-                                 ),
+                                 tags$div(id = "light-green",
+
+                                             box(
+                                            title = "Small business employment",
+                                            tagList(
+                                              HTML("Small businesses in B.C. employed around <b>1,135,300 people</b> in 2022. This accounts for 51 per cent of private sector jobs in the province."),
+                                              br(),br(),
+                                              actionButton("explore4", "Explore small business employment", icon = icon("users"))
+                                            ),
+                                            width = 4
+                                          )),
+                                 tags$div(id = "grey",
+
+
+
                                  box(
                                    title = "Self-employment growth",
                                    tagList(
@@ -104,7 +125,7 @@ ui <-
                                    ),
                                    width = 4
                                  )),
-                                 tags$div(id = "light-green", box(
+                                 tags$div(id = "grey", box(
                                    title = "Self-employment for women",
                                    tagList(
                                      HTML("In 2022, <b>38.3 per cent</b> of all self-employed people in B.C. were <b>women</b>, ranking fourth among provinces."),
@@ -113,8 +134,12 @@ ui <-
                                    ),
                                    width = 4
                                  ))),
-                               fluidRow(
-                                 tags$div(id = "light-green", box(
+
+
+                                 # row 3 of landing page boxes
+                                 fluidRow(
+
+                                   tags$div(id = "grey", box(
                                    title = "Self-employment for Indigenous people",
                                    tagList(
                                      HTML("In 2022, only <b>9.5 per cent of all Indigenous workers were self-employed</b>, compared to a self-employment rate of 15.7 per cent for non-Indigenous workers."),
@@ -123,6 +148,7 @@ ui <-
                                    ),
                                    width = 4
                                  )),
+
                                  tags$div(id = "blue", box(
                                    title = "Small business wages",
                                    tagList(
@@ -148,13 +174,27 @@ ui <-
                                tabName = "page1",
                                fluidRow(
 
-                                 box(title = "Figure 1.1 - Count of small businesses in British Columbia",
-                                     plotlyOutput("plot1.1"), width = 10,
+                                 box(title = "Figure 1.0.0: Breakdown of businesses in British Columbia, 2022", DTOutput("datatable1"),
+                                     style = "border: 1px solid white;", width = 10
+                                 ),
+
+
+
+
+                                 box(title = "Figure 1.0.1 - Count of small businesses in British Columbia",
+                                     plotlyOutput("plot1.0.1"), width = 10,
                                  br(),
                                  HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
 
                                ),
 
+
+                               box(title = "Figure 1.1 - Growth of small businesses in British Columbia",
+                                   plotlyOutput("plot1.1"), width = 10,
+                                   br(),
+                                   HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+
+                               ),
 
                                  box(title = "Figure 1.2a - One, two and five-year growth of B.C. businesses by size",
                                      width = 10,
@@ -169,9 +209,6 @@ ui <-
 
                                  ),
 
-                                box(title = "Figure 1.2b: Breakdown of businesses in British Columbia, 2022", DTOutput("datatable"),
-                                       style = "border: 1px solid white;", width = 10
-                                   ),
 
                                 box(title = "Figure 1.3a: Distribution of small businesses by industry, 2022",
                                    plotlyOutput("plot1.3a"), width = 10,
@@ -237,7 +274,21 @@ ui <-
                                  HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
 
 
+                             ),
+
+                             box(title = "Figure 1.11a: Small businesses by region, 2022", plotlyOutput("plot1.11a"), width = 10,
+                                 br(),
+                                 HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+
+
+                             ),
+                             box(title = "Figure 1.11b: Small businesses by region, growth 2017-2022", plotlyOutput("plot1.11b"), width = 10,
+                                 br(),
+                                 HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+
+
                              )
+
                            )),
 
 
@@ -246,6 +297,11 @@ ui <-
                            tabItem(
                                tabName = "page2",
                                fluidRow(
+
+                                 box(title = "Figure 2.0.0: asfdsafa, 2022", DTOutput("datatable2"),
+                                     style = "border: 1px solid white;", width = 10
+                                 ),
+
 
                                  box(title = "Figure 2.1 Share of total employment in British Columbia, 2022", plotlyOutput("plot2.1"), width = 10,
                                      br(),
@@ -352,7 +408,7 @@ server <- function(input, output, session) {
   bcsapps::bcsHeaderServer(id = 'header', links = TRUE)
 
   bcsapps::bcsFooterServer(id = 'footer')
-  
+
   ## update date ----
   output$update_date <- renderUI(
     paste("Last updated:", last_updated)
@@ -368,7 +424,7 @@ server <- function(input, output, session) {
   observeEvent(input$explore7, updateTabItems(session, "tabs", selected = "page3"))
   observeEvent(input$explore8, updateTabItems(session, "tabs", selected = "page4"))
   observeEvent(input$explore9, updateTabItems(session, "tabs", selected = "page5"))
-  
+
   ## download button ----
   output$download_data <- downloadHandler(
     filename = "bc-small-business-profile-data.xlsx",
@@ -385,6 +441,86 @@ server <- function(input, output, session) {
   custom_colors_rgb <- list(yellow= c(252,184,20), light_green = c(149,193,178), green = c(21,152,123),
                          light_blue=c(146,181,210), med_blue=c(14,131,176), dark_blue = c(1,80,130),
                          navy = c(20,48,71))
+
+
+
+#datatable1.0.0----
+
+  # Render the table
+  output$datatable1 <- renderDT({
+    # Create your dataframe with the desired data
+#    table_data <- data$data_11
+  # Create the datatable
+    datatable(data_11,
+              rownames = FALSE,
+              #  colnames = c("", "Number of businesses", "Per cent of all businesses*", "Per cent of small businesses*"),
+              # ## change default class (table-striped) to cell-border (borders around all cells, no striping)
+              class = 'cell-border',
+              options = list(
+                paging = FALSE,
+                dom = 't',
+                ## format header
+                headerCallback = JS(
+                  "function(thead, data, start, end, display){",
+                  "  $('th', thead).css('color', 'white');",
+                  "  $('th', thead).css('background-color', '#0e83b0');",
+                  "  $('th', thead).css('text-align', 'center');",
+                  "  $('th', thead).css('border-style', 'solid');",
+                  "  $('th', thead).css('border-width', '1px');",
+                  "  $('th', thead).css('border-color', 'white');",
+                  "}"
+                ),
+                ## column widths
+                columnDefs = list(list(width = '200px', targets = 0),
+                                  list(width = '50px', targets = 1),
+                                  list(width = '75px', targets = 2),
+                                  list(width = '100px', targets = 3))
+              ),
+              ## add caption
+              caption = htmltools::tags$caption(
+                style = 'caption-side: bottom;',
+                '*Figures do not add to 100% due to rounding'
+              )
+    )  %>%
+      ## helper functions for formatting
+      formatRound("Number of businesses", mark = ",", digits = 0) %>%  ## add commas to large numbers
+      ## can use any css style in formatStyle by replacing "-" with camel case (e.g., text-align -- textAlign)
+      formatStyle(c(1,2,3,4), backgroundColor = "#e6edf4", borderColor = "white") %>%
+      formatStyle(c(2,3,4), textAlign = "right") %>%
+      formatStyle(columns = c(1,2,3,4),
+                  ## use styleRow to select which rows to apply style
+                  backgroundColor = styleRow(rows = c(8,15,16), "#c4d6e7"),
+                  color = styleRow(rows = c(8,15,16), "#015082"),
+                  fontWeight = styleRow(rows = c(8,15,16), "bold")) %>%
+      formatStyle(columns = 1, paddingLeft = styleRow(rows = c(2,3), "30px"))
+  })
+
+
+  # plot1.0.1----
+  output$plot1.0.1 <- renderPlotly({
+
+    data_001 <- data$data_001
+
+    data_001$Type <- factor(data_001$Type, levels = rev(c("Small businesses without employees (Self-employed without paid help)",
+                                                            "Small businesses with employees (Fewer than 50)",
+                                                            "Large Businesses (Businesses with 50 or more)")))
+
+    footnote <- "Source: Statistics Canada / Prepared by BC Stats"
+
+    plot1.0.1 <- plot_ly(data_001, y = ~Type, x = data_001$`Percentage`, type = "bar", marker = list(color = custom_colors), orientation = 'h')
+
+    plot1.0.1 <- plot1.0.1 %>% layout(title = '',
+                                    yaxis = list(title = ''),
+                                    showlegend = FALSE
+    )
+
+
+  })
+
+
+
+
+
 
 
 
@@ -489,56 +625,39 @@ server <- function(input, output, session) {
   })
 
 
-  # plot1.3a ----
+# plot1.3a ----
 
-  output$plot1.3a <- renderPlotly({
+output$plot1.3a <- renderPlotly({
 
-    plot_data <- data$data_12 %>%
-      rename(category = `...1`,
-             percent = `%`) %>%
-      mutate(sector = ifelse(category %in% c("Utilities","Primary*", "Manufacturing", "Construction"),
-                             "Goods", "Services"),
-             color = ifelse(sector == "Goods",
-                            paste(custom_colors_rgb[["yellow"]], collapse = ","),
-                            paste(custom_colors_rgb[["dark_blue"]], collapse = ","))) %>%
-      group_by(sector) %>%
-      mutate(rank = rank(percent),
-             opacity = ifelse(sector == "Goods", rank/4,rank/10),
-             plot_color = paste0("rgba(", color, ",", opacity, ")"), ##https://plotly.com/r/marker-style/
-      )
+data_12 <- data$data_12
 
-    plot1.3a <- plot_ly(plot_data) %>%
-      add_trace(type = "pie",
-                name = "",
-                labels = ~category,
-                values = ~percent,
-                text = ~paste0("<b>",sector," sector</b><br>", category,"<br>", round_half_up(100*percent, digits = 1), "%"),
-                marker = list(colors = ~plot_color),
-                textposition = "none",
-                hoverinfo = 'text') %>%
-      layout(title =  "",
-             # width = 510,
-             # height = 320,
-             # autosize = FALSE,
-             #showlegend = FALSE,
-             annotations = list(
-               list(
-                 x = 0,
-                 y = -0.1,
-                 text = "",
-                 showarrow = FALSE
-               )
-             ))
+data_12$type <-factor(data_12$type, levels = rev(c("Construction", "Primary*", "Manufacturing", "Utilities",
+                                                   "Professional, scientific and technical services",
+                                                   "Health & Social Services", "Finance, Insurance & Real Estate",
+                                                   "Trade", "Other Services", "Transportation & Storage",
+                                                   "Business, building, and other supports",
+                                                   "Information, Culture & Recreation", "Accomodation & Food")))
 
+plot1.3a <- plot_ly(data_12, x = ~number, type = "bar", y = ~type,
+                         marker = list(color = "#005182"), name = "",
+                                                   orientation = 'h')
 
-    plot1.3a
+plot1.3a <- layout(plot1.3a,
+                  legend = list(orientation = "h", x = -2, y = 1.2),
+                  xaxis = list(tickformat = '.0')
+)
 
+# Display the plot
+   plot1.3a
   })
 
 
-  # plot1.3b ----
 
-  output$plot1.3b <- renderPlotly({
+
+
+# plot1.3b ----
+
+output$plot1.3b <- renderPlotly({
 
     data_13_result <- data$data_13
     data_13_result <- data_13_result[order(data_13_result$`Small businesses with no paid employees`),]
@@ -574,27 +693,9 @@ server <- function(input, output, session) {
 
 
 
+# plot1.4----
 
-
-
-
-  # output$bar_chart <- renderPlotly({
-  #   bar_chart <- plot_ly(df, x = ~Category, y = ~Value, type = "bar")
-  #   bar_chart
-  # })
-  # 
-  # output$hbar_chart <- renderPlotly({
-  #   hbar_chart <- plot_ly(df, x = ~Value, y = ~Category, type = "bar", orientation = "h")
-  #   hbar_chart
-  # })
-
-
-
-
-
- # plot1.4----
-
-  output$plot1.4 <- renderPlotly({
+output$plot1.4 <- renderPlotly({
 
     data_14 <- data$data_14[order(-data$data_14$`1-49 employees`),  ]
     data_14$Category <- factor(data_14$Category, levels = rev(data_14$Category))
@@ -619,7 +720,7 @@ server <- function(input, output, session) {
 
 # plot 1.5----
       output$plot1.5 <- renderPlotly({
-        
+
         data_15 <- data$data_15
 
       data_15$type <-factor(data_15$type, levels = rev(c("Professional, scientific and technical services", "Specialty trade contractors",
@@ -647,9 +748,9 @@ server <- function(input, output, session) {
       # plot 1.6----
 
       output$plot1.6 <- renderPlotly({
-        
+
         data_16 <- data$data_16
-        
+
         data_16$type <-factor(data_16$type, levels = rev(c("Beverage and tobacco product manufacturing", "Social assistance",
                                                            "Motion picture and sound recording industries", "Private households",
                                                            "Couriers and messengers", "Non-Standard Sectors", "High Technology", "Tourism",
@@ -670,8 +771,8 @@ server <- function(input, output, session) {
 
 
 
-      # plot1.7----
-      output$plot1.7 <- renderPlotly({
+# plot1.7----
+output$plot1.7 <- renderPlotly({
 
         ## divide by 100 to be able to make y-axis percents
         canada_average <- 0.823
@@ -784,7 +885,7 @@ server <- function(input, output, session) {
 
       # plot1.10----
       output$plot1.10 <- renderPlotly({
-        
+
         data_20 <- data$data_20
 
         data_20$region <- factor(data_20$region, levels = rev(c("Cariboo", "Kootenay", "North Coast & Nechako",
@@ -804,73 +905,147 @@ server <- function(input, output, session) {
       })
 
 
+  # plot1.11a----
+  output$plot1.11a <- renderPlotly({
 
+    data_21 <- data$data_21
 
-  # output$line_chart <- renderPlotly({
-  #   line_chart <- plot_ly(df, x = ~Category, y = ~Value, type = "scatter", mode = "lines")
-  #   line_chart
-  # })
-  # 
-  # output$area_chart <- renderPlotly({
-  #   area_chart <- plot_ly(df, x = ~Category, y = ~Value, type = "scatter", mode = "lines", fill = "tozeroy")
-  #   area_chart
-  # })
-
-
-
-
-  # Render the table
-  output$datatable <- renderDT({
-    # Create your dataframe with the desired data
-
-        table_data <- data$data_11
+    data_21$region <- factor(data_21$region, levels = rev(c(   "Provincial Total",
+                                                                "Mainland/Southwest",
+                                                                "Vancouver Island/Coast",
+                                                                "Thompson-Okanagan",
+                                                                "Kootenay",
+                                                                "Cariboo",
+                                                                "North Coast & Nechako",
+                                                                "Northeast")))
 
 
 
-    # Create the datatable
-        datatable(table_data,
-                  rownames = FALSE,
-                  colnames = c("", "Number of businesses", "Per cent of all businesses*", "Per cent of small businesses*"),
-                  ## change default class (table-striped) to cell-border (borders around all cells, no striping)
-                  class = 'cell-border',
-                  options = list(
-                    paging = FALSE,
-                    dom = 't',
-                    ## format header
-                    headerCallback = JS(
-                      "function(thead, data, start, end, display){",
-                      "  $('th', thead).css('color', 'white');",
-                      "  $('th', thead).css('background-color', '#0e83b0');",
-                      "  $('th', thead).css('text-align', 'center');",
-                      "  $('th', thead).css('border-style', 'solid');",
-                      "  $('th', thead).css('border-width', '1px');",
-                      "  $('th', thead).css('border-color', 'white');",
-                      "}"
-                    ),
-                    ## column widths
-                    columnDefs = list(list(width = '200px', targets = 0),
-                                      list(width = '50px', targets = 1),
-                                      list(width = '75px', targets = 2),
-                                      list(width = '100px', targets = 3))
-                  ),
-                  ## add caption
-                  caption = htmltools::tags$caption(
-                    style = 'caption-side: bottom;',
-                    '*Figures do not add to 100% due to rounding'
-                  )
-        )  %>%
-          ## helper functions for formatting
-          formatRound("Number of businesses", mark = ",", digits = 0) %>%  ## add commas to large numbers
-          ## can use any css style in formatStyle by replacing "-" with camel case (e.g., text-align -- textAlign)
-          formatStyle(c(1,2,3,4), backgroundColor = "#e6edf4", borderColor = "white") %>%
-          formatStyle(c(2,3,4), textAlign = "right") %>%
-          formatStyle(columns = c(1,2,3,4),
-                      ## use styleRow to select which rows to apply style
-                      backgroundColor = styleRow(rows = c(8,15,16), "#c4d6e7"),
-                      color = styleRow(rows = c(8,15,16), "#015082"),
-                      fontWeight = styleRow(rows = c(8,15,16), "bold")) %>%
-          formatStyle(columns = 1, paddingLeft = styleRow(rows = c(2,3), "30px"))
+
+
+
+
+
+    footnote <- "Source: Statistics Canada / Prepared by BC Stats"
+
+    plot1.11a <- plot_ly(data_21, y = ~region, x = data_21$`Total, 2022`, type = "bar", marker = list(color = custom_colors), orientation = 'h')
+
+    plot1.11a <- plot1.11a %>% layout(title = '',
+                                    yaxis = list(title = 'Value'),
+                                    showlegend = FALSE
+    )
+
+
   })
+
+  # plot1.11b----
+  output$plot1.11b <- renderPlotly({
+
+    data_21 <- data$data_21
+
+    data_21$region <- factor(data_21$region, levels = rev(c(   "Provincial Total",
+                                                               "Mainland/Southwest",
+                                                               "Vancouver Island/Coast",
+                                                               "Thompson-Okanagan",
+                                                               "Kootenay",
+                                                               "Cariboo",
+                                                               "North Coast & Nechako",
+                                                               "Northeast")))
+
+
+
+
+
+
+
+
+    footnote <- "Source: Statistics Canada / Prepared by BC Stats"
+
+    plot1.11b <- plot_ly(data_21, y = ~region, x = data_21$`Growth rate`, type = "bar", marker = list(color = custom_colors), orientation = 'h')
+
+    plot1.11b <- plot1.11a %>% layout(title = '',
+                                      yaxis = list(title = 'Value'),
+                                      showlegend = FALSE
+    )
+
+
+  })
+
+
+
+#datatable2.0----
+
+# Render the table
+  output$datatable2 <- renderDT({
+
+# Create your dataframe with the desired data
+
+ #  table_data2 <- data$data_21a
+
+    # Read the Excel file
+    excel_file <- "C:/bc-small-business/SBP2023_Chart_data.xlsx"
+
+
+
+    # 2.1 Share of total employment in British Columbia, 2022 ----
+    data_21a <- read_excel(excel_file, sheet = "2.0", range = "a17:h22", col_names = TRUE)
+    data_21a
+
+
+
+# Create the datatable
+    datatable(data_21a,
+              rownames = FALSE,
+              # colnames = c("...1", "Employment", "Per cent of small business", "Per cent of private sector",
+              #              "One year change (2021-2022) Number", "One year change (2021-2022) Per cent",
+              #              "Five  year change (2021-2022) Number", "Five year change (2021-2022) Per cent" ),
+              ## change default class (table-striped) to cell-border (borders around all cells, no striping)
+              class = 'cell-border',
+              options = list(
+                paging = FALSE,
+                dom = 't',
+                ## format header
+                headerCallback = JS(
+                  "function(thead, data, start, end, display){",
+                  "  $('th', thead).css('color', 'white');",
+                  "  $('th', thead).css('background-color', '#0e83b0');",
+                  "  $('th', thead).css('text-align', 'center');",
+                  "  $('th', thead).css('border-style', 'solid');",
+                  "  $('th', thead).css('border-width', '1px');",
+                  "  $('th', thead).css('border-color', 'white');",
+                  "}"
+                ),
+                ## column widths
+                columnDefs = list(list(width = '200px', targets = 0),
+                                  list(width = '50px', targets = 1),
+                                  list(width = '75px', targets = 2),
+                                  list(width = '100px', targets = 3))
+              ),
+              ## add caption
+              caption = htmltools::tags$caption(
+                style = 'caption-side: bottom;',
+                '*Figures do not add to 100% due to rounding'
+              )
+    )  %>%
+      ## helper functions for formatting
+      formatRound("Number of businesses", mark = ",", digits = 0) %>%  ## add commas to large numbers
+      ## can use any css style in formatStyle by replacing "-" with camel case (e.g., text-align -- textAlign)
+      formatStyle(c(1,2,3,4), backgroundColor = "#e6edf4", borderColor = "white") %>%
+      formatStyle(c(2,3,4), textAlign = "right") %>%
+      formatStyle(columns = c(1,2,3,4),
+                  ## use styleRow to select which rows to apply style
+                  backgroundColor = styleRow(rows = c(8,15,16), "#c4d6e7"),
+                  color = styleRow(rows = c(8,15,16), "#015082"),
+                  fontWeight = styleRow(rows = c(8,15,16), "bold")) %>%
+      formatStyle(columns = 1, paddingLeft = styleRow(rows = c(2,3), "30px"))
+  })
+
+
+
+
+
+
+
 
 
   # plot2.1 ----
