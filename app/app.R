@@ -7,7 +7,7 @@ library(ggplot2)
 library(sf)
 library(tidyr)
 
-#data <- readRDS("data/data.rds")
+data <- readRDS("data/data.rds")
 last_updated <- "August 2023"
 
 
@@ -309,26 +309,14 @@ ui <-
 
                                  ),
 
-                                 box(title = "Figure xx: Number of net new small businesses - fastest growing sectors in B.C, 2017-2022", plotlyOutput(""), width = 10,
+
+
+                                 box(title = "Figure 2.3: Share of employment by establishment size, 2022", plotlyOutput("plot2.3"), width = 10,
                                      br(),
                                      HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
 
                                  ),
 
-                                 box(title = "Figure 2.3a: Share of British Columbia businesses and organizations by size, 2017-2020", plotlyOutput("plot2.3a"), width = 10,
-                                     br(),
-                                     HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
-
-                                 ),
-
-                                 box(title = "Figure 2.3b: Share of employment by establishment size, 2022", plotlyOutput("plot2.3b"), width = 10,
-                                     br(),
-                                     HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
-
-                                 ),
-
-                                 box(title = "Figure xx: Small business growth by province, 2022", plotlyOutput(""), width = 10
-                                 ),
 
                                  box(title = "Figure 2.4b: Year-over-year growth in private sector employment", plotlyOutput("plot2.4b"), width = 10,
                                      br(),
@@ -346,10 +334,27 @@ ui <-
                                      br(),
                                      HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
 
-                                 ),
-
-                                 box(title = "Horizontal Bar Chart", plotlyOutput("hbar_chart"), width = 6)
-                               )
+                                 )
+#
+#                                  box(title = "Figure 2.6: Small Business as a percent of private-sector employment by province, 2017-2022", plotlyOutput("plot2.6"), width = 10,
+#                                      br(),
+#                                      HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+#
+#                                  ),
+#
+#
+#                                  box(title = "Figure 2.7a: Five-year small business employment change by province, 2017-2022", plotlyOutput("plot2.7b"), width = 10,
+#                                      br(),
+#                                      HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+#
+#                                  ),
+#
+#
+#                                  box(title = "Figure 2.7b: Five-year small business employment change by province, 2017-2022", plotlyOutput("plot2.7b"), width = 10,
+#                                      br(),
+#                                      HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+#
+                                 )
                              ),
 
                            ## page 3 tab ----
@@ -449,12 +454,12 @@ server <- function(input, output, session) {
   # Render the table
   output$datatable1 <- renderDT({
     # Create your dataframe with the desired data
-#    table_data <- data$data_11
+    table_data <- data$data_11
   # Create the datatable
-    datatable(data_11,
+    datatable(table_data,
               rownames = FALSE,
-              #  colnames = c("", "Number of businesses", "Per cent of all businesses*", "Per cent of small businesses*"),
-              # ## change default class (table-striped) to cell-border (borders around all cells, no striping)
+             ## colnames = c("", "Number of businesses", "Per cent of all businesses*", "Per cent of small businesses*"),
+              ## change default class (table-striped) to cell-border (borders around all cells, no striping)
               class = 'cell-border',
               options = list(
                 paging = FALSE,
@@ -980,25 +985,16 @@ output$plot1.7 <- renderPlotly({
 
 # Create your dataframe with the desired data
 
- #  table_data2 <- data$data_21a
-
-    # Read the Excel file
-    excel_file <- "C:/bc-small-business/SBP2023_Chart_data.xlsx"
-
-
-
-    # 2.1 Share of total employment in British Columbia, 2022 ----
-    data_21a <- read_excel(excel_file, sheet = "2.0", range = "a17:h22", col_names = TRUE)
-    data_21a
+   table_data2 <- data$data_21a
 
 
 
 # Create the datatable
-    datatable(data_21a,
+    datatable(table_data2,
               rownames = FALSE,
-              # colnames = c("...1", "Employment", "Per cent of small business", "Per cent of private sector",
-              #              "One year change (2021-2022) Number", "One year change (2021-2022) Per cent",
-              #              "Five  year change (2021-2022) Number", "Five year change (2021-2022) Per cent" ),
+              colnames = c("...1", "Employment", "Per cent of small business", "Per cent of private sector",
+                           "One year change (2021-2022) Number", "One year change (2021-2022) Per cent",
+                           "Five  year change (2021-2022) Number", "Five year change (2021-2022) Per cent" ),
               ## change default class (table-striped) to cell-border (borders around all cells, no striping)
               class = 'cell-border',
               options = list(
@@ -1041,111 +1037,56 @@ output$plot1.7 <- renderPlotly({
   })
 
 
-
-
-
-
-
-
-
-  # plot2.1 ----
-  output$plot2.1 <- renderPlotly({
+# plot2.1 ----
+output$plot2.1 <- renderPlotly({
 
     data_22 <- data$data_22
-    category = data_22$`sector`
-    percentage = data_22$`%`
 
-    plot2.1 <- plot_ly(data_22, labels = ~category, values = ~percentage,
-                       textinfo = "label+percent", marker = list(colors = custom_colors),
-                       textposition = 'outside',   textfont = list(size = 10),
+    data_22$sector <- factor(data_22$sector, levels = rev(c("Small Business",
+                                                          "Large Business",
+                                                          "Public Sector")))
 
-                       type = "pie") %>%
-      layout(title =  "",
-             width = 510,
-             height = 320,
-             autosize = FALSE,
+    footnote <- "Source: Statistics Canada / Prepared by BC Stats"
 
+    plot2.1 <- plot_ly(data_22, y = ~sector, x = data_22$`%`, type = "bar", marker = list(color = custom_colors), orientation = 'h')
 
-             showlegend = FALSE,
-             annotations = list(
-               list(
-                 x = 0,
-                 y = -0.15,
-                 text = "",
-                 showarrow = FALSE
-               )
-             ))
+    plot2.1 <- plot2.1 %>% layout(title = '',
+                                      yaxis = list(title = ''),
+                                      showlegend = FALSE
+    )
 
 
-    plot2.1
+})
 
-  })
-
-  # plot2.3a ----
-  output$plot2.3a <- renderPlotly({
-
-    data_24 <- data$data_24
-    category1 = data_24$sector
-    percentage1 = data_24$`%`
-
-    plot2.3a <- plot_ly(data_24, labels = ~category1, values = ~percentage1,
-                        textinfo = "label+percent", marker = list(colors = custom_colors),
-                        textposition = 'outside',   textfont = list(size = 10),
-
-                        type = "pie") %>%
-      layout(title =  "",
-             width = 510,
-             height = 320,
-             autosize = FALSE,
-
-
-             showlegend = FALSE,
-             annotations = list(
-               list(
-                 x = 0,
-                 y = -0.15,
-                 text = "",
-                 showarrow = FALSE
-               )
-             ))
-
-
-    plot2.3a
-
-  })
-
-  # plot2.3b ----
-  output$plot2.3b <- renderPlotly({
+  # plot2.3 ----
+  output$plot2.3 <- renderPlotly({
 
     data_25 <- data$data_25
-    category2 = data_25$sector
-    percentage2 = data_25$`%`
 
-    plot2.3b <- plot_ly(data_25, labels = ~category2, values = ~percentage2,
-                        textinfo = "label+percent", marker = list(colors = custom_colors),
-                        textposition = 'outside',   textfont = list(size = 10),
+    data_25$sector <- factor(data_25$sector, levels = rev(c("Large businesses",
+                                                            "Small businesses with employees",
+                                                            "Small businesses without employees",
+                                                            "Public Sector")))
 
-                        type = "pie") %>%
-      layout(title =  "",
-             width = 510,
-             height = 320,
-             autosize = FALSE,
+    footnote <- "Source: Statistics Canada / Prepared by BC Stats"
 
+    plot2.3 <- plot_ly(data_25, y = ~sector, x = data_25$`%`, type = "bar", marker = list(color = custom_colors), orientation = 'h')
 
-             showlegend = FALSE,
-             annotations = list(
-               list(
-                 x = 0,
-                 y = -0.15,
-                 text = "",
-                 showarrow = FALSE
-               )
-             ))
+    plot2.3 <- plot2.3 %>% layout(title = '',
+                                  yaxis = list(title = ''),
+                                  showlegend = FALSE
+    )
 
-
-    plot2.3b
 
   })
+
+
+
+
+
+
+
+
 
 
   # plot2.4b----
@@ -1268,6 +1209,80 @@ output$plot1.7 <- renderPlotly({
       )
 
   })
+
+
+
+  # plot2.6----
+
+
+  output$plot2.6 <- renderPlotly({
+    ## divide by 100 to be able to make y-axis percents
+    canada_average <- .466
+
+    plot_data <- data$data_29 %>%
+      mutate(Label = paste0(round_half_up(Percent, digits = 1), "%"),
+             Percent = Percent/ 100,
+             Province = factor(Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
+                                                    "NB", "NS", "PE", "NL")),
+             selected_color = ifelse(Province == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
+
+    footnote <- "Source: Statistics Canada / Prepared by BC Stats"
+
+    plot2.6 <- plot_ly(plot_data,
+                        x = ~Province,
+                        y = ~Percent,
+                        type = "bar",
+                        marker = list(color = ~selected_color),
+                        text = ~paste(Province,":",Label),
+                        textposition = "none",
+                        hoverinfo = 'text') %>%
+      layout(xaxis = list(title = ""),
+             yaxis = list(title = "", tickformat = "0%"), ## make y-axis percents
+             shapes = list(hline(canada_average))) %>% ## add line
+      add_annotations( ## add canadian average text
+        x = 0.01,
+        y = 0.99,
+        text = "— Canadian Average 46.6%",
+        xref = "paper",
+        yref = "paper",
+        xanchor = "left",
+        yanchor = "bottom",
+        showarrow = F
+      )
+
+  })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   # plot3.2----
   output$plot3.2 <- renderPlotly({
