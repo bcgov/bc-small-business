@@ -371,23 +371,35 @@ ui <-
                                                   tabName = "page3",
                                                   fluidRow(
 
-                                                    box(title = "Figure 3.2: Number of self-employed with paid help compared to self-employed without paid help, British Columbia, 2017-2022, by age", plotlyOutput("plot3.2"), width = 10,
+                                                    box(title = "Figure 3.01: Self-employment as a per cent of total employment by province, 2022", plotlyOutput("plot3.01"), width = 10,
                                                         br(),
                                                         HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
                                       <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
                                                     ),
 
-                                                    box(title = "Figure 3.3a: Age distribution of self-employed workers compared to employees, British Columbia, 2022", plotlyOutput("plot3.3a"), width = 10,
+                                                    box(title = "Figure 3.02: Self-employment per cent change by province, 2017-2022", plotlyOutput("plot3.02"), width = 10,
                                                         br(),
-                                                        HTML("<b><small><small></b> <p>Notes: Figures do not add to 100% due to rounding.
-                                      <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                        HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
                                                     ),
 
-                                                    box(title = "Figure 3.3b: Share of British Columbian workers who are self-employed, by age", plotlyOutput("plot3.3b"), width = 10,
+                                                    box(title = "Figure 3.03a: Self-employment per cent change for regions in British Columbia, 2017-2022", plotlyOutput("plot3.03a"), width = 10,
                                                         br(),
                                                         HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
                                       <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
                                                     ),
+
+                                                    box(title = "Figure 3.03b: Self-employment per cent change for regions in British Columbia, 2021-2022", plotlyOutput("plot3.03b"), width = 10,
+                                                        br(),
+                                                        HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
+                                      <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                    ),
+
+
+
+
+
+
+
                                                     box(title = "Figure 3.4: Proportion of self-employed who are women by province, 2022", plotlyOutput("plot3.4"), width = 10,
                                                         br(),
                                                         HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
@@ -1385,10 +1397,10 @@ server <- function(input, output, session) {
 
 
 
-  # plot3.0----
+  # plot3.01----
 
 
-  output$plot3.0 <- renderPlotly({
+  output$plot3.01 <- renderPlotly({
     ## divide by 100 to be able to make y-axis percents
     canada_average <- .135
 
@@ -1401,7 +1413,7 @@ server <- function(input, output, session) {
 
     footnote <- "Source: Statistics Canada / Prepared by BC Stats"
 
-    plot2.6 <- plot_ly(plot_data,
+    plot3.01 <- plot_ly(plot_data,
                        x = ~Province,
                        y = ~Percent,
                        type = "bar",
@@ -1413,8 +1425,8 @@ server <- function(input, output, session) {
              yaxis = list(title = "", tickformat = "0%"), ## make y-axis percents
              shapes = list(hline(canada_average))) %>% ## add line
       add_annotations( ## add canadian average text
-        x = 0.01,
-        y = 0.99,
+        x = 0.55,
+        y = 0.88,
         text = "— Canadian Average 13.5%",
         xref = "paper",
         yref = "paper",
@@ -1428,9 +1440,122 @@ server <- function(input, output, session) {
 
 
 
+  # plot3.02----
+
+
+  output$plot3.02 <- renderPlotly({
+    ## divide by 100 to be able to make y-axis percents
+    canada_average <- -.031
+
+    plot_data <- data$data_39 %>%
+      mutate(Label = paste0(round_half_up(Percent, digits = 1), "%"),
+             Percent = Percent/ 100,
+             Province = factor(Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
+                                                    "NB", "NS", "PE", "NL")),
+             selected_color = ifelse(Province == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
+
+    footnote <- "Source: Statistics Canada / Prepared by BC Stats"
+
+    plot3.02 <- plot_ly(plot_data,
+                        x = ~Province,
+                        y = ~Percent,
+                        type = "bar",
+                        marker = list(color = ~selected_color),
+                        text = ~paste(Province,":",Label),
+                        textposition = "none",
+                        hoverinfo = 'text') %>%
+      layout(xaxis = list(title = ""),
+             yaxis = list(title = "", tickformat = "0%"), ## make y-axis percents
+             shapes = list(hline(canada_average))) %>% ## add line
+      add_annotations( ## add canadian average text
+        x = 0.55,
+        y = 0.28,
+        text = "— Canadian Average -3.1%",
+        xref = "paper",
+        yref = "paper",
+        xanchor = "left",
+        yanchor = "bottom",
+        showarrow = F
+      )
+
+  })
 
 
 
+
+  # plot3.03a----
+  output$plot3.03a <- renderPlotly({
+    bc_average <- 0.08
+    data_40 <- data$data_40
+
+    custom_colors2 <- c(yellow= "#fcb814",navy = "#143047")
+
+    data_40$area <- factor(data_40$area, levels = rev(c(    "Northeast",
+                                                            "North Coast & Nechako",
+                                                            "Cariboo",
+                                                            "Kootenay",
+                                                            "Thompson-Okanagan",
+                                                            "Mainland/Southwest",
+                                                            "Vancouver Island/Coast")))
+
+    footnote <- "Source: Statistics Canada / Prepared by BC Stats"
+
+    plot3.03a <- plot_ly(data_40, y = ~area, x = data_40$`percent`, type = "bar", marker = list(color = custom_colors2), orientation = 'h')
+
+    plot3.03a <- plot3.03a %>% layout(xaxis = list(title = ""),
+                                           yaxis = list(title = "", tickformat = "0%"), ## make y-axis percents
+                                           shapes = list(vline(bc_average))) %>% ## add line
+                                      add_annotations( ## add BC average text
+                                        x = 0.01,
+                                        y = 0.99,
+                                        text = "— BC Average +0.8%",
+                                        xref = "paper",
+                                        yref = "paper",
+                                        xanchor = "left",
+                                        yanchor = "bottom",
+                                        showarrow = F
+                                      )
+
+
+
+
+  })
+
+
+  # plot3.03b----
+  output$plot3.03b <- renderPlotly({
+    bc_average <- -.009
+    data_41 <- data$data_41
+
+    custom_colors2 <- c(yellow= "#fcb814",navy = "#143047")
+
+    data_41$area <- factor(data_41$area, levels = rev(c(    "Northeast",
+                                                            "North Coast & Nechako",
+                                                            "Cariboo",
+                                                            "Kootenay",
+                                                            "Thompson-Okanagan",
+                                                            "Mainland/Southwest",
+                                                            "Vancouver Island/Coast")))
+
+    footnote <- "Source: Statistics Canada / Prepared by BC Stats"
+
+    plot3.03b <- plot_ly(data_41, y = ~area, x = data_41$`percent`, type = "bar", marker = list(color = custom_colors2), orientation = 'h')
+
+    plot3.03b <- plot3.03b %>% layout(xaxis = list(title = ""),
+                                      yaxis = list(title = "", tickformat = "0%"), ## make y-axis percents
+                                      shapes = list(vline(bc_average))) %>% ## add line
+      add_annotations( ## add BC average text
+        x = 0.01,
+        y = 0.99,
+        text = "— BC Average -0.9%",
+        xref = "paper",
+        yref = "paper",
+        xanchor = "left",
+        yanchor = "bottom",
+        showarrow = F
+      )
+
+  })
 
   # plot3.2----
   output$plot3.2 <- renderPlotly({
