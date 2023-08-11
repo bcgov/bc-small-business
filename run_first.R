@@ -194,6 +194,33 @@ data_44 <- data_44 %>%
 data_44
 
 
+# 3.3b Share of British Columbia workers who are self-employed, by age ----
+data_35 <- read_excel(excel_file, sheet = "3.3b", range = "a3:r9", col_names = FALSE)
+data_35t <- t(data_35)
+data_35_result <- as.data.frame(data_35t)
+colnames(data_35_result) <- data_35_result[1, ]
+data_35_result <- data_35_result[-1, ]
+data_35_result$years <- round(as.numeric(data_35_result$years))
+data_35_result
+
+
+# Plot 3.4: Proportion of self-employed who are women by province, 2022----
+data_45 <- read_excel(excel_file, sheet = "3.4", range = "a2:b12", col_names = TRUE)
+names(data_45) <- c("Province", "Percent")
+data_45
+
+
+
+# Plot 3.5: Distribution of small businesses with and without employees by industry, 2022 ----
+data_46 <- read_excel(excel_file, sheet = "3.5", range = "a4:c12", col_names = TRUE)
+data_46
+
+
+
+
+# # 3.4  Proportion
+
+
  #   rename(category = type) %>%
  #   pivot_longer(-category, names_to = "years", values_to = "count") %>%
 #     mutate(category = fct_inorder(category))
@@ -288,21 +315,7 @@ data_44
 # names(data_40) <- c("agegroup", "Employees", "self-employed")
 # data_40
 #
-# # 3.3b Share of British Columbia workers who are self-employed, by age ----
-# data_35 <- read_excel(excel_file, sheet = "3.3b", range = "a3:r9", col_names = FALSE)
-# data_35t <- t(data_35)
-# data_35_result <- as.data.frame(data_35t)
-# colnames(data_35_result) <- data_35_result[1, ]
-# data_35_result <- data_35_result[-1, ]
-# data_35_result$years <- round(as.numeric(data_35_result$years))
-# data_35_result
-#
-#
-# # 3.4  Proportion of self-employed who are women by province, 2022----
-# data_41 <- read_excel(excel_file, sheet = "3.4", range = "a2:b12", col_names = TRUE)
-# names(data_41) <- c("Province", "Percent")
-# data_41
-#
+
 # ## Save data for app ----
 # ## remove unneeded environment variables
 # rm(excel_file,economic_regions,data_04,data_04t,data_26,data_26t,data_35,data_35t)

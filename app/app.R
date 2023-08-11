@@ -415,7 +415,15 @@ ui <-
                                       <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
                                                     ),
 
+
+
                                                     box(title = "Fig3.3: Age distribution of self-employed workers compared to employees, British Columbia, 2022", plotlyOutput("plot3.3"), width = 10,
+                                                        br(),
+                                                        HTML("<b><small><small></b> <p>Notes: </small></small>")
+                                                    ),
+
+
+                                                    box(title = "Fig3.3b: Share of British Columbian workers who are self-employed, by age", plotlyOutput("plot3.3b"), width = 10,
                                                         br(),
                                                         HTML("<b><small><small></b> <p>Notes: </small></small>")
                                                     ),
@@ -430,8 +438,24 @@ ui <-
                                                         HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
                                       <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
                                                     ),
-                                                    box(title = "Area Chart", plotlyOutput("area_chart"), width = 6)
+
+
+
+
+                                                  box(title = "Figure 3.5: Proporti2", plotlyOutput("plot3.5"), width = 10,
+                                                      br(),
+                                                      HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
+                                      <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
                                                   ),
+
+                                                ),
+
+
+
+
+
+
+
 
                                                   fluidRow(
                                                     box(title = "Static Table", DTOutput("static_table"))
@@ -1665,42 +1689,7 @@ server <- function(input, output, session) {
 
 
 
-
-
-  # plot3.3a----
-  output$plot3.3a <- renderPlotly({
-
-    df_long <- data$data_40 %>%
-      tidyr::gather(key = "Category", value = "value", -agegroup)
-
-    df_long$value <- as.numeric(df_long$value)
-    df_long
-
-    custom_colors <- c("#FDB813", "#005182", "#92B6D3", "#0E84B1", "#14997C","#96C2B3")
-
-    plot3.3a <- plot_ly(df_long, x = df_long$value, y = df_long$agegroup, color = ~Category,
-                        type = "bar", orientation = 'h', colors = custom_colors) %>%
-
-
-
-      layout(legend = list(orientation = "h", x = 0, y = 1.2),
-             xaxis = list(tickformat = '.0%'),
-             barmode = "relative")
-
-
-
-    # Display the chart
-    plot3.3a
-
-  })
-
-
-
-
   # plot3.3b----
-
-
-
 
   output$plot3.3b <- renderPlotly({
     line_chart <- plot_ly(data$data_35_result, x = ~years, y = data$data_35_result$`15-24`, type = "scatter", mode = "lines",  name = "15-24 years old", line = list(color = "yellow")) %>%
@@ -1719,9 +1708,10 @@ server <- function(input, output, session) {
                        )
     )
 
-
-    plot3.3b
   })
+
+
+
 
 
   # plot3.4----
@@ -1730,7 +1720,7 @@ server <- function(input, output, session) {
     ## divide by 100 to be able to make y-axis percents
     canada_average <- 0.371
 
-    plot_data <- data$data_41 %>%
+    plot_data <- data$data_45 %>%
       mutate(Label = paste0(round_half_up(Percent, digits = 1), "%"),
              Percent = Percent/ 100,
              Province = factor(Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
@@ -1763,6 +1753,93 @@ server <- function(input, output, session) {
 
     plot3.4
   })
+
+
+
+
+  # plot3.5 ----
+
+  output$plot3.5 <- renderPlotly({
+
+    data_46 <- data$data_46
+
+    data_46$region <-factor(data_46$region, levels = rev(c(    "Northeast",
+                                                               "Mainland/Southwest",
+                                                               "Thompson-Okanagan",
+                                                               "Vancouver Island/Coast",
+                                                               "Cariboo",
+                                                               "Kootenay",
+                                                               "North Coast & Nechako",
+                                                               "Total")))
+
+    plot3.5 <- plot_ly(data_46, x = data_46$`2017`,y = data_46$region, name = '2017',
+                marker = list(color = "#005182"),
+                type = "bar", orientation = 'h') %>%
+
+      add_trace(y = data_46$region, x = data_46$`2022`, name = '2022', type = 'bar',
+                marker = list(color = "#FDB813")
+      )
+    plot3.5 <- layout(plot3.5,
+                       legend = list(orientation = "v", x = 0, y = 1.2),
+                       xaxis = list(tickformat = '.0'),
+                      barmode = "group"
+
+
+    )
+
+
+
+
+  })
+
+
+
+
+
+
+
+
+  # # plot1.3a ----
+  #
+  # output$plot1.3a <- renderPlotly({
+  #
+  #   data_12 <- data$data_12
+  #
+  #   data_12$type <-factor(data_12$type, levels = rev(c("Construction", "Primary*", "Manufacturing", "Utilities",
+  #                                                      "Professional, scientific and technical services",
+  #                                                      "Health & Social Services", "Finance, Insurance & Real Estate",
+  #                                                      "Trade", "Other Services", "Transportation & Storage",
+  #                                                      "Business, building, and other supports",
+  #                                                      "Information, Culture & Recreation", "Accomodation & Food")))
+  #
+  #   plot1.3a <- plot_ly(data_12, x = ~number, type = "bar", y = ~type,
+  #                       marker = list(color = "#005182"), name = "",
+  #                       orientation = 'h')
+  #
+  #   plot1.3a <- layout(plot1.3a,
+  #                      legend = list(orientation = "h", x = -2, y = 1.2),
+  #                      xaxis = list(tickformat = '.0')
+  #   )
+  #
+  #   # Display the plot
+  #   plot1.3a
+  # })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
