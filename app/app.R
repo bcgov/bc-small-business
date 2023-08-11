@@ -394,6 +394,31 @@ ui <-
                                       <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
                                                     ),
 
+                                                    box(title = "Figure 3.1a: Number of self-employed business owners in British Columbia, 2022", plotlyOutput("plot3.1a"), width = 10,
+                                                        br(),
+                                                        HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
+                                      <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                    ),
+
+
+
+                                                    box(title = "Figure 3.1b: Number of self-employed business owners in British Columbia, 2022", plotlyOutput("plot3.1b"), width = 10,
+                                                        br(),
+                                                        HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
+                                      <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                    ),
+
+
+                                                    box(title = "Fig3.2: Number of self-employed with paid help compared to self-employed without paid help, British Columbia, 2017-2022", plotlyOutput("plot3.2"), width = 10,
+                                                        br(),
+                                                        HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
+                                      <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                    ),
+
+                                                    box(title = "Fig3.3: Age distribution of self-employed workers compared to employees, British Columbia, 2022", plotlyOutput("plot3.3"), width = 10,
+                                                        br(),
+                                                        HTML("<b><small><small></b> <p>Notes: </small></small>")
+                                                    ),
 
 
 
@@ -1557,38 +1582,89 @@ server <- function(input, output, session) {
 
   })
 
+
+  # plot3.1a----
+
+  output$plot3.1a <- renderPlotly({
+
+    custom_colors <- custom_colors[c("navy", "dark_blue", "med_blue", "green", "yellow")] %>% unname()
+
+
+    plot3.1a <- plot_ly(data$data_42, x = ~help_type, y = ~counts, color = ~type, type = "bar", textposition = 'inside',
+                        colors = custom_colors) %>%
+      layout(barmode = 'stack')
+
+  })
+
+
+
+  # plot3.1b----
+
+  output$plot3.1b <- renderPlotly({
+
+    custom_colors <- custom_colors[c("navy", "dark_blue", "med_blue", "green", "yellow")] %>% unname()
+
+
+    plot3.1b <- plot_ly(data$data_42, x = ~type, y = ~counts, color = ~help_type, type = "bar", textposition = 'inside',
+                        colors = custom_colors) %>%
+      layout(barmode = 'stack')
+
+  })
+
+
+
   # plot3.2----
+
   output$plot3.2 <- renderPlotly({
 
-    df_long1 <- data$data_39 %>%
-      tidyr::gather(key = "Category", value = "value", -years)
+    custom_colors <- custom_colors[c("navy", "dark_blue", "med_blue", "green", "yellow")] %>% unname()
 
-    df_long1$value <- as.numeric(df_long1$value)
-    df_long1
 
-    custom_colors <- c("#FDB813", "#005182", "#92B6D3", "#0E84B1", "#14997C","#96C2B3")
+    plot3.2 <- plot_ly(data$data_43, x = ~years, y = ~counts, color = ~help_type, type = "bar", textposition = 'inside',
+                        colors = custom_colors) %>%
 
-    plot3.2 <- plot_ly(df_long1, y = df_long1$value, x = df_long1$years, color = ~Category,
-                       type = "bar", orientation = 'v', colors = custom_colors) %>%
+
+    layout(title = "",
+           legend = list(orientation = "h", x = 0, y = 1.2),
+           xaxis = list(title = "Year"),
+           yaxis = list(title = "",
+                        tickformat = ",",
+                        tickprefix = "",
+                        ticksuffix = "K",
+                        dtick = 100),
+           barmode = "group")
+
+
+  })
+
+
+
+
+
+  # plot3.3----
+
+
+  output$plot3.3 <- renderPlotly({
+
+    custom_colors <- custom_colors[c("navy", "dark_blue", "med_blue", "green", "yellow")] %>% unname()
+
+
+    plot3.3 <- plot_ly(data$data_44, x = ~counts, y = ~agegroup, color = ~emp_type, type = "bar", textposition = 'inside',
+                       colors = custom_colors, orientation = 'h') %>%
 
 
       layout(title = "",
              legend = list(orientation = "h", x = 0, y = 1.2),
-             xaxis = list(title = "Year"),
-             yaxis = list(title = "",
-                          tickformat = ",",
-                          tickprefix = "",
-                          ticksuffix = "K",
-                          dtick = 100),
-             barmode = "group")
 
+             barmode = "relative")
 
-
-
-    # Display the chart
-    plot3.2
 
   })
+
+
+
+
+
 
 
   # plot3.3a----

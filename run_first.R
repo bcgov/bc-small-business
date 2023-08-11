@@ -37,7 +37,7 @@ data_09 <- read_excel(excel_file, sheet = "1.1", range = "a2:i7", col_names = TR
    rename(category = years) %>%
    pivot_longer(-category, names_to = "years", values_to = "count") %>%
    mutate(category = fct_inorder(category))
-
+data_09
 
 
 # 1.2a Growth of BC businesses by size----
@@ -174,6 +174,44 @@ data_40 <- read_excel(excel_file, sheet = "3.03", range = "a2:b9", col_names = T
 # 3.03b  Self-employment per cent change for regions in British Columbia, 1 Year ----
 data_41 <- read_excel(excel_file, sheet = "3.03", range = "a13:b20", col_names = TRUE)
 
+# 3.1a and 3.1b plots ----
+data_42 <- read_excel(excel_file, sheet = "3.1a", range = "a3:c5", col_names = TRUE)
+data_42 <- data_42 %>%
+  pivot_longer(cols = -type, names_to = "help_type", values_to = "counts")
+
+
+# 3.2a and 3.2b plots ----
+data_43 <- read_excel(excel_file, sheet = "3.2", range = "a3:c9", col_names = TRUE)
+data_43 <- data_43 %>%
+  pivot_longer(cols = -years, names_to = "help_type", values_to = "counts")
+data_43
+
+
+# 3.3  ----
+data_44 <- read_excel(excel_file, sheet = "3.3", range = "a3:c9", col_names = TRUE)
+data_44 <- data_44 %>%
+  pivot_longer(cols = -agegroup, names_to = "emp_type", values_to = "counts")
+data_44
+
+
+ #   rename(category = type) %>%
+ #   pivot_longer(-category, names_to = "years", values_to = "count") %>%
+#     mutate(category = fct_inorder(category))
+# data_42
+# data_42
+
+#   data_09 <- read_excel(excel_file, sheet = "1.1", range = "a2:i7", col_names = TRUE) %>%
+#     rename(category = years) %>%
+#     pivot_longer(-category, names_to = "years", values_to = "count") %>%
+#     mutate(category = fct_inorder(category))
+#
+#
+
+
+
+
+
+
 
 
 # data_04 <- read_excel(excel_file, sheet = "0.4", range = "a3:n5", col_names = FALSE)
@@ -278,3 +316,4 @@ names(all_data) <- ls()[-1]  ## removing first environment variable (should be a
 
 saveRDS(all_data, "app/data/data.rds")
 rm(list = ls())
+
