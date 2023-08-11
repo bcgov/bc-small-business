@@ -162,6 +162,10 @@ data_32 <- read_excel(excel_file, sheet = "2.7", range = "a3:c13", col_names = T
 
 #data_02 <- read_excel(excel_file, sheet = "0.2", range = "a3:e6", col_names = TRUE)
 
+# 3.1 TABLE Number of self-employed business owners in British Columbia ----
+data_38 <- read_excel(excel_file, sheet = "3.01", range = "a2:b12", col_names = TRUE)
+
+
 
 # data_04 <- read_excel(excel_file, sheet = "0.4", range = "a3:n5", col_names = FALSE)
 # data_04t <- t(data_04)
@@ -226,9 +230,7 @@ data_32 <- read_excel(excel_file, sheet = "2.7", range = "a3:c13", col_names = T
 #
 # # 2.10b Self-employment per cent change for regions in British Columbia, 2017-2022----
 # data_37 <- read_excel(excel_file, sheet = "2.10", range = "a2:b9", col_names = TRUE)
-#
-# # 3.1 TABLE Number of self-employed business owners in British Columbia ----
-# data_38 <- read_excel(excel_file, sheet = "3.1", range = "a3:e6", col_names = TRUE)
+
 #
 # # 3.2 Number of self-employed with paid help compared to self-employed without paid help, British Columbia, 2017-2022----
 # data_39 <- read_excel(excel_file, sheet = "3.2", range = "a3:c9", col_names = TRUE)

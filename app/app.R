@@ -40,10 +40,10 @@ ui <-
                                                                menuItem("Small Business Employment", tabName = "page2",
                                                                         icon = icon("users")),
 
-                                                               menuItem("Self-Employed", tabName = "page3", icon = icon("user"),
-                                                                        menuSubItem("For women", tabName = "women"),
-                                                                        menuSubItem("For Indigenous people", tabName = "indigenous")
-                                                               ),
+                                                               menuItem("Self-Employed", tabName = "page3", icon = icon("user")),
+                                                               #          menuSubItem("For women", tabName = "women"),
+                                                               #          menuSubItem("For Indigenous people", tabName = "indigenous")
+                                                               # ),
 
 
 
@@ -363,12 +363,6 @@ ui <-
                                                     )
 
 
-                                                    #
-                                                    #
-                                                    #                                  box(title = "Figure 2.7b: Five-year small business employment change by province, 2017-2022", plotlyOutput("plot2.7b"), width = 10,
-                                                    #                                      br(),
-                                                    #                                      HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
-                                                    #
                                                   )
                                                 ),
 
@@ -417,7 +411,6 @@ ui <-
 
 
     ))
-
 
 # Define server logic
 server <- function(input, output, session) {
@@ -1392,6 +1385,45 @@ server <- function(input, output, session) {
 
 
 
+  # plot3.0----
+
+
+  output$plot3.0 <- renderPlotly({
+    ## divide by 100 to be able to make y-axis percents
+    canada_average <- .135
+
+    plot_data <- data$data_38 %>%
+      mutate(Label = paste0(round_half_up(Percent, digits = 1), "%"),
+             Percent = Percent/ 100,
+             Province = factor(Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
+                                                    "NB", "NS", "PE", "NL")),
+             selected_color = ifelse(Province == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
+
+    footnote <- "Source: Statistics Canada / Prepared by BC Stats"
+
+    plot2.6 <- plot_ly(plot_data,
+                       x = ~Province,
+                       y = ~Percent,
+                       type = "bar",
+                       marker = list(color = ~selected_color),
+                       text = ~paste(Province,":",Label),
+                       textposition = "none",
+                       hoverinfo = 'text') %>%
+      layout(xaxis = list(title = ""),
+             yaxis = list(title = "", tickformat = "0%"), ## make y-axis percents
+             shapes = list(hline(canada_average))) %>% ## add line
+      add_annotations( ## add canadian average text
+        x = 0.01,
+        y = 0.99,
+        text = "— Canadian Average 13.5%",
+        xref = "paper",
+        yref = "paper",
+        xanchor = "left",
+        yanchor = "bottom",
+        showarrow = F
+      )
+
+  })
 
 
 
