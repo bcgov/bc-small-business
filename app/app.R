@@ -442,7 +442,7 @@ ui <-
 
 
 
-                                                  box(title = "Figure 3.5: Proporti2", plotlyOutput("plot3.5"), width = 10,
+                                                  box(title = "Figure 3.5: Proportion of self-employed who are women, by region", plotlyOutput("plot3.5"), width = 10,
                                                       br(),
                                                       HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
                                       <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
@@ -457,9 +457,6 @@ ui <-
 
 
 
-                                                  fluidRow(
-                                                    box(title = "Static Table", DTOutput("static_table"))
-                                                  )
                                                 ) ## end of tab 4
 
                                               ), ## end of tabs
