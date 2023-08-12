@@ -215,10 +215,24 @@ data_45
 data_46 <- read_excel(excel_file, sheet = "3.5", range = "a4:c12", col_names = TRUE)
 data_46
 
+# 3.6 ----
+data_47 <- read_excel(excel_file, sheet = "3.6", range = "a3:g5", col_names = TRUE)
+data_47 <- data_47 %>%
+  pivot_longer(cols = -indig, names_to = "year", values_to = "counts")
+data_47
+
+# 3.7a  ----
+data_48 <- read_excel(excel_file, sheet = "3.7", range = "a3:c10", col_names = TRUE)
+data_48 <- data_48 %>%
+  pivot_longer(cols = -hours, names_to = "work_week", values_to = "counts")
+data_48
 
 
-
-# # 3.4  Proportion
+# 3.7b  ----
+data_49 <- read_excel(excel_file, sheet = "3.7", range = "a19:c26", col_names = TRUE)
+data_49 <- data_49 %>%
+  pivot_longer(cols = -hours, names_to = "sex", values_to = "counts")
+data_49
 
 
  #   rename(category = type) %>%

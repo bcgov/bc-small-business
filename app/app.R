@@ -448,6 +448,31 @@ ui <-
                                       <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
                                                   ),
 
+
+
+                                                  box(title = "Figure 3.6: Percent of working, off-reserve indigenous and non-indigenous people who are self-employed in BC, 2017-2022", plotlyOutput("plot3.6"), width = 10,
+                                                      br(),
+                                                      HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                  ),
+
+
+                                                  box(title = "Figure 3.7a: Hours worked, self-employed compared to employees, British Columbia, 2022", plotlyOutput("plot3.7a"), width = 10,
+                                                      br(),
+                                                      HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                  ),
+
+                                                  box(title = "Figure 3.7b: Usual hours worked, self-employed by sex, British Columbia, 2022", plotlyOutput("plot3.7b"), width = 10,
+                                                      br(),
+                                                      HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                  ),
+
+
+
+
+
+
+
+
                                                 ),
 
 
@@ -1790,44 +1815,74 @@ server <- function(input, output, session) {
   })
 
 
+  # plot3.6----
+
+  output$plot3.6 <- renderPlotly({
+
+    custom_colors <- custom_colors[c("navy", "dark_blue", "med_blue", "green", "yellow")] %>% unname()
+
+
+    plot3.6 <- plot_ly(data$data_47, x = ~year, y = ~counts, color = ~indig, type = "bar", textposition = 'inside',
+                       colors = custom_colors) %>%
+
+
+      layout(title = "",
+             legend = list(orientation = "h", x = 0, y = 1.2),
+             xaxis = list(title = "Year"),
+             yaxis = list(title = "",
+                          tickformat = ",",
+                          tickprefix = "",
+                          ticksuffix = "K",
+                          dtick = 100),
+             barmode = "group")
+
+
+  })
+
+
+  # plot3.7a----
+
+
+  output$plot3.7a <- renderPlotly({
+
+    custom_colors <- custom_colors[c("navy", "dark_blue", "med_blue", "green", "yellow")] %>% unname()
+
+
+    plot3.7a <- plot_ly(data$data_48, x = ~counts, y = ~hours, color = ~work_week, type = "bar", textposition = 'inside',
+                       colors = custom_colors, orientation = 'h') %>%
+
+
+      layout(title = "",
+             legend = list(orientation = "h", x = 0, y = 1.2),
+
+             barmode = "relative")
+
+
+  })
 
 
 
 
 
-
-  # # plot1.3a ----
-  #
-  # output$plot1.3a <- renderPlotly({
-  #
-  #   data_12 <- data$data_12
-  #
-  #   data_12$type <-factor(data_12$type, levels = rev(c("Construction", "Primary*", "Manufacturing", "Utilities",
-  #                                                      "Professional, scientific and technical services",
-  #                                                      "Health & Social Services", "Finance, Insurance & Real Estate",
-  #                                                      "Trade", "Other Services", "Transportation & Storage",
-  #                                                      "Business, building, and other supports",
-  #                                                      "Information, Culture & Recreation", "Accomodation & Food")))
-  #
-  #   plot1.3a <- plot_ly(data_12, x = ~number, type = "bar", y = ~type,
-  #                       marker = list(color = "#005182"), name = "",
-  #                       orientation = 'h')
-  #
-  #   plot1.3a <- layout(plot1.3a,
-  #                      legend = list(orientation = "h", x = -2, y = 1.2),
-  #                      xaxis = list(tickformat = '.0')
-  #   )
-  #
-  #   # Display the plot
-  #   plot1.3a
-  # })
+  # plot3.7b----
 
 
+  output$plot3.7b <- renderPlotly({
+
+    custom_colors <- custom_colors[c("navy", "dark_blue", "med_blue", "green", "yellow")] %>% unname()
 
 
+    plot3.7b <- plot_ly(data$data_49, x = ~counts, y = ~hours, color = ~sex, type = "bar", textposition = 'inside',
+                        colors = custom_colors, orientation = 'h') %>%
 
 
+      layout(title = "",
+             legend = list(orientation = "h", x = 0, y = 1.2),
 
+             barmode = "relative")
+
+
+  })
 
 
 
