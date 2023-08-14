@@ -40,10 +40,10 @@ ui <-
                                                                menuItem("Small Business Employment", tabName = "page2",
                                                                         icon = icon("users")),
 
-                                                               menuItem("Self-Employed", tabName = "page3", icon = icon("user")),
-                                                               #          menuSubItem("For women", tabName = "women"),
-                                                               #          menuSubItem("For Indigenous people", tabName = "indigenous")
-                                                               # ),
+                                                               menuItem("Self-Employed", tabName = "page3", icon = icon("user"),
+                                                                        menuSubItem("For women", tabName = "women"),
+                                                                        menuSubItem("For Indigenous people", tabName = "indigenous")
+                                                               ),
 
 
 
@@ -449,15 +449,40 @@ ui <-
                                                       HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
                                                   ),
                                                 ),
-                                               ) ## end of tab 3
+                                               ), 
+                                               ## page 3 tab end ----
+                                               ## page 3 subtab women start ----
+                                               tabItem(
+                                                 tabName = "women",
+                                                 "page 3 - women"
+                                               ),
+                                               ## page 3 subtab women end -----
+                                               ## page 3 subtab indigenous start ----
+                                               tabItem(
+                                                 tabName = "indigenous",
+                                                 "page 3 - indigenous"
+                                               ),
+                                               ## page 3 subtab indigenous end ----
+                                               ## page 4 tab start ----
+                                               tabItem(
+                                                 tabName = "page4",
+                                                 "page 4"
+                                               ),
+                                               ## page 4 tab end ----
+                                               ## page 5 tab start ----
+                                               tabItem(
+                                                 tabName = "page5",
+                                                 "page 5"
+                                               )
+                                               ## page 5 tab end ----
 
 
 
 
 
-                                              ), ## end of tabs
-                                            ), ## end of dashboard body
-                              ) ## end of dashboard page
+                                              ), ## end of tabs ----
+                                            ), ## end of dashboard body ----
+                              ) ## end of dashboard page ----
              )),
 
       bcsapps::bcsFooterUI(id = 'footer')
@@ -487,8 +512,8 @@ server <- function(input, output, session) {
   observeEvent(input$explore3, updateTabItems(session, "tabs", selected = "page4"))
   observeEvent(input$explore4, updateTabItems(session, "tabs", selected = "page2"))
   observeEvent(input$explore5, updateTabItems(session, "tabs", selected = "page2"))
-  observeEvent(input$explore6, updateTabItems(session, "tabs", selected = "page3"))
-  observeEvent(input$explore7, updateTabItems(session, "tabs", selected = "page3"))
+  observeEvent(input$explore6, updateTabItems(session, "tabs", selected = "women"))
+  observeEvent(input$explore7, updateTabItems(session, "tabs", selected = "indigenous"))
   observeEvent(input$explore8, updateTabItems(session, "tabs", selected = "page4"))
   observeEvent(input$explore9, updateTabItems(session, "tabs", selected = "page5"))
 
