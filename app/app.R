@@ -451,6 +451,10 @@ ui <-
                                                 ),
                                                ) ## end of tab 3
 
+
+
+
+
                                               ), ## end of tabs
                                             ), ## end of dashboard body
                               ) ## end of dashboard page
@@ -1043,7 +1047,7 @@ server <- function(input, output, session) {
 
     # Create your dataframe with the desired data
 
-    table_data2 <- data$data_21a
+    table_data2 <- data$data_21c
 
 
 

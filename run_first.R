@@ -120,8 +120,9 @@ data_21b <- read_excel(excel_file, sheet = "1.11", range = "a3:d11", col_names =
 data_21b <- as.data.frame(data_21b)
 
 
-# 2.1 Share of total employment in British Columbia, 2022 ----
-data_21c <- read_excel(excel_file, sheet = "2.0", range = "a17:h22", col_names = TRUE)
+
+# 2.0 Private sector employment in British Columbia by size of business, 2022 ----
+data_21c <- read_excel(excel_file, sheet = "2.0", range = "a2:h8", col_names = TRUE)
 
 
 # 2.1 Share of total employment in British Columbia, 2022 ----
@@ -233,6 +234,11 @@ data_49 <- read_excel(excel_file, sheet = "3.7", range = "a19:c26", col_names = 
 data_49 <- data_49 %>%
   pivot_longer(cols = -hours, names_to = "sex", values_to = "counts")
 data_49
+
+
+
+
+
 
 
  #   rename(category = type) %>%
