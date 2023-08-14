@@ -123,6 +123,9 @@ data_21b <- as.data.frame(data_21b)
 
 # 2.0 Private sector employment in British Columbia by size of business, 2022 ----
 data_21c <- read_excel(excel_file, sheet = "2.0", range = "a2:h8", col_names = TRUE)
+## extract top headings
+data_21c_headings <- data.frame(names = names(data_21c)) %>% filter(!str_detect(names, "\\.\\.\\."))
+data_21c <- data_21c %>% row_to_names(1) %>% clean_names()
 
 
 # 2.1 Share of total employment in British Columbia, 2022 ----
