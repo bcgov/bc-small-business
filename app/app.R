@@ -540,12 +540,16 @@ server <- function(input, output, session) {
 
   # Render the table
   output$datatable1 <- renderDT({
+    
     # Create your dataframe with the desired data
-    table_data <- data$data_11
+    table_data <- data$data_11 %>% 
+      mutate(`Per cent of small businesses1` = ifelse(`Per cent of small businesses1` == "-", "0", `Per cent of small businesses1`)) %>%
+      rename_at(vars(ends_with("1")), str_replace_all, "1", "*")
+    
     # Create the datatable
     datatable(table_data,
               rownames = FALSE,
-              ## colnames = c("", "Number of businesses", "Per cent of all businesses*", "Per cent of small businesses*"),
+              colnames = c("", names(table_data)[-1]),
               ## change default class (table-striped) to cell-border (borders around all cells, no striping)
               class = 'cell-border',
               options = list(
@@ -563,10 +567,7 @@ server <- function(input, output, session) {
                   "}"
                 ),
                 ## column widths
-                columnDefs = list(list(width = '200px', targets = 0),
-                                  list(width = '50px', targets = 1),
-                                  list(width = '75px', targets = 2),
-                                  list(width = '100px', targets = 3))
+                columnDefs = list(list(width = '300px', targets = 0))
               ),
               ## add caption
               caption = htmltools::tags$caption(
@@ -575,11 +576,15 @@ server <- function(input, output, session) {
               )
     )  %>%
       ## helper functions for formatting
-      formatRound("Number of businesses", mark = ",", digits = 0) %>%  ## add commas to large numbers
+      formatRound(c("Number of businesses", "Growth 2021-2022 (#)", "Growth 2017-2022 (#)"), mark = ",", digits = 0) %>%  ## add commas to large numbers
+      formatPercentage("Per cent of all businesses*") %>%
+      formatPercentage("Per cent of small businesses*", zero.print = "-") %>%
+      formatPercentage(c("Growth 2021-2022 (%)", "Growth 2017-2022 (%)"), digits = 1) %>%
       ## can use any css style in formatStyle by replacing "-" with camel case (e.g., text-align -- textAlign)
-      formatStyle(c(1,2,3,4), backgroundColor = "#e6edf4", borderColor = "white") %>%
-      formatStyle(c(2,3,4), textAlign = "right") %>%
-      formatStyle(columns = c(1,2,3,4),
+      formatStyle(1:ncol(table_data), backgroundColor = "#e6edf4", borderColor = "white") %>%
+      formatStyle(c(2,5,7), textAlign = "right") %>%
+      formatStyle(c(3,4,6,8), textAlign = "center") %>%
+      formatStyle(columns = 1:ncol(table_data),
                   ## use styleRow to select which rows to apply style
                   backgroundColor = styleRow(rows = c(8,15,16), "#c4d6e7"),
                   color = styleRow(rows = c(8,15,16), "#015082"),
@@ -1071,17 +1076,32 @@ server <- function(input, output, session) {
   output$datatable2 <- renderDT({
 
     # Create your dataframe with the desired data
-
     table_data2 <- data$data_21c
-
-
-
-    # Create the datatable
-    datatable(table_data2,
+    
+    # create a custom table header
+    h_1 <- data$data_21c_headings$names[1]
+    h_2 <- data$data_21c_headings$names[2]
+    heading2 = htmltools::withTags(table(
+      class = 'display',
+      thead(
+        tr(
+          th(rowspan = 2, ''),
+          th(rowspan = 2, 'Employment'),
+          th(rowspan = 2, 'Per cent of small business'),
+          th(rowspan = 2, 'Per cent of private sector'),
+          th(colspan = 2, h_1),
+          th(colspan = 2, h_2)
+        ),
+        tr(
+          lapply(rep(c('Number', 'Per cent'), 2), th)
+        )
+      )
+    ))
+    
+    ## create a datatable
+    datatable(table_data2 %>% mutate(per_cent_of_small_business = ifelse(per_cent_of_small_business == "-", 0, per_cent_of_small_business)),
+              container = heading2,
               rownames = FALSE,
-              colnames = c("...1", "Employment", "Per cent of small business", "Per cent of private sector",
-                           "One year change (2021-2022) Number", "One year change (2021-2022) Per cent",
-                           "Five  year change (2021-2022) Number", "Five year change (2021-2022) Per cent" ),
               ## change default class (table-striped) to cell-border (borders around all cells, no striping)
               class = 'cell-border',
               options = list(
@@ -1090,39 +1110,39 @@ server <- function(input, output, session) {
                 ## format header
                 headerCallback = JS(
                   "function(thead, data, start, end, display){",
-                  "  $('th', thead).css('color', 'white');",
-                  "  $('th', thead).css('background-color', '#0e83b0');",
-                  "  $('th', thead).css('text-align', 'center');",
-                  "  $('th', thead).css('border-style', 'solid');",
-                  "  $('th', thead).css('border-width', '1px');",
-                  "  $('th', thead).css('border-color', 'white');",
+                  "  $('th','tr', thead).css('color', 'white');",
+                  "  $('th','tr', thead).css('background-color', '#0e83b0');",
+                  "  $('th','tr', thead).css('text-align', 'center');",
+                  "  $('th','tr', thead).css('border-style', 'solid');",
+                  "  $('th','tr', thead).css('border-width', '1px');",
+                  "  $('th','tr', thead).css('border-color', 'white');",
                   "}"
                 ),
                 ## column widths
-                columnDefs = list(list(width = '200px', targets = 0),
-                                  list(width = '50px', targets = 1),
-                                  list(width = '75px', targets = 2),
-                                  list(width = '100px', targets = 3))
-              ),
-              ## add caption
-              caption = htmltools::tags$caption(
-                style = 'caption-side: bottom;',
-                '*Figures do not add to 100% due to rounding'
-              )
+                columnDefs = list(list(width = '300px', targets = 0),
+                                  list(width = '75px', targets = 3))
+              )#,
+              # ## add caption
+              # caption = htmltools::tags$caption(
+              #   style = 'caption-side: bottom;',
+              #   '*Figures do not add to 100% due to rounding'
+              # )
     )  %>%
       ## helper functions for formatting
-      formatRound("Number of businesses", mark = ",", digits = 0) %>%  ## add commas to large numbers
+      formatRound(c("employment", "number", "number_2"), mark = ",", digits = 0) %>%  ## add commas to large numbers
+      formatPercentage(c("per_cent_of_small_business", "per_cent_of_private_sector"), zero.print = "-") %>%
+      formatPercentage(c("per_cent","per_cent_2"), digits = 1) %>%
       ## can use any css style in formatStyle by replacing "-" with camel case (e.g., text-align -- textAlign)
-      formatStyle(c(1,2,3,4), backgroundColor = "#e6edf4", borderColor = "white") %>%
-      formatStyle(c(2,3,4), textAlign = "right") %>%
-      formatStyle(columns = c(1,2,3,4),
+      formatStyle(1:8, backgroundColor = "#e6edf4", borderColor = "white") %>%
+      formatStyle(c(2,5,7), textAlign = "right") %>%
+      formatStyle(c(3,4,6,8),textAlign = "center") %>%
+      formatStyle(columns = 1:8,
                   ## use styleRow to select which rows to apply style
-                  backgroundColor = styleRow(rows = c(8,15,16), "#c4d6e7"),
-                  color = styleRow(rows = c(8,15,16), "#015082"),
-                  fontWeight = styleRow(rows = c(8,15,16), "bold")) %>%
+                  backgroundColor = styleRow(rows = nrow(table_data2), "#c4d6e7"),
+                  color = styleRow(rows = nrow(table_data2), "#015082"),
+                  fontWeight = styleRow(rows = nrow(table_data2), "bold")) %>%
       formatStyle(columns = 1, paddingLeft = styleRow(rows = c(2,3), "30px"))
   })
-
 
   # plot2.1 ----
   output$plot2.1 <- renderPlotly({
