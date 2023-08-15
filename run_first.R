@@ -240,6 +240,20 @@ data_49
 
 
 
+# 4.1 Small business contribution to GDP by province, 2021 ----
+data_50 <- read_excel(excel_file, sheet = "4.1", range = "a2:b12", col_names = TRUE)
+
+
+# 4.2 Changes in average annual earnings, British Columbia, 2017-2022----
+data_51 <- read_excel(excel_file, sheet = "4.2", range = "a3:c5", col_names = TRUE)
+data_51 <- data_51 %>%
+  pivot_longer(cols = -type, names_to = "help_type", values_to = "counts")
+
+
+
+
+# 1.3b: Distribution of small businesses with and without employees by industry, 2022 ----
+data_52 <- read_excel(excel_file, sheet = "4.3", range = "a29:c45", col_names = TRUE)
 
 
 

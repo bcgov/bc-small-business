@@ -449,7 +449,7 @@ ui <-
                                                       HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
                                                   ),
                                                 ),
-                                               ), 
+                                               ),
                                                ## page 3 tab end ----
                                                ## page 3 subtab women start ----
                                                tabItem(
@@ -466,8 +466,30 @@ ui <-
                                                ## page 4 tab start ----
                                                tabItem(
                                                  tabName = "page4",
-                                                 "page 4"
-                                               ),
+                                                 "page 4",
+
+                                                 fluidRow(
+
+                                                   box(title = "Figure 4.1: asdf, 2022", plotlyOutput("plot4.1"), width = 10,
+                                                       br(),
+                                                       HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
+                                                        <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                   ),
+
+                                                   box(title = "Figure 4.2:  2017-2022", plotlyOutput("plot4.2"), width = 10,
+                                                       br(),
+                                                       HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                   ),
+
+
+                                                   box(title = "Figure 4.3:  2017-2022", plotlyOutput("plot4.3"), width = 10,
+                                                       br(),
+                                                       HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                   ),
+
+
+
+                                               )),
                                                ## page 4 tab end ----
                                                ## page 5 tab start ----
                                                tabItem(
@@ -540,12 +562,12 @@ server <- function(input, output, session) {
 
   # Render the table
   output$datatable1 <- renderDT({
-    
+
     # Create your dataframe with the desired data
-    table_data <- data$data_11 %>% 
+    table_data <- data$data_11 %>%
       mutate(`Per cent of small businesses1` = ifelse(`Per cent of small businesses1` == "-", "0", `Per cent of small businesses1`)) %>%
       rename_at(vars(ends_with("1")), str_replace_all, "1", "*")
-    
+
     # Create the datatable
     datatable(table_data,
               rownames = FALSE,
@@ -1077,7 +1099,7 @@ server <- function(input, output, session) {
 
     # Create your dataframe with the desired data
     table_data2 <- data$data_21c
-    
+
     # create a custom table header
     h_1 <- data$data_21c_headings$names[1]
     h_2 <- data$data_21c_headings$names[2]
@@ -1097,7 +1119,7 @@ server <- function(input, output, session) {
         )
       )
     ))
-    
+
     ## create a datatable
     datatable(table_data2 %>% mutate(per_cent_of_small_business = ifelse(per_cent_of_small_business == "-", 0, per_cent_of_small_business)),
               container = heading2,
@@ -1901,11 +1923,117 @@ server <- function(input, output, session) {
   })
 
 
+  # plot4.1----
+  output$plot4.1 <- renderPlotly({
+
+    ## divide by 100 to be able to make y-axis percents
+    canada_average <- 0.30
+
+    plot_data <- data$data_50 %>%
+      mutate(Label = paste0(round_half_up(Percent, digits = 1), "%"),
+             Percent = Percent/ 100,
+             Province = factor(Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
+                                                    "NB", "NS", "PEI", "NL")),
+             selected_color = ifelse(Province == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
+
+    footnote <- "Source: Statistics Canada / Prepared by BC Stats"
+
+    plot4.1 <- plot_ly(plot_data,
+                       x = ~Province,
+                       y = ~Percent,
+                       type = "bar",
+                       marker = list(color = ~selected_color),
+                       text = ~paste(Province,":",Label),
+                       textposition = "none",
+                       hoverinfo = 'text') %>%
+      layout(xaxis = list(title = ""),
+             yaxis = list(title = "", tickformat = "0%"), ## make y-axis percents
+             shapes = list(hline(canada_average))) %>% ## add line
+      add_annotations( ## add canadian average text
+        x = 0.01,
+        y = 0.99,
+        text = "— Canadian Average 30.0%",
+        xref = "paper",
+        yref = "paper",
+        xanchor = "left",
+        yanchor = "bottom",
+        showarrow = F
+      )
+
+  })
+
+  # plot4.2----
+
+  output$plot4.2 <- renderPlotly({
+
+    custom_colors <- custom_colors[c("navy", "dark_blue", "med_blue", "green", "yellow")] %>% unname()
+
+
+    plot4.2 <- plot_ly(data$data_51, x = ~years, y = ~counts, color = ~help_type, type = "bar", textposition = 'inside',
+                       colors = custom_colors) %>%
+
+
+      layout(title = "",
+             legend = list(orientation = "h", x = 0, y = 1.2),
+             xaxis = list(title = "Year"),
+             yaxis = list(title = "",
+                          tickformat = ",",
+                          tickprefix = "",
+                          ticksuffix = "K",
+                          dtick = 100),
+             barmode = "group")
+
+
+  })
+
+
+  # plot4.2----
+
+  output$plot4.2 <- renderPlotly({
+
+    custom_colors <- custom_colors[c("navy", "dark_blue", "med_blue", "green", "yellow")] %>% unname()
+
+
+    plot4.2 <- plot_ly(data$data_51, x = ~help_type, y = ~counts, color = ~type, type = "bar", textposition = 'inside',
+                        colors = custom_colors) %>%
+      layout(barmode = 'stack')
+
+  })
 
 
 
 
+  # plot4.3 ----
 
+  output$plot4.3 <- renderPlotly({
+
+    data_52_result <- data$data_52
+    data_52_result <- data_52_result[order(data_52_result$`Small Business`),]
+
+    data_52_result$segment <- factor(data_52_result$segment, levels = data_52_result$segment)
+
+    plot4.3 <- plot_ly(data_52_result, x = data_52_result$`Small Business`,
+                        y = data_52_result$segment,
+
+                        name = 'Small Business',
+                        marker = list(color = "#005182"),
+                        type = "bar",
+                        orientation = 'h') %>%
+
+      add_trace(y = data_52_result$segment, x = data_52_result$`Large Business`,
+                name = 'Large Business', type = 'bar',
+                marker = list(color = "#FDB813")
+      )
+    plot4.3 <- layout(plot4.3,
+                       legend = list(orientation = "h", x = -2, y = 1.2),
+                       xaxis = list(tickformat = '.0')
+
+
+    )
+
+
+
+  })
 
 
 
