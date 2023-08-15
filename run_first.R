@@ -269,6 +269,12 @@ data_55 <- read_excel(excel_file, sheet = "4.6", range = "a2:b12", col_names = T
 
 
 
+
+
+
+
+
+
  #   rename(category = type) %>%
  #   pivot_longer(-category, names_to = "years", values_to = "count") %>%
 #     mutate(category = fct_inorder(category))
