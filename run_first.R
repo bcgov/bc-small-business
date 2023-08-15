@@ -252,9 +252,20 @@ data_51 <- data_51 %>%
 
 
 
-# 1.3b: Distribution of small businesses with and without employees by industry, 2022 ----
+# 4.3: Distribution of small businesses with and without employees by industry, 2022 ----
 data_52 <- read_excel(excel_file, sheet = "4.3", range = "a29:c45", col_names = TRUE)
 
+
+# 4.4: Distribution of small businesses with and without employees by industry, 2022 ----
+data_53 <- read_excel(excel_file, sheet = "4.4", range = "a28:c44", col_names = TRUE)
+
+
+# 4.3: Distribution of small businesses with and without employees by industry, 2022 ----
+data_54 <- read_excel(excel_file, sheet = "4.5", range = "b3:d14", col_names = TRUE)
+
+
+# 4.6 Small business contribution to GDP by province, 2021 ----
+data_55 <- read_excel(excel_file, sheet = "4.6", range = "a2:b12", col_names = TRUE)
 
 
 
