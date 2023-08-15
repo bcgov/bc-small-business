@@ -41,8 +41,9 @@ ui <-
                                                                         icon = icon("users")),
 
                                                                menuItem("Self-Employed", tabName = "page3", icon = icon("user"),
-                                                                        menuSubItem("For women", tabName = "women"),
-                                                                        menuSubItem("For Indigenous people", tabName = "indigenous")
+                                                                        menuSubItem("Main", tabName = "main"),
+                                                                        menuSubItem("Women", tabName = "women"),
+                                                                        menuSubItem("Indigenous people", tabName = "indigenous")
                                                                ),
 
 
@@ -368,74 +369,93 @@ ui <-
                                                 tabItem(
                                                   tabName = "page3", "page 3",
 
-                                                  fluidRow(
 
-                                                    box(title = "Figure 3.01: Self-employment as a per cent of total employment by province, 2022", plotlyOutput("plot3.01"), width = 10,
-                                                        br(),
-                                                        HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
-                                                        <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
-                                                    ),
-
-                                                    box(title = "Figure 3.02: Self-employment per cent change by province, 2017-2022", plotlyOutput("plot3.02"), width = 10,
-                                                        br(),
-                                                        HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
-                                                    ),
-
-                                                    box(title = "Figure 3.03a: Self-employment per cent change for regions in British Columbia, 2017-2022", plotlyOutput("plot3.03a"), width = 10,
-                                                        br(),
-                                                        HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
-                                                         <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
-                                                    ),
-
-                                                    box(title = "Figure 3.03b: Self-employment per cent change for regions in British Columbia, 2021-2022", plotlyOutput("plot3.03b"), width = 10,
-                                                        br(),
-                                                        HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
-                                                         <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
-                                                    ),
-
-                                                    box(title = "Figure 3.1a: Number of self-employed business owners in British Columbia, 2022", plotlyOutput("plot3.1a"), width = 10,
-                                                        br(),
-                                                        HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
-                                                        <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
-                                                    ),
-
-
-
-                                                    box(title = "Figure 3.1b: Number of self-employed business owners in British Columbia, 2022", plotlyOutput("plot3.1b"), width = 10,
-                                                        br(),
-                                                        HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
-                                                         <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
-                                                    ),
-
-                                                  box(title = "Fig3.2: Number of self-employed with paid help compared to self-employed without paid help, British Columbia, 2017-2022", plotlyOutput("plot3.2"), width = 10,
-                                                        br(),
-                                                        HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
-                                                        <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
-                                                    ),
-
-                                                    box(title = "Fig3.3: Age distribution of self-employed workers compared to employees, British Columbia, 2022", plotlyOutput("plot3.3"), width = 10,
-                                                        br(),
-                                                        HTML("<b><small><small></b> <p>Notes: </small></small>")
-                                                    ),
-
-                                                    box(title = "Fig3.3b: Share of British Columbian workers who are self-employed, by age", plotlyOutput("plot3.3b"), width = 10,
-                                                        br(),
-                                                        HTML("<b><small><small></b> <p>Notes: </small></small>")
-                                                    ),
-
-
-                                                  box(title = "Figure 3.7a: Hours worked, self-employed compared to employees, British Columbia, 2022", plotlyOutput("plot3.7a"), width = 10,
-                                                      br(),
-                                                      HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
-                                                  ),
-
-                                                  box(title = "Figure 3.7b: Usual hours worked, self-employed by sex, British Columbia, 2022", plotlyOutput("plot3.7b"), width = 10,
-                                                      br(),
-                                                      HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
-                                                  ),
                                                 ),
-                                               ),
+
                                                ## page 3 tab end ----
+
+                                               ## page 3 subtab main start ----
+                                               tabItem(
+                                                 tabName = "main",
+                                                 "page 3 - main",
+
+                                                 fluidRow(
+
+
+                                                     box(title = "Figure 3.01: Self-employment as a per cent of total employment by province, 2022", plotlyOutput("plot3.01"), width = 10,
+                                                         br(),
+                                                         HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
+                                                        <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                     ),
+
+                                                     box(title = "Figure 3.02: Self-employment per cent change by province, 2017-2022", plotlyOutput("plot3.02"), width = 10,
+                                                         br(),
+                                                         HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                     ),
+
+                                                     box(title = "Figure 3.03a: Self-employment per cent change for regions in British Columbia, 2017-2022", plotlyOutput("plot3.03a"), width = 10,
+                                                         br(),
+                                                         HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
+                                                         <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                     ),
+
+                                                     box(title = "Figure 3.03b: Self-employment per cent change for regions in British Columbia, 2021-2022", plotlyOutput("plot3.03b"), width = 10,
+                                                         br(),
+                                                         HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
+                                                         <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                     ),
+
+                                                     box(title = "Figure 3.1a: Number of self-employed business owners in British Columbia, 2022", plotlyOutput("plot3.1a"), width = 10,
+                                                         br(),
+                                                         HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
+                                                        <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                     ),
+
+
+
+                                                     box(title = "Figure 3.1b: Number of self-employed business owners in British Columbia, 2022", plotlyOutput("plot3.1b"), width = 10,
+                                                         br(),
+                                                         HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
+                                                         <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                     ),
+
+                                                     box(title = "Fig3.2: Number of self-employed with paid help compared to self-employed without paid help, British Columbia, 2017-2022", plotlyOutput("plot3.2"), width = 10,
+                                                         br(),
+                                                         HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
+                                                        <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                     ),
+
+                                                     box(title = "Fig3.3: Age distribution of self-employed workers compared to employees, British Columbia, 2022", plotlyOutput("plot3.3"), width = 10,
+                                                         br(),
+                                                         HTML("<b><small><small></b> <p>Notes: </small></small>")
+                                                     ),
+
+                                                     box(title = "Fig3.3b: Share of British Columbian workers who are self-employed, by age", plotlyOutput("plot3.3b"), width = 10,
+                                                         br(),
+                                                         HTML("<b><small><small></b> <p>Notes: </small></small>")
+                                                     ),
+
+
+                                                     box(title = "Figure 3.7a: Hours worked, self-employed compared to employees, British Columbia, 2022", plotlyOutput("plot3.7a"), width = 10,
+                                                         br(),
+                                                         HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                     ),
+
+                                                     box(title = "Figure 3.7b: Usual hours worked, self-employed by sex, British Columbia, 2022", plotlyOutput("plot3.7b"), width = 10,
+                                                         br(),
+                                                         HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                     ),
+
+
+
+
+                                                 ),
+                                               ),
+                                               ## page 3 subtab main end -----
+
+
+
+
                                                ## page 3 subtab women start ----
                                                tabItem(
                                                  tabName = "women",
