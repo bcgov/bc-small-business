@@ -270,23 +270,42 @@ data_55 <- read_excel(excel_file, sheet = "4.6", range = "a2:b12", col_names = T
 
 
 
+# 5.3 plots ----
+data_56 <- read_excel(excel_file, sheet = "5.3", range = "a19:d21", col_names = TRUE)
+data_56 <- data_56 %>%
+  pivot_longer(cols = -Exporters, names_to = "bus_type", values_to = "counts")
+data_56
 
 
 
 
+# 5.4 Destination share of value of small business exports by province, 2022----
+## don't read in total, not needed in chart
+data_57 <- read_excel(excel_file, sheet = "5.4", range = "a8:i11", col_names = TRUE) %>%
+  rename(category = area) %>%
+  pivot_longer(-category, names_to = "area", values_to = "count") %>%
+  mutate(category = fct_inorder(category))
+data_57
 
- #   rename(category = type) %>%
- #   pivot_longer(-category, names_to = "years", values_to = "count") %>%
-#     mutate(category = fct_inorder(category))
-# data_42
-# data_42
 
-#   data_09 <- read_excel(excel_file, sheet = "1.1", range = "a2:i7", col_names = TRUE) %>%
-#     rename(category = years) %>%
-#     pivot_longer(-category, names_to = "years", values_to = "count") %>%
-#     mutate(category = fct_inorder(category))
-#
-#
+
+# 5.5 Export intensity for small businesses by province, 2022 ----
+data_58 <- read_excel(excel_file, sheet = "5.5", range = "a4:b11", col_names = TRUE)
+
+
+# 5.04 ----
+
+
+
+# 1.1 Growth of Small Businesses in BC----
+## don't read in total, not needed in chart
+data_59 <- read_excel(excel_file, sheet = "5.0.4", range = "a3:n5", col_names = TRUE) %>%
+  rename(category = years) %>%
+  pivot_longer(-category, names_to = "years", values_to = "count") %>%
+  mutate(category = fct_inorder(category))
+data_59
+
+
 
 
 

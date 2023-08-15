@@ -2225,8 +2225,117 @@ server <- function(input, output, session) {
 
 
 
+  # plot5.3----
+
+  output$plot5.3 <- renderPlotly({
+
+    custom_colors <- custom_colors[c("navy", "dark_blue", "med_blue", "green", "yellow")] %>% unname()
 
 
+    plot5.3 <- plot_ly(data$data_56, x = ~Exporters, y = ~counts, color = ~bus_type, type = "bar", textposition = 'inside',
+                       colors = custom_colors) %>%
+
+
+      layout(title = "",
+             legend = list(orientation = "h", x = 0, y = 1.2),
+             xaxis = list(title = "Year"),
+             yaxis = list(title = "",
+                          tickformat = ",",
+                          tickprefix = "",
+                          ticksuffix = "K",
+                          dtick = 100),
+             barmode = "group")
+
+
+  })
+
+
+
+  # plot5.4----
+  output$plot5.4 <- renderPlotly({
+
+    custom_colors <- custom_colors[c("navy", "dark_blue", "med_blue", "green", "yellow")] %>% unname()
+
+    # Create the stacked bar chart with custom colors
+    plot5.4 <- plot_ly(data$data_57, x = ~area, y = ~count, color = ~category, type = "bar", textposition = 'inside',
+                       colors = custom_colors) %>%
+      layout(title = "",
+             xaxis = list(title = "Years"),
+             yaxis = list(title = "Employee Count"),
+             barmode = "relative",
+             showlegend = TRUE,
+             legend = list(orientation = "h", x = 0, y = 1.3))
+
+    # Display the chart
+    plot5.4
+
+  })
+
+
+
+  # plot5.5----
+  output$plot5.5 <- renderPlotly({
+
+    ## divide by 100 to be able to make y-axis percents
+    canada_average <- 4.4
+
+    plot_data <- data$data_58 %>%
+      mutate(Label = paste0(round_half_up(Percent, digits = 1), ""),
+             Percent = Percent,
+             Province = factor(Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
+                                                    "Atlantic")),
+             selected_color = ifelse(Province == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
+
+    footnote <- "Source: Statistics Canada / Prepared by BC Stats"
+
+    plot5.5 <- plot_ly(plot_data,
+                       x = ~Province,
+                       y = ~Percent,
+                       type = "bar",
+                       marker = list(color = ~selected_color),
+                       text = ~paste(Province,":",Label),
+                       textposition = "none",
+                       hoverinfo = 'text') %>%
+      layout(xaxis = list(title = ""),
+             yaxis = list(title = "", tickformat = "0"), ## make y-axis
+             shapes = list(hline(canada_average))) %>% ## add line
+      add_annotations( ## add canadian average text
+        x = 0.01,
+        y = 0.99,
+        text = "— Canada ($4.4 million)",
+        xref = "paper",
+        yref = "paper",
+        xanchor = "left",
+        yanchor = "bottom",
+        showarrow = F
+      )
+
+  })
+
+
+
+
+
+  # plot5.04----
+  output$plot5.04 <- renderPlotly({
+
+    custom_colors <- custom_colors[c("navy", "dark_blue", "med_blue", "green", "yellow")] %>% unname()
+
+    # Create the stacked bar chart with custom colors
+    plot5.04 <- plot_ly(data$data_59, x = ~years, y = ~count, color = ~category, type = "scatter", mode = "lines",
+                       fill = "tonexty", textposition = 'inside',
+                       colors = custom_colors) %>%
+      layout(title = "",
+             xaxis = list(title = "Years"),
+             yaxis = list(title = "Employee Count"),
+             barmode = "relative",
+             showlegend = TRUE,
+             legend = list(orientation = "h", x = 0, y = 1.3))
+
+    # Display the chart
+
+
+  })
 
 
 
