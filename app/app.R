@@ -396,7 +396,7 @@ ui <-
 
                                                 ## page 3 tab start ----
                                                 tabItem(
-                                                  tabName = "page3", "page 3",
+                                                  tabName = "page3", #"page 3",
 
 
                                                 ),
@@ -530,7 +530,7 @@ ui <-
                                                ## page 4 tab start ----
                                                tabItem(
                                                  tabName = "page4",
-                                                 "page 4",
+                                        #         "page 4",
 
                                                  fluidRow(
 
@@ -574,7 +574,7 @@ ui <-
                                                ## page 5 tab start ----
                                                tabItem(
                                                  tabName = "page5",
-                                                 "page 5",
+                                             #    "page 5",
 
                                                  fluidRow(
 
@@ -831,8 +831,6 @@ server <- function(input, output, session) {
              showlegend = TRUE,
              legend = list(orientation = "h", x = 0, y = 1.3))
 
-    # Display the chart
-    plot1.1
 
   })
 
@@ -1906,7 +1904,7 @@ server <- function(input, output, session) {
       add_annotations( ## add canadian average text
         x = 0.55,
         y = 0.88,
-        text = "— Canadian Average 13.5%",
+        text = "<b>— Canadian Average 13.5%</b>",
         xref = "paper",
         yref = "paper",
         xanchor = "left",
@@ -1949,7 +1947,7 @@ server <- function(input, output, session) {
       add_annotations( ## add canadian average text
         x = 0.55,
         y = 0.28,
-        text = "— Canadian Average -3.1%",
+        text = "<b>— Canadian Average -3.1%</b>",
         xref = "paper",
         yref = "paper",
         xanchor = "left",
@@ -1967,7 +1965,9 @@ server <- function(input, output, session) {
     bc_average <- 0.08
     data_40 <- data$data_40
 
-    custom_colors2 <- c(yellow= "#fcb814",navy = "#143047")
+
+    custom_colors3 <- c(yellow= "#fcb814", light_green = "#95c1b2", green = "#15987b",
+                         light_blue =  "#92b5d2", med_blue = "#0e83b0", dark_blue = "#015082",navy = "#143047")
 
     data_40$area <- factor(data_40$area, levels = rev(c(    "Northeast",
                                                             "North Coast & Nechako",
@@ -1979,7 +1979,7 @@ server <- function(input, output, session) {
 
     footnote <- "Source: Statistics Canada / Prepared by BC Stats"
 
-    plot3.03a <- plot_ly(data_40, y = ~area, x = data_40$`percent`, type = "bar", marker = list(color = custom_colors2), orientation = 'h')
+    plot3.03a <- plot_ly(data_40, y = ~area, x = data_40$`percent`, type = "bar", marker = list(color = custom_colors3), orientation = 'h')
 
     plot3.03a <- plot3.03a %>% layout(xaxis = list(title = ""),
                                            yaxis = list(title = "", tickformat = "0%"), ## make y-axis percents
@@ -1987,7 +1987,7 @@ server <- function(input, output, session) {
                                       add_annotations( ## add BC average text
                                         x = 0.01,
                                         y = 0.99,
-                                        text = "— BC Average +0.8%",
+                                        text = "<b>— BC Average +0.8%</b>",
                                         xref = "paper",
                                         yref = "paper",
                                         xanchor = "left",
@@ -2006,7 +2006,9 @@ server <- function(input, output, session) {
     bc_average <- -.009
     data_41 <- data$data_41
 
-    custom_colors2 <- c(yellow= "#fcb814",navy = "#143047")
+
+    custom_colors3 <- c(yellow= "#fcb814", light_green = "#95c1b2", green = "#15987b",
+                         light_blue =  "#92b5d2", med_blue = "#0e83b0", dark_blue = "#015082",navy = "#143047")
 
     data_41$area <- factor(data_41$area, levels = rev(c(    "Northeast",
                                                             "North Coast & Nechako",
@@ -2018,7 +2020,7 @@ server <- function(input, output, session) {
 
     footnote <- "Source: Statistics Canada / Prepared by BC Stats"
 
-    plot3.03b <- plot_ly(data_41, y = ~area, x = data_41$`percent`, type = "bar", marker = list(color = custom_colors2), orientation = 'h')
+    plot3.03b <- plot_ly(data_41, y = ~area, x = data_41$`percent`, type = "bar", marker = list(color = custom_colors3), orientation = 'h')
 
     plot3.03b <- plot3.03b %>% layout(xaxis = list(title = ""),
                                       yaxis = list(title = "", tickformat = "0%"), ## make y-axis percents
@@ -2026,7 +2028,7 @@ server <- function(input, output, session) {
       add_annotations( ## add BC average text
         x = 0.01,
         y = 0.99,
-        text = "— BC Average -0.9%",
+        text = "<b>— BC Average -0.9%</b>",
         xref = "paper",
         yref = "paper",
         xanchor = "left",
@@ -2044,9 +2046,12 @@ server <- function(input, output, session) {
     custom_colors <- custom_colors[c("navy", "dark_blue", "med_blue", "green", "yellow")] %>% unname()
 
 
-    plot3.1a <- plot_ly(data$data_42, x = ~help_type, y = ~counts, color = ~type, type = "bar", textposition = 'inside',
+    plot3.1a <- plot_ly(data$data_42, x = ~help_type, y = ~counts, color = ~type, type = "bar",
                         colors = custom_colors) %>%
-      layout(barmode = 'stack')
+      layout(xaxis = list(title = ""),
+             legend = list(orientation = "h", x = 0, y = 1.2),
+             yaxis = list(title = "", tickformat = "0")
+      )
 
   })
 
@@ -2061,7 +2066,10 @@ server <- function(input, output, session) {
 
     plot3.1b <- plot_ly(data$data_42, x = ~type, y = ~counts, color = ~help_type, type = "bar", textposition = 'inside',
                         colors = custom_colors) %>%
-      layout(barmode = 'stack')
+      layout(xaxis = list(title = ""),
+             legend = list(orientation = "h", x = 0, y = 1.2),
+             yaxis = list(title = "", tickformat = "0")
+      )
 
   })
 
