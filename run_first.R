@@ -19,6 +19,13 @@ rm(list = ls())
 excel_file <- "C:/bc-small-business/SBP2023_Chart_data.xlsx"
 
 
+
+# K1 Small buiness tax rates by province, 2022 ----
+data_K1 <- read_excel(excel_file, sheet = "K1", range = "a3:b13", col_names = TRUE)
+
+
+
+
 # 1. Small Business Growth----
 
 # 1.0.0 Breakdown of small businesses in British Columbia, 2022----
@@ -45,7 +52,7 @@ data_10 <- read_excel(excel_file, sheet = "1.2a", range = "a2:i18", col_names = 
 
 
 # 1.3a: Distribution of small businesses by industry----
-data_12 <- read_excel(excel_file, sheet = "1.3a", range = "a2:c17", col_names = TRUE)
+data_12 <- read_excel(excel_file, sheet = "1.3a", range = "a2:c18", col_names = TRUE)
 data_12$`%` <- as.numeric(data_12$`%`)
 
 
@@ -268,6 +275,13 @@ data_54 <- read_excel(excel_file, sheet = "4.5", range = "b3:d14", col_names = T
 data_55 <- read_excel(excel_file, sheet = "4.6", range = "a2:b12", col_names = TRUE)
 
 
+# 5.1 Number of BC exporters and value of exports, 2017-2022 ----
+data_60 <- read_excel(excel_file, sheet = "5.1", range = "a3:i11", col_names = TRUE)
+
+
+# 5.2 Number of BC exporters and value of exports, 2017-2022 ----
+data_61 <- read_excel(excel_file, sheet = "5.2", range = "a3:k18", col_names = TRUE)
+
 
 
 # 5.3 plots ----
@@ -293,11 +307,7 @@ data_57
 data_58 <- read_excel(excel_file, sheet = "5.5", range = "a4:b11", col_names = TRUE)
 
 
-# 5.04 ----
-
-
-
-# 1.1 Growth of Small Businesses in BC----
+# 5.04 Growth of Small Businesses in BC----
 ## don't read in total, not needed in chart
 data_59 <- read_excel(excel_file, sheet = "5.0.4", range = "a3:n5", col_names = TRUE) %>%
   rename(category = years) %>%
@@ -309,85 +319,6 @@ data_59
 
 
 
-
-
-
-
-
-# data_04 <- read_excel(excel_file, sheet = "0.4", range = "a3:n5", col_names = FALSE)
-# data_04t <- t(data_04)
-# data_04_result <- as.data.frame(data_04t)
-# colnames(data_04_result) <- data_04_result[1, ]
-# data_04_result <- data_04_result[-1, ]
-# data_04_result
-#
-#
-# data_05 <- read_excel(excel_file, sheet = "Key1", range = "a3:b12", col_names = FALSE)
-# data_06 <- read_excel(excel_file, sheet = "Key2", range = "a5:c15", col_names = TRUE)
-# data_07 <- read_excel(excel_file, sheet = "Key2", range = "a23:b33", col_names = FALSE)
-#
-#
-# data_08 <- read_excel(excel_file, sheet = "Key3", range = "a2:b12", col_names = TRUE)
-# data_08
-#
-#
-#
-
-
-
-
-
-
-
-
-
-
-#
-#
-#
-# # 2.2 Private sector employment in British Columbia by size of business, 2022 ----
-# data_23 <- read_excel(excel_file, sheet = "2.2", range = "a3:d8", col_names = TRUE)
-#
-# # 2.3a Share of businesses and organizations by size, 2022 ----
-# data_24 <- read_excel(excel_file, sheet = "2.3", range = "a23:c26", col_names = TRUE)
-# data_24$`%` <- as.numeric(data_24$`%`)
-# data_24
-#
-
-#
-# # 2.4a TBD its a table currently ----
-#
-
-#
-
-
-#
-
-# # 2.8 Self-employment as a per cent of total employment by province, 2022 ----
-# data_33 <- read_excel(excel_file, sheet = "2.8", range = "a2:b12", col_names = TRUE)
-# data_33
-#
-# # 2.9 Self-employment per cent change by province, 2017-2022----
-# data_34 <- read_excel(excel_file, sheet = "2.9", range = "a2:b12", col_names = TRUE)
-# data_34
-#
-# # 2.10a Self-employment per cent change for regions in British Columbia, 2021-2022----
-# data_36 <- read_excel(excel_file, sheet = "2.10", range = "a13:b20", col_names = TRUE)
-# data_36
-#
-# # 2.10b Self-employment per cent change for regions in British Columbia, 2017-2022----
-# data_37 <- read_excel(excel_file, sheet = "2.10", range = "a2:b9", col_names = TRUE)
-
-#
-# # 3.2 Number of self-employed with paid help compared to self-employed without paid help, British Columbia, 2017-2022----
-# data_39 <- read_excel(excel_file, sheet = "3.2", range = "a3:c9", col_names = TRUE)
-# data_39
-#
-# # 3.3a Age distribution of self-employed workers compared to employees, British Columbia, 2022----
-# data_40 <- read_excel(excel_file, sheet = "3.3", range = "a3:c9", col_names = TRUE)
-# names(data_40) <- c("agegroup", "Employees", "self-employed")
-# data_40
-#
 
 # ## Save data for app ----
 # ## remove unneeded environment variables
