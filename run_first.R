@@ -18,10 +18,14 @@ rm(list = ls())
 # Read the Excel file
 excel_file <- "C:/bc-small-business/SBP2023_Chart_data.xlsx"
 
-
-
 # K1 Small buiness tax rates by province, 2022 ----
 data_K1 <- read_excel(excel_file, sheet = "K1", range = "a3:b13", col_names = TRUE)
+
+# K2 Total building permits per capita, 2022 ----
+data_K2 <- read_excel(excel_file, sheet = "K2", range = "a3:b13", col_names = TRUE)
+
+# K3 Bankruptcies per 1,000 businesses, 2022 ----
+data_K3 <- read_excel(excel_file, sheet = "K3", range = "a3:b13", col_names = TRUE)
 
 
 
