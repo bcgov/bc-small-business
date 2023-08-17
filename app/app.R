@@ -44,7 +44,7 @@ ui <-
                                                                         menuSubItem("Indigenous people", tabName = "indigenous")),
                                                                menuItem("Contribution to Economy", tabName = "page4", icon = icon("usd")),
                                                                menuItem("Small Business Exports", tabName = "page5", icon = icon("truck")),
-                                                               menuItem("Key Indicators", tabName = "page0", icon = icon("file-text")),
+                                                               menuItem("Other Indicators", tabName = "page0", icon = icon("file-text")),
                                                                tags$div(style = "text-align:center;color:#b8c7ce",
                                                                         br(),
                                                                         downloadButton(outputId = "download_data", "Download data as excel"),
@@ -178,21 +178,21 @@ ui <-
                                                     box(title = "Figure K1 - Small business tax rates by province",
                                                         plotlyOutput("plotK1"), width = 10,
                                                         br(),
-                                                        HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                        HTML("<b><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
 
                                                     ),
 
                                                     box(title = "Figure K2 - Total building permits per capita, 2022",
                                                         plotlyOutput("plotK2"), width = 10,
                                                         br(),
-                                                        HTML("<b><small><small></b> <p>Source: Statistics Canada / Prepared by BC Stats</small></small>")
+                                                        HTML("<b><small></b> <p>Source: Statistics Canada / Prepared by BC Stats</small>")
 
                                                     ),
 
                                                     box(title = "Figure K3 - Bankruptcies per 1,000 businesses",
                                                         plotlyOutput("plotK3"), width = 10,
                                                         br(),
-                                                        HTML("<b><small><small></b> <p>Source: Innovation, Science and Economic Development Canada / Prepared by BC Stats.</small></small>")
+                                                        HTML("<b><small></b> <p>Source: Innovation, Science and Economic Development Canada / Prepared by BC Stats.</small>")
 
                                                     ),
 
@@ -218,14 +218,14 @@ ui <-
                                                     box(title = "Figure 1.1 - Growth of small businesses in British Columbia",
                                                         plotlyOutput("plot1.1"), width = 10,
                                                         br(),
-                                                        HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                        HTML("<b><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
 
                                                     ),
 
                                                     box(title = "Figure 1.0.1 - Count of small businesses in British Columbia",
                                                         plotlyOutput("plot1.0.1"), width = 10,
                                                         br(),
-                                                        HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                        HTML("<b><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
 
                                                     ),
 #
@@ -233,7 +233,7 @@ ui <-
 #                                                     box(title = "jsut 1.2a1 - Count of small businesses in British Columbia",
 #                                                         plotlyOutput("plot1.2test"), width = 10,
 #                                                         br(),
-#                                                         HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+#                                                         HTML("<b><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
 #
 #                                                     ),
 #
@@ -248,7 +248,7 @@ ui <-
                                                           tabPanel("5 year", plotlyOutput("plot1.2a3"))
                                                         ),
                                                         br(),
-                                                        HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                        HTML("<b><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
 
                                                     ),
 
@@ -256,78 +256,78 @@ ui <-
                                                     box(title = "Figure 1.3a: Distribution of small businesses by industry, 2022",
                                                         plotlyOutput("plot1.3a"), width = 10,
                                                         br(),
-                                                        HTML("<b><small><small></b> <p>Notes: Primary* is comprised of the agriculture, forestry,
+                                                        HTML("<b><small></b> <p>Notes: Primary* is comprised of the agriculture, forestry,
                                       fishing, mining, oil and gas industries. The total does not sum to 100% as some businesses
                                       with employees could not be classified by industry.
-                                      <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                      <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
 
                                                     ),
 
                                                     box(title = "Figure 1.3b: Distribution of small businesses with and without employees by industry, 2022",
                                                         plotlyOutput("plot1.3b"), width = 10, br(),
-                                                        HTML("<b><small><small></b> <p>Notes: Primary is comprised of the agriculture, forestry,
+                                                        HTML("<b><small></b> <p>Notes: Primary is comprised of the agriculture, forestry,
                                       fishing, mining, oil and gas industries. Self-employment in utilities is less than 1500. Industries
                                       do not sum to 100% as some businesses with employees could not be classified by industry.
-                                      <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                      <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
                                                     ),
 
                                                     box(title = "Figure 1.4: Small businesses by industry, proportions with and without employees, 2022", plotlyOutput("plot1.4"), width = 10,
                                                         br(),
-                                                        HTML("<b><small><small></b> <p>Notes: Primary is comprised of the agriculture, forestry,
+                                                        HTML("<b><small></b> <p>Notes: Primary is comprised of the agriculture, forestry,
                                       fishing, mining, oil and gas industries. Utilities is not shown because the number of small businesses
                                       with employees is <200 and self-employment without paid help is very small and suppressed for confidentiality reasons.
-                                      <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                      <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
 
                                                     ),
 
                                                     box(title = "Figure 1.5: Number of net new small businesses - fastest growing sectors in B.C, 2017-2022", plotlyOutput("plot1.5"), width = 10,
                                                         br(),
-                                                        HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
-                                      <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                        HTML("<b><small></b> <p>Notes: Excludes self-employed without paid help.
+                                      <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
                                                     ),
 
                                                     box(title = "Figure 1.6: Sector growth rates for number of small businesses with employees, BC, 2017-2020", plotlyOutput("plot1.6"), width = 10,
                                                         br(),
-                                                        HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
-                                      <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                        HTML("<b><small></b> <p>Notes: Excludes self-employed without paid help.
+                                      <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
 
 
                                                     ),
 
                                                     box(title = "Figure 1.7: Small businesses per capita by province, 2022", plotlyOutput("plot1.7"), width = 10,
                                                         br(),
-                                                        HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                        HTML("<b><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
 
                                                     ),
 
                                                     box(title = "Figure 1.8: Small business growth by province, 2022", plotlyOutput("plot1.8"), width = 10,
                                                         br(),
-                                                        HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                        HTML("<b><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
 
                                                     ),
 
                                                     box(title = "Figure 1.9: Small business and population distribution by region in British Columbia, 2022", plotOutput("plot1.9", height = "470px"), width = 10,
                                                         br(),
-                                                        HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                        HTML("<b><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
 
                                                     ),
 
                                                     box(title = "Figure 1.10: Small businesses per 1,000 persons", plotlyOutput("plot1.10"), width = 10,
                                                         br(),
-                                                        HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                        HTML("<b><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
 
 
                                                     ),
 
                                                     box(title = "Figure 1.11a: Small businesses by region, 2022", plotlyOutput("plot1.11a"), width = 10,
                                                         br(),
-                                                        HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                        HTML("<b><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
 
 
                                                     ),
                                                     box(title = "Figure 1.11b: Small businesses by region, growth 2017-2022", plotlyOutput("plot1.11b"), width = 10,
                                                         br(),
-                                                        HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                        HTML("<b><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
                                                     )
                                                   )),
 
@@ -345,7 +345,7 @@ ui <-
 
                                                     box(title = "Figure 2.1 Share of total employment in British Columbia, 2022", plotlyOutput("plot2.1"), width = 10,
                                                         br(),
-                                                        HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                        HTML("<b><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
 
                                                     ),
 
@@ -353,52 +353,52 @@ ui <-
 
                                                     box(title = "Figure 2.3: Share of employment by establishment size, 2022", plotlyOutput("plot2.3"), width = 10,
                                                         br(),
-                                                        HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                        HTML("<b><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
 
                                                     ),
 
 
                                                     box(title = "Figure 2.4b: Year-over-year growth in private sector employment", plotlyOutput("plot2.4b"), width = 10,
                                                         br(),
-                                                        HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                        HTML("<b><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
 
                                                     ),
 
                                                     box(title = "Figure 2.5a: One-year small business employment change, by province, 2020-2021", plotlyOutput("plot2.5a"), width = 10,
                                                         br(),
-                                                        HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                        HTML("<b><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
 
                                                     ),
 
                                                     box(title = "Figure 2.5b: Five-year small business employment change by province, 2017-2022", plotlyOutput("plot2.5b"), width = 10,
                                                         br(),
-                                                        HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                        HTML("<b><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
 
                                                     ),
 
                                                     box(title = "Figure 2.6: Small Business as a percent of private-sector employment by province, 2017-2022", plotlyOutput("plot2.6"), width = 10,
                                                     br(),
-                                                    HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                    HTML("<b><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
 
                                                     ),
 
 
-                                                     box(title = "Figure 2.7a: One-year small business employment change by province, 2017-2022", plotlyOutput("plot2.7a"), width = 10,
+                                                     box(title = "Figure 2.7a: O One-year top and bottom industries for small business employment growth in British Columbia, 2021-2022", plotlyOutput("plot2.7a"), width = 10,
                                                      br(),
-                                                     HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                     HTML("<b><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
 
                                                     ),
 
-                                                    box(title = "Figure 2.7b: Two-year small business employment change by province, 2017-2022", plotlyOutput("plot2.7b"), width = 10,
+                                                    box(title = "Figure 2.7b: Two-year top and bottom industries for small business employment growth in British Columbia, 2020-2022", plotlyOutput("plot2.7b"), width = 10,
                                                         br(),
-                                                        HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                        HTML("<b><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
 
                                                     ),
 
 
-                                                    box(title = "Figure 2.7c: Five-year small business employment change by province, 2017-2022", plotlyOutput("plot2.7c"), width = 10,
+                                                    box(title = "Figure 2.7c: Five-year top and bottom industries for small business employment growth in British Columbia, 2017-2022", plotlyOutput("plot2.7c"), width = 10,
                                                         br(),
-                                                        HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                        HTML("<b><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
                                                     )
                                                   )),
 
@@ -426,61 +426,61 @@ ui <-
 
                                                      box(title = "Figure 3.01: Self-employment as a per cent of total employment by province, 2022", plotlyOutput("plot3.01"), width = 10,
                                                          br(),
-                                                         HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
-                                                        <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                         HTML("<b><small></b> <p>Notes: Excludes self-employed without paid help.
+                                                        <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
                                                      ),
 
                                                      box(title = "Figure 3.02: Self-employment per cent change by province, 2017-2022", plotlyOutput("plot3.02"), width = 10,
                                                          br(),
-                                                         HTML("<b><small><small></b> <p>Source: Statistics Canada / Prepared by BC Stats.</small></small>")
+                                                         HTML("<b><small></b> <p>Source: Statistics Canada / Prepared by BC Stats.</small>")
                                                      ),
 
                                                      box(title = "Figure 3.03a: Self-employment per cent change for regions in British Columbia, 2017-2022", plotlyOutput("plot3.03a"), width = 10,
                                                          br(),
-                                                         HTML("<b><small><small></b> <p>Source: Statistics Canada / Prepared by BC Stats.</small></small>")
+                                                         HTML("<b><small></b> <p>Source: Statistics Canada / Prepared by BC Stats.</small>")
                                                      ),
 
                                                      box(title = "Figure 3.03b: Self-employment per cent change for regions in British Columbia, 2021-2022", plotlyOutput("plot3.03b"), width = 10,
                                                          br(),
-                                                         HTML("<b><small><small></b> <p>Source: Statistics Canada / Prepared by BC Stats.</small></small>")
+                                                         HTML("<b><small></b> <p>Source: Statistics Canada / Prepared by BC Stats.</small>")
                                                      ),
 
                                                      box(title = "Figure 3.1a: Number of self-employed business owners in British Columbia, 2022", plotlyOutput("plot3.1a"), width = 10,
                                                          br(),
-                                                         HTML("<b><small><small></b> <p><p>Source: Statistics Canada / Prepared by BC Stats.</small></small>")
+                                                         HTML("<b><small></b> <p><p>Source: Statistics Canada / Prepared by BC Stats.</small>")
                                                      ),
 
 
 
                                                      box(title = "Figure 3.1b: Number of self-employed business owners in British Columbia, 2022", plotlyOutput("plot3.1b"), width = 10,
                                                          br(),
-                                                         HTML("<b><small><small></b> <p>Source: Statistics Canada / Prepared by BC Stats..</small></small>")
+                                                         HTML("<b><small></b> <p>Source: Statistics Canada / Prepared by BC Stats..</small>")
                                                      ),
 
                                                      box(title = "Fig3.2: Number of self-employed with paid help compared to self-employed without paid help, British Columbia, 2017-2022", plotlyOutput("plot3.2"), width = 10,
                                                          br(),
-                                                         HTML("<b><small><small></b> <p>Source: Statistics Canada / Prepared by BC Stats.</small></small>")
+                                                         HTML("<b><small></b> <p>Source: Statistics Canada / Prepared by BC Stats.</small>")
                                                      ),
 
                                                      box(title = "Fig3.3: Age distribution of self-employed workers compared to employees, British Columbia, 2022", plotlyOutput("plot3.3"), width = 10,
                                                          br(),
-                                                         HTML("<b><small><small></b> <p>Source: Statistics Canada / Prepared by BC Stats</small></small>")
+                                                         HTML("<b><small></b> <p>Source: Statistics Canada / Prepared by BC Stats</small>")
                                                      ),
 
                                                      box(title = "Fig3.3b: Share of British Columbian workers who are self-employed, by age", plotlyOutput("plot3.3b"), width = 10,
                                                          br(),
-                                                         HTML("<b><small><small></b> <p>Notes: IS THERE A SOURCE HERE? </small></small>")
+                                                         HTML("<b><small></b> <p>Notes: IS THERE A SOURCE HERE? </small>")
                                                      ),
 
 
                                                      box(title = "Figure 3.7a: Hours worked, self-employed compared to employees, British Columbia, 2022", plotlyOutput("plot3.7a"), width = 10,
                                                          br(),
-                                                         HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                         HTML("<b><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
                                                      ),
 
                                                      box(title = "Figure 3.7b: Usual hours worked, self-employed by sex, British Columbia, 2022", plotlyOutput("plot3.7b"), width = 10,
                                                          br(),
-                                                         HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                         HTML("<b><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
                                                      ),
 
 
@@ -502,14 +502,14 @@ ui <-
 
                                                    box(title = "Figure 3.4: Proportion of self-employed who are women by province, 2022", plotlyOutput("plot3.4"), width = 10,
                                                        br(),
-                                                       HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
-                                                        <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                       HTML("<b><small></b> <p>Notes: Excludes self-employed without paid help.
+                                                        <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
                                                    ),
 
                                                    box(title = "Figure 3.5: Proportion of self-employed who are women, by region", plotlyOutput("plot3.5"), width = 10,
                                                        br(),
-                                                       HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
-                                                      <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                       HTML("<b><small></b> <p>Notes: Excludes self-employed without paid help.
+                                                      <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
                                                    ),
 
 
@@ -527,7 +527,7 @@ ui <-
 
                                                    box(title = "Figure 3.6: Percent of working, off-reserve indigenous and non-indigenous people who are self-employed in BC, 2017-2022", plotlyOutput("plot3.6"), width = 10,
                                                        br(),
-                                                       HTML("<b><small><small></b> <p>Source: Statistics Canada / Prepared by BC Stats.</small></small>")
+                                                       HTML("<b><small></b> <p>Source: Statistics Canada / Prepared by BC Stats.</small>")
                                                    ),
 
 
@@ -544,34 +544,34 @@ ui <-
 
                                                    box(title = "Figure 4.1: Small business contribution to GDP by province, 2021", plotlyOutput("plot4.1"), width = 10,
                                                        br(),
-                                                       HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
-                                                        <p>Source: BC Stats.</small></small>")
+                                                       HTML("<b><small></b> <p>Notes: Excludes self-employed without paid help.
+                                                        <p>Source: BC Stats.</small>")
                                                    ),
 
                                                    box(title = "Figure 4.2: Changes in average annual earnings, British Columbia, 2017-2022", plotlyOutput("plot4.2"), width = 10,
                                                        br(),
-                                                       HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                       HTML("<b><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
                                                    ),
 
 
                                                    box(title = "Figure 4.3: Average annual earnings by industry in B.C., 2022", plotlyOutput("plot4.3"), width = 10,
                                                        br(),
-                                                       HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                       HTML("<b><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
                                                    ),
 
                                                    box(title = "Figure 4.4: Difference in average annual earnings for smal and large businesses by industry, British Columbia, 2017 and 2022", plotlyOutput("plot4.4"), width = 10,
                                                        br(),
-                                                       HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                       HTML("<b><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
                                                    ),
 
                                                    box(title = "Figure 4.5: Average annual earnings by province, 2022", plotlyOutput("plot4.5"), width = 10,
                                                        br(),
-                                                       HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                       HTML("<b><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
                                                    ),
 
                                                    box(title = "Figure 4.6: Small business share of total payroll by province, 2022", plotlyOutput("plot4.6"), width = 10,
                                                        br(),
-                                                       HTML("<b><small><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                       HTML("<b><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
                                                    ),
 
 
@@ -597,24 +597,24 @@ ui <-
 
                                                    box(title = "Figure 5.3: Share of business exporters by destination of exports, 2022", plotlyOutput("plot5.3"), width = 10,
                                                        br(),
-                                                       HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
-                                                        <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                       HTML("<b><small></b> <p>Notes: Excludes self-employed without paid help.
+                                                        <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
                                                    ),
                                                    box(title = "Figure 5.4: Destination share of value of small businesss exports by province, 2022", plotlyOutput("plot5.4"), width = 10,
                                                        br(),
-                                                       HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
-                                                        <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                       HTML("<b><small></b> <p>Notes: Excludes self-employed without paid help.
+                                                        <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
                                                    ),
                                                    box(title = "Figure 5.5: Export intensity for small businesses by province, 2022", plotlyOutput("plot5.5"), width = 10,
                                                        br(),
-                                                       HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
-                                                        <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                       HTML("<b><small></b> <p>Notes: Excludes self-employed without paid help.
+                                                        <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
                                                    ),
 
                                                    box(title = "Figure 5.04: Value of goods exports for small and large businesses, 2022", plotlyOutput("plot5.04"), width = 10,
                                                        br(),
-                                                       HTML("<b><small><small></b> <p>Notes: Excludes self-employed without paid help.
-                                                        <p>Source: BC Stats using data supplied by Statistics Canada.</small></small>")
+                                                       HTML("<b><small></b> <p>Notes: Excludes self-employed without paid help.
+                                                        <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
                                                    ),
 
 
@@ -691,10 +691,10 @@ server <- function(input, output, session) {
   # plotK1----
   output$plotK1 <- renderPlotly({
 
-  data$data_K1$Rate <- data$data_K1$Rate / 100
+ data$data_K1$Rate <- data$data_K1$Rate / 100
 
     plot_data <- data$data_K1 %>%
-      mutate(Label = paste0(round_half_up(Rate, digits = 0), ".0%"),
+      mutate(Label = paste0(round_half_up(Rate*100, digits = 1), "%"),
 
              Province = factor(Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
                                                     "NB", "NS", "PE", "NL")),
@@ -711,7 +711,7 @@ server <- function(input, output, session) {
                        textposition = "none",
                        hoverinfo = 'text') %>%
       layout(xaxis = list(title = ""),
-             yaxis = list(title = "Tax Rate", tickformat = "0%") ## make y-axis percents
+             yaxis = list(title = "Tax Rate", tickformat = ".1%") ## make y-axis percents
 
       )
 
@@ -784,7 +784,7 @@ server <- function(input, output, session) {
                       textposition = "none",
                       hoverinfo = 'text') %>%
       layout(xaxis = list(title = ""),
-             yaxis = list(title = "", tickformat = ""), ## make y-axis percents
+             yaxis = list(title = "", tickformat = "1"), ## make y-axis percents
              shapes = list(hline(canada_average))) %>% ## add line
 
              add_annotations( ## add canadian average text
@@ -1866,7 +1866,7 @@ server <- function(input, output, session) {
 
     plot2.7a <- plot2.7a %>% layout(title = '',
                                       yaxis = list(title = ''),
-                                      showlegend = FALSE
+                                      showlegend = TRUE
     )
 
 
@@ -2425,7 +2425,7 @@ server <- function(input, output, session) {
       add_annotations( ## add canadian average text
         x = 0.01,
         y = 0.99,
-        text = "— Canadian Average 30.0%",
+        text = "<b>— Canadian Average 30.0%</b>",
         xref = "paper",
         yref = "paper",
         xanchor = "left",
