@@ -35,7 +35,7 @@ ui <-
                                                              sidebarMenu(
                                                                id = "tabs", ## to be able to update with buttons on landing page
                                                                menuItem("Home", tabName = "home", icon = icon("home")),
-                                                               menuItem("Key Indicators", tabName = "page0", icon = icon("file-text")),
+
                                                                menuItem("Small Business Growth", tabName = "page1", icon = icon("line-chart")),
                                                                menuItem("Small Business Employment", tabName = "page2",icon = icon("users")),
                                                                menuItem("Self-Employed", tabName = "page3", icon = icon("user"),
@@ -44,6 +44,7 @@ ui <-
                                                                         menuSubItem("Indigenous people", tabName = "indigenous")),
                                                                menuItem("Contribution to Economy", tabName = "page4", icon = icon("usd")),
                                                                menuItem("Small Business Exports", tabName = "page5", icon = icon("truck")),
+                                                               menuItem("Key Indicators", tabName = "page0", icon = icon("file-text")),
                                                                tags$div(style = "text-align:center;color:#b8c7ce",
                                                                         br(),
                                                                         downloadButton(outputId = "download_data", "Download data as excel"),
