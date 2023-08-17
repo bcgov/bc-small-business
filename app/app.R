@@ -2088,7 +2088,7 @@ server <- function(input, output, session) {
 
     layout(title = "",
            legend = list(orientation = "h", x = 0, y = 1.2),
-           xaxis = list(title = "Year"),
+           xaxis = list(title = ""),
            yaxis = list(title = "",
                         tickformat = ",",
                         tickprefix = "",
@@ -2117,6 +2117,8 @@ server <- function(input, output, session) {
 
       layout(title = "",
              legend = list(orientation = "h", x = 0, y = 1.2),
+            yaxis = list(title = "Age group"),
+            xaxis = list(title = "Per cent Distribution", tickformat = "0.0%"),
 
              barmode = "relative")
 
