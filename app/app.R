@@ -2710,13 +2710,13 @@ output$plot4.2 <- renderPlotly({
   output$datatable5.1 <- renderDT({
 
     # Create your dataframe with the desired data
-    table_data <- data$data_60 #%>%
+    table_data <- data$data_60 %>%
+      janitor::remove_empty()
 
 
     # Create the datatable
     datatable(table_data,
               rownames = FALSE,
-              colnames = c("", names(table_data)[-1]),
               ## change default class (table-striped) to cell-border (borders around all cells, no striping)
               class = 'cell-border',
               options = list(
@@ -2734,29 +2734,29 @@ output$plot4.2 <- renderPlotly({
                   "}"
                 ),
                 ## column widths
-                columnDefs = list(list(width = '300px', targets = 0))
-              ),
-              ## add caption
-              caption = htmltools::tags$caption(
-                style = 'caption-side: bottom;',
-                '*Figures do not add to 100% due to rounding'
+                columnDefs = list(list(width = '180px', targets = 0))
               )
-    )   # %>%
+    )    %>%
       # ## helper functions for formatting
-      # formatRound(c("Number of businesses", "Growth 2021-2022 (#)", "Growth 2017-2022 (#)"), mark = ",", digits = 0) %>%  ## add commas to large numbers
-      # formatPercentage("Per cent of all businesses*") %>%
-      # formatPercentage("Per cent of small businesses*", zero.print = "-") %>%
-      # formatPercentage(c("Growth 2021-2022 (%)", "Growth 2017-2022 (%)"), digits = 1) %>%
-      # ## can use any css style in formatStyle by replacing "-" with camel case (e.g., text-align -- textAlign)
-      # formatStyle(1:ncol(table_data), backgroundColor = "#e6edf4", borderColor = "white") %>%
-      # formatStyle(c(2,5,7), textAlign = "right") %>%
-      # formatStyle(c(3,4,6,8), textAlign = "center") %>%
-      # formatStyle(columns = 1:ncol(table_data),
-      #             ## use styleRow to select which rows to apply style
-      #             backgroundColor = styleRow(rows = c(8,15,16), "#c4d6e7"),
-      #             color = styleRow(rows = c(8,15,16), "#015082"),
-      #             fontWeight = styleRow(rows = c(8,15,16), "bold")) %>%
-      # formatStyle(columns = 1, paddingLeft = styleRow(rows = c(2,3), "30px"))
+      formatRound(2:7, rows = c(1,2,3,5,6,7), mark = ",", digits = 0) %>%  ## add commas to large numbers
+      formatPercentage(c("One year growth rate", "Five year Growth rate"), rows = c(1,2,3,5,6,7), digits = 1) %>%
+      ## can use any css style in formatStyle by replacing "-" with camel case (e.g., text-align -- textAlign)
+      formatStyle(1:ncol(table_data), backgroundColor = "#e6edf4", borderColor = "white") %>%
+      formatStyle(1:ncol(table_data),
+                  color = styleRow(4, "white"),
+                  backgroundColor =styleRow(4, '#0e83b0'),
+                  textAlign = styleRow(4, "center"),
+                  borderStyle = styleRow(4, "solid"),
+                  borderWidth = styleRow(4, "1px"),
+                  borderColor = styleRow(4, "white"),
+                  fontWeight = styleRow(4,"bold")) %>%
+      formatStyle(2:7, textAlign = "right") %>%
+      formatStyle(8:9, textAlign = "center") %>%
+      formatStyle(columns = 1:ncol(table_data),
+                  ## use styleRow to select which rows to apply style
+                  backgroundColor = styleRow(rows = c(3,7), "#c4d6e7"),
+                  color = styleRow(rows = c(3,7), "#015082"),
+                  fontWeight = styleRow(rows = c(3,7), "bold"))
   })
 
 
@@ -2766,24 +2766,22 @@ output$plot4.2 <- renderPlotly({
   output$datatable5.2 <- renderDT({
 
     # Create your dataframe with the desired data
-    table_data3 <- data$data_61
+    table_data3 <- data$data_61 %>%
+      row_to_names(2) %>%
+      clean_names() %>%
+      select(-c(x2017,x2021,x2017_2,x2021_2))
 
     # create a custom table header
-    h_1 <- data$data_61_headings$names[1]
-    h_2 <- data$data_61_headings$names[2]
     heading2 = htmltools::withTags(table(
       class = 'display',
       thead(
         tr(
-          th(rowspan = 2, ''),
-          th(rowspan = 2, ''),
-          th(rowspan = 2, ''),
-          th(rowspan = 2, ''),
-          th(colspan = 2, h_1),
-          th(colspan = 2, h_2)
+          th(rowspan = 1, ''),
+          th(colspan = 3, "Number of Exporters"),
+          th(colspan = 3,  "Value of Exports ($ millions)")
         ),
         tr(
-          lapply(rep(c('Number', 'Per cent'), 2), th)
+          lapply(c("", rep(c('2022', 'One-year growth rate', 'Five-year growth rate'), 2)), th)
         )
       )
     ))
@@ -2800,38 +2798,34 @@ output$plot4.2 <- renderPlotly({
                 ## format header
                 headerCallback = JS(
                   "function(thead, data, start, end, display){",
-                  "  $('th','tr', thead).css('color', 'white');",
-                  "  $('th','tr', thead).css('background-color', '#0e83b0');",
+                  "  $('th', thead).css('color', 'white');",
+                  "  $('th', thead).css('background-color', '#0e83b0');",
                   "  $('th','tr', thead).css('text-align', 'center');",
                   "  $('th','tr', thead).css('border-style', 'solid');",
                   "  $('th','tr', thead).css('border-width', '1px');",
                   "  $('th','tr', thead).css('border-color', 'white');",
+                  "  $('tr').css('color', '#015082');",
+                  "  $('tr').css('background-color', '#c4d6e7');",
+                  "  $('tr').css('text-align', 'center');",
                   "}"
                 ),
-                ## column widths
-                columnDefs = list(list(width = '300px', targets = 0),
-                                  list(width = '75px', targets = 3))
-              )#,
-              # ## add caption
-              # caption = htmltools::tags$caption(
-              #   style = 'caption-side: bottom;',
-              #   '*Figures do not add to 100% due to rounding'
-              # )
+                # ## column widths
+                 columnDefs = list(list(width = '180px', targets = 0))
+              ),
+              ## add caption
+              caption = htmltools::tags$caption(
+                style = 'caption-side: bottom;',
+                '*Figures do not add to 100% due to rounding'
+              )
       )  %>%
       ## helper functions for formatting
-       formatRound(c("employment", "number", "number_2"), mark = ",", digits = 0) %>%  ## add commas to large numbers
-       formatPercentage(c("per_cent_of_small_business", "per_cent_of_private_sector"), zero.print = "-") %>%
-      formatPercentage(c("per_cent","per_cent_2"), digits = 1) %>%
+       formatRound(c(2,5), mark = ",", digits = 0) %>%  ## add commas to large numbers
+      formatPercentage(c(3,4,6,7), digits = 1) %>%
        ## can use any css style in formatStyle by replacing "-" with camel case (e.g., text-align -- textAlign)
-      formatStyle(1:8, backgroundColor = "#e6edf4", borderColor = "white") %>%
-       formatStyle(c(2,5,7), textAlign = "right") %>%
-       formatStyle(c(3,4,6,8),textAlign = "center") %>%
-      formatStyle(columns = 1:8,
-                   ## use styleRow to select which rows to apply style
-                 backgroundColor = styleRow(rows = nrow(table_data3), "#c4d6e7"),
-                   color = styleRow(rows = nrow(table_data3), "#015082"),
-                   fontWeight = styleRow(rows = nrow(table_data3), "bold")) %>%
-      formatStyle(columns = 1, paddingLeft = styleRow(rows = c(2,3), "30px"))
+      formatStyle(1:7, backgroundColor = "#e6edf4", borderColor = "white") %>%
+       formatStyle(c(2,5), textAlign = "right") %>%
+       formatStyle(c(3,4,6,7),textAlign = "center")
+
   })
 
 
