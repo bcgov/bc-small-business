@@ -613,7 +613,7 @@ ui <-
                                                    ),
                                                    box(title = "Figure 5.4: Destination share of value of small businesss exports by province, 2022", plotlyOutput("plot5.4"), width = 10,
                                                        br(),
-                                                       HTML("<b><small></b> <p>Notes: Excludes self-employed without paid help.
+                                                       HTML("<b><small></b>
                                                         <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
                                                    ),
                                                    box(title = "Figure 5.5: Export intensity for small businesses by province, 2022", plotlyOutput("plot5.5"), width = 10,
@@ -625,7 +625,9 @@ ui <-
 
                                                    box(title = "Figure 5.04: Value of goods exports for small and large businesses, 2022", plotlyOutput("plot5.04"), width = 10,
                                                        br(),
-                                                       HTML("<b><small></b>
+                                                       HTML("<b><small></b><p>Note: A small business exporter is defined as an enterprise with fewer than 50 employees
+                                                       that exports goods out of the country, regardless of the value of exports.
+
                                                         <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
                                                    ),
 
@@ -796,7 +798,7 @@ server <- function(input, output, session) {
                       textposition = "none",
                       hoverinfo = 'text') %>%
       layout(xaxis = list(title = ""),
-             yaxis = list(title = "", tickformat = "1"), ## make y-axis percents
+             yaxis = list(title = "", tickformat = ".1f"), ## make y-axis percents
              shapes = list(hline(canada_average))) %>% ## add line
 
              add_annotations( ## add canadian average text
@@ -1075,7 +1077,7 @@ server <- function(input, output, session) {
 
     data_12 <- data$data_12
 
-    data_12$type <-factor(data_12$type, levels = (c("GOODS SECTOR", "Construction", "Primary*", "Manufacturing", "Utilities",
+    data_12$type <-factor(data_12$type, levels = rev(c("GOODS SECTOR", "Construction", "Primary*", "Manufacturing", "Utilities",
                                                        "SERVICES SECTOR", "Professional, scientific and technical services",
                                                        "Health & Social Services", "Finance, Insurance & Real Estate",
                                                        "Trade", "Other Services", "Transportation & Storage",
@@ -1121,16 +1123,13 @@ server <- function(input, output, session) {
                 marker = list(color = "#FDB813")
       )
     plot1.3b <- layout(plot1.3b,
-                       legend = list(orientation = "h", x = -2, y = 1.2),
+                       legend = list(orientation = "h", x = 0, y = 1.2),
                        xaxis = list(title = "", tickformat = '0.0%')
 
 
     )
 
 
-
-
-    plot1.3b
 
 
   })
@@ -1150,7 +1149,7 @@ server <- function(input, output, session) {
 
     )
     plot1.4 <- layout(plot1.4,
-                      legend = list(orientation = "h", x = -2, y = 1.2),
+                      legend = list(orientation = "h", x = 0, y = 1.2),
                       xaxis = list(tickformat = '.0%')
 
 
