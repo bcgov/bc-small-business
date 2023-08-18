@@ -256,7 +256,7 @@ data_50 <- read_excel(excel_file, sheet = "4.1", range = "a2:b12", col_names = T
 
 
 # 4.2 Changes in average annual earnings, British Columbia, 2017-2022----
-data_51 <- read_excel(excel_file, sheet = "4.2", range = "a3:c5", col_names = TRUE)
+data_51 <- read_excel(excel_file, sheet = "4.2", range = "a28:c30", col_names = TRUE)
 data_51 <- data_51 %>%
   pivot_longer(cols = -type, names_to = "help_type", values_to = "counts")
 
