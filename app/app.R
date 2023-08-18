@@ -597,11 +597,11 @@ ui <-
 
                                                  fluidRow(
 
-                                                   box(title = "Figure 5.1: asdfasdfasdfasdfsadf, 2022", DTOutput("datatable5.1"),
+                                                   box(title = "Figure 5.1: Number of British Columbia exporters and value of exports, 2017-2022", DTOutput("datatable5.1"),
                                                        style = "border: 1px solid white;", width = 10
                                                    ),
 
-                                                   box(title = "Figure 5.2: asdfxxxxxxxxxxxxxxxdfsadf, 2022", DTOutput("datatable5.2"),
+                                                   box(title = "Figure 5.2: Growth in small business exporters and exports by province, 2017-2022", DTOutput("datatable5.2"),
                                                        style = "border: 1px solid white;", width = 10
                                                    ),
 
@@ -2618,7 +2618,8 @@ output$plot4.2 <- renderPlotly({
 
     data$data_57$count <- data$data_57$count /100
 
-
+    data$data_57$area <-  factor(data$data_57$area, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
+                                           "Atlantic", "CA"))
 
     # Create the stacked bar chart with custom colors
     plot5.4 <- plot_ly(data$data_57, x = ~area, y = ~count, color = ~category, type = "bar", textposition = 'inside',
