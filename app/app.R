@@ -528,7 +528,7 @@ ui <-
 
                                                  fluidRow(
 
-                                                   box(title = "Figure 3.6: Percent of working, off-reserve indigenous and non-indigenous people who are self-employed in BC, 2017-2022", plotlyOutput("plot3.6"), width = 10,
+                                                   box(title = "Figure 3.6: Percent of working, off-reserve Indigenous and non-Indigenous people who are self-employed in BC, 2017-2022", plotlyOutput("plot3.6"), width = 10,
                                                        br(),
                                                        HTML("<b><small></b> <p>Source: Statistics Canada / Prepared by BC Stats.</small>")
                                                    ),
