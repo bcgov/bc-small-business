@@ -56,7 +56,7 @@ data_10 <- read_excel(excel_file, sheet = "1.2a", range = "a2:i18", col_names = 
 
 
 # 1.3a: Distribution of small businesses by industry----
-data_12 <- read_excel(excel_file, sheet = "1.3a", range = "a2:c18", col_names = TRUE)
+data_12 <- read_excel(excel_file, sheet = "1.3a", range = "a23:c39", col_names = TRUE)
 data_12$`%` <- as.numeric(data_12$`%`)
 
 

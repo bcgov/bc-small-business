@@ -257,9 +257,7 @@ ui <-
 
 
                                                     box(title = "Figure 1.3a: Distribution of small businesses by industry, 2022",
-                                                        plotlyOutput("plot1.3aa"),  plotlyOutput("plot1.3a"),
-
-                                                      width = 10,
+                                                      plotlyOutput("plot1.3a"), width = 10, br(),
                                                         HTML("<b><small></b> <p>Notes: Primary* is comprised of the agriculture, forestry,
                                       fishing, mining, oil and gas industries. The total does not sum to 100% as some businesses
                                       with employees could not be classified by industry.
@@ -1074,25 +1072,25 @@ server <- function(input, output, session) {
 
   })
 
-# plot1.3aa ----
-
-output$plot1.3aa <- renderPlotly({
-
-  data_12 <- data$data_12
-
-  data_12$type <-factor(data_12$type, levels = rev(c("GOODS SECTOR", "Construction", "Primary*", "Manufacturing", "Utilities")))
-
-  plot1.3aa <- plot_ly(data_12, x = ~`%`, type = "bar", y = ~type,
-                      marker = list(color = "#fcb814"), name = "",
-                      orientation = 'h')
-
-  plot1.3aa <- layout(plot1.3aa,
-                     legend = list(orientation = "h", x = -2, y = 1.2),
-                     xaxis = list(title = "", tickformat = '0.0%'),
-                     yaxis = list(title = "")
-  )
-
-})
+# # plot1.3aa ----
+#
+# output$plot1.3aa <- renderPlotly({
+#
+#   data_12 <- data$data_12
+#
+#   data_12$type <-factor(data_12$type, levels = rev(c("GOODS SECTOR", "Construction", "Primary*", "Manufacturing", "Utilities")))
+#
+#   plot1.3aa <- plot_ly(data_12, x = ~`%`, type = "bar", y = ~type,
+#                       marker = list(color = "#fcb814"), name = "",
+#                       orientation = 'h')
+#
+#   plot1.3aa <- layout(plot1.3aa,
+#                      legend = list(orientation = "h", x = -2, y = 1.2),
+#                      xaxis = list(title = "", tickformat = '0.0%'),
+#                      yaxis = list(title = "")
+#   )
+#
+# })
 
 
 
@@ -1104,8 +1102,24 @@ output$plot1.3aa <- renderPlotly({
 
     data_12 <- data$data_12
 
-    data_12$type <-factor(data_12$type, levels = rev(c(
-                                                       "SERVICES SECTOR", "Professional, scientific and technical services",
+    # Determine which x values to highlight just Non-Standard Sectors)
+    highlight_label <- c("Goods Sector", "Services Sector")
+
+    # Create custom tick labels
+    custom_ticktext <- sapply(data_12$type, function(val) {
+      if (val %in% highlight_label) {
+        paste0("<span style='color: #005182'><b>", val, "<b></span>")
+      } else {
+        as.character(val)
+      }
+    })
+
+
+
+
+
+    data_12$type <-factor(data_12$type, levels = rev(c("Goods Sector", "Construction", "Primary*", "Manufacturing", "Utilities",
+                                                       "Services Sector", "Professional, scientific and technical services",
                                                        "Health & Social Services", "Finance, Insurance & Real Estate",
                                                        "Trade", "Other Services", "Transportation & Storage",
                                                        "Business, building and other support services",
@@ -1119,7 +1133,7 @@ output$plot1.3aa <- renderPlotly({
     plot1.3a <- layout(plot1.3a,
                        legend = list(orientation = "h", x = -2, y = 1.2),
                        xaxis = list(title = "", tickformat = '0.0%'),
-                       yaxis = list(title = "")
+                       yaxis = list(title = "", tickvals = ~type, ticktext = custom_ticktext)
     )
 
   })
