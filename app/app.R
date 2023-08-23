@@ -1193,12 +1193,15 @@ output$plot1.3aa <- renderPlotly({
 
     data_15 <- data$data_15
 
+    custom_colors2 <- c(yellow= "#fcb814",yellow= "#fcb814",yellow= "#fcb814",yellow= "#fcb814",yellow= "#fcb814",
+                        navy = "#143047", navy = "#143047", navy = "#143047", navy = "#143047", navy = "#143047"  )
+
     data_15$type <-factor(data_15$type, levels = rev(c("Professional, scientific and technical services", "Specialty trade contractors",
                                                        "Ambulatory health care services", "Real estate", "Social assistance",
                                                        "NON-STANDARD SECTORS", "High tech total", "Tourism", "Secondary manufacturing")))
 
     plot1.5 <- plot_ly(data_15, x = ~number, type = "bar", y = ~type,
-                       marker = list(color = "#005182"), name = "adsfadsf",
+                       marker = list(color = custom_colors2), name = "adsfadsf",
                        orientation = 'h')
 
 
@@ -1218,10 +1221,29 @@ output$plot1.3aa <- renderPlotly({
 
     data_16 <- data$data_16
 
-    data_16$type <-factor(data_16$type, levels = rev(c("Beverage and tobacco product manufacturing", "Social assistance",
-                                                       "Motion picture and sound recording industries", "Private households",
-                                                       "Couriers and messengers", "NON-STANDARD SECTORS", "High Technology", "Tourism",
-                                                       "Secondary Manufacturing")))
+#
+#       data_16$type <-factor(data_16$type, levels = rev(c("Secondary Manufacturing", "Tourism", "High Technology", "NON-STANDARD SECTORS"  )))
+#
+
+
+data_16$type <-factor(data_16$type, levels = (c("Beverage and tobacco product manufacturing", "Social assistance",
+                                                   "Motion picture and sound recording industries", "Private households",
+                                                   "Couriers and messengers", "Non-Standard Sectors", "High Technology", "Tourism",
+                                                   "Secondary Manufacturing")))
+
+    # Determine which x values to highlight just NON-STANDARD SECTORS)
+    highlight_label <- "Non-Standard Sectors"
+
+    # Create custom tick labels
+    custom_ticktext <- sapply(data_16$type, function(val) {
+      if (val %in% highlight_label) {
+        paste0("<span style='color: #005182'><b>", val, "<b></span>")
+      } else {
+        as.character(val)
+      }
+    })
+
+
 
     plot1.6 <- plot_ly(data_16, x = ~number, type = "bar", y = ~type,
                        marker = list(color = "#005182"), name = "adsfadsf",
@@ -1231,7 +1253,7 @@ output$plot1.3aa <- renderPlotly({
     plot1.6 <- layout(plot1.6,
                       legend = list(orientation = "h", x = -2, y = 1.2),
                       xaxis = list(tickformat = '.0%', title = ""),
-                      yaxis = list(title = ""))
+                      yaxis = list(title = "", tickvals = ~type, ticktext = custom_ticktext))
 
 
 
@@ -1554,6 +1576,7 @@ output$plot1.3aa <- renderPlotly({
 
     plot2.1 <- plot2.1 %>% layout(title = '',
                                   yaxis = list(title = ''),
+                                  xaxis = list(title = '', tickformat = "0.1%"),
                                   showlegend = FALSE
     )
 
@@ -1576,6 +1599,7 @@ output$plot1.3aa <- renderPlotly({
 
     plot2.3 <- plot2.3 %>% layout(title = '',
                                   yaxis = list(title = ''),
+                                  xaxis = list(title = '', tickformat = "0.1%"),
                                   showlegend = FALSE
     )
 
@@ -1609,7 +1633,7 @@ output$plot1.3aa <- renderPlotly({
                         hoverinfo = 'text') %>%
       layout(title = "",
              yaxis = list(title = "Number of jobs"),
-             xaxis = list(title = ""),
+             xaxis = list(title = "", tickvals = ~years, ticktext = ~years),
              barmode = "relative", ## stack overlaps so use relative
              legend = list(x = 0, y = 1),
              hovermode = "x unified",

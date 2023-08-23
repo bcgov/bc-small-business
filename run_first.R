@@ -75,7 +75,7 @@ data_14 <- data_14[order(-data_14$`1-49 employees`),  ]
 data_15 <- read_excel(excel_file, sheet = "1.5", range = "a2:b11", col_names = TRUE)
 
 # 1.6 Sector growth rates for number of small businesses with employees, BC, 2017-2020 ----
-data_16 <- read_excel(excel_file, sheet = "1.6", range = "a3:b12", col_names = TRUE)
+data_16 <- read_excel(excel_file, sheet = "1.6", range = "a14:b23", col_names = TRUE)
 
 # 1.7 Small businesses per capita by province, 2022 ----
 data_17 <- read_excel(excel_file, sheet = "1.7", range = "a2:b12", col_names = TRUE)
