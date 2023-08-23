@@ -72,7 +72,7 @@ data_14 <- as.data.frame(data_14)
 data_14 <- data_14[order(-data_14$`1-49 employees`),  ]
 
 # 1.5: Number of net new small businesses - fastest growing sectors in BC, 2017-2022 ----
-data_15 <- read_excel(excel_file, sheet = "1.5", range = "a2:b11", col_names = TRUE)
+data_15 <- read_excel(excel_file, sheet = "1.5", range = "a15:b24", col_names = TRUE)
 
 # 1.6 Sector growth rates for number of small businesses with employees, BC, 2017-2020 ----
 data_16 <- read_excel(excel_file, sheet = "1.6", range = "a14:b23", col_names = TRUE)
