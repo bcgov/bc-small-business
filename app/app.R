@@ -31,8 +31,8 @@ ui <-
                               dashboardPage(skin = "blue",
                                             dashboardHeader(title = ""),
                                             ## dashboard sidebar ----
-                                            dashboardSidebar(minified = TRUE, collapsed = FALSE,
-                                                             sidebarMenu(
+                                            dashboardSidebar(minified = FALSE, collapsed = FALSE,
+                                                             sidebarMenu(style = "position: fixed; overflow: visible;",
                                                                id = "tabs", ## to be able to update with buttons on landing page
                                                                menuItem("Home", tabName = "home", icon = icon("home")),
 
@@ -56,6 +56,8 @@ ui <-
                                             ),
                                             ## dashboard body ----
                                             dashboardBody(
+
+
                                               ## tabs ----
                                               tabItems(
                                                 ## home tab ----
@@ -175,7 +177,7 @@ ui <-
                                        #                       "page 0",
                                                   fluidRow(
 
-                                                    box(title = "Figure K1 - Small business tax rates by province",
+                                                    box(title = "Figure K1 - Small businesses tax rates by province, 2022",
                                                         plotlyOutput("plotK1"), width = 10,
                                                         br(),
                                                         HTML("<b><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
@@ -222,7 +224,7 @@ ui <-
 
                                                     ),
 
-                                                    box(title = "Figure 1.0.1 - Count of small businesses in British Columbia",
+                                                    box(title = "Figure 1.0.1 - Share of Businesses by Employment Size in British Columbia, 2022",
                                                         plotlyOutput("plot1.0.1"), width = 10,
                                                         br(),
                                                         HTML("<b><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
@@ -385,7 +387,7 @@ ui <-
                                                     ),
 
 
-                                                     box(title = "Figure 2.7a: O One-year top and bottom industries for small business employment growth in British Columbia, 2021-2022", plotlyOutput("plot2.7a"), width = 10,
+                                                     box(title = "Figure 2.7a: One-year top and bottom industries for small business employment growth in British Columbia, 2021-2022", plotlyOutput("plot2.7a"), width = 10,
                                                      br(),
                                                      HTML("<b><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
 
@@ -481,11 +483,7 @@ ui <-
                                                          Source: Statistics Canada / Prepared by BC Stats.</small>")
                                                      ),
 
-                                                     box(title = "Figure 3.7b: Usual hours worked, self-employed by sex, British Columbia, 2022", plotlyOutput("plot3.7b"), width = 10,
-                                                         br(),
-                                                         HTML("<b><small></b> <p>Note: Figures do not add to 100% due to rounding.<p>
-                                                         Source: Statistics Canada / Prepared by BC Stats.</small>")
-                                                     ),
+
 
 
 
@@ -515,7 +513,11 @@ ui <-
                                                       <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
                                                    ),
 
-
+                                                   box(title = "Figure 3.7b: Usual hours worked, self-employed by sex, British Columbia, 2022", plotlyOutput("plot3.7b"), width = 10,
+                                                       br(),
+                                                       HTML("<b><small></b> <p>Note: Figures do not add to 100% due to rounding.<p>
+                                                         Source: Statistics Canada / Prepared by BC Stats.</small>")
+                                                   ),
 
                                                  ),
                                                ),
@@ -545,7 +547,7 @@ ui <-
 
                                                  fluidRow(
 
-                                                   box(title = "Figure 4.1: Small business contribution to GDP by province, 2021", plotlyOutput("plot4.1"), width = 10,
+                                                   box(title = "Figure 4.1: Small business contribution to GDP by province, 2022", plotlyOutput("plot4.1"), width = 10,
                                                        br(),
                                                        HTML("<b><small></b> <p>Note: Gross Domestic Product (GDP) refers to the
                                                        total market value of all the goods and services produced within national
@@ -1149,7 +1151,7 @@ server <- function(input, output, session) {
 
     )
     plot1.4 <- layout(plot1.4,
-                      legend = list(orientation = "h", x = 0, y = 1.2),
+                      legend = list(orientation = "h", x = 0, y = 1.2, traceorder = "reversed"),
                       xaxis = list(tickformat = '.0%')
 
 
@@ -1753,12 +1755,13 @@ server <- function(input, output, session) {
 
     footnote <- "Source: Statistics Canada / Prepared by BC Stats"
 
-    plot2.7a <- plot_ly(data_30, y = ~area, x = data_30$`percent`, type = "bar", marker = list(color = custom_colors2), orientation = 'h')
+    plot2.7a <- plot_ly(data_30, y = ~area, x = data_30$`percent`, type = "bar", text = ~count, marker = list(color = custom_colors2), orientation = 'h')
 
     plot2.7a <- plot2.7a %>% layout(title = '',
                                       yaxis = list(title = ''),
                                       showlegend = FALSE
-    )
+                                    )
+
 
 
   })
@@ -1798,7 +1801,7 @@ server <- function(input, output, session) {
 
     footnote <- "Source: Statistics Canada / Prepared by BC Stats"
 
-    plot2.7b <- plot_ly(data_31, y = ~area, x = data_31$`percent`, type = "bar", marker = list(color = custom_colors2), orientation = 'h')
+    plot2.7b <- plot_ly(data_31, y = ~area, x = data_31$`percent`, type = "bar", text = ~count, marker = list(color = custom_colors2), orientation = 'h')
 
     plot2.7b <- plot2.7b %>% layout(title = '',
                                     yaxis = list(title = ''),
@@ -1812,9 +1815,10 @@ server <- function(input, output, session) {
   output$plot2.7c <- renderPlotly({
 
     data_32 <- data$data_32
+    data_32$`percent` <- data_32$`percent` / 100
 
 
-    custom_colors2 <- c(yellow= "#fcb814",yellow= "#fcb814",yellow= "#fcb814",yellow= "#fcb814",yellow= "#fcb814",
+    custom_colors2 <- c(yellow= "top 5",yellow= "#fcb814",yellow= "#fcb814",yellow= "#fcb814",yellow= "#fcb814",
                         navy = "#143047", navy = "#143047", navy = "#143047", navy = "#143047", navy = "#143047" )
 
     data_32$area <- factor(data_32$area, levels = rev(c(  "Professional, scientific and technical services",
@@ -1830,15 +1834,12 @@ server <- function(input, output, session) {
     )))
 
 
-
-
-    footnote <- "Source: Statistics Canada / Prepared by BC Stats"
-
-    plot2.7c <- plot_ly(data_32, y = ~area, x = data_32$`percent`, type = "bar", marker = list(color = custom_colors2), orientation = 'h')
+    plot2.7c <- plot_ly(data_32, y = ~area, x = data_32$`percent`, type = "bar", text = ~count, color = ~topbottom, colors = c("#143047", "#fcb814"), orientation = 'h')
 
     plot2.7c <- plot2.7c %>% layout(title = '',
                                     yaxis = list(title = ''),
-                                    showlegend = FALSE
+                                    xaxis = list(tickformat = "0.0%"),
+                                    showlegend = TRUE
     )
 
 
@@ -1939,10 +1940,10 @@ server <- function(input, output, session) {
 
   # plot3.03a----
   output$plot3.03a <- renderPlotly({
-    bc_average <- 0.08
+    bc_average <- 0.008
     data_40 <- data$data_40
 
-
+    data_40$`percent` <- data_40$`percent` /100
     custom_colors3<- c(light_blue =  "#92b5d2")
 
     data_40$area <- factor(data_40$area, levels = rev(c(    "Northeast",
@@ -1957,8 +1958,8 @@ server <- function(input, output, session) {
 
     plot3.03a <- plot_ly(data_40, y = ~area, x = data_40$`percent`, type = "bar", marker = list(color = custom_colors3), orientation = 'h')
 
-    plot3.03a <- plot3.03a %>% layout(xaxis = list(title = ""),
-                                           yaxis = list(title = "", tickformat = "0%"), ## make y-axis percents
+    plot3.03a <- plot3.03a %>% layout(xaxis = list(title = "", tickformat = "0.0%", gridwidth = 2),## make axis percents
+                                           yaxis = list(title = ""),
                                            shapes = list(vline(bc_average))) %>% ## add line
                                       add_annotations( ## add BC average text
                                         x = 0.5,
@@ -1981,7 +1982,7 @@ server <- function(input, output, session) {
   output$plot3.03b <- renderPlotly({
     bc_average <- -.009
     data_41 <- data$data_41
-
+    data_41$`percent` <- data_41$`percent` /100
 
     custom_colors3<- c(light_blue =  "#92b5d2")
 
@@ -1997,13 +1998,13 @@ server <- function(input, output, session) {
 
     plot3.03b <- plot_ly(data_41, y = ~area, x = data_41$`percent`, type = "bar", marker = list(color = custom_colors3), orientation = 'h')
 
-    plot3.03b <- plot3.03b %>% layout(xaxis = list(title = ""),
-                                      yaxis = list(title = "", tickformat = "0%"), ## make y-axis percents
+    plot3.03b <- plot3.03b %>% layout(xaxis = list(title = "", tickformat = "0.0%", gridwidth = 2),## make axis percents
+                                      yaxis = list(title = ""),
                                       shapes = list(vline(bc_average))) %>% ## add line
       add_annotations( ## add BC average text
-        x = 0.5,
-        y = 0.99,
-        text = "<b>— BC Average -0.9%</b>",
+        x = 0.4,
+        y = .99,
+        text = "<b>— Provincial Average -0.9%</b>",
         xref = "paper",
         yref = "paper",
         xanchor = "left",
@@ -2590,7 +2591,7 @@ output$plot4.2 <- renderPlotly({
 
     custom_colors <- custom_colors[c("navy", "dark_blue", "med_blue", "green", "yellow")] %>% unname()
 
-
+    data$data_56$counts <- data$data_56$counts *100
     plot5.3 <- plot_ly(data$data_56, x = ~Exporters, y = ~counts, color = ~bus_type, type = "bar", textposition = 'inside',
                        colors = custom_colors) %>%
 
@@ -2599,10 +2600,10 @@ output$plot4.2 <- renderPlotly({
              legend = list(orientation = "h", x = 0, y = 1.2),
              xaxis = list(title = ""),
              yaxis = list(title = "",
-                          tickformat = ",",
+                          tickformat = "",
                           tickprefix = "",
-                          ticksuffix = "K",
-                          dtick = 100),
+                          ticksuffix = "%",
+                          dtick = 10),
              barmode = "group")
 
 
@@ -2739,7 +2740,7 @@ output$plot4.2 <- renderPlotly({
     )    %>%
       # ## helper functions for formatting
       formatRound(2:7, rows = c(1,2,3,5,6,7), mark = ",", digits = 0) %>%  ## add commas to large numbers
-      formatPercentage(c("One year growth rate", "Five year Growth rate"), rows = c(1,2,3,5,6,7), digits = 1) %>%
+      formatPercentage(c("One year growth rate", "Five year growth rate"), rows = c(1,2,3,5,6,7), digits = 1) %>%
       ## can use any css style in formatStyle by replacing "-" with camel case (e.g., text-align -- textAlign)
       formatStyle(1:ncol(table_data), backgroundColor = "#e6edf4", borderColor = "white") %>%
       formatStyle(1:ncol(table_data),
