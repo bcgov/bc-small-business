@@ -217,14 +217,14 @@ ui <-
 
 
 
-                                                    box(title = "Figure 1.1 - Growth of small businesses in British Columbia",
+                                                    box(title = "Figure 1.1 - Count of small businesses in British Columbia",
                                                         plotlyOutput("plot1.1"), width = 10,
                                                         br(),
                                                         HTML("<b><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
 
                                                     ),
 
-                                                    box(title = "Figure 1.0.1 - Share of Businesses by Employment Size in British Columbia, 2022",
+                                                    box(title = "Figure 1.0.1 - Share of businesses and organizations by size, 2022",
                                                         plotlyOutput("plot1.0.1"), width = 10,
                                                         br(),
                                                         HTML("<b><small></b> <p>Source: BC Stats using data supplied by Statistics Canada.</small>")
@@ -255,9 +255,11 @@ ui <-
                                                     ),
 
 
+
                                                     box(title = "Figure 1.3a: Distribution of small businesses by industry, 2022",
-                                                        plotlyOutput("plot1.3a"), width = 10,
-                                                        br(),
+                                                        plotlyOutput("plot1.3aa"),  plotlyOutput("plot1.3a"),
+
+                                                      width = 10,
                                                         HTML("<b><small></b> <p>Notes: Primary* is comprised of the agriculture, forestry,
                                       fishing, mining, oil and gas industries. The total does not sum to 100% as some businesses
                                       with employees could not be classified by industry.
@@ -1072,6 +1074,29 @@ server <- function(input, output, session) {
 
   })
 
+# plot1.3aa ----
+
+output$plot1.3aa <- renderPlotly({
+
+  data_12 <- data$data_12
+
+  data_12$type <-factor(data_12$type, levels = rev(c("GOODS SECTOR", "Construction", "Primary*", "Manufacturing", "Utilities")))
+
+  plot1.3aa <- plot_ly(data_12, x = ~`%`, type = "bar", y = ~type,
+                      marker = list(color = "#fcb814"), name = "",
+                      orientation = 'h')
+
+  plot1.3aa <- layout(plot1.3aa,
+                     legend = list(orientation = "h", x = -2, y = 1.2),
+                     xaxis = list(title = "", tickformat = '0.0%'),
+                     yaxis = list(title = "")
+  )
+
+})
+
+
+
+
 
   # plot1.3a ----
 
@@ -1079,7 +1104,7 @@ server <- function(input, output, session) {
 
     data_12 <- data$data_12
 
-    data_12$type <-factor(data_12$type, levels = rev(c("GOODS SECTOR", "Construction", "Primary*", "Manufacturing", "Utilities",
+    data_12$type <-factor(data_12$type, levels = rev(c(
                                                        "SERVICES SECTOR", "Professional, scientific and technical services",
                                                        "Health & Social Services", "Finance, Insurance & Real Estate",
                                                        "Trade", "Other Services", "Transportation & Storage",
