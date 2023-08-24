@@ -1072,27 +1072,6 @@ server <- function(input, output, session) {
 
   })
 
-# # plot1.3aa ----
-#
-# output$plot1.3aa <- renderPlotly({
-#
-#   data_12 <- data$data_12
-#
-#   data_12$type <-factor(data_12$type, levels = rev(c("GOODS SECTOR", "Construction", "Primary*", "Manufacturing", "Utilities")))
-#
-#   plot1.3aa <- plot_ly(data_12, x = ~`%`, type = "bar", y = ~type,
-#                       marker = list(color = "#fcb814"), name = "",
-#                       orientation = 'h')
-#
-#   plot1.3aa <- layout(plot1.3aa,
-#                      legend = list(orientation = "h", x = -2, y = 1.2),
-#                      xaxis = list(title = "", tickformat = '0.0%'),
-#                      yaxis = list(title = "")
-#   )
-#
-# })
-
-
 
 
 
@@ -2155,30 +2134,95 @@ server <- function(input, output, session) {
 
 
 
-  # plot3.3----
+  # # plot3.3----
+  #
+  #
+  # output$plot3.3 <- renderPlotly({
+  #
+  #
+  #
+  #   custom_colors <- custom_colors[c("navy", "dark_blue", "med_blue", "green", "yellow")]
+  #
+  #
+  #   plot3.3 <- plot_ly(data$data_44, x = ~counts, y = ~agegroup, color = ~emp_type, type = "bar", textposition = 'inside',
+  #                      colors = custom_colors, orientation = 'h') %>%
+  #
+  #
+  #     layout(title = "",
+  #            legend = list(orientation = "h", x = 0, y = 1.2),
+  #           yaxis = list(title = "Age"),
+  #           xaxis = list(title = "",
+  #                        tickvals = c(-.2, -.1, 0, .1, .2),
+  #                        ticktext = c(.2, .1, 0, .1, .2),
+  #                        tickformat = "0.1%"),
+  #
+  #            barmode = "relative")
+  #
+  #
+  # })
+
+  # plot3.3try3----
 
 
   output$plot3.3 <- renderPlotly({
 
+
+    df <- data$data_44
+
     custom_colors <- custom_colors[c("navy", "dark_blue", "med_blue", "green", "yellow")] %>% unname()
 
+    df$counts <- df$counts *100
 
-    plot3.3 <- plot_ly(data$data_44, x = ~counts, y = ~agegroup, color = ~emp_type, type = "bar", textposition = 'inside',
-                       colors = custom_colors, orientation = 'h') %>%
+        df %>%
+      mutate(counts = ifelse(test = emp_type == "Self-employed", yes = -counts, no = counts)) %>%
+      mutate(abs_pop = abs(counts)) %>%
+
+      plot_ly(x= ~counts, y=~agegroup, color=~emp_type, colors = custom_colors) %>%
+      add_bars(orientation = 'h', hoverinfo = 'text', text = ~paste(emp_type, sprintf("%.1f%%", abs_pop))) %>%
+      layout(barmode = 'overlay',
+             yaxis = list(title = ""),
+            xaxis = list(title = "",
+                         tickmode = 'array',
+                         tickformat = "0.0%",
+                         tickvals = c(-20, -10,  0, 10, 20),
+                        ticktext = c('20%', '10%', '0', '10%', '20%')
+                      ))
 
 
-      layout(title = "",
-             legend = list(orientation = "h", x = 0, y = 1.2),
-            yaxis = list(title = "Age"),
-            xaxis = list(title = "", tickformat = "0.0%"),
 
-             barmode = "relative")
+
+
 
 
   })
 
 
-
+  # # plot 3.3try2
+  #
+  #
+  #
+  # output$plot3.3 <- renderPlotly({
+  #
+  # se_positive <-  data$data_44$`se_positive`
+  #
+  # # Create age-sex pyramid plot
+  # plot3.3 <- plot_ly() %>%
+  #   add_trace(x = data$data_44$Employees, y = data$data_44$`agegroup`, type = "bar", overtext = se_positive, name = "Employees", marker = list(color = "#FDB813")) %>%
+  #   add_trace(x = data$data_44$`Self-employed`, y = data$data_44$`agegroup`, type = "bar", name = "Self-employed", marker = list(color = "#005182")) %>%
+  #   layout(barmode = 'relative',
+  #          xaxis = list(title = "",
+  #                       # ticktext = c(.35, .30, .25, .20, .15, .10, 0, .10, .15, .20, .25, .30, .35),
+  #                       # tickvals = c(.35, .30, .25, .20, .15, .10, 0, .10, .15, .20, .25, .30, .35),
+  #                       tickformat = "0.1%"),  # Custom tick values and labels
+  #          yaxis = list(title = "Age"),
+  #          title = "")
+  #
+  #
+  #
+  #
+  #
+  # })
+  #
 
 
   # plot3.3b----
