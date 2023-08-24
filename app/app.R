@@ -275,24 +275,35 @@ ui <-
 
                                                     box(title = "Figure 1.4: Small businesses by industry, proportions with and without employees, 2022", plotlyOutput("plot1.4"), width = 10,
                                                         br(),
-                                                        HTML("<b><small></b> <p><b>Note:</b> Primary is comprised of the agriculture, forestry,
-                                      fishing, mining, oil and gas industries. Utilities is not shown because the number of small businesses
-                                      with employees is <200 and self-employment without paid help is very small and suppressed for confidentiality reasons.
-                                      <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
+                                                        HTML("<small>
+                                                       <p><b>Note:</b> Primary is comprised of the agriculture, forestry, fishing, mining, oil and gas industries.
+                                                       <p><b>Note:</b> Utilities is not shown because the number of small businesses with employees is <200 and self-employment without paid help is very small and suppressed for confidentiality reasons.
+                                                       <p><b>Source:</b> BC Stats using data supplied by Statistics Canada
+                                                       <p><b>Description:</b> This chart shows the percentage of businesses with no employees compared to buisinesses with employees for select industries.
+                                                             </small>")
 
                                                     ),
 
                                                     box(title = "Figure 1.5: Number of net new small businesses - fastest growing sectors in B.C, 2017-2022", plotlyOutput("plot1.5"), width = 10,
                                                         br(),
-                                                        HTML("<b><small></b> <p><b>Note:</b> Excludes self-employed without paid help.
-                                      <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
+                                                        HTML("<small>
+                                                       <p><b>Note:</b> Excludes self-employed without paid help.
+                                                       <p><b>Source:</b> BC Stats using data supplied by Statistics Canada
+                                                       <p><b>Description: <i>Tourism</i></b> includes industries such as transportation, accommodation, food services and other tourismrelated activities. Further information on the tourism sector is available at BC Stats.
+                                                       <p><b>Description: <i>High technology</i></b> industries may employ a high proportion of scientists and researchers or invest a high proportion of revenues in research and development. Other industries that produce
+                                                       high technology products are also included. Further information on the high technology sector is available online at BC Stats.
+                                                       <p><b>Description: <i>Secondary manufacturing</i></b> industries are those that produce goods from the products of other manufacturers. For example, a sawmill is a manufacturing operation, but not a secondary manufacturer,
+                                                             because its logs do not come from another manufacturer. On the other hand, a factory producing wooden doors with lumber obtained from sawmills is a secondary manufacturer.
+                                                        </small>")
                                                     ),
 
                                                     box(title = "Figure 1.6: Sector growth rates for number of small businesses with employees, BC, 2017-2020", plotlyOutput("plot1.6"), width = 10,
                                                         br(),
-                                                        HTML("<b><small></b> <p><b>Note:</b> Excludes self-employed without paid help.
-                                      <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
-
+                                                        HTML("<small>
+                                                       <p><b>Note:</b> Excludes self-employed without paid help.
+                                                       <p><b>Source:</b> BC Stats using data supplied by Statistics Canada
+                                                       <p><b>Description:</b> This chart shows the five industries with the highest growth rate in the number of net new businesses in the last five years in British Columbia. Net new business growth rates are also shown for non-standard industries.
+                                                             </small>")
 
                                                     ),
 
@@ -1792,7 +1803,7 @@ server <- function(input, output, session) {
   output$plot2.7a <- renderPlotly({
 
     data_30 <- data$data_30
-
+    data_30$`percent` <- data_30$`percent` / 100
 
     custom_colors2 <- c(yellow= "#fcb814",yellow= "#fcb814",yellow= "#fcb814",yellow= "#fcb814",yellow= "#fcb814",
                         navy = "#143047", navy = "#143047", navy = "#143047", navy = "#143047", navy = "#143047"  )
@@ -1813,11 +1824,13 @@ server <- function(input, output, session) {
 
     footnote <- "<b>Source:</b> Statistics Canada / Prepared by BC Stats"
 
-    plot2.7a <- plot_ly(data_30, y = ~area, x = data_30$`percent`, type = "bar", text = ~count, marker = list(color = custom_colors2), orientation = 'h')
+    plot2.7a <- plot_ly(data_30, y = ~area, x = data_30$`percent`, type = "bar", text = ~count, color = ~topbottom, colors = c("#143047", "#fcb814"), orientation = 'h')
 
     plot2.7a <- plot2.7a %>% layout(title = '',
-                                      yaxis = list(title = ''),
-                                      showlegend = FALSE
+                                    legend = list(orientation = "h", x = 0, y = 1.2),
+                                    yaxis = list(title = ''),
+                                    xaxis = list(tickformat = "0.0%"),
+                                    showlegend = TRUE
                                     )
 
 
@@ -1836,6 +1849,7 @@ server <- function(input, output, session) {
   output$plot2.7b <- renderPlotly({
 
     data_31 <- data$data_31
+    data_31$`percent` <- data_31$`percent` / 100
 
     custom_colors2 <- c(yellow= "#fcb814",yellow= "#fcb814",yellow= "#fcb814",yellow= "#fcb814",yellow= "#fcb814",
                         navy = "#143047", navy = "#143047", navy = "#143047", navy = "#143047", navy = "#143047" )
@@ -1859,11 +1873,13 @@ server <- function(input, output, session) {
 
     footnote <- "<b>Source:</b> Statistics Canada / Prepared by BC Stats"
 
-    plot2.7b <- plot_ly(data_31, y = ~area, x = data_31$`percent`, type = "bar", text = ~count, marker = list(color = custom_colors2), orientation = 'h')
+    plot2.7b <- plot_ly(data_31, y = ~area, x = data_31$`percent`, type = "bar", text = ~count, color = ~topbottom, colors = c("#143047", "#fcb814"), orientation = 'h')
 
     plot2.7b <- plot2.7b %>% layout(title = '',
+                                    legend = list(orientation = "h", x = 0, y = 1.2),
                                     yaxis = list(title = ''),
-                                    showlegend = FALSE
+                                    xaxis = list(tickformat = "0.0%"),
+                                    showlegend = TRUE
     )
 
 
@@ -1895,6 +1911,7 @@ server <- function(input, output, session) {
     plot2.7c <- plot_ly(data_32, y = ~area, x = data_32$`percent`, type = "bar", text = ~count, color = ~topbottom, colors = c("#143047", "#fcb814"), orientation = 'h')
 
     plot2.7c <- plot2.7c %>% layout(title = '',
+                                    legend = list(orientation = "h", x = 0, y = 1.2),
                                     yaxis = list(title = ''),
                                     xaxis = list(tickformat = "0.0%"),
                                     showlegend = TRUE
@@ -2625,7 +2642,7 @@ output$plot4.2 <- renderPlotly({
     plot4.4 <- layout(plot4.4,
                       legend = list(orientation = "h", x = 0, y = 1.2),
                       xaxis = list(title = "$ Thousands", tickformat = ""),
-                      yaxis = list(title = "", tickformat = "$", dtick = "")
+                      yaxis = list(title = "", tickformat = "0.1", dtick = "")
 
 
 
@@ -2693,7 +2710,7 @@ output$plot4.2 <- renderPlotly({
                        textposition = "none",
                        hoverinfo = 'text') %>%
       layout(xaxis = list(title = ""),
-             yaxis = list(title = "", tickformat = ".0%"), ## make y-axis percents
+             yaxis = list(title = "", tickformat = "0.1%"), ## make y-axis percents
              shapes = list(hline(canada_average))) %>% ## add line
       add_annotations( ## add canadian average text
         x = 0.2,
@@ -2811,8 +2828,9 @@ output$plot4.2 <- renderPlotly({
                        text = ~paste(Province,":",Label),
                        textposition = "none",
                        hoverinfo = 'text') %>%
-      layout(xaxis = list(title = ""),
-             yaxis = list(title = "", tickformat = "0"), ## make y-axis
+      layout(
+        xaxis = list(title = ""),
+        yaxis = list(title = "$ Millions", tickformat = "$"),
              shapes = list(hline(canada_average))) %>% ## add line
       add_annotations( ## add canadian average text
         x = 0.51,
@@ -2836,13 +2854,12 @@ output$plot4.2 <- renderPlotly({
 
 
     data$data_59$count <- data$data_59$count /1000000
-    # custom_colors <- custom_colors[c("blue", "green")] %>% unname()
+    custom_colors2 <- c("#fcb814", "#143047" )
+
 
     # Create the stacked bar chart with custom colors
-    plot5.04 <- plot_ly(data$data_59, x = ~years, y = ~count, color = ~category, type = "scatter", mode = "none",
-                        stackgroup = "one",
-
-                       colors = custom_colors) %>%
+    plot5.04 <- plot_ly(data$data_59, x = ~years, y = ~count, color = ~category, type = "scatter", mode = "lines",
+                        stackgroup = "one", line = list(color = custom_colors2 )) %>%
       layout(title = "",
              xaxis = list(title = ""),
              yaxis = list(title = "$ Billions", tickformat = "$"),

@@ -167,10 +167,10 @@ data_28 <- read_excel(excel_file, sheet = "2.5", range = "a16:b26", col_names = 
 data_29 <- read_excel(excel_file, sheet = "2.6", range = "a2:b12", col_names = TRUE)
 
 # 2.7a One-year top and bottom industries for small business employment growth in British Columbia ----
-data_30 <- read_excel(excel_file, sheet = "2.7", range = "a17:c27", col_names = TRUE)
+data_30 <- read_excel(excel_file, sheet = "2.7", range = "a17:d27", col_names = TRUE)
 
 # 2.7b Two-year top and bottom industries for small business employment growth in British Columbia ----
-data_31 <- read_excel(excel_file, sheet = "2.7", range = "a35:c45", col_names = TRUE)
+data_31 <- read_excel(excel_file, sheet = "2.7", range = "a35:d45", col_names = TRUE)
 
 # 2.7c Five-year top and bottom industries for small business employment growth in British Columbia ----
 data_32 <- read_excel(excel_file, sheet = "2.7", range = "a3:d13", col_names = TRUE)
