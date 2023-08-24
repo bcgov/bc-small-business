@@ -294,11 +294,18 @@ data_61 <- read_excel(excel_file, sheet = "5.2", range = "a3:k18", col_names = T
 
 
 
-# 5.3 plots ----
+# 5.3 plot value share ----
 data_56 <- read_excel(excel_file, sheet = "5.3", range = "a19:d21", col_names = TRUE)
 data_56 <- data_56 %>%
   pivot_longer(cols = -Exporters, names_to = "bus_type", values_to = "counts")
 data_56
+
+# 5.3 plot biz share ----
+data_56b <- read_excel(excel_file, sheet = "5.3", range = "a24:d26", col_names = TRUE)
+data_56b <- data_56b %>%
+  pivot_longer(cols = -Exporters, names_to = "bus_type", values_to = "counts")
+
+
 
 
 
