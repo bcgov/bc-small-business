@@ -769,6 +769,12 @@ server <- function(input, output, session) {
                             light_blue=c(146,181,210), med_blue=c(14,131,176), dark_blue = c(1,80,130),
                             navy = c(20,48,71))
 
+  region_colors <- c("Provincial Total" = "#000000",
+                     "Cariboo" = "#95c1b2","Kootenay" = "#15987b","Mainland/Southwest" = "#0e83b0",
+                     "North Coast & Nechako" = "#fcb814","Northeast" = "#143047","Thompson-Okanagan" = "#015082",
+                     "Vancouver Island/Coast" = "#92b5d2"
+                     )
+
 
 
   # plotK1----
@@ -1452,37 +1458,33 @@ server <- function(input, output, session) {
 
     data_20 <- data$data_20
 
-    data_20$region <- factor(data_20$region, levels = rev(c("Cariboo", "North Coast & Nechako", "Kootenay",
-                                                      "Northeast",      "Vancouver Island/ Coast",
-                                                            "Thompson - Okanagan", "Mainland/ Southwest")))
+    data_20 <- data_20 %>%
+      mutate(region = case_when(
+        region %in% c("Mainland/ Southwest","Thompson - Okanagan") ~ str_remove_all(region, " "),
+        region == "Vancouver Island/ Coast" ~ "Vancouver Island/Coast",
+        TRUE ~ region),
+        region = factor(region, levels = rev(c("Cariboo", "North Coast & Nechako", "Kootenay",
+                                               "Northeast", "Vancouver Island/Coast",
+                                               "Thompson-Okanagan", "Mainland/Southwest"))))
 
     footnote <- "<b>Source:</b> Statistics Canada / Prepared by BC Stats"
 
-    plot1.10 <- plot_ly(data_20, y = ~region, x = data_20$`Total, 2022`, type = "bar", marker = list(color = custom_colors), orientation = 'h')
-
-    plot1.10 <- plot1.10 %>% layout(title = '',
-                                    yaxis = list(title = ''),
-                                    showlegend = FALSE
-    ) %>% plotly_custom_layout()
-
-    # plot1.10 <- plot1.10 %>%
-    #   add_text(text = paste0(data_20$`Total, 2022`, ""),
-    #            textposition = "right",
-    #            textfont = list(weight = "bold"))
-    #
-
+    plot_ly() %>%
+      add_bars(data = data_20, x = ~`Total, 2022`, y ~region, color = ~region, orientation = 'h',
+               hovertemplate = '%{y}: %{x:.1f}<extra></extra>',
+               colors = region_colors) %>%
+      layout(showlegend = FALSE,
+             xaxis = list(title = ''),
+             yaxis = list(title = '',
+                          categoryorder = "array",
+                          categoryarray = levels(data_20$region))) %>%
+      plotly_custom_layout()
 
   })
 
 
   # plot1.11a----
   output$plot1.11a <- renderPlotly({
-
-
-
-
-    custom_colors11 <- c(yellow= "#fcb814", light_green = "#95c1b2", green = "#15987b",
-                       light_blue =  "#92b5d2", med_blue = "#0e83b0", dark_blue = "#015082",navy = "#143047")
 
     data_21a <- data$data_21a
 
@@ -1496,20 +1498,17 @@ server <- function(input, output, session) {
                                                                "Northeast")))
 
 
-
-
-
-
-
-
     footnote <- "<b>Source:</b> Statistics Canada / Prepared by BC Stats"
 
     plot1.11a <- plot_ly(data_21a, y = ~region, x = data_21a$`Total, 2022`, type = "bar",
-                         marker = list(color = custom_colors11), orientation = 'h')
+                         color=~region, colors=region_colors, orientation = 'h',
+                         hovertemplate = "%{y}: %{x:,} businesses<extra></extra>")
 
     plot1.11a <- plot1.11a %>% layout(title = '',
                                       xaxis = list(title = 'Number of Businesses'),
-                                      yaxis = list(title = ""),
+                                      yaxis = list(title = "",
+                                                   categoryorder = "array",
+                                                   categoryarray = levels(data_21a$region)),
                                       showlegend = FALSE
     ) %>% plotly_custom_layout()
 
@@ -1526,9 +1525,6 @@ server <- function(input, output, session) {
   # plot1.11b----
   output$plot1.11b <- renderPlotly({
 
-    custom_colors11 <- c(yellow= "#fcb814", light_green = "#95c1b2", green = "#15987b",
-                         light_blue =  "#92b5d2", med_blue = "#0e83b0", dark_blue = "#015082",navy = "#143047")
-
     data_21b <- data$data_21b
     data_21b$`Growth rate` <- round(data_21b$`Growth rate` , 2)
 
@@ -1543,11 +1539,14 @@ server <- function(input, output, session) {
 
 
     plot1.11b <- plot_ly(data_21b, y = ~region, x = data_21b$`Growth rate`, type = "bar",
-                         marker = list(color = custom_colors11), orientation = 'h')
+                         color = ~region, colors = region_colors, orientation = 'h',
+                         hovertemplate = "%{y}: %{x}<extra></extra>")
 
     plot1.11b <- plot1.11b %>% layout(title = '',
                                       xaxis = list(title = 'Percentage Growth', tickformat = "0%"),
-                                      yaxis = list(title = ""),
+                                      yaxis = list(title = "",
+                                                   categoryorder = "array",
+                                                   categoryarray = levels(data_21b$region)),
                                       showlegend = FALSE
     ) %>% plotly_custom_layout()
 
@@ -2074,7 +2073,6 @@ server <- function(input, output, session) {
     data_40 <- data$data_40
 
     data_40$`percent` <- data_40$`percent` /100
-    custom_colors3<- c(light_blue =  "#92b5d2")
 
     data_40$area <- factor(data_40$area, levels = rev(c(    "Northeast",
                                                             "North Coast & Nechako",
@@ -2086,10 +2084,16 @@ server <- function(input, output, session) {
 
     footnote <- "<b>Source:</b> Statistics Canada / Prepared by BC Stats"
 
-    plot3.03a <- plot_ly(data_40, y = ~area, x = data_40$`percent`, type = "bar", marker = list(color = custom_colors3), orientation = 'h')
+    plot3.03a <- plot_ly(data_40, y = ~area, x = data_40$`percent`, type = "bar",
+                         color = ~area, colors = region_colors, orientation = 'h',
+                         hovertemplate = "%{y}: %{x}<extra></extra>"
+                         )
 
     plot3.03a <- plot3.03a %>% layout(xaxis = list(title = "", tickformat = "0.1%", gridwidth = 2),## make axis percents
-                                           yaxis = list(title = ""),
+                                           yaxis = list(title = "",
+                                                        categoryorder = "array",
+                                                        categoryarray = levels(data_40$area)),
+                                      showlegend = FALSE,
                                            shapes = list(vline(bc_average))) %>% ## add line
                                       add_annotations( ## add BC average text
                                         x = 0.5,
@@ -2126,10 +2130,15 @@ server <- function(input, output, session) {
 
     footnote <- "<b>Source:</b> Statistics Canada / Prepared by BC Stats"
 
-    plot3.03b <- plot_ly(data_41, y = ~area, x = data_41$`percent`, type = "bar", marker = list(color = custom_colors3), orientation = 'h')
+    plot3.03b <- plot_ly(data_41, y = ~area, x = data_41$`percent`, type = "bar",
+                         color = ~area, colors = region_colors, orientation = 'h',
+                         hovertemplate = "%{y}: %{x}<extra></extra>")
 
     plot3.03b <- plot3.03b %>% layout(xaxis = list(title = "", tickformat = "0.1%", gridwidth = 2),## make axis percents
-                                      yaxis = list(title = ""),
+                                      yaxis = list(title = "",
+                                                   categoryorder = "array",
+                                                   categoryarray = levels(data_41$area)),
+                                      showlegend = FALSE,
                                       shapes = list(vline(bc_average))) %>% ## add line
       add_annotations( ## add BC average text
         x = 0.4,
@@ -2394,15 +2403,16 @@ server <- function(input, output, session) {
                                                                "North Coast & Nechako",
                                                                "Total")))
 
-    plot3.5 <- plot_ly(data_46, x = data_46$`2017`,y = data_46$region, name = '2017',
-                marker = list(color = "#005182"),
-                type = "bar", orientation = 'h') %>%
+    plot3.5 <- plot_ly(y = data_46$region, x = data_46$`2022`, name = '2022',
+                marker = list(color = custom_colors[["dark_blue"]]),
+                type = "bar", orientation = 'h',
+                hovertemplate = "%{y}: %{x}") %>%
 
-      add_trace(y = data_46$region, x = data_46$`2022`, name = '2022', type = 'bar',
-                marker = list(color = "#FDB813")
+      add_trace(data_46, x = data_46$`2017`,y = data_46$region, name = '2017',type = 'bar',
+                marker = list(color = custom_colors[["med_blue"]])
       )
     plot3.5 <- layout(plot3.5,
-                       legend = list(orientation = "v", x = 0, y = 1.2),
+                       legend = list(orientation = "v", x = 0, y = 1.2, traceorder = "reversed"),
                        xaxis = list(tickformat = '0.1%'),
                       barmode = "group"
 
