@@ -952,11 +952,24 @@ server <- function(input, output, session) {
   # plot1.0.1----
   output$plot1.0.1 <- renderPlotly({
 
-    data_001 <- data$data_001
+    data_001 <- data$data_001 %>%
+      mutate(Type = case_when(
+        Type == "Small businesses without employees (Self-employed without paid help)" ~ "Small businesses without employees
+        (Self-employed without paid help)",
+        Type == "Small businesses with employees (Fewer than 50)" ~ "Small businesses with employees
+        (Fewer than 50)",
+        Type == "Large Businesses (Businesses with 50 or more)" ~ "Large Businesses
+        (Businesses with 50 or more)")#,
+        # Type = factor(Type, levels = rev(c("Small businesses without employees
+        #                                    (Self-employed without paid help)",
+        #                                    "Small businesses with employees (Fewer than 50)",
+        #                                    "Large Businesses (Businesses with 50 or more)")))
+        )
 
-    data_001$Type <- factor(data_001$Type, levels = rev(c("Small businesses without employees (Self-employed without paid help)",
-                                                          "Small businesses with employees (Fewer than 50)",
-                                                          "Large Businesses (Businesses with 50 or more)")))
+
+    # data_001$Type <- factor(data_001$Type, levels = rev(c("Small businesses without employees (Self-employed without paid help)",
+    #                                                       "Small businesses with employees (Fewer than 50)",
+    #                                                       "Large Businesses (Businesses with 50 or more)")))
 
     footnote <- "<b>Source:</b> Statistics Canada / Prepared by BC Stats"
 
@@ -972,7 +985,7 @@ server <- function(input, output, session) {
                                       showlegend = FALSE) %>%
 
     add_annotations( ## add requested additional info on chart
-      x = -.5,
+      x = 0,
       y = 0.99,
       text = "<b>Total businesses and organizations = 513,300</b>",
       xref = "paper",
@@ -983,6 +996,7 @@ server <- function(input, output, session) {
     ) %>%
       plotly_custom_layout()
 
+    plot1.0.1
 
   })
 
@@ -996,17 +1010,19 @@ server <- function(input, output, session) {
   # plot1.1----
   output$plot1.1 <- renderPlotly({
 
-    custom_colors <- custom_colors[c("navy", "dark_blue", "med_blue", "green", "yellow")] %>% unname()
+   # custom_colors <- custom_colors[c("navy", "dark_blue", "med_blue", "green", "yellow")] %>% unname()
 
     # Create the stacked bar chart with custom colors
     plot1.1 <- plot_ly(data$data_09, x = ~years, y = ~count, color = ~category, type = "bar", textposition = 'inside',
-                       colors = custom_colors) %>%
+                       colors = custom_colors %>% unname()%>%rev(),
+                       hovertemplate = "%{y:,} businesses") %>%
       layout(title = "",
              xaxis = list(title = ""),
              yaxis = list(title = "Employees"),
              barmode = "relative",
              showlegend = TRUE,
-             legend = list(orientation = "h", x = 0, y = 1.3)) %>%
+             legend = list(orientation = "h", x = 0, y = 1.3),
+             hovermode="x unified") %>%
       plotly_custom_layout()
 
 
@@ -1048,7 +1064,7 @@ server <- function(input, output, session) {
 
 
 
-    # Create the plot
+      # Create the plot
     plot1.2a1 <- plot_ly(data = data$data_10, x = ~`1-yr growth`, y = ~`employee count`, type = "bar",
                          orientation = "h",  colors = c("red", "green"),
                          hoverinfo = "x", width = 600, height = 400) %>%
@@ -1206,20 +1222,22 @@ server <- function(input, output, session) {
 
     data_13_result$segment <- factor(data_13_result$segment, levels = data_13_result$segment)
 
-    plot1.3b <- plot_ly(data_13_result, x = data_13_result$`Small businesses with no paid employees`,
-                        y = data_13_result$segment,
-
-                        name = 'Small businesses with no paid employees (Total 299,800, 59%)',
-                        marker = list(color = "#005182"),
+    plot1.3b <- plot_ly(data_13_result,
+                        y = data_13_result$segment, x = data_13_result$`Small businesses with 1-49 employee`,
+                        name = 'Small businesses with 1-49 employees (Total 204,300, 37%)',
+                        marker = list(color = custom_colors[["med_blue"]]),
                         type = "bar",
-                        orientation = 'h') %>%
+                        orientation = 'h',
+                        hovertemplate = "%{x}, <50 employees<extra></extra>") %>%
 
-      add_trace(y = data_13_result$segment, x = data_13_result$`Small businesses with 1-49 employee`,
-                name = 'Small businesses with 1-49 employees (Total 204,300, 37%)', type = 'bar',
-                marker = list(color = "#FDB813")
+      add_trace( x = data_13_result$`Small businesses with no paid employees`,
+                 y = data_13_result$segment,
+                 name = 'Small businesses with no paid employees (Total 299,800, 59%)',
+                marker = list(color = custom_colors[["dark_blue"]]),
+                hovertemplate = "%{x}, no employees<extra></extra>"
       )
     plot1.3b <- layout(plot1.3b,
-                       legend = list(orientation = "h", x = 0, y = 1.2),
+                       legend = list(orientation = "h", x = 0, y = 1.2, traceorder = "reversed"),
                        xaxis = list(title = "", tickformat = '0.1%')
 
 
@@ -1239,15 +1257,21 @@ server <- function(input, output, session) {
     data_14 <- data$data_14[order(-data$data_14$`1-49 employees`),  ]
     data_14$Category <- factor(data_14$Category, levels = rev(data_14$Category))
 
-    plot1.4<- plot_ly(data_14, y = data_14$Category, type = "bar", x = data_14$`No paid employees`, marker = list(color = "#005182"), name = "No paid employees", orientation = 'h')
-    plot1.4 <- add_trace(plot1.4, x = data_14$`1-49 employees`, name = "1-49 employees", marker = list(color = "#FDB813"),
-                         plot1.4 <- layout(plot1.4, barmode = "stack")
+    plot1.4<- plot_ly(data_14, y = data_14$Category, type = "bar", x = data_14$`No paid employees`,
+                      marker = list(color = custom_colors[["dark_blue"]]),
+                      name = "No paid employees", orientation = 'h',
+                      hovertemplate = "%{x}, no employees<extra></extra>")
+    plot1.4 <- add_trace(plot1.4, x = data_14$`1-49 employees`, name = "1-49 employees",
+                         marker = list(color = custom_colors[["med_blue"]]),
+                         hovertemplate = "%{x}, <50 employees<extra></extra>")
 
-    )
+                  # plot1.4 <- layout(plot1.4, barmode = "stack")
+
+    #)
     plot1.4 <- layout(plot1.4,
-                      legend = list(orientation = "h", x = 0, y = 1.2, traceorder = "reversed"),
+                      barmode = "stack",
+                      legend = list(orientation = "h", x = 0, y = 1.2, traceorder = "normal"),
                       xaxis = list(tickformat = '0.1%')
-
 
     ) %>% plotly_custom_layout()
 
@@ -1873,12 +1897,16 @@ server <- function(input, output, session) {
                                                                 "Public administration",
                                                                 "Mining, quarrying, oil and gas")))
 
+    data_30 <- data_30 %>% mutate(count = ifelse(count > 0, paste("+", count), paste("-", abs(count))))
+
 
 
 
     footnote <- "<b>Source:</b> Statistics Canada / Prepared by BC Stats"
 
-    plot2.7a <- plot_ly(data_30, y = ~area, x = data_30$`percent`, type = "bar", text = ~count, color = ~topbottom, colors = c("#143047", "#fcb814"), orientation = 'h')
+    plot2.7a <- plot_ly(data_30, y = ~area, x = data_30$`percent`, type = "bar", text = ~count,
+                        color = ~topbottom, colors = c("#143047", "#fcb814"), orientation = 'h',
+                        hovertemplate = "%{x} growth, %{text} businesses<extra></extra>")
 
     plot2.7a <- plot2.7a %>% layout(title = '',
                                     legend = list(orientation = "h", x = 0, y = 1.2),
@@ -1922,12 +1950,16 @@ server <- function(input, output, session) {
 
     )))
 
+    data_31 <- data_31 %>% mutate(count = ifelse(count > 0, paste("+", count), paste("-", abs(count))))
+
 
 
 
     footnote <- "<b>Source:</b> Statistics Canada / Prepared by BC Stats"
 
-    plot2.7b <- plot_ly(data_31, y = ~area, x = data_31$`percent`, type = "bar", text = ~count, color = ~topbottom, colors = c("#143047", "#fcb814"), orientation = 'h')
+    plot2.7b <- plot_ly(data_31, y = ~area, x = data_31$`percent`, type = "bar",
+                        text = ~count, color = ~topbottom, colors = c("#143047", "#fcb814"), orientation = 'h',
+                        hovertemplate = "%{x} growth, %{text} businesses<extra></extra>")
 
     plot2.7b <- plot2.7b %>% layout(title = '',
                                     legend = list(orientation = "h", x = 0, y = 1.2),
@@ -1961,8 +1993,12 @@ server <- function(input, output, session) {
                                                           "Public administration"
     )))
 
+    data_32 <- data_32 %>% mutate(count = ifelse(count > 0, paste("+", count), paste("-", abs(count))))
 
-    plot2.7c <- plot_ly(data_32, y = ~area, x = data_32$`percent`, type = "bar", text = ~count, color = ~topbottom, colors = c("#143047", "#fcb814"), orientation = 'h')
+
+    plot2.7c <- plot_ly(data_32, y = ~area, x = data_32$`percent`, type = "bar",
+                        text = ~count, color = ~topbottom, colors = c("#143047", "#fcb814"), orientation = 'h',
+                        hovertemplate = "%{x} growth, %{text} businesses<extra></extra>")
 
     plot2.7c <- plot2.7c %>% layout(title = '',
                                     legend = list(orientation = "h", x = 0, y = 1.2),
@@ -2118,8 +2154,6 @@ server <- function(input, output, session) {
     data_41 <- data$data_41
     data_41$`percent` <- data_41$`percent` /100
 
-    custom_colors3<- c(light_blue =  "#92b5d2")
-
     data_41$area <- factor(data_41$area, levels = rev(c(    "Northeast",
                                                             "North Coast & Nechako",
                                                             "Cariboo",
@@ -2158,16 +2192,15 @@ server <- function(input, output, session) {
 
   output$plot3.1a <- renderPlotly({
 
-    custom_colors <- custom_colors[c("navy", "dark_blue", "med_blue", "green", "yellow")] %>% unname()
-
     data$data_42$counts <- data$data_42$counts /1000
 
     plot3.1a <- plot_ly(data$data_42, x = ~help_type, y = ~counts, color = ~type, type = "bar",
-                        colors = custom_colors) %>%
+                        colors = custom_colors %>% unname()) %>%
       layout(xaxis = list(title = ""),
              legend = list(orientation = "h", x = 0, y = 1.2),
              yaxis = list(title = "Thousands", tickformat = "0"),
-             barmode = "stack"
+             barmode = "stack",
+             hovermode = "x unified"
       ) %>% plotly_custom_layout()
 
   })
@@ -2178,15 +2211,15 @@ server <- function(input, output, session) {
 
   output$plot3.1b <- renderPlotly({
 
-    custom_colors <- custom_colors[c("navy", "dark_blue", "med_blue", "green", "yellow")] %>% unname()
     data$data_42$counts <- data$data_42$counts /1000
 
     plot3.1b <- plot_ly(data$data_42, x = ~type, y = ~counts, color = ~help_type, type = "bar", textposition = 'inside',
-                        colors = custom_colors) %>%
+                        colors = custom_colors %>% unname()) %>%
       layout(xaxis = list(title = ""),
              legend = list(orientation = "h", x = 0, y = 1.2),
              yaxis = list(title = "Thousands", tickformat = "0"),
-             barmode = "stack"
+             barmode = "stack",
+             hovermode = "x unified"
       ) %>% plotly_custom_layout()
 
   })
@@ -2197,11 +2230,8 @@ server <- function(input, output, session) {
 
   output$plot3.2 <- renderPlotly({
 
-    custom_colors <- custom_colors[c("navy", "dark_blue", "med_blue", "green", "yellow")] %>% unname()
-
-
     plot3.2 <- plot_ly(data$data_43, x = ~years, y = ~counts, color = ~help_type, type = "bar", textposition = 'inside',
-                        colors = custom_colors) %>%
+                        colors = custom_colors %>% unname()) %>%
 
 
     layout(title = "",
@@ -2212,7 +2242,7 @@ server <- function(input, output, session) {
                         tickprefix = "",
                         ticksuffix = "K",
                         dtick = 100),
-           barmode = "group") %>% plotly_custom_layout()
+           barmode = "group", hovermode = "x unified") %>% plotly_custom_layout()
 
 
   })
@@ -2256,20 +2286,20 @@ server <- function(input, output, session) {
 
     df <- data$data_44
 
-    custom_colors <- custom_colors[c("navy", "dark_blue", "med_blue", "green", "yellow")] %>% unname()
-
     df$counts <- df$counts *100
 
         df %>%
-      mutate(counts = ifelse(test = emp_type == "Self-employed", yes = -counts, no = counts)) %>%
+     # mutate(counts = ifelse(test = emp_type == "Self-employed", yes = -counts, no = counts)) %>%
       mutate(abs_pop = abs(counts)) %>%
 
-      plot_ly( x= ~counts, y=~agegroup, color=~emp_type, colors = custom_colors) %>%
-      add_bars(orientation = 'h', hoverinfo = 'text', text = ~paste(sprintf("%.1f%%", abs_pop))) %>%
+      plot_ly( x= ~counts, y=~agegroup, customdata= ~abs_pop,
+               color=~emp_type, colors = custom_colors[c("med_blue","dark_blue")] %>% unname()) %>%
+      add_bars(orientation = 'h',
+               hovertemplate = "%{customdata:.1f}%"
+              ) %>%
       layout(barmode = 'overlay',
-         #   legend = list(orientation = "h", x = .5, y = 1.2)
-         #   , categoryorder = "array", categoryarray = c("Self-employed", "Employees"),
-             yaxis = list(title = ""),
+            legend = list(orientation = "h", x = .5, y = 1.2, traceorder = "normal"),
+            yaxis = list(title = ""),
             xaxis = list(title = "",
                          tickmode = 'array',
                          tickformat = "0.1%",
@@ -2429,12 +2459,10 @@ server <- function(input, output, session) {
 
   output$plot3.6 <- renderPlotly({
 
-    custom_colors <- custom_colors[c("navy", "dark_blue", "med_blue", "green", "yellow")] %>% unname()
-
     data$data_47$counts <-  data$data_47$counts / 100
 
     plot3.6 <- plot_ly(data$data_47, x = ~year, y = ~counts, color = ~indig, type = "bar", textposition = 'inside',
-                       colors = custom_colors) %>%
+                       colors = custom_colors %>% unname()) %>%
 
 
       layout(title = "",
@@ -2456,15 +2484,12 @@ server <- function(input, output, session) {
 
   output$plot3.7a <- renderPlotly({
 
-    custom_colors <- custom_colors[c("navy", "dark_blue", "med_blue", "green", "yellow")] %>% unname()
-
-
     plot3.7a <- plot_ly(data$data_48, x = ~counts, y = ~hours, color = ~work_week, type = "bar", textposition = 'inside',
-                       colors = custom_colors, orientation = 'h') %>%
+                       colors = custom_colors %>% unname(), orientation = 'h') %>%
 
 
       layout(title = "",
-             legend = list(orientation = "h", x = 0, y = 1.2),
+             legend = list(orientation = "h", x = 0, y = 1.2, traceorder = "reversed"),
              xaxis = list(title = "", tickformat = "0.1%"),
              yaxis = list(title = ""),
              barmode = "relative") %>% plotly_custom_layout()
@@ -2481,11 +2506,8 @@ server <- function(input, output, session) {
 
   output$plot3.7b <- renderPlotly({
 
-    custom_colors <- custom_colors[c("navy", "dark_blue", "med_blue", "green", "yellow")] %>% unname()
-
-
-    plot3.7b <- plot_ly(data$data_49, x = ~counts, y = ~hours, color = ~sex, type = "bar", textposition = 'inside',
-                        colors = custom_colors, orientation = 'h') %>%
+   plot3.7b <- plot_ly(data$data_49, x = ~counts, y = ~hours, color = ~sex, type = "bar", textposition = 'inside',
+                        colors = custom_colors %>% unname(), orientation = 'h') %>%
 
 
       layout(title = "",
@@ -2557,11 +2579,8 @@ server <- function(input, output, session) {
 
 output$plot4.2 <- renderPlotly({
 
-  custom_colors <- custom_colors[c("navy", "dark_blue", "med_blue", "green", "yellow")] %>% unname()
-
-
   plot4.2 <- plot_ly(data$data_51, x = ~help_type, y = ~counts, color = ~type, type = "bar", textposition = 'inside',
-                      colors = custom_colors) %>%
+                      colors = custom_colors %>% unname()) %>%
 
 
   layout(title = "",
@@ -2638,16 +2657,16 @@ output$plot4.2 <- renderPlotly({
                         y = data_52_result$segment,
 
                         name = 'Small Business',
-                        marker = list(color = "#005182"),
+                        marker = list(color = custom_colors[["med_blue"]]),
                         type = "bar",
                         orientation = 'h') %>%
 
       add_trace(y = data_52_result$segment, x = data_52_result$`Large Business`,
                 name = 'Large Business', type = 'bar',
-                marker = list(color = "#FDB813")
+                marker = list(color = custom_colors[["dark_blue"]])
       )
     plot4.3 <- layout(plot4.3,
-                      legend = list(orientation = "h", x = 0, y = 1.2),
+                      legend = list(orientation = "h", x = 0, y = 1.2, traceorder = "reversed"),
                       xaxis = list(title = "$ Thousands", tickformat = ""),
                       yaxis = list(title = "", tickformat = "$", dtick = "")
 
@@ -2693,20 +2712,20 @@ output$plot4.2 <- renderPlotly({
 
 
 
-    plot4.4 <- plot_ly(data_53_result, x = data_53_result$`2017`,
-                       y = data_53_result$segment,
-
-                       name = '2017',
-                       marker = list(color = "#005182"),
+    plot4.4 <- plot_ly(data_53_result, y = data_53_result$segment, x = data_53_result$`2022`,
+                       name = '2022',
+                       marker = list(color = custom_colors[["med_blue"]]),
                        type = "bar",
                        orientation = 'h') %>%
 
-      add_trace(y = data_53_result$segment, x = data_53_result$`2022`,
-                name = '2022', type = 'bar',
-                marker = list(color = "#FDB813")
+      add_trace(x = data_53_result$`2017`,
+                y = data_53_result$segment,
+
+                name = '2017',type = 'bar',
+                marker = list(color = custom_colors[["dark_blue"]])
       )
     plot4.4 <- layout(plot4.4,
-                      legend = list(orientation = "h", x = 0, y = 1.2),
+                      legend = list(orientation = "h", x = 0, y = 1.2, traceorder = "reversed"),
                       xaxis = list(title = "$ Thousands", tickformat = ""),
                       yaxis = list(title = "", tickformat = "0.1", dtick = "")
 
@@ -2727,21 +2746,22 @@ output$plot4.2 <- renderPlotly({
 
     data_54_result$segment <- factor(data_54_result$segment, levels = data_54_result$segment)
 
-    plot4.5 <- plot_ly(data_54_result, x = data_54_result$`Small Business`,
-                       y = data_54_result$segment,
-
-                       name = 'Small Business',
-                       marker = list(color = "#005182"),
+    plot4.5 <- plot_ly(data_54_result,y = data_54_result$segment, x = data_54_result$`Large Business`,
+                       name = 'Large Business',
+                       marker = list(color =  custom_colors[["dark_blue"]]),
                        type = "bar",
-                       orientation = 'h') %>%
+                       orientation = 'h',
+                       hovertemplate = "%{y}: %{x:$,.0f}") %>%
 
-      add_trace(y = data_54_result$segment, x = data_54_result$`Large Business`,
-                name = 'Large Business', type = 'bar',
-                marker = list(color = "#FDB813")
+      add_trace( x = data_54_result$`Small Business`,
+                 y = data_54_result$segment,
+
+                 name = 'Small Business', type = 'bar',
+                marker = list(color = custom_colors[["med_blue"]])
 
     )
     plot4.5 <- layout(plot4.5,
-                      legend = list(orientation = "h", x = .3, y = 1.2),
+                      legend = list(orientation = "h", x = .3, y = 1.2, traceorder = "reversed"),
                       xaxis = list(title = "$ Thousands", tickformat = "")
 
 
@@ -2797,11 +2817,8 @@ output$plot4.2 <- renderPlotly({
 
   output$plot5.3 <- renderPlotly({
 
-    custom_colors <- custom_colors[c("navy", "dark_blue", "med_blue", "green", "yellow")] %>% unname()
-
-    data$data_56$counts <- data$data_56$counts
     plot5.3 <- plot_ly(data$data_56, x = ~Exporters, y = ~counts, color = ~bus_type, type = "bar", textposition = 'inside',
-                       colors = custom_colors) %>%
+                       colors = custom_colors[c("green","med_blue","dark_blue")] %>% unname()) %>%
 
 
       layout(title = "",
@@ -2821,11 +2838,9 @@ output$plot4.2 <- renderPlotly({
 
   output$plot5.3b <- renderPlotly({
 
-    custom_colors <- custom_colors[c("navy", "dark_blue", "med_blue", "green", "yellow")] %>% unname()
-
     data$data_56b$counts <- data$data_56b$counts
     plot5.3b <- plot_ly(data$data_56b, x = ~Exporters, y = ~counts, color = ~bus_type, type = "bar", textposition = 'inside',
-                       colors = custom_colors) %>%
+                       colors = custom_colors[c("green","med_blue","dark_blue")] %>% unname()) %>%
 
 
       layout(title = "",
@@ -2847,8 +2862,6 @@ output$plot4.2 <- renderPlotly({
   # plot5.4----
   output$plot5.4 <- renderPlotly({
 
-    custom_colors <- custom_colors[c("navy", "dark_blue", "med_blue", "green", "yellow")] %>% unname()
-
     data$data_57$count <- data$data_57$count /100
 
     data$data_57$area <-  factor(data$data_57$area, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
@@ -2856,7 +2869,8 @@ output$plot4.2 <- renderPlotly({
 
     # Create the stacked bar chart with custom colors
     plot5.4 <- plot_ly(data$data_57, x = ~area, y = ~count, color = ~category, type = "bar", textposition = 'inside',
-                       colors = custom_colors) %>%
+                       colors = custom_colors[c("green","med_blue","dark_blue")] %>% unname(),
+                       hovertemplate = "%{x}, %{y:.1%}") %>%
       layout(title = "",
              xaxis = list(title = ""),
              yaxis = list(title = "% of total", tickformat = "0%", dtick = "0.1"),
@@ -2918,18 +2932,20 @@ output$plot4.2 <- renderPlotly({
   # plot5.04----
   output$plot5.04 <- renderPlotly({
 
-
-    data$data_59$count <- data$data_59$count /1000000
-    custom_colors2 <- c("#fcb814", "#143047" )
-
+    data_59 <- data$data_59
+    data_59$count <- data_59$count /1000000
 
     # Create the stacked bar chart with custom colors
-    plot5.04 <- plot_ly(data$data_59, x = ~years, y = ~count, color = ~category, type = "scatter", mode = "lines",
-                        stackgroup = "one", line = list(color = custom_colors2 )) %>%
+    plot5.04 <- plot_ly(data_59, x = ~years, y = ~count, color = ~category, type = "scatter", mode = "lines",
+                        colors = custom_colors[c("med_blue","dark_blue")] %>% unname(),
+                        stackgroup = "one",
+                        hovertemplate = "%{y:.1f} billion<extra></extra>"
+                        ) %>%
       layout(title = "",
              xaxis = list(title = ""),
              yaxis = list(title = "$ Billions", tickformat = "$"),
              barmode = "stack",
+             hovermode = "x unified",
              showlegend = TRUE,
              legend = list(orientation = "h", x = 0, y = 1.3)) %>% plotly_custom_layout()
 
