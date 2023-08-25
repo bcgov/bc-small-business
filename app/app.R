@@ -8,7 +8,7 @@ library(sf)
 library(tidyr)
 
 data <- readRDS("data/data.rds")
-last_updated <- "V1.0 Aug 18, 2023"
+last_updated <- "V1.1 Aug 24, 2023"
 
 
 # Define UI
@@ -56,6 +56,25 @@ ui <-
                                             ),
                                             ## dashboard body ----
                                             dashboardBody(
+                                              tags$head(
+                                                # Custom CSS to hide content initially and style the toggle button
+                                                tags$style(HTML("
+        .hidden-content {
+          display: none;
+        }
+        .toggle-button {
+          cursor: pointer;
+          color: blue;
+        }
+      ")),
+                                                # JavaScript to toggle visibility
+                                                tags$script(HTML("
+        $(document).on('click', '.toggle-button', function() {
+          $('.hidden-content').toggle();
+          $(this).text($(this).text() == '+' ? '-' : '+');
+        });
+      "))
+                                              ),
 
 
                                               ## tabs ----
@@ -212,7 +231,11 @@ ui <-
                                                   fluidRow(
 
                                                     box(title = "Figure 1.0.0: Breakdown of businesses in British Columbia, 2022", DTOutput("datatable1"),
-                                                        style = "border: 1px solid white;", width = 10
+                                                        style = "border: 1px solid white;", width = 10,
+                                                        br(),
+                                                        HTML("<b><small>Note: </b>Figures do not add to 100% due to rounding.
+                                                             <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
+
                                                     ),
 
 
@@ -283,29 +306,53 @@ ui <-
                                                              </small>")
 
                                                     ),
+#
+#                                                     box(title = "Figure 1.5: Fastest growing industries by number of net new small businesses with employees, British Columbia, 2017-2022", plotlyOutput("plot1.5"), width = 10,
+#                                                         br(),
+#                                                         HTML("<small>
+#                                                        <p><b>Note:</b> Excludes self-employed without paid help.
+#                                                        <p><b>Source:</b> BC Stats using data supplied by Statistics Canada
+#                                                        <p><b>Description:</b> This chart shows the five industries with the most net new businesses in the last five years in British Columbia. The number of net new businesses is also shown for non-standard industries.
+#                                                        <p><b>Definitions: <i>Tourism</i></b> includes industries such as transportation, accommodation, food services and other tourismrelated activities. Further information on the tourism sector is available at BC Stats.
+#                                                        <p><b>     <i>High technology</i></b> industries may employ a high proportion of scientists and researchers or invest a high proportion of revenues in research and development. Other industries that produce
+#                                                        high technology products are also included. Further information on the high technology sector is available online at BC Stats.
+#                                                        <p><b>     <i>Secondary manufacturing</i></b> industries are those that produce goods from the products of other manufacturers. For example, a sawmill is a manufacturing operation, but not a secondary manufacturer,
+#                                                              because its logs do not come from another manufacturer. On the other hand, a factory producing wooden doors with lumber obtained from sawmills is a secondary manufacturer.
+#                                                         </small>")
+#                                                     ),
+#
+                                                    box(title = "Figure 1.5: Fastest growing industries by number of net new small businesses with employees, British Columbia, 2017-2022",
+                                                        HTML("<p><small><i>This chart shows the five industries with the most net new businesses in the last five years in British Columbia.
+                                                        The number of net new businesses is also shown for non-standard industries.</i></small>"), plotlyOutput("plot1.5"), width = 10,
+                                                        br(),
+                                                        tags$span("+", class = "toggle-button"),
 
-                                                    box(title = "Figure 1.5: Number of net new small businesses - fastest growing sectors in B.C, 2017-2022", plotlyOutput("plot1.5"), width = 10,
+
+                                                        HTML("<small>
+                                                       <p><b>Note:</b> Excludes self-employed without paid help.
+                                                       <p><b>Source:</b> BC Stats using data supplied by Statistics Canada</small>"),
+
+
+
+                                                        tags$div(HTML("<small><p><b>Definitions: <i>Tourism</i></b> includes industries such as transportation, accommodation, food services and other tourism related activities. Further information on the tourism sector is available at BC Stats.
+                                                        <p><b>     <i>High technology</i></b> industries may employ a high proportion of scientists and researchers or invest a high proportion of revenues in research and development. Other industries that produce
+                                                        high technology products are also included. Further information on the high technology sector is available online at BC Stats.
+                                                        <p><b>     <i>Secondary manufacturing</i></b> industries are those that produce goods from the products of other manufacturers. For example, a sawmill is a manufacturing operation, but not a secondary manufacturer,
+                                                        because its logs do not come from another manufacturer. On the other hand, a factory producing wooden doors with lumber obtained from sawmills is a secondary manufacturer.</small>"),
+                                                                 class = "hidden-content")
+                                                    ),
+                                                    box(title = "Figure 1.6: Sector growth rates for number of small businesses with employees, British Columbia, 2017-2020", plotlyOutput("plot1.6"), width = 10,
                                                         br(),
                                                         HTML("<small>
                                                        <p><b>Note:</b> Excludes self-employed without paid help.
-                                                       <p><b>Source:</b> BC Stats using data supplied by Statistics Canada
-                                                       <p><b>Description: <i>Tourism</i></b> includes industries such as transportation, accommodation, food services and other tourismrelated activities. Further information on the tourism sector is available at BC Stats.
-                                                       <p><b>Description: <i>High technology</i></b> industries may employ a high proportion of scientists and researchers or invest a high proportion of revenues in research and development. Other industries that produce
-                                                       high technology products are also included. Further information on the high technology sector is available online at BC Stats.
-                                                       <p><b>Description: <i>Secondary manufacturing</i></b> industries are those that produce goods from the products of other manufacturers. For example, a sawmill is a manufacturing operation, but not a secondary manufacturer,
-                                                             because its logs do not come from another manufacturer. On the other hand, a factory producing wooden doors with lumber obtained from sawmills is a secondary manufacturer.
-                                                        </small>")
-                                                    ),
+                                                       <p><b>Source:</b> BC Stats using data supplied by Statistics Canada"),
+                                                        box(
+                                                           HTML("<p><b>Description:</b> This chart shows the five industries with the highest growth rate in the number of net new businesses in the
+                                                        last five years in British Columbia. Net new business growth rates are also shown for non-standard industries.
+                                                             </small>"), collapsible = TRUE, collapsed = TRUE)),
 
-                                                    box(title = "Figure 1.6: Sector growth rates for number of small businesses with employees, BC, 2017-2020", plotlyOutput("plot1.6"), width = 10,
-                                                        br(),
-                                                        HTML("<small>
-                                                       <p><b>Note:</b> Excludes self-employed without paid help.
-                                                       <p><b>Source:</b> BC Stats using data supplied by Statistics Canada
-                                                       <p><b>Description:</b> This chart shows the five industries with the highest growth rate in the number of net new businesses in the last five years in British Columbia. Net new business growth rates are also shown for non-standard industries.
-                                                             </small>")
 
-                                                    ),
+
 
                                                     box(title = "Figure 1.7: Small businesses per capita by province, 2022", plotlyOutput("plot1.7"), width = 10,
                                                         br(),
@@ -352,9 +399,12 @@ ui <-
                                                   fluidRow(
 
                                                     box(title = "Figure 2.0.0: Private sector employment in British Columbia by size of business, 2022", DTOutput("datatable2"),
-                                                        style = "border: 1px solid white;", width = 10
-                                                    ),
+                                                        style = "border: 1px solid white;", width = 10,
+                                                        br(),
+                                                        HTML("<b><small><p>Note:</b> Includes the self-employed with and without paid help.
+                                                             <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
 
+                                                    ),
 
                                                     box(title = "Figure 2.1 Share of total employment in British Columbia, 2022", plotlyOutput("plot2.1"), width = 10,
                                                         br(),
@@ -869,10 +919,10 @@ server <- function(input, output, session) {
                 columnDefs = list(list(width = '300px', targets = 0))
               ),
               ## add caption
-              caption = htmltools::tags$caption(
-                style = 'caption-side: bottom;',
-                '*Figures do not add to 100% due to rounding'
-              )
+              # caption = htmltools::tags$caption(
+              #   style = 'caption-side: bottom;',
+              #   '*Figures do not add to 100% due to rounding'
+              # )
     )  %>%
       ## helper functions for formatting
       formatRound(c("Number of businesses", "Growth 2021-2022 (#)", "Growth 2017-2022 (#)"), mark = ",", digits = 0) %>%  ## add commas to large numbers
@@ -1187,7 +1237,7 @@ server <- function(input, output, session) {
     )
     plot1.4 <- layout(plot1.4,
                       legend = list(orientation = "h", x = 0, y = 1.2, traceorder = "reversed"),
-                      xaxis = list(tickformat = '.0%')
+                      xaxis = list(tickformat = '0.1%')
 
 
     )
@@ -1230,7 +1280,7 @@ server <- function(input, output, session) {
 
     plot1.5 <- layout(plot1.5,
                       legend = list(orientation = "h", x = -2, y = 1.2),
-                      xaxis = list(tickformat = '0.0', title = ""),
+                      xaxis = list(tickformat = '', title = ""),
                       yaxis = list(title = "", tickvals = ~type, ticktext = custom_ticktext)
 
 
@@ -1829,7 +1879,7 @@ server <- function(input, output, session) {
     plot2.7a <- plot2.7a %>% layout(title = '',
                                     legend = list(orientation = "h", x = 0, y = 1.2),
                                     yaxis = list(title = ''),
-                                    xaxis = list(tickformat = "0.0%"),
+                                    xaxis = list(tickformat = "0.1%"),
                                     showlegend = TRUE
                                     )
 
@@ -1878,7 +1928,7 @@ server <- function(input, output, session) {
     plot2.7b <- plot2.7b %>% layout(title = '',
                                     legend = list(orientation = "h", x = 0, y = 1.2),
                                     yaxis = list(title = ''),
-                                    xaxis = list(tickformat = "0.0%"),
+                                    xaxis = list(tickformat = "0.1%"),
                                     showlegend = TRUE
     )
 
@@ -1913,7 +1963,7 @@ server <- function(input, output, session) {
     plot2.7c <- plot2.7c %>% layout(title = '',
                                     legend = list(orientation = "h", x = 0, y = 1.2),
                                     yaxis = list(title = ''),
-                                    xaxis = list(tickformat = "0.0%"),
+                                    xaxis = list(tickformat = "0.1%"),
                                     showlegend = TRUE
     )
 
@@ -2033,7 +2083,7 @@ server <- function(input, output, session) {
 
     plot3.03a <- plot_ly(data_40, y = ~area, x = data_40$`percent`, type = "bar", marker = list(color = custom_colors3), orientation = 'h')
 
-    plot3.03a <- plot3.03a %>% layout(xaxis = list(title = "", tickformat = "0.0%", gridwidth = 2),## make axis percents
+    plot3.03a <- plot3.03a %>% layout(xaxis = list(title = "", tickformat = "0.1%", gridwidth = 2),## make axis percents
                                            yaxis = list(title = ""),
                                            shapes = list(vline(bc_average))) %>% ## add line
                                       add_annotations( ## add BC average text
@@ -2073,7 +2123,7 @@ server <- function(input, output, session) {
 
     plot3.03b <- plot_ly(data_41, y = ~area, x = data_41$`percent`, type = "bar", marker = list(color = custom_colors3), orientation = 'h')
 
-    plot3.03b <- plot3.03b %>% layout(xaxis = list(title = "", tickformat = "0.0%", gridwidth = 2),## make axis percents
+    plot3.03b <- plot3.03b %>% layout(xaxis = list(title = "", tickformat = "0.1%", gridwidth = 2),## make axis percents
                                       yaxis = list(title = ""),
                                       shapes = list(vline(bc_average))) %>% ## add line
       add_annotations( ## add BC average text
@@ -2210,7 +2260,8 @@ server <- function(input, output, session) {
                          tickmode = 'array',
                          tickformat = "0.1%",
                          tickvals = c(-20, -10,  0, 10, 20),
-                        ticktext = c('20%', '10%', '0', '10%', '20%')
+                        ticktext = c('20%', '10%', '0', '10%', '20%'),
+                        autorange = "reversed"
 
 
 ))
