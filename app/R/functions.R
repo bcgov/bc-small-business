@@ -36,6 +36,7 @@ plotly_custom_layout <- function(plot) {
 
   plot %>%
     layout(
+      hoverlabel = list(namelength = -1),  ## shows full hover label regardless of length
       dragmode = FALSE,  # remove drag zoom
       modebar = list(remove = list("autoscale","hoverCompareCartesian", "lasso", "pan", "select", "zoom")
 
