@@ -905,6 +905,7 @@ server <- function(input, output, session) {
               ## change default class (table-striped) to cell-border (borders around all cells, no striping)
               class = 'cell-border',
               options = list(
+                scrollX = TRUE,
                 paging = FALSE,
                 dom = 't',
                 ## format header
@@ -1598,6 +1599,7 @@ server <- function(input, output, session) {
               ## change default class (table-striped) to cell-border (borders around all cells, no striping)
               class = 'cell-border',
               options = list(
+                scrollX = TRUE,
                 paging = FALSE,
                 dom = 't',
                 ## format header
@@ -2945,6 +2947,7 @@ output$plot4.2 <- renderPlotly({
               ## change default class (table-striped) to cell-border (borders around all cells, no striping)
               class = 'cell-border',
               options = list(
+                scrollX = TRUE,
                 paging = FALSE,
                 dom = 't',
                 ## format header
@@ -3018,6 +3021,7 @@ output$plot4.2 <- renderPlotly({
               ## change default class (table-striped) to cell-border (borders around all cells, no striping)
               class = 'cell-border',
               options = list(
+                scrollX = TRUE,
                 paging = FALSE,
                 dom = 't',
                 ## format header
