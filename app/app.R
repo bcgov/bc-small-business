@@ -31,7 +31,7 @@ ui <-
                               dashboardPage(skin = "blue",
                                             dashboardHeader(title = ""),
                                             ## dashboard sidebar ----
-                                            dashboardSidebar(minified = FALSE, collapsed = FALSE,
+                                            dashboardSidebar(collapsed = FALSE,
                                                              sidebarMenu(style = "position: fixed; overflow: visible;",
                                                                id = "tabs", ## to be able to update with buttons on landing page
                                                                menuItem("Home", tabName = "home", icon = icon("home")),
