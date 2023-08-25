@@ -100,24 +100,35 @@ html, body, h1, h2, h3, h4, h5, h6 {
     background-color: rgba(255, 255, 255, 0.6);
 }
 
-#green .box.box-solid {
+
+#green .box {
     background-color: rgba(21, 152, 123, 0.5);
+    min-height: 260px;
+    border-top:0px;
 }
 
-#yellow .box.box-solid {
+#yellow .box {
     background-color: rgba(252,184,20, 0.5);
+    min-height: 260px;
+    border-top:0px;
 }
 
-#blue .box.box-solid {
+#blue .box {
     background-color: rgba(14,131,176, 0.5);
+    min-height: 260px;
+    border-top:0px;
 }
 
-#light-green .box.box-solid {
+#light-green .box {
     background-color: rgba(149,193,178, 0.5);
+    min-height: 260px;
+    border-top:0px;
 }
 
-#light-blue .box.box-solid {
+#light-blue .box {
     background-color: rgba(146,181,210, 0.5);
+    min-height: 260px;
+    border-top:0px;
 }
 
 /*formatting for collapsable boxes for definitions/descriptions*/
