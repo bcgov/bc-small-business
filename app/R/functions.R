@@ -32,5 +32,19 @@ vline <- function(x = 0, color = "black") {
 }
 
 
+plotly_custom_layout <- function(plot) {
+
+  plot %>%
+    layout(
+      dragmode = FALSE,  # remove drag zoom
+      modebar = list(remove = list("autoscale","hoverCompareCartesian", "lasso", "pan", "select", "zoom")
+
+
+      )
+    )
+
+}
+
+
 
 

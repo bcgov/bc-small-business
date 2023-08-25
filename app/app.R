@@ -799,7 +799,7 @@ server <- function(input, output, session) {
       layout(xaxis = list(title = ""),
              yaxis = list(title = "Tax Rate", tickformat = ".1%") ## make y-axis percents
 
-      )
+      ) %>% plotly_custom_layout()
 
 
   })
@@ -841,7 +841,7 @@ server <- function(input, output, session) {
         xanchor = "left",
         yanchor = "bottom",
         showarrow = F
-      )
+      ) %>% plotly_custom_layout()
 
   })
 
@@ -882,7 +882,7 @@ server <- function(input, output, session) {
                xanchor = "left",
                yanchor = "bottom",
                showarrow = F
-             )
+             ) %>% plotly_custom_layout()
   })
 
 
@@ -976,7 +976,8 @@ server <- function(input, output, session) {
       xanchor = "left",
       yanchor = "bottom",
       showarrow = F
-    )
+    ) %>%
+      plotly_custom_layout()
 
 
   })
@@ -1001,7 +1002,8 @@ server <- function(input, output, session) {
              yaxis = list(title = "Employees"),
              barmode = "relative",
              showlegend = TRUE,
-             legend = list(orientation = "h", x = 0, y = 1.3))
+             legend = list(orientation = "h", x = 0, y = 1.3)) %>%
+      plotly_custom_layout()
 
 
   })
@@ -1053,7 +1055,7 @@ server <- function(input, output, session) {
            yaxis = list(title = ""),
            xaxis = list(title = "", tickformat = "0"),
 
-           barmode = "relative")
+           barmode = "relative") %>% plotly_custom_layout()
 
 
   })
@@ -1096,7 +1098,7 @@ server <- function(input, output, session) {
              yaxis = list(title = ""),
              xaxis = list(title = "", tickformat = "0"),
 
-             barmode = "relative")
+             barmode = "relative") %>% plotly_custom_layout()
 
   })
 
@@ -1138,7 +1140,7 @@ server <- function(input, output, session) {
            yaxis = list(title = ""),
            xaxis = list(title = "", tickformat = "0"),
 
-           barmode = "relative")
+           barmode = "relative") %>% plotly_custom_layout()
 
   })
 
@@ -1183,7 +1185,7 @@ server <- function(input, output, session) {
                        legend = list(orientation = "h", x = -2, y = 1.2),
                        xaxis = list(title = "", tickformat = '0.1%'),
                        yaxis = list(title = "", tickvals = ~type, ticktext = custom_ticktext)
-    )
+    ) %>% plotly_custom_layout()
 
   })
 
@@ -1217,7 +1219,7 @@ server <- function(input, output, session) {
                        xaxis = list(title = "", tickformat = '0.1%')
 
 
-    )
+    ) %>% plotly_custom_layout()
 
 
 
@@ -1243,7 +1245,7 @@ server <- function(input, output, session) {
                       xaxis = list(tickformat = '0.1%')
 
 
-    )
+    ) %>% plotly_custom_layout()
 
 
 
@@ -1288,7 +1290,7 @@ server <- function(input, output, session) {
 
 
 
-    )
+    ) %>% plotly_custom_layout()
 
 
 
@@ -1326,7 +1328,8 @@ server <- function(input, output, session) {
     plot1.6 <- layout(plot1.6,
                       legend = list(orientation = "h", x = -2, y = 1.2),
                       xaxis = list(tickformat = '0.1%', title = ""),
-                      yaxis = list(title = "", tickvals = ~type, ticktext = custom_ticktext))
+                      yaxis = list(title = "", tickvals = ~type, ticktext = custom_ticktext)) %>%
+      plotly_custom_layout()
 
 
 
@@ -1369,7 +1372,7 @@ server <- function(input, output, session) {
         xanchor = "left",
         yanchor = "bottom",
         showarrow = F
-      )
+      ) %>% plotly_custom_layout()
 
   })
 
@@ -1409,7 +1412,7 @@ server <- function(input, output, session) {
         xanchor = "left",
         yanchor = "bottom",
         showarrow = F
-      )
+      ) %>% plotly_custom_layout()
 
   })
 
@@ -1462,7 +1465,7 @@ server <- function(input, output, session) {
     plot1.10 <- plot1.10 %>% layout(title = '',
                                     yaxis = list(title = ''),
                                     showlegend = FALSE
-    )
+    ) %>% plotly_custom_layout()
 
     # plot1.10 <- plot1.10 %>%
     #   add_text(text = paste0(data_20$`Total, 2022`, ""),
@@ -1510,7 +1513,7 @@ server <- function(input, output, session) {
                                       xaxis = list(title = 'Number of Businesses'),
                                       yaxis = list(title = ""),
                                       showlegend = FALSE
-    )
+    ) %>% plotly_custom_layout()
 
 
 
@@ -1548,7 +1551,7 @@ server <- function(input, output, session) {
                                       xaxis = list(title = 'Percentage Growth', tickformat = "0%"),
                                       yaxis = list(title = ""),
                                       showlegend = FALSE
-    )
+    ) %>% plotly_custom_layout()
 
 
 
@@ -1651,7 +1654,7 @@ server <- function(input, output, session) {
                                   yaxis = list(title = ''),
                                   xaxis = list(title = '', tickformat = "0.1%"),
                                   showlegend = FALSE
-    )
+    ) %>% plotly_custom_layout()
 
 
   })
@@ -1674,7 +1677,7 @@ server <- function(input, output, session) {
                                   yaxis = list(title = ''),
                                   xaxis = list(title = '', tickformat = "0.1%"),
                                   showlegend = FALSE
-    )
+    ) %>% plotly_custom_layout()
 
 
   })
@@ -1725,7 +1728,7 @@ server <- function(input, output, session) {
 
 
     # Display the chart
-    plot2.4b
+    plot2.4b %>% plotly_custom_layout()
 
   })
 
@@ -1765,7 +1768,7 @@ server <- function(input, output, session) {
         xanchor = "left",
         yanchor = "bottom",
         showarrow = F
-      )
+      ) %>% plotly_custom_layout()
 
   })
 
@@ -1805,7 +1808,7 @@ server <- function(input, output, session) {
         xanchor = "left",
         yanchor = "bottom",
         showarrow = F
-      )
+      ) %>% plotly_custom_layout()
 
   })
 
@@ -1847,7 +1850,7 @@ server <- function(input, output, session) {
         xanchor = "left",
         yanchor = "bottom",
         showarrow = F
-      )
+      ) %>% plotly_custom_layout()
 
   })
 
@@ -1884,7 +1887,7 @@ server <- function(input, output, session) {
                                     yaxis = list(title = ''),
                                     xaxis = list(tickformat = "0.1%"),
                                     showlegend = TRUE
-                                    )
+                                    ) %>% plotly_custom_layout()
 
 
 
@@ -1933,7 +1936,7 @@ server <- function(input, output, session) {
                                     yaxis = list(title = ''),
                                     xaxis = list(tickformat = "0.1%"),
                                     showlegend = TRUE
-    )
+    ) %>% plotly_custom_layout()
 
 
   })
@@ -1968,7 +1971,7 @@ server <- function(input, output, session) {
                                     yaxis = list(title = ''),
                                     xaxis = list(tickformat = "0.1%"),
                                     showlegend = TRUE
-    )
+    ) %>% plotly_custom_layout()
 
 
   })
@@ -2016,7 +2019,7 @@ server <- function(input, output, session) {
         xanchor = "left",
         yanchor = "bottom",
         showarrow = F
-      )
+      ) %>% plotly_custom_layout()
 
   })
 
@@ -2059,7 +2062,7 @@ server <- function(input, output, session) {
         xanchor = "left",
         yanchor = "bottom",
         showarrow = F
-      )
+      ) %>% plotly_custom_layout()
 
   })
 
@@ -2098,7 +2101,7 @@ server <- function(input, output, session) {
                                         xanchor = "left",
                                         yanchor = "bottom",
                                         showarrow = F
-                                      )
+                                      ) %>% plotly_custom_layout()
 
 
 
@@ -2138,7 +2141,7 @@ server <- function(input, output, session) {
         xanchor = "left",
         yanchor = "bottom",
         showarrow = F
-      )
+      ) %>% plotly_custom_layout()
 
   })
 
@@ -2157,7 +2160,7 @@ server <- function(input, output, session) {
              legend = list(orientation = "h", x = 0, y = 1.2),
              yaxis = list(title = "Thousands", tickformat = "0"),
              barmode = "stack"
-      )
+      ) %>% plotly_custom_layout()
 
   })
 
@@ -2176,7 +2179,7 @@ server <- function(input, output, session) {
              legend = list(orientation = "h", x = 0, y = 1.2),
              yaxis = list(title = "Thousands", tickformat = "0"),
              barmode = "stack"
-      )
+      ) %>% plotly_custom_layout()
 
   })
 
@@ -2201,7 +2204,7 @@ server <- function(input, output, session) {
                         tickprefix = "",
                         ticksuffix = "K",
                         dtick = 100),
-           barmode = "group")
+           barmode = "group") %>% plotly_custom_layout()
 
 
   })
@@ -2267,7 +2270,7 @@ server <- function(input, output, session) {
                         autorange = "reversed"
 
 
-))
+)) %>% plotly_custom_layout()
 
 
 
@@ -2321,7 +2324,7 @@ server <- function(input, output, session) {
                          ticktext = paste0(seq(0, 100, 5), "%"),
                          legend = list(title = "Age Group")
                        )
-    )
+    ) %>% plotly_custom_layout()
 
   })
 
@@ -2366,7 +2369,7 @@ server <- function(input, output, session) {
         showarrow = F
       )
 
-    plot3.4
+    plot3.4 %>% plotly_custom_layout()
   })
 
 
@@ -2405,7 +2408,7 @@ server <- function(input, output, session) {
                       barmode = "group"
 
 
-    )
+    ) %>% plotly_custom_layout()
 
 
 
@@ -2433,7 +2436,7 @@ server <- function(input, output, session) {
                           tickprefix = "",
                           ticksuffix = "" ,
                           dtick = .05),
-             barmode = "group")
+             barmode = "group") %>% plotly_custom_layout()
 
 
   })
@@ -2455,7 +2458,7 @@ server <- function(input, output, session) {
              legend = list(orientation = "h", x = 0, y = 1.2),
              xaxis = list(title = "", tickformat = "0.1%"),
              yaxis = list(title = ""),
-             barmode = "relative")
+             barmode = "relative") %>% plotly_custom_layout()
 
 
   })
@@ -2480,7 +2483,7 @@ server <- function(input, output, session) {
              legend = list(orientation = "h", x = 0, y = 1.2),
              xaxis = list(title = "", tickformat = "0.1%"),
              yaxis = list(title = ""),
-             barmode = "relative")
+             barmode = "relative") %>% plotly_custom_layout()
 
 
   })
@@ -2521,7 +2524,7 @@ server <- function(input, output, session) {
         xanchor = "left",
         yanchor = "bottom",
         showarrow = F
-      )
+      ) %>% plotly_custom_layout()
 
   })
 
@@ -2577,7 +2580,7 @@ output$plot4.2 <- renderPlotly({
       xanchor = "left",
       yanchor = "bottom",
       showarrow = F
-    )
+    ) %>% plotly_custom_layout()
 
 
 
@@ -2640,7 +2643,7 @@ output$plot4.2 <- renderPlotly({
                       yaxis = list(title = "", tickformat = "$", dtick = "")
 
 
-    )
+    ) %>% plotly_custom_layout()
 
 
 
@@ -2700,7 +2703,7 @@ output$plot4.2 <- renderPlotly({
 
 
 
-    )
+    ) %>% plotly_custom_layout()
 
 
 
@@ -2733,7 +2736,7 @@ output$plot4.2 <- renderPlotly({
                       xaxis = list(title = "$ Thousands", tickformat = "")
 
 
-    )
+    ) %>% plotly_custom_layout()
 
 
 
@@ -2775,7 +2778,7 @@ output$plot4.2 <- renderPlotly({
         xanchor = "left",
         yanchor = "bottom",
         showarrow = F
-      )
+      ) %>% plotly_custom_layout()
 
   })
 
@@ -2800,7 +2803,7 @@ output$plot4.2 <- renderPlotly({
                           tickprefix = "",
                           ticksuffix = "",
                           dtick = .1),
-             barmode = "group")
+             barmode = "group") %>% plotly_custom_layout()
 
 
   })
@@ -2824,7 +2827,7 @@ output$plot4.2 <- renderPlotly({
                           tickprefix = "",
                           ticksuffix = "",
                           dtick = .1),
-             barmode = "group")
+             barmode = "group") %>% plotly_custom_layout()
 
 
   })
@@ -2853,7 +2856,7 @@ output$plot4.2 <- renderPlotly({
              legend = list(orientation = "h", x = 0, y = 1.3))
 
     # Display the chart
-    plot5.4
+    plot5.4 %>% plotly_custom_layout()
 
   })
 
@@ -2895,7 +2898,7 @@ output$plot4.2 <- renderPlotly({
         xanchor = "left",
         yanchor = "bottom",
         showarrow = F
-      )
+      ) %>% plotly_custom_layout()
 
   })
 
@@ -2919,7 +2922,7 @@ output$plot4.2 <- renderPlotly({
              yaxis = list(title = "$ Billions", tickformat = "$"),
              barmode = "stack",
              showlegend = TRUE,
-             legend = list(orientation = "h", x = 0, y = 1.3))
+             legend = list(orientation = "h", x = 0, y = 1.3)) %>% plotly_custom_layout()
 
     # Display the chart
 
