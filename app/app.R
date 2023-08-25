@@ -346,10 +346,13 @@ ui <-
                                                         HTML("<small>
                                                        <p><b>Note:</b> Excludes self-employed without paid help.
                                                        <p><b>Source:</b> BC Stats using data supplied by Statistics Canada"),
-                                                        box(
-                                                           HTML("<p><b>Description:</b> This chart shows the five industries with the highest growth rate in the number of net new businesses in the
-                                                        last five years in British Columbia. Net new business growth rates are also shown for non-standard industries.
-                                                             </small>"), collapsible = TRUE, collapsed = TRUE)),
+                                                        fluidRow(box(title = HTML("<p><b>Description:</b></small>"),
+                                                                     HTML("<p>This chart shows the five industries with the highest growth
+                                                                     rate in the number of net new businesses in the
+                                                                     last five years in British Columbia. Net new business
+                                                                     growth rates are also shown for non-standard industries.
+                                                             </small>"),
+                                                                     collapsible = TRUE, collapsed = TRUE))),
 
 
 

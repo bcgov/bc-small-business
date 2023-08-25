@@ -120,4 +120,7 @@ html, body, h1, h2, h3, h4, h5, h6 {
     background-color: rgba(146,181,210, 0.5);
 }
 
-
+/*formatting for collapsable boxes for definitions/descriptions*/
+.box.collapsed-box {
+    border:1px solid #d2d6de
+}
