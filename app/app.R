@@ -8,7 +8,7 @@ library(sf)
 library(tidyr)
 
 data <- readRDS("data/data.rds")
-last_updated <- "V1.1 Aug 24, 2023"
+last_updated <- "V1.12 Aug 28, 2023"
 
 
 # Define UI
@@ -320,8 +320,8 @@ ui <-
 #
                                                     box(title = "Figure 1.5: Fastest growing industries by number of net new small businesses with employees, British Columbia, 2017-2022",
                                                         HTML("<p><small><i>This chart shows the five industries with the most net new businesses in the last five years in British Columbia.
-                                                        The number of net new businesses is also shown for non-standard industries.</i></small>"), plotlyOutput("plot1.5"), width = 10,
-                                                        br(),
+                                                        The number of net new businesses is also shown for non-standard industries.</i></small>"), plotlyOutput("plot1.5"),
+                                                        width = 10, br(),
                                                         tags$span("+", class = "toggle-button"),
 
 
@@ -338,16 +338,19 @@ ui <-
                                                         because its logs do not come from another manufacturer. On the other hand, a factory producing wooden doors with lumber obtained from sawmills is a secondary manufacturer.</small>"),
                                                                  class = "hidden-content")
                                                     ),
-                                                    box(title = "Figure 1.6: Sector growth rates for number of small businesses with employees, British Columbia, 2017-2020", plotlyOutput("plot1.6"), width = 10,
+                                                    box(title = "Figure 1.6: Sector growth rates for number of small businesses with employees, British Columbia, 2017-2020",
+                                                        HTML("<p><small><i>This chart shows the five industries with the highest growth
+                                                                     rate in the number of net new businesses in the
+                                                                     last five years in British Columbia. Net new business
+                                                                     growth rates are also shown for non-standard industries.</i></small>"),
+
+                                                        plotlyOutput("plot1.6"), width = 10,
                                                         br(),
                                                         HTML("<small>
                                                        <p><b>Note:</b> Excludes self-employed without paid help.
                                                        <p><b>Source:</b> BC Stats using data supplied by Statistics Canada"),
-                                                        fluidRow(box(title = HTML("<p><b>Description:</b></small>"),
-                                                                     HTML("<p>This chart shows the five industries with the highest growth
-                                                                     rate in the number of net new businesses in the
-                                                                     last five years in British Columbia. Net new business
-                                                                     growth rates are also shown for non-standard industries.
+                                                        fluidRow(box(title = HTML("<p><b>Definitions:</b></small>"),
+                                                                     HTML("<p>If there are definitions for any terms in the chart they would go here...
                                                              </small>"),
                                                                      collapsible = TRUE, collapsed = TRUE))),
 
