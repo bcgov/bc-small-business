@@ -367,7 +367,7 @@ ui <-
                                                   fluidRow(
 
                                                     box(title = "Figure 2.1: Private sector employment in British Columbia by size of business, 2022",
-                                                        HTML("<p><small><i>The DESCRIPTION GOES HERE.</i></small>"), DTOutput("datatable2"),
+                                                        HTML("<p><small><i>This table shows the breakdown of employees in the private sector for small and large businesses.</i></small>"), DTOutput("datatable2"),
                                                         style = "border: 1px solid white;", width = 10,
                                                         br(),
                                                         HTML("<b><small><p>Note:</b> Includes the self-employed with and without paid help.
@@ -375,7 +375,7 @@ ui <-
 
                                                     ),
 
-                                                    box(title = "Figure 2.2 Share of total employment in British Columbia, 2022", HTML("<p><small><i>The DESCRIPTION GOES HERE.</i></small>"), plotlyOutput("plot2.1"), width = 10,
+                                                    box(title = "Figure 2.2 Share of total employment in British Columbia, 2022", HTML("<p><small><i>This chart shows the proportion of employees who work in the public sector, small and large businesses.</i></small>"), plotlyOutput("plot2.1"), width = 10,
                                                         br(),
                                                         HTML("<b><small></b> <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
 
@@ -383,7 +383,7 @@ ui <-
 
 
 
-                                                    box(title = "Figure 2.3: Share of employment by establishment size, 2022", HTML("<p><small><i>The DESCRIPTION GOES HERE.</i></small>"), plotlyOutput("plot2.3"), width = 10,
+                                                    box(title = "Figure 2.3: Share of employment by establishment size, 2022", HTML("<p><small><i>This chart shows the proportion of employees who work in the public sector, small businesses with and without employees, and large businesses.</i></small>"), plotlyOutput("plot2.3"), width = 10,
                                                         br(),
                                                         HTML("<b><small></b> <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
 
@@ -391,46 +391,46 @@ ui <-
 
 
 
-                                                    box(title = "Figure 2.4: Year-over-year growth in private sector employment", HTML("<p><small><i>The DESCRIPTION GOES HERE.</i></small>"), plotlyOutput("plot2.4b"), width = 10,
+                                                    box(title = "Figure 2.4: Year-over-year growth in private sector employment", HTML("<p><small><i>This chart shows the annual growth in the number of people employed in the private sector by business size.</i></small>"), plotlyOutput("plot2.4b"), width = 10,
                                                         br(),
                                                         HTML("<b><small></b> <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
 
                                                     ),
 
 
-                                                    box(title = "Figure 2.5: One-year small business employment change, by province, 2021-2022", HTML("<p><small><i>The DESCRIPTION GOES HERE.</i></small>"), plotlyOutput("plot2.5a"), width = 10,
+                                                    box(title = "Figure 2.5: One-year small business employment change, by province, 2021-2022", HTML("<p><small><i>This chart shows the annual rate of growth in small businesses employment by province.</i></small>"), plotlyOutput("plot2.5a"), width = 10,
                                                         br(),
                                                         HTML("<b><small></b> <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
 
                                                     ),
 
-                                                    box(title = "Figure 2.6: Five-year small business employment change by province, 2017-2022", HTML("<p><small><i>The DESCRIPTION GOES HERE.</i></small>"), plotlyOutput("plot2.5b"), width = 10,
+                                                    box(title = "Figure 2.6: Five-year small business employment change by province, 2017-2022", HTML("<p><small><i>This chart shows the five-year rate of growth in small businesses employment by province.</i></small>"), plotlyOutput("plot2.5b"), width = 10,
                                                         br(),
                                                         HTML("<b><small></b> <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
 
                                                     ),
 
-                                                    box(title = "Figure 2.7: Small business as a per cent of private sector employment by province, 2022", HTML("<p><small><i>The DESCRIPTION GOES HERE.</i></small>"), plotlyOutput("plot2.6"), width = 10,
+                                                    box(title = "Figure 2.7: Small business as a per cent of private sector employment by province, 2022", HTML("<p><small><i>This chart shows employees in small businesses as a proportion of total private sector employment by province.</i></small>"), plotlyOutput("plot2.6"), width = 10,
                                                     br(),
                                                     HTML("<b><small></b> <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
 
                                                     ),
 
 
-                                                     box(title = "Figure 2.8: One-year top and bottom industries for small business employment growth in British Columbia", HTML("<p><small><i>The DESCRIPTION GOES HERE.</i></small>"), plotlyOutput("plot2.7a"), width = 10,
+                                                     box(title = "Figure 2.8: One-year top and bottom industries for small business employment growth in British Columbia", HTML("<p><small><i>This chart shows the five industries with the largest rate of employment growth in the last  year in British Columbia. It also shows the five industries with the lowest rate of employment growth in the last year.</i></small>"), plotlyOutput("plot2.7a"), width = 10,
                                                      br(),
                                                      HTML("<b><small></b> <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
 
                                                     ),
 
-                                                    box(title = "Figure 2.9: Two-year top and bottom industries for small business employment growth in British Columbia", HTML("<p><small><i>The DESCRIPTION GOES HERE.</i></small>"), plotlyOutput("plot2.7b"), width = 10,
+                                                    box(title = "Figure 2.9: Two-year top and bottom industries for small business employment growth in British Columbia", HTML("<p><small><i>This chart shows the five industries with the largest rate of employment growth in the last two years in British Columbia. It also shows the five industries with the lowest rate of employment growth in the last two years.</i></small>"), plotlyOutput("plot2.7b"), width = 10,
                                                         br(),
                                                         HTML("<b><small></b> <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
 
                                                     ),
 
 
-                                                    box(title = "Figure 2.10: Five-year top and bottom industries for small business employment growth in British Columbia", HTML("<p><small><i>The DESCRIPTION GOES HERE.</i></small>"), plotlyOutput("plot2.7c"), width = 10,
+                                                    box(title = "Figure 2.10: Five-year top and bottom industries for small business employment growth in British Columbia", HTML("<p><small><i>This chart shows the five industries with the largest rate of employment growth in the last five years in British Columbia. It also shows the five industries with the lowest rate of employment growth in the last five years.</i></small>"), plotlyOutput("plot2.7c"), width = 10,
                                                         br(),
                                                         HTML("<b><small></b> <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
                                                     )
