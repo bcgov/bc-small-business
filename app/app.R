@@ -45,7 +45,7 @@ ui <-
                                                                menuItem("Contribution to Economy", tabName = "page4", icon = icon("usd")),
                                                                menuItem("Small Business Exports", tabName = "page5", icon = icon("truck")),
                                                                menuItem("Other Indicators", tabName = "page0", icon = icon("file-text")),
-                                                               menuItem("Previous Editions of Report", href= "https://llbc.ent.sirsidynix.net/client/en_GB/main/search/results?qu=small+business+profile&te=" ,  target = "_blank", tabName = "page10", icon = icon("link")),
+                                                               menuItem("Previous Editions of Report", href= "https://llbc.ent.sirsidynix.net/client/en_GB/main/search/results?qu=small+business+profile&te=", newtab = TRUE, icon = icon("link")),
                                                                tags$div(style = "text-align:center;color:#b8c7ce",
                                                                         br(),
                                                                         downloadButton(outputId = "download_data", "Download data as excel"),
