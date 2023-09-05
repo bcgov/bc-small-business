@@ -8,7 +8,7 @@ library(sf)
 library(tidyr)
 
 data <- readRDS("data/data.rds")
-last_updated <- "V1.3 Sept 1, 2023"
+last_updated <- "V1.3 Sept 5, 2023"
 
 
 # Define UI
