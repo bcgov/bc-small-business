@@ -8,7 +8,7 @@ library(sf)
 library(tidyr)
 
 data <- readRDS("data/data.rds")
-last_updated <- "V1.2 Aug 31, 2023"
+last_updated <- "V1.3 Sept 1, 2023"
 
 
 # Define UI
@@ -45,6 +45,7 @@ ui <-
                                                                menuItem("Contribution to Economy", tabName = "page4", icon = icon("usd")),
                                                                menuItem("Small Business Exports", tabName = "page5", icon = icon("truck")),
                                                                menuItem("Other Indicators", tabName = "page0", icon = icon("file-text")),
+                                                               menuItem("Previous Editions of Report", href= "https://llbc.ent.sirsidynix.net/client/en_GB/main/search/results?qu=small+business+profile&te=" ,  target = "_blank", tabName = "page10", icon = icon("link")),
                                                                tags$div(style = "text-align:center;color:#b8c7ce",
                                                                         br(),
                                                                         downloadButton(outputId = "download_data", "Download data as excel"),
@@ -68,12 +69,12 @@ ui <-
                                                   # row 1 of landing page boxes
 
                                                   fluidRow(
-                                                    tags$div(id = "green",
+                                                    tags$div(id = "light-blue",
                                                              box(
                                                                title = list( icon = icon("line-chart"), "Small business counts"),
                                                                tagList(
-                                                                 HTML("There were 513,300 businesses in B.C. in 2022. Of these, 98 per cent (<b>504,200</b>) were <b>small businesses with fewer than 50 employees</b>."),
-                                                                 br(),br(),
+                                                                 HTML("<bottom>There were 513,300 businesses in B.C. in 2022. Of these, 98 per cent (<b>504,200</b>) were <b>small businesses with fewer than 50 employees</b></bottom>."),
+                                                                 br(),
                                                                  actionButton("explore1", "Explore further", icon= icon("line-chart"))
                                                                ),
                                                                width = 4
@@ -82,17 +83,17 @@ ui <-
                                                                title = list( icon = icon("line-chart"), "Small business growth"),
                                                                tagList(
                                                                  HTML("Overall, there was a new 0.2 per cent or <b>1,020 increase in the number of small businesses in 2022</b>. Between 2017 and 2022, the number of small businesses in B.C. grew by 3.1 per cent, for a new increase of 15,100 businesses."),
-                                                                 br(),br(),
+                                                                 br(),
                                                                  actionButton("explore2", "Explore further", icon = icon("line-chart"))
                                                                ),
                                                                width = 4
                                                              )),
-                                                    tags$div(id = "blue",
+                                                    tags$div(id = "light-blue",
                                                              box(
                                                                title = list( icon = icon("usd"), "Contribution to the economy"),
                                                                tagList(
                                                                  HTML("In 2022, B.C.'s small business sector generate aproximately <b>33 per cent</b> of provincial GDP."),
-                                                                 br(),br(),
+                                                                 br(),
                                                                  actionButton("explore3", "Explore further", icon = icon("usd"))
                                                                ),
                                                                width = 4
@@ -100,23 +101,23 @@ ui <-
 
                                                   # row 2 of landing page boxes
                                                   fluidRow(
-                                                    tags$div(id = "light-green",
+                                                    tags$div(id = "light-blue",
 
                                                              box(
                                                                title = list(icon = icon("users"), "Small business employment"),
                                                                tagList(
                                                                  HTML("Small businesses in B.C. employed around <b>1,135,300 people</b> in 2022. This accounts for 51 per cent of private sector jobs in the province."),
-                                                                 br(),br(),
+                                                                 br(),
                                                                  actionButton("explore4", "Explore further", icon = icon("users"))
                                                                ),
                                                                width = 4
                                                              )),
-                                                    tags$div(id = "yellow",
+                                                    tags$div(id = "light-blue",
                                                              box(
                                                                title = list( icon = icon("user"), "Self-employment growth"),
                                                                tagList(
                                                                  HTML("In 2022, there were <b>423,800 self-employed people</b> in B.C., 0.8 per cent higher than in 2021. However, self-employment fell by 0.9 per cent compared to 2017."),
-                                                                 br(),br(),
+                                                                 br(),
                                                                  actionButton("explore5", "Explore further", icon = icon("user"))
                                                                ),
                                                                width = 4
@@ -125,7 +126,7 @@ ui <-
                                                       title = list( icon = icon("user"), "Self-employment for women"),
                                                       tagList(
                                                         HTML("In 2022, <b>38.3 per cent</b> of all self-employed people in B.C. were <b>women</b>, ranking fourth among provinces."),
-                                                        br(),br(),
+                                                        br(),
                                                         actionButton("explore6", "Explore further", icon = icon("user"))
                                                       ),
                                                       width = 4
@@ -135,21 +136,21 @@ ui <-
                                                   # row 3 of landing page boxes
                                                   fluidRow(
 
-                                                    tags$div(id = "yellow", box(
+                                                    tags$div(id = "light-blue", box(
                                                       title = list( icon = icon("user"), "Self-employment for Indigenous people"),
                                                       tagList(
                                                         HTML("In 2022, only <b>9.5 per cent of all Indigenous workers were self-employed</b>, compared to a self-employment rate of 15.7 per cent for non-Indigenous workers."),
-                                                        br(),br(),
+                                                        br(),
                                                         actionButton("explore7", "Explore further", icon = icon("user"))
                                                       ),
                                                       width = 4
                                                     )),
 
-                                                    tags$div(id = "blue", box(
+                                                    tags$div(id = "light-blue", box(
                                                       title = list( icon = icon("usd"), "Small business wages"),
                                                       tagList(
                                                         HTML("Small business employees earned an <b>average annual salary of $53,800</b> in 2022, around $10,300 less than the $64,100 earned by the average large business employee."),
-                                                        br(),br(),
+                                                        br(),
                                                         actionButton("explore8", "Explore further", icon = icon("usd"))
                                                       ),
                                                       width = 4
@@ -158,7 +159,7 @@ ui <-
                                                       title = list( icon = icon("truck"), "Small business exporters"),
                                                       tagList(
                                                         HTML("In 2022 there were <b>6,555</b> BC businesses with fewer than 50 employees that <b>exported goods to international destinations</b>, accounting for 86 per cent of all exporting firms."),
-                                                        br(),br(),
+                                                        br(),
                                                         actionButton("explore9", "Explore further", icon = icon("truck"))
                                                       ),
                                                       width = 4
@@ -176,32 +177,35 @@ ui <-
                                                   fluidRow(
 
                                                     box(title = "Figure K1: Small businesses tax rates by province, 2022",
-                                                        HTML("<p><small><i>The DESCRIPTION GOES HERE.</i></small>"), plotlyOutput("plotK1"), width = 10,
+                                                        HTML("<p><small><i>This chart is an overview of the small business tax rates across different provinces.</i></small>"), plotlyOutput("plotK1"), width = 10,
                                                         br(),
                                                         HTML("<b><small></b> <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
-                                                        , fluidRow(box(title = HTML("<small><p><b>Definitions:</b></small>"),
+                                                        , fluidRow(box(title = HTML("<small><b>Definitions:</b></small>"),
                                                                      HTML("<small>
-                                                                          <p><b> <i>Sub-header</i></b> sentence continues here... <p></small>"),
+                                                                          <p>The lower small business tax rate is applicable to Canadian-controlled private corporations (CCPCs) with active business income eligible for the federal small business deduction. One component of the small business deduction is the business limit.
+                                                                          As of January 2023, the limit is $500,000 for all provinces and territories except Saskatchewan ($600,000). <p></small>"),
                                                                      collapsible = TRUE, collapsed = TRUE))
                                                     ),
 
                                                     box(title = "Figure K2: Total building permits per capita, 2022",
-                                                        HTML("<p><small><i>The DESCRIPTION GOES HERE.</i></small>"), plotlyOutput("plotK2"), width = 10,
+                                                        HTML("<p><small><i>This chart shows the value of building permits divided by the total population by province.</i></small>"), plotlyOutput("plotK2"), width = 10,
                                                         br(),
                                                         HTML("<b><small></b> <p><b>Source:</b> Statistics Canada / Prepared by BC Stats</small>")
-                                                        , fluidRow(box(title = HTML("<small><p><b>Definitions:</b></small>"),
+                                                        , fluidRow(box(title = HTML("<small><b>Definitions:</b></small>"),
                                                                        HTML("<small>
-                                                                          <p><b> <i>Sub-header</i></b> sentence continues here... <p></small>"),
+                                                                          <p>The value of building permits includes expenditures in materials, labour, profit and overhead.
+                                                                            The type of structures include new buildings, additions, alterations and renovations. <p></small>"),
                                                                        collapsible = TRUE, collapsed = TRUE))
                                                     ),
 
                                                     box(title = "Figure K3: Bankruptcies per 1,000 businesses",
-                                                        HTML("<p><small><i>The DESCRIPTION GOES HERE.</i></small>"), plotlyOutput("plotK3"), width = 10,
+                                                        HTML("<p><small><i>This chart shows the number of business bankruptcies filed in a year for every 1,000 businesses by province. </i></small>"), plotlyOutput("plotK3"), width = 10,
                                                         br(),
                                                         HTML("<b><small></b> <p><b>Source:</b> Innovation, Science and Economic Development Canada / Prepared by BC Stats.</small>")
-                                                        , fluidRow(box(title = HTML("<small><p><b>Definitions:</b></small>"),
+                                                        , fluidRow(box(title = HTML("<small><b>Definitions:</b></small>"),
                                                                        HTML("<small>
-                                                                          <p><b> <i>Sub-header</i></b> sentence continues here... <p></small>"),
+                                                                          <p>Bankruptcy is a legal process performed under the Bankruptcy and Insolvency Act. A business' assets are assigned to a licence trustee because of inability to pay debts. A business bankruptcy is chiefly attributable to the liabilities incurred as a result of
+                                                                            carrying on a commercial venture or business, and includes proprietorships, partnerships and Limited Companies.<p></small>"),
                                                                        collapsible = TRUE, collapsed = TRUE))
                                                     ),
 
@@ -228,7 +232,7 @@ ui <-
                                                                        HTML("<small>
                                                                           <p>In B.C., a<b> <i>small business</i></b>  is defined as one with fewer than 50 employees, or a business operated by a person who is self-employed, without paid help.
                                                                             Businesses with 50 or more employees are considered large businesses. <p>
-                                                                            <b> <i>Micro-businesses</i></b> are those with fewer than five employees, including self-employed individuals without staff and businesses with 1-4 employees.
+                                                                            <b> <i>Micro-businesses</i></b> are those with fewer than five employees, including self-employed individuals without staff and businesses with 1-4 employees.<p>
                                                                             </small>"),
                                                                        collapsible = TRUE, collapsed = TRUE))
                                                     ),
@@ -277,9 +281,12 @@ ui <-
                                                         <p><b>Note:</b> Primary* is comprised of the agriculture, forestry, fishing, mining, oil and gas industries.
                                                         <p><b>Note:</b> The total does not sum to 100% as some businesses with employees could not be classified by industry.
                                                         <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
-                                                        , fluidRow(box(title = HTML("<small><p><b>Definitions:</b></small>"),
+                                                        , fluidRow(box(title = HTML("<small><b>Definition:</b></small>"),
                                                                        HTML("<small>
-                                                                          <p><b> <i>Sub-header</i></b> sentence continues here... <p></small>"),
+                                                                          Industries in this chart are grouped using the North American Industry Classification System (NAICS).
+                                                                          The North American Industry Classification System (NAICS) is a classification system used in Canada, the United States and Mexico,
+                                                                          which is designed to provide common definitions of the industrial structure of the three countries.
+                                                                            NAICS is Statistics Canada’s comprehensive system encompassing all economic activities.  <p></small>"),
                                                                        collapsible = TRUE, collapsed = TRUE))
                                                     ),
 
@@ -289,12 +296,13 @@ ui <-
                                                         <p><b>Note:</b> Self-employment in utilities is less than 1500.
                                                         <p><b>Note:</b> Industries do not sum to 100% as some businesses with employees could not be classified by industry.
                                                         <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
-                                                        , fluidRow(box(title = HTML("<small><p><b>Definitions:</b></small>"),
+                                                        , fluidRow(box(title = HTML("<small><b>Definition:</b></small>"),
                                                                        HTML("<small>
-                                                                          <p><b> <i>Sub-header</i></b> sentence continues here... <p></small>"),
+                                                                         Industries in this chart are grouped using the North American Industry Classification System (NAICS).
+                                                                          The North American Industry Classification System (NAICS) is a classification system used in Canada, the United States and Mexico,
+                                                                          which is designed to provide common definitions of the industrial structure of the three countries.
+                                                                            NAICS is Statistics Canada’s comprehensive system encompassing all economic activities.  <p></small>"),
                                                                        collapsible = TRUE, collapsed = TRUE))
-
-
                                                     ),
 
                                                     box(title = "Figure 1.7: Small businesses by industry, proportions with and without employees, 2022",
@@ -303,11 +311,14 @@ ui <-
                                                         HTML("<small>
                                                        <p><b>Note:</b> Primary is comprised of the agriculture, forestry, fishing, mining, oil and gas industries.
                                                        <p><b>Note:</b> Utilities is not shown because the number of small businesses with employees is <200 and self-employment without paid help is very small and suppressed for confidentiality reasons.
-                                                       <p><b>Source:</b> BC Stats using data supplied by Statistics Canada
-                                                       <p><b>Description:</b> This chart shows the percentage of businesses with no employees compared to buisinesses with employees for select industries.
-                                                             </small>")
-
-
+                                                        <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
+                                                        , fluidRow(box(title = HTML("<small><b>Definition:</b></small>"),
+                                                                       HTML("<small>
+                                                                          Industries in this chart are grouped using the North American Industry Classification System (NAICS).
+                                                                          The North American Industry Classification System (NAICS) is a classification system used in Canada, the United States and Mexico,
+                                                                          which is designed to provide common definitions of the industrial structure of the three countries.
+                                                                            NAICS is Statistics Canada’s comprehensive system encompassing all economic activities.  <p></small>"),
+                                                                       collapsible = TRUE, collapsed = TRUE))
                                                     ),
 
                                                     box(title = "Figure 1.8: Fastest-growing industries by number of net new small businesses with employees, British Columbia, 2017-2022",
@@ -319,9 +330,9 @@ ui <-
                                                        <p><b>Note:</b> Excludes self-employed without paid help.
                                                        <p><b>Source:</b> BC Stats using data supplied by Statistics Canada</small>"),
 
-                                                        fluidRow(box(title = HTML("<small><p><b>Definitions:</b></small>"),
+                                                        fluidRow(box(title = HTML("<small><b>Definitions:</b></small>"),
                                                                      HTML("<small>
-                                                                     <p><b> <i>Tourism</i></b> includes industries such as transportation, accommodation, food services and other tourism related activities. Further information on the tourism sector is available at BC Stats.
+                                                                   <b> <p><i>Tourism</i></b> includes industries such as transportation, accommodation, food services and other tourism related activities. Further information on the tourism sector is available at BC Stats.
                                                                      <p><b> <i>High technology</i></b> industries may employ a high proportion of scientists and researchers or invest a high proportion of revenues in research and development. Other industries that produce
                                                         high technology products are also included. Further information on the high technology sector is available online at BC Stats.
                                                                      <p><b> <i>Secondary manufacturing</i></b> industries are those that produce goods from the products of other manufacturers. For example, a sawmill is a manufacturing operation, but not a secondary manufacturer,
@@ -337,14 +348,18 @@ ui <-
                                                         br(),
                                                         HTML("<small>
                                                        <p><b>Note:</b> Excludes self-employed without paid help.
-                                                       <p><b>Source:</b> BC Stats using data supplied by Statistics Canada"),
-                                                        fluidRow(box(title = HTML("<p><b>Definitions:</b></small>"),
-                                                                     HTML("<p>If there are definitions for any terms in the chart they would go here...
-                                                             </small>"),
-                                                                     collapsible = TRUE, collapsed = TRUE))),
+                                                       <p><b>Source:</b> BC Stats using data supplied by Statistics Canada</small>"),
 
-
-
+                                                        fluidRow(box(title = HTML("<small><b>Definitions:</b></small>"),
+                                                                     HTML("<small>
+                                                                    <b> <p><i>Tourism</i></b> includes industries such as transportation, accommodation, food services and other tourism related activities. Further information on the tourism sector is available at BC Stats.
+                                                                     <p><b> <i>High technology</i></b> industries may employ a high proportion of scientists and researchers or invest a high proportion of revenues in research and development. Other industries that produce
+                                                        high technology products are also included. Further information on the high technology sector is available online at BC Stats.
+                                                                     <p><b> <i>Secondary manufacturing</i></b> industries are those that produce goods from the products of other manufacturers. For example, a sawmill is a manufacturing operation, but not a secondary manufacturer,
+                                                        because its logs do not come from another manufacturer. On the other hand, a factory producing wooden doors with lumber obtained
+                                                                          from sawmills is a secondary manufacturer.<p></small>"),
+                                                                     collapsible = TRUE, collapsed = TRUE))
+                                                    ),
 
                                                     box(title = "Figure 1.10: Small businesses per 1,000 people by province, 2022",
                                                         HTML("<p><small><i>This chart shows the number of small business 1,000 people by province.</i></small>"), plotlyOutput("plot1.7"), width = 10,
@@ -378,7 +393,12 @@ ui <-
                                                     box(title = "Figure 1.14: Number of small businesses by region, 2017-2022",
                                                         HTML("<p><small><i>This chart shows the number of small businesses by development region in British Columbia.</i></small>"), plotlyOutput("plot1.11a"), width = 10,
                                                         br(),
-                                                        HTML("<b><small></b> <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
+                                                        HTML("<b><small></b>
+                                                             <p><b>Note:</b> Figures do not add to the total because the provincial total
+                                                             includes some businesses for which the region is unknown.
+                                                             <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>"
+
+                                                             )
 
 
                                                     ),
@@ -510,7 +530,7 @@ ui <-
                                                         <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
                                                          ,
                                                          fluidRow(box(title = HTML("<small><p><b>Definitions:</b></small>"),
-                                                                      HTML("<small><b><i>Self-employed <p></b></i>are persons whose job consisted mainly of operating a business,
+                                                                      HTML("<small><b><i>Self-employed </b></i>are persons whose job consisted mainly of operating a business,
                                                                       farm or professional practice, alone or in partnership.
                                                              </small>"),
                                                                       collapsible = TRUE, collapsed = TRUE))
@@ -524,7 +544,7 @@ ui <-
 
                                                          ,
                                                          fluidRow(box(title = HTML("<small><p><b>Definitions:</b></small>"),
-                                                                      HTML("<small><b><i>Self-employed <p></b></i>are persons whose job consisted mainly of operating a business,
+                                                                      HTML("<small><b><i>Self-employed </b></i>are persons whose job consisted mainly of operating a business,
                                                                       farm or professional practice, alone or in partnership.
                                                              </small>"),
                                                                       collapsible = TRUE, collapsed = TRUE))
@@ -544,7 +564,7 @@ ui <-
                                                          HTML("<b><small></b> <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
                                                          ,
                                                          fluidRow(box(title = HTML("<small><p><b>Definitions:</b></small>"),
-                                                                      HTML("<small><b><i>Self-employed <p></b></i>are persons whose job consisted mainly of operating a business,
+                                                                      HTML("<small><b><i>Self-employed </b></i>are persons whose job consisted mainly of operating a business,
                                                                       farm or professional practice, alone or in partnership.
                                                              </small>"),
                                                                       collapsible = TRUE, collapsed = TRUE))
@@ -560,10 +580,10 @@ ui <-
 
                                                          ,
                                                          fluidRow(box(title = HTML("<small><p><b>Definitions:</b></small>"),
-                                                                      HTML("<small><b><i>Incorporated businesses <p></b></i>consist of those organized and maintained as legal corporations. A corporation is created (incorporated) by
+                                                                      HTML("<small><b><i>Incorporated businesses </b></i>consist of those organized and maintained as legal corporations. A corporation is created (incorporated) by
                                                                       one or more shareholders who have ownership of the corporation, represented by their holding of common stock.
                                                                       <p>
-                                                                      <b><i>Unincorporated businesses <p></b></i>consist of those not organized and maintained as legal corporations, and wherein the tie between members need not be a legally enforceable contract.
+                                                                      <b><i>Unincorporated businesses </b></i>consist of those not organized and maintained as legal corporations, and wherein the tie between members need not be a legally enforceable contract.
                                                                       <p>
                                                              </small>"),
                                                                       collapsible = TRUE, collapsed = TRUE))
@@ -577,10 +597,10 @@ ui <-
 
                                                          ,
                                                          fluidRow(box(title = HTML("<small><p><b>Definitions:</b></small>"),
-                                                                      HTML("<small><b><i>Incorporated businesses <p></b></i>consist of those organized and maintained as legal corporations. A corporation is created (incorporated) by
+                                                                      HTML("<small><b><i>Incorporated businesses </b></i>consist of those organized and maintained as legal corporations. A corporation is created (incorporated) by
                                                                       one or more shareholders who have ownership of the corporation, represented by their holding of common stock.
                                                                       <p>
-                                                                      <b><i>Unincorporated businesses <p></b></i>consist of those not organized and maintained as legal corporations, and wherein the tie between members need not be a legally enforceable contract.
+                                                                      <b><i>Unincorporated businesses </b></i>consist of those not organized and maintained as legal corporations, and wherein the tie between members need not be a legally enforceable contract.
                                                                       <p>
                                                              </small>"),
                                                                       collapsible = TRUE, collapsed = TRUE))
@@ -609,7 +629,12 @@ ui <-
                                                      box(title = "Figure 3.9: Hours worked among self-employed men and women, British Columbia, 2022", HTML("<p><small><i>This chart compares the number of usual hours worked per week for self-employed persons by sex.</i></small>"), plotlyOutput("plot3.7a"), width = 10,
                                                          br(),
                                                          HTML("<b><small></b> <p><b>Note:</b> Figures do not add to 100% due to rounding.<p>
-                                                         <b>Source:</b> Statistics Canada / Prepared by BC Stats.</small>")
+                                                         <b>Source:</b> Statistics Canada / Prepared by BC Stats.</small>"),
+
+                                                         fluidRow(box(title = HTML("<small><p><b>Definition:</b></small>"),
+                                                                      HTML("<small>Usual work hours refers to the employed person's normal paid or contract hours, not counting any overtime.
+                                                             </small>"),
+                                                                      collapsible = TRUE, collapsed = TRUE))
                                                      ),
 
 
@@ -645,7 +670,19 @@ ui <-
                                                    box(title = "Figure 3.12: Usual hours worked, self-employed by sex, British Columbia, 2022", HTML("<p><small><i>This chart compares the number of usual hours worked per week for self-employed individuals and employees.</i></small>"), plotlyOutput("plot3.7b"), width = 10,
                                                        br(),
                                                        HTML("<b><small></b> <p><b>Note:</b> Figures do not add to 100% due to rounding.<p>
-                                                         <b>Source:</b> Statistics Canada / Prepared by BC Stats.</small>")
+                                                         <b>Source:</b> Statistics Canada / Prepared by BC Stats.</small>"),
+
+
+                                                       fluidRow(box(title = HTML("<small><p><b>Definition:</b></small>"),
+                                                                    HTML("<small>Usual work hours refers to the employed person's normal paid or contract hours, not counting any overtime.
+                                                             </small>"),
+                                                                    collapsible = TRUE, collapsed = TRUE))
+
+
+
+
+
+
                                                    ),
 
                                                  ),
@@ -666,7 +703,7 @@ ui <-
 
                                                                                                                 ,
                                                          fluidRow(box(title = HTML("<small><p><b>Definitions:</b></small>"),
-                                                                      HTML("<small><b><i>Indigenous Persons <p></b></i>are those who indicate that they identify as an Indigenous person, and/or are registered under the Indian Act, and/or are a member of a First Nation or Indian band.
+                                                                      HTML("<small><b><i>Indigenous Persons </b></i>are those who indicate that they identify as an Indigenous person, and/or are registered under the Indian Act, and/or are a member of a First Nation or Indian band.
                                                                       <p>
                                                                       <b><i>Off reserve </b></i>includes all census subdivisions in Canada not legally affiliated with First Nations or Indian bands.
                                                                       <p>
@@ -790,11 +827,12 @@ ui <-
 
                                                    box(title = "Figure 5.1: Number of British Columbia exporters and value of exports, British Columbia",
                                                        HTML("<p><small><i>This table shows the number of exporters and the value of exports in British Columbia by business size for selected years.</i></small>"), DTOutput("datatable5.1"),
-                                                       style = "border: 1px solid white;", width = 10
+                                                       style = "border: 1px solid white;", width = 10,
+                                                       HTML("<b><small></b> <p> <p><b>Source:</b> Statistics Canada / Prepared by BC Stats.</small>")
 
                                                        ,
                                                        fluidRow(box(title = HTML("<small><p><b>Definitions:</b></small>"),
-                                                                    HTML("<small>An <b><i>exporter</b></i> is defined as an enterprise that sells goods out of the country, regardless of the value of exports.
+                                                                    HTML("<small>An <b><i>exporter</b></i> is defined as an enterprise that sells goods out of the country, regardless of the value of exports.<p>
                                                                       <p><b><i>Value of exports</b></i> is measured in Canadian dollars. Value is as recorded in official customs documents, typically the actual selling price used for company accounting purposes. Canadian exports to overseas countries
                                                                       are valued including domestic freight charges to the port of exit point but excluding discounts and allowances, and international insurance. <p>
                                                              </small>"),
@@ -805,6 +843,8 @@ ui <-
                                                        HTML("<p><small><i>This table shows the growth in the number of exporters and the value of exports in British Columbia by business size for selected years.</i></small>"), DTOutput("datatable5.2"),
                                                        style = "border: 1px solid white;", width = 10
                                                        ,
+                                                       HTML("<b><small></b> <p><b>Note:</b> Figures do not add to 100 per cent due to rounding.</small>"),
+                                                       HTML("<b><small></b> <p><b>Source:</b> Statistics Canada / Prepared by BC Stats.</small>"),
                                                        fluidRow(box(title = HTML("<small><p><b>Definition:</b></small>"),
                                                                     HTML("<small>An <b><i>exporter</b></i> is defined as an enterprise that sells goods out of the country, regardless of the value of exports.
                                                                      <p>
@@ -816,13 +856,29 @@ ui <-
                                                    box(title = "Figure 5.3: Share of business exporters by destination of exports, 2022", HTML("<p><small><i>This chart shows the proportion of exporters in British Columbia by business size by destination of exports.</i></small>"), plotlyOutput("plot5.3b"), width = 10,
                                                        br(),
                                                        HTML("<b><small></b> <p><b>Note:</b> Excludes self-employed without paid help.
-                                                        <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
+                                                        <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>"),
+
+                                                       fluidRow(box(title = HTML("<small><p><b>Definition:</b></small>"),
+                                                                    HTML("<small>An <b><i>exporter</b></i> is defined as an enterprise that sells goods out of the country, regardless of the value of exports.
+                                                                     <p>
+                                                             </small>"),
+                                                                    collapsible = TRUE, collapsed = TRUE))
                                                    ),
 
                                                    box(title = "Figure 5.4: Share of export value by destination of exports, 2022", HTML("<p><small><i>This chart shows the proportion the value of exports in British Columbia by business size by destination of exports..</i></small>"), plotlyOutput("plot5.3"), width = 10,
                                                        br(),
                                                        HTML("<b><small></b> <p><b>Note:</b> Figures do not add to 100 per cent due to rounding.
-                                                        <p><b>Source:</b> Statistics Canada / Prepared by BC Stats. </small>")
+                                                        <p><b>Source:</b> Statistics Canada / Prepared by BC Stats. </small>"),
+                                                       fluidRow(box(title = HTML("<small><p><b>Definition:</b></small>"),
+                                                                    HTML("<small><p><b><i>Value of exports</b></i> is measured in Canadian dollars. Value is as recorded in official customs documents, typically the actual selling price used for company accounting purposes. Canadian exports to overseas countries
+                                                       are valued including domestic freight charges to the port of exit point but excluding discounts and allowances, and international insurance. <p>
+                                                             </small>"),
+                                                                    collapsible = TRUE, collapsed = TRUE))
+
+
+
+
+
                                                    ),
                                                    box(title = "Figure 5.5: Destination share of value of small business exports by province, 2022", HTML("<p><small><i>This chart shows the proportion the value of exports by small business exporters by destination of exports by province.</i></small>"), plotlyOutput("plot5.4"), width = 10,
                                                        br(),
@@ -830,8 +886,10 @@ ui <-
                                                         <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
 
                                                        ,
-                                                       fluidRow(box(title = HTML("<small><p><b>Definition:</b></small>"),
-                                                                    HTML("<small><b><i>Export intensity</b></i> refers to the average value of exports per business.<p>
+                                                       fluidRow(box(title = HTML("<small><p><b>Definitions:</b></small>"),
+                                                                    HTML("<small>A <b><i>small business exporter</b></i> is defined as an enterprise with fewer than 50 employees that exports goods out of the country, regardless of the value of exports. <p>
+                                                                      <p><b><i>Value of exports</b></i> is measured in Canadian dollars. Value is as recorded in official customs documents, typically the actual selling price used for company accounting purposes. Canadian exports to overseas countries
+                                                                      are valued including domestic freight charges to the port of exit point but excluding discounts and allowances, and international insurance. <p>
                                                              </small>"),
                                                                     collapsible = TRUE, collapsed = TRUE))
                                                    ),
@@ -839,7 +897,12 @@ ui <-
                                                        br(),
                                                        HTML("<b><small></b> <p><b>Note:</b> Export intensity refers to the average value of exports per business.
 
-                                                        <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
+                                                        <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>"),
+
+                                                       fluidRow(box(title = HTML("<small><p><b>Definition:</b></small>"),
+                                                                    HTML("<small>    <p><b><i>Export intensity</b></i> refers to the average value of exports per business.<p>
+                                                             </small>"),
+                                                                    collapsible = TRUE, collapsed = TRUE))
                                                    ),
 
                                                    box(title = "Figure 5.7: Value of goods exports for large and small businesses", HTML("<p><small><i>This chart shows the value of goods exported by British Columbia exporters by size over time. </i></small>"), plotlyOutput("plot5.04"), width = 10,
@@ -2069,7 +2132,7 @@ server <- function(input, output, session) {
     plot2.7a <- plot2.7a %>% layout(title = '',
                                     legend = list(orientation = "h", x = 0, y = 1.2),
                                     yaxis = list(title = ''),
-                                    xaxis = list(tickformat = "0.1%"),
+                                    xaxis = list(title = "One-year growth rate in small business employment, 2021-2022", tickformat = "0.1%"),
                                     showlegend = TRUE
                                     ) %>% plotly_custom_layout()
 
@@ -2122,7 +2185,7 @@ server <- function(input, output, session) {
     plot2.7b <- plot2.7b %>% layout(title = '',
                                     legend = list(orientation = "h", x = 0, y = 1.2),
                                     yaxis = list(title = ''),
-                                    xaxis = list(tickformat = "0.1%"),
+                                    xaxis = list(title = "Two-year growth rate in small business employment, 2020-2022", tickformat = "0.1%"),
                                     showlegend = TRUE
     ) %>% plotly_custom_layout()
 
@@ -2161,7 +2224,7 @@ server <- function(input, output, session) {
     plot2.7c <- plot2.7c %>% layout(title = '',
                                     legend = list(orientation = "h", x = 0, y = 1.2),
                                     yaxis = list(title = ''),
-                                    xaxis = list(tickformat = "0.1%"),
+                                    xaxis = list(title = "Five-year growth rate in small business employment, 2017-2022", tickformat = "0.1%"),
                                     showlegend = TRUE
     ) %>% plotly_custom_layout()
 
@@ -2455,18 +2518,90 @@ server <- function(input, output, session) {
       add_bars(orientation = 'h',
                hovertemplate = "%{customdata:.1f}%"
               ) %>%
-      layout(barmode = 'overlay',
+      layout(barmode = 'relative',
             legend = list(orientation = "h", x = .5, y = 1.2, traceorder = "normal"),
             yaxis = list(title = ""),
             xaxis = list(title = "",
                          tickmode = 'array',
                          tickformat = "0.1%",
-                         tickvals = c(-20, -10,  0, 10, 20),
-                        ticktext = c('20%', '10%', '0', '10%', '20%'),
+                       tickvals = c(-20, -10,  0, 10, 20),
+                      ticktext = c('20%', '10%', '0', '10%', '20%'),
                         autorange = "reversed"
 
 
 )) %>% plotly_custom_layout()
+
+
+
+        #
+        # # plot3.7a----
+        #
+        #
+        # output$plot3.7a <- renderPlotly({
+        #
+        #   plot3.7a <- plot_ly(data$data_48, x = ~counts, y = ~hours, color = ~work_week, type = "bar", textposition = 'inside',
+        #                       colors = custom_colors %>% unname(), orientation = 'h') %>%
+        #
+        #
+        #     layout(title = "",
+        #            legend = list(orientation = "h", x = 0, y = 1.2, traceorder = "reversed"),
+        #            xaxis = list(title = "", tickformat = "0.1%"),
+        #            yaxis = list(title = ""),
+        #            barmode = "relative") %>% plotly_custom_layout()
+        #
+        #
+        # })
+        #
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3225,7 +3360,7 @@ output$plot4.2 <- renderPlotly({
               ## add caption
               caption = htmltools::tags$caption(
                 style = 'caption-side: bottom;',
-                '*Figures do not add to 100% due to rounding'
+                ''
               )
       )  %>%
       ## helper functions for formatting
