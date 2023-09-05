@@ -72,29 +72,29 @@ ui <-
                                                     tags$div(id = "light-blue",
                                                              box(
                                                                title = list( icon = icon("line-chart"), "Small business counts"),
-                                                               tagList(
-                                                                 HTML("<bottom>There were 513,300 businesses in B.C. in 2022. Of these, 98 per cent (<b>504,200</b>) were <b>small businesses with fewer than 50 employees</b></bottom>."),
-                                                                 br(),
-                                                                 actionButton("explore1", "Explore further", icon= icon("line-chart"))
+                                                               div(style = "margin-bottom:43px",
+                                                                   HTML("<bottom>There were 513,300 businesses in B.C. in 2022. Of these, 98 per cent (<b>504,200</b>) were <b>small businesses with fewer than 50 employees</b></bottom>."),
+                                                                   actionButton("explore1", "Explore further", icon= icon("line-chart"),
+                                                                                class = "home-tab-btn")
                                                                ),
                                                                width = 4
                                                              ),
                                                              box(
                                                                title = list( icon = icon("line-chart"), "Small business growth"),
-                                                               tagList(
+                                                               div(style = "margin-bottom:43px",
                                                                  HTML("Overall, there was a new 0.2 per cent or <b>1,020 increase in the number of small businesses in 2022</b>. Between 2017 and 2022, the number of small businesses in B.C. grew by 3.1 per cent, for a new increase of 15,100 businesses."),
-                                                                 br(),
-                                                                 actionButton("explore2", "Explore further", icon = icon("line-chart"))
+                                                                 actionButton("explore2", "Explore further", icon = icon("line-chart"),
+                                                                              class = "home-tab-btn")
                                                                ),
                                                                width = 4
                                                              )),
                                                     tags$div(id = "light-blue",
                                                              box(
                                                                title = list( icon = icon("usd"), "Contribution to the economy"),
-                                                               tagList(
+                                                               div(style = "margin-bottom:43px",
                                                                  HTML("In 2022, B.C.'s small business sector generate aproximately <b>33 per cent</b> of provincial GDP."),
-                                                                 br(),
-                                                                 actionButton("explore3", "Explore further", icon = icon("usd"))
+                                                                 actionButton("explore3", "Explore further", icon = icon("usd"),
+                                                                              class = "home-tab-btn")
                                                                ),
                                                                width = 4
                                                              ))),
@@ -105,29 +105,29 @@ ui <-
 
                                                              box(
                                                                title = list(icon = icon("users"), "Small business employment"),
-                                                               tagList(
+                                                               div(style = "margin-bottom:43px",
                                                                  HTML("Small businesses in B.C. employed around <b>1,135,300 people</b> in 2022. This accounts for 51 per cent of private sector jobs in the province."),
-                                                                 br(),
-                                                                 actionButton("explore4", "Explore further", icon = icon("users"))
+                                                                 actionButton("explore4", "Explore further", icon = icon("users"),
+                                                                              class = "home-tab-btn")
                                                                ),
                                                                width = 4
                                                              )),
                                                     tags$div(id = "light-blue",
                                                              box(
                                                                title = list( icon = icon("user"), "Self-employment growth"),
-                                                               tagList(
+                                                               div(style = "margin-bottom:43px",
                                                                  HTML("In 2022, there were <b>423,800 self-employed people</b> in B.C., 0.8 per cent higher than in 2021. However, self-employment fell by 0.9 per cent compared to 2017."),
-                                                                 br(),
-                                                                 actionButton("explore5", "Explore further", icon = icon("user"))
+                                                                 actionButton("explore5", "Explore further", icon = icon("user"),
+                                                                              class = "home-tab-btn")
                                                                ),
                                                                width = 4
                                                              ),
                                                     box(
                                                       title = list( icon = icon("user"), "Self-employment for women"),
-                                                      tagList(
+                                                      div(style = "margin-bottom:43px",
                                                         HTML("In 2022, <b>38.3 per cent</b> of all self-employed people in B.C. were <b>women</b>, ranking fourth among provinces."),
-                                                        br(),
-                                                        actionButton("explore6", "Explore further", icon = icon("user"))
+                                                        actionButton("explore6", "Explore further", icon = icon("user"),
+                                                                     class = "home-tab-btn")
                                                       ),
                                                       width = 4
                                                     ))),
@@ -138,29 +138,29 @@ ui <-
 
                                                     tags$div(id = "light-blue", box(
                                                       title = list( icon = icon("user"), "Self-employment for Indigenous people"),
-                                                      tagList(
+                                                      div(style = "margin-bottom:43px",
                                                         HTML("In 2022, only <b>9.5 per cent of all Indigenous workers were self-employed</b>, compared to a self-employment rate of 15.7 per cent for non-Indigenous workers."),
-                                                        br(),
-                                                        actionButton("explore7", "Explore further", icon = icon("user"))
+                                                        actionButton("explore7", "Explore further", icon = icon("user"),
+                                                                     class = "home-tab-btn")
                                                       ),
                                                       width = 4
                                                     )),
 
                                                     tags$div(id = "light-blue", box(
                                                       title = list( icon = icon("usd"), "Small business wages"),
-                                                      tagList(
+                                                      div(style = "margin-bottom:43px",
                                                         HTML("Small business employees earned an <b>average annual salary of $53,800</b> in 2022, around $10,300 less than the $64,100 earned by the average large business employee."),
-                                                        br(),
-                                                        actionButton("explore8", "Explore further", icon = icon("usd"))
+                                                        actionButton("explore8", "Explore further", icon = icon("usd"),
+                                                                     class = "home-tab-btn")
                                                       ),
                                                       width = 4
                                                     )),
                                                     tags$div(id = "light-blue", box(
                                                       title = list( icon = icon("truck"), "Small business exporters"),
-                                                      tagList(
+                                                      div(style = "margin-bottom:43px",
                                                         HTML("In 2022 there were <b>6,555</b> BC businesses with fewer than 50 employees that <b>exported goods to international destinations</b>, accounting for 86 per cent of all exporting firms."),
-                                                        br(),
-                                                        actionButton("explore9", "Explore further", icon = icon("truck"))
+                                                        actionButton("explore9", "Explore further", icon = icon("truck"),
+                                                                     class = "home-tab-btn")
                                                       ),
                                                       width = 4
                                                     ))
