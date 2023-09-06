@@ -8,7 +8,7 @@ library(sf)
 library(tidyr)
 
 data <- readRDS("data/data.rds")
-last_updated <- "V1.3 Sept 5, 2023"
+last_updated <- "V1.4 Sept 6, 2023"
 
 
 # Define UI
@@ -50,7 +50,10 @@ ui <-
                                                                         br(),
                                                                         downloadButton(outputId = "download_data", "Download data as excel"),
                                                                         br(),br(),
-                                                                        uiOutput("update_date")
+                                                                        uiOutput("update_date"),
+                                                                        br(), br(),
+                                                                        menuItem(
+                                                                          div(tags$img(src = "StrongerBC_188.png")))
 
                                                                )
                                                              )
