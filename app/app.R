@@ -2675,24 +2675,6 @@ output$plot3.7a <- renderPlotly({
 
 
 
-  # # plot3.7a_old----
-  #
-  #
-  # output$plot3.7a <- renderPlotly({
-  #
-  #   plot3.7a <- plot_ly(data$data_48, x = ~counts, y = ~hours, color = ~work_week, type = "bar", textposition = 'inside',
-  #                      colors = custom_colors %>% unname(), orientation = 'h') %>%
-  #
-  #
-  #     layout(title = "",
-  #            legend = list(orientation = "h", x = 0, y = 1.2, traceorder = "reversed"),
-  #            xaxis = list(title = "", tickformat = "0.1%"),
-  #            yaxis = list(title = ""),
-  #            barmode = "relative") %>% plotly_custom_layout()
-  #
-  #
-  # })
-
 
 
   # plot3.7b----
@@ -2733,24 +2715,6 @@ output$plot3.7a <- renderPlotly({
 
 
 
-  # # plot3.7b----
-  #
-  #
-  # output$plot3.7b <- renderPlotly({
-  #
-  #  plot3.7b <- plot_ly(data$data_49, x = ~counts, y = ~hours, color = ~sex, type = "bar", textposition = 'inside',
-  #                       colors = custom_colors %>% unname(), orientation = 'h') %>%
-  #
-  #
-  #     layout(title = "",
-  #            legend = list(orientation = "h", x = 0, y = 1.2),
-  #            xaxis = list(title = "", tickformat = "0.1%"),
-  #            yaxis = list(title = ""),
-  #            barmode = "relative") %>% plotly_custom_layout()
-  #
-  #
-  # })
-  #
 
   # plot4.1----
   output$plot4.1 <- renderPlotly({
