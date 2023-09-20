@@ -204,8 +204,6 @@ data_43
 
 # 3.3  ----
 data_44 <- read_excel(excel_file, sheet = "3.3", range = "a3:c9", col_names = TRUE)
-#data_44$se_positive <- abs(data_44$`Self-employed`)
-data_44
 data_44 <- data_44 %>%
   pivot_longer(cols = -agegroup, names_to = "emp_type", values_to = "counts")
 data_44

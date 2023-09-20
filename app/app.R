@@ -1998,7 +1998,7 @@ server <- function(input, output, session) {
              yaxis = list(title = "% Growth", tickformat = "0%"), ## make y-axis percents
              shapes = list(hline(canada_average))) %>% ## add line
       add_annotations( ## add canadian average text
-        x = 0.11,
+        x = 0.61,
         y = 0.59,
         text = "<b>— Canadian Average 1.8%</b>",
         xref = "paper",
@@ -2465,36 +2465,7 @@ server <- function(input, output, session) {
 
 
 
-
-
-  # # plot3.3----
-  #
-  #
-  # output$plot3.3 <- renderPlotly({
-  #
-  #
-  #
-  #   custom_colors <- custom_colors[c("navy", "dark_blue", "med_blue", "green", "yellow")]
-  #
-  #
-  #   plot3.3 <- plot_ly(data$data_44, x = ~counts, y = ~agegroup, color = ~emp_type, type = "bar", textposition = 'inside',
-  #                      colors = custom_colors, orientation = 'h') %>%
-  #
-  #
-  #     layout(title = "",
-  #            legend = list(orientation = "h", x = 0, y = 1.2),
-  #           yaxis = list(title = "Age"),
-  #           xaxis = list(title = "",
-  #                        tickvals = c(-.2, -.1, 0, .1, .2),
-  #                        ticktext = c(.2, .1, 0, .1, .2),
-  #                        tickformat = "0.1%"),
-  #
-  #            barmode = "relative")
-  #
-  #
-  # })
-
-  # plot3.3try3----
+  # plot3.3----
 
 
   output$plot3.3 <- renderPlotly({
@@ -2526,89 +2497,8 @@ server <- function(input, output, session) {
 
 )) %>% plotly_custom_layout()
 
+})
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  })
-
-
-  # # plot 3.3try2
-  #
-  #
-  #
-  # output$plot3.3 <- renderPlotly({
-  #
-  # se_positive <-  data$data_44$`se_positive`
-  #
-  # # Create age-sex pyramid plot
-  # plot3.3 <- plot_ly() %>%
-  #   add_trace(x = data$data_44$Employees, y = data$data_44$`agegroup`, type = "bar", overtext = se_positive, name = "Employees", marker = list(color = "#FDB813")) %>%
-  #   add_trace(x = data$data_44$`Self-employed`, y = data$data_44$`agegroup`, type = "bar", name = "Self-employed", marker = list(color = "#005182")) %>%
-  #   layout(barmode = 'relative',
-  #          xaxis = list(title = "",
-  #                       # ticktext = c(.35, .30, .25, .20, .15, .10, 0, .10, .15, .20, .25, .30, .35),
-  #                       # tickvals = c(.35, .30, .25, .20, .15, .10, 0, .10, .15, .20, .25, .30, .35),
-  #                       tickformat = "0.1%"),  # Custom tick values and labels
-  #          yaxis = list(title = "Age"),
-  #          title = "")
-  #
-  #
-  #
-  #
-  #
-  # })
-  #
 
 
   # plot3.3b----
@@ -2745,25 +2635,63 @@ server <- function(input, output, session) {
   })
 
 
-  # plot3.7a----
+
+# plot3.7a----
 
 
-  output$plot3.7a <- renderPlotly({
-
-    plot3.7a <- plot_ly(data$data_48, x = ~counts, y = ~hours, color = ~work_week, type = "bar", textposition = 'inside',
-                       colors = custom_colors %>% unname(), orientation = 'h') %>%
+output$plot3.7a <- renderPlotly({
 
 
-      layout(title = "",
-             legend = list(orientation = "h", x = 0, y = 1.2, traceorder = "reversed"),
-             xaxis = list(title = "", tickformat = "0.1%"),
+    df <- data$data_48
+
+    df$counts <- df$counts *100
+
+    df %>%
+
+      mutate(abs_pop = abs(counts)) %>%
+
+      plot_ly( x= ~counts, y=~hours, customdata= ~abs_pop,
+               color=~work_week, colors = custom_colors[c("med_blue","dark_blue")] %>% unname()) %>%
+      add_bars(orientation = 'h',
+               hovertemplate = "%{customdata:.1f}%"
+      ) %>%
+      layout(barmode = 'relative',
+             legend = list(orientation = "h", x = .5, y = 1.2, traceorder = "normal"),
              yaxis = list(title = ""),
-             barmode = "relative") %>% plotly_custom_layout()
+             xaxis = list(title = "",
+                          tickmode = 'array',
+                          tickformat = "0.1%",
+                          tickvals = c(-20, -10,  0, 10, 20),
+                          ticktext = c('20%', '10%', '0', '10%', '20%'),
+                          autorange = "reversed"
 
+
+             )) %>% plotly_custom_layout()
 
   })
 
 
+
+
+
+
+  # # plot3.7a_old----
+  #
+  #
+  # output$plot3.7a <- renderPlotly({
+  #
+  #   plot3.7a <- plot_ly(data$data_48, x = ~counts, y = ~hours, color = ~work_week, type = "bar", textposition = 'inside',
+  #                      colors = custom_colors %>% unname(), orientation = 'h') %>%
+  #
+  #
+  #     layout(title = "",
+  #            legend = list(orientation = "h", x = 0, y = 1.2, traceorder = "reversed"),
+  #            xaxis = list(title = "", tickformat = "0.1%"),
+  #            yaxis = list(title = ""),
+  #            barmode = "relative") %>% plotly_custom_layout()
+  #
+  #
+  # })
 
 
 
@@ -2772,19 +2700,57 @@ server <- function(input, output, session) {
 
   output$plot3.7b <- renderPlotly({
 
-   plot3.7b <- plot_ly(data$data_49, x = ~counts, y = ~hours, color = ~sex, type = "bar", textposition = 'inside',
-                        colors = custom_colors %>% unname(), orientation = 'h') %>%
 
+    df <- data$data_49
 
-      layout(title = "",
-             legend = list(orientation = "h", x = 0, y = 1.2),
-             xaxis = list(title = "", tickformat = "0.1%"),
+    df$counts <- df$counts *100
+
+    df %>%
+
+      mutate(abs_pop = abs(counts)) %>%
+
+      plot_ly( x= ~counts, y=~hours, customdata= ~abs_pop,
+               color=~sex, colors = custom_colors[c("med_blue","dark_blue")] %>% unname()) %>%
+      add_bars(orientation = 'h',
+               hovertemplate = "%{customdata:.1f}%"
+      ) %>%
+      layout(barmode = 'relative',
+             legend = list(orientation = "h", x = .5, y = 1.2, traceorder = "normal"),
              yaxis = list(title = ""),
-             barmode = "relative") %>% plotly_custom_layout()
+             xaxis = list(title = "",
+                          tickmode = 'array',
+                          tickformat = "0.1%",
+                          tickvals = c(-20, -10,  0, 10, 20),
+                          ticktext = c('20%', '10%', '0', '10%', '20%'),
+                          autorange = "reversed"
 
+
+             )) %>% plotly_custom_layout()
 
   })
 
+
+
+
+
+  # # plot3.7b----
+  #
+  #
+  # output$plot3.7b <- renderPlotly({
+  #
+  #  plot3.7b <- plot_ly(data$data_49, x = ~counts, y = ~hours, color = ~sex, type = "bar", textposition = 'inside',
+  #                       colors = custom_colors %>% unname(), orientation = 'h') %>%
+  #
+  #
+  #     layout(title = "",
+  #            legend = list(orientation = "h", x = 0, y = 1.2),
+  #            xaxis = list(title = "", tickformat = "0.1%"),
+  #            yaxis = list(title = ""),
+  #            barmode = "relative") %>% plotly_custom_layout()
+  #
+  #
+  # })
+  #
 
   # plot4.1----
   output$plot4.1 <- renderPlotly({
