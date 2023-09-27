@@ -8,7 +8,7 @@ library(sf)
 library(tidyr)
 
 data <- readRDS("data/data.rds")
-last_updated <- "V1.4 Sept 6, 2023"
+last_updated <- "V1.5 Sep 25, 2023"
 
 
 # Define UI
@@ -34,6 +34,9 @@ ui <-
                                             dashboardSidebar(collapsed = FALSE,
                                                              sidebarMenu(style = "position: fixed; overflow: visible;",
                                                                id = "tabs", ## to be able to update with buttons on landing page
+                                                               menuItem(
+                                                                 div(tags$img(src = "StrongerBC_188.png"))
+                                                               )  ,
                                                                menuItem("Home", tabName = "home", icon = icon("home")),
 
                                                                menuItem("Small Business Growth", tabName = "page1", icon = icon("line-chart")),
@@ -47,14 +50,13 @@ ui <-
                                                                menuItem("Other Indicators", tabName = "page0", icon = icon("file-text")),
                                                                menuItem("Previous Reports", href= "https://llbc.ent.sirsidynix.net/client/en_GB/main/search/results?qu=small+business+profile&te=", newtab = TRUE, icon = icon("link")),
                                                                menuItem("Small Business Resources", href= "https://www2.gov.bc.ca/gov/content/employment-business/business/small-business/resources", newtab = TRUE, icon = icon("link")),
-                                                               tags$div(style = "text-align:center;color:#b8c7ce",
+                                                         tags$div(style = "text-align:center;color:#b8c7ce",
                                                                         br(),
                                                                         downloadButton(outputId = "download_data", "Download data as excel"),
                                                                         br(),br(),
-                                                                        uiOutput("update_date"),
-                                                                        br(), br(),
-                                                                        menuItem(
-                                                                          div(tags$img(src = "StrongerBC_188.png")))
+                                                                        uiOutput("update_date")
+                                                                    #    br(), br(),
+
 
                                                                )
                                                              )
@@ -373,7 +375,7 @@ ui <-
 
                                 ),
 
-                                box(title = "Figure 1.11: Small business growth by province, 2022",
+                                box(title = "Figure 1.11: Small business growth by province, 2017-2022",
                                     HTML("<p><small><i>This chart illustrates the annual change in the number of small business for each province. </i></small>"), plotlyOutput("plot1.8"), width = 10,
                                     br(),
                                     HTML("<b><small></b> <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
@@ -395,7 +397,7 @@ ui <-
 
                                 ),
 
-                                box(title = "Figure 1.14: Number of small businesses by region, 2017-2022",
+                                box(title = "Figure 1.14: Number of small businesses by region, 2022",
                                     HTML("<p><small><i>This chart shows the number of small businesses by development region in British Columbia.</i></small>"), plotlyOutput("plot1.11a"), width = 10,
                                     br(),
                                     HTML("<b><small></b>
@@ -443,7 +445,8 @@ ui <-
                                     HTML("<b><small></b> <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
                                     ,
                                     fluidRow(box(title = HTML("<small><p><b>Definitions:</b></small>"),
-                                                 HTML("<small><b><i>Public sector employees </b></i>are employees in public administration at the federal, provincial, territorial, municipal, First Nations and other Indigenous governments as well as in Crown corporations, liquor control boards, and other government institutions such as schools (including universities), hospitals and public libraries. Private sector employees Includes all employees are those who do not work in a government institution,
+                                                 HTML("<small><b><i>Public sector employees </b></i>are employees in public administration at the federal, provincial, territorial, municipal, First Nations and other Indigenous governments as well as in Crown corporations, liquor control boards, and other government institutions such as schools (including universities), hospitals and public libraries.
+                                                 <br><b><i>Private sector employees</i></b> includes all employees are those who do not work in a government institution,
                                                  or other government controlled business such as Crown corporations, liquor control boards, public education, hospitals and public libraries.
                                          </small>"),
                                                  collapsible = TRUE, collapsed = TRUE))
@@ -456,7 +459,8 @@ ui <-
                                     HTML("<b><small></b> <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
                                     ,
                                     fluidRow(box(title = HTML("<small><p><b>Definitions:</b></small>"),
-                                                 HTML("<small><b><i>Public sector employees </b></i>are employees in public administration at the federal, provincial, territorial, municipal, First Nations and other Indigenous governments as well as in Crown corporations, liquor control boards, and other government institutions such as schools (including universities), hospitals and public libraries. Private sector employees Includes all employees are those who do not work in a government institution,
+                                                 HTML("<small><b><i>Public sector employees </b></i>are employees in public administration at the federal, provincial, territorial, municipal, First Nations and other Indigenous governments as well as in Crown corporations, liquor control boards, and other government institutions such as schools (including universities), hospitals and public libraries.
+                                                 <br><b><i>Private sector employees</i></b> includes all employees are those who do not work in a government institution,
                                                  or other government controlled business such as Crown corporations, liquor control boards, public education, hospitals and public libraries.
                                          </small>"),
                                                  collapsible = TRUE, collapsed = TRUE))
@@ -956,12 +960,14 @@ ui <-
 # Define server logic
 server <- function(input, output, session) {
 
-
+  observeEvent(input$tabs, shinyjs::runjs("window.scrollTo(0,0)"))
 
   ## Change links to false to remove the link list from the header
   bcsapps::bcsHeaderServer(id = 'header', links = TRUE)
 
   bcsapps::bcsFooterServer(id = 'footer')
+
+
 
   ## update date ----
   output$update_date <- renderUI(
@@ -2997,7 +3003,7 @@ output$plot4.2 <- renderPlotly({
       add_annotations( ## add canadian average text
         x = 0.2,
         y = 0.89,
-        text = "<b>— 26.2% = Canadian Average</b>",
+        text = "<b>— Canadian Average = 26.2%</b>",
         xref = "paper",
         yref = "paper",
         xanchor = "left",
@@ -3166,7 +3172,8 @@ output$plot4.2 <- renderPlotly({
               ## change default class (table-striped) to cell-border (borders around all cells, no striping)
               class = 'cell-border',
               options = list(
-                scrollX = TRUE,
+                scrollX = TRUE,  ordering = FALSE,
+
                 paging = FALSE,
                 dom = 't',
                 ## format header
