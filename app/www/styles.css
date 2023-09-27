@@ -147,3 +147,22 @@ html, body, h1, h2, h3, h4, h5, h6 {
    left:10px;
 }
 
+table.dataTable thead .sorting:before{
+  color : yellow;
+  opacity: 1.0 !important;
+}
+table.dataTable thead .sorting:after{
+  color : yellow;
+  opacity: 1.0 !important;
+}
+
+
+table.dataTable thead .sorting_asc:before{
+  color : grey;
+  opacity: 1 !important;
+}
+
+table.dataTable thead .sorting_desc:after{
+  color : grey;
+  opacity: 1 !important;
+}
