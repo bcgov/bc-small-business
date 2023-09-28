@@ -286,6 +286,9 @@ data_55 <- read_excel(excel_file, sheet = "4.6", range = "a2:b12", col_names = T
 # 5.1 Number of BC exporters and value of exports, 2017-2022 ----
 data_60 <- read_excel(excel_file, sheet = "5.1", range = "a3:i11", col_names = TRUE)
 
+# 5.1b Percent of BC exporters and value of exports, 2017-2022 ----
+data_60b <- read_excel(excel_file, sheet = "5.1", range = "k3:q11", col_names = TRUE)
+
 
 # 5.2 Number of BC exporters and value of exports, 2017-2022 ----
 data_61 <- read_excel(excel_file, sheet = "5.2", range = "a3:k18", col_names = TRUE)
