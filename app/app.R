@@ -8,7 +8,7 @@ library(sf)
 library(tidyr)
 
 data <- readRDS("data/data.rds")
-last_updated <- "V1.5 Sep 25, 2023"
+last_updated <- "V1.7 Sep 27, 2023"
 
 
 # Define UI
@@ -34,9 +34,7 @@ ui <-
                                             dashboardSidebar(collapsed = FALSE,
                                                              sidebarMenu(style = "position: fixed; overflow: visible;",
                                                                id = "tabs", ## to be able to update with buttons on landing page
-                                                               menuItem(
-                                                                 div(tags$img(src = "StrongerBC_188.png"))
-                                                               )  ,
+
                                                                menuItem("Home", tabName = "home", icon = icon("home")),
 
                                                                menuItem("Small Business Growth", tabName = "page1", icon = icon("line-chart")),
@@ -53,9 +51,13 @@ ui <-
                                                          tags$div(style = "text-align:center;color:#b8c7ce",
                                                                         br(),
                                                                         downloadButton(outputId = "download_data", "Download data as excel"),
-                                                                        br(),br(),
+                                                                        br(),br(),br(),
+                                                                  menuItem(
+                                                                    div(tags$img(src = "StrongerBC_188.png"))
+                                                                  )  ,
+                                                                  br(),
                                                                         uiOutput("update_date")
-                                                                    #    br(), br(),
+
 
 
                                                                )
@@ -285,7 +287,7 @@ ui <-
                                 box(title = "Figure 1.5: Distribution of small businesses by industry, 2022",
                                     HTML("<p><small><i>This chart shows the relative proportion of small businesses in different industries in British Columbia.</i></small>"), plotlyOutput("plot1.3a"), width = 10, br(),
                                     HTML("<b><small></b>
-                                    <p><b>Note:</b> Primary* is comprised of the agriculture, forestry, fishing, mining, oil and gas industries.
+                                    <p><b>Note:</b> Natural Resources* is comprised of the agriculture, forestry, fishing, mining, oil and gas industries.
                                     <p><b>Note:</b> The total does not sum to 100% as some businesses with employees could not be classified by industry.
                                     <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
                                     , fluidRow(box(title = HTML("<small><b>Definition:</b></small>"),
@@ -299,7 +301,7 @@ ui <-
 
                                 box(title = "Figure 1.6: Distribution of small businesses with and without employees by industry, 2022",
                                     HTML("<p><small><i>This chart shows the relative proportion of small businesses in different industries in British Columbia for businesses with and without employees.</i></small>"), plotlyOutput("plot1.3b"), width = 10, br(),
-                                    HTML("<b><small></b> <p><b>Note:</b> Primary is comprised of the agriculture, forestry,fishing, mining, oil and gas industries.
+                                    HTML("<b><small></b> <p><b>Note:</b> Natural Resources* is comprised of the agriculture, forestry,fishing, mining, oil and gas industries.
                                     <p><b>Note:</b> Self-employment in utilities is less than 1500.
                                     <p><b>Note:</b> Industries do not sum to 100% as some businesses with employees could not be classified by industry.
                                     <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
@@ -836,19 +838,50 @@ ui <-
 
                              fluidRow(
 
-                               box(title = "Figure 5.1: Number of British Columbia exporters and value of exports, British Columbia",
-                                   HTML("<p><small><i>This table shows the number of exporters and the value of exports in British Columbia by business size for selected years.</i></small>"), DTOutput("datatable5.1"),
-                                   style = "border: 1px solid white;", width = 10,
-                                   HTML("<b><small></b> <p> <p><b>Source:</b> Statistics Canada / Prepared by BC Stats.</small>")
+                               # box(title = "Figure 5.1: Number of British Columbia exporters and value of exports, British Columbia",
+                               #     HTML("<p><small><i>This table shows the number of exporters and the value of exports in British Columbia by business size for selected years.</i></small>"),
+                               #     style = "border: 1px solid white;", width = 10,
+                               #     HTML("<b><small></b> <p> <p><b>Source:</b> Statistics Canada / Prepared by BC Stats.</small>")
+                               #
+                               #     ,
+                               #     fluidRow(box(title = HTML("<small><p><b>Definitions:</b></small>"),
+                               #                  HTML("<small>An <b><i>exporter</b></i> is defined as an enterprise that sells goods out of the country, regardless of the value of exports.<p>
+                               #                    <p><b><i>Value of exports</b></i> is measured in Canadian dollars. Value is as recorded in official customs documents, typically the actual selling price used for company accounting purposes. Canadian exports to overseas countries
+                               #                    are valued including domestic freight charges to the port of exit point but excluding discounts and allowances, and international insurance. <p>
+                               #           </small>"),
+                               #                  collapsible = TRUE, collapsed = TRUE))
+                               # ),
+                               #
+                               # box(title = "Figure 5.1b: ",
+                               #     HTML("<p><small><i>This table shows the number of exporters and the value of exports in British Columbia by business size for selected years.</i></small>"), ,
+                               #     style = "border: 1px solid white;", width = 10
+                               #
+                               #
+                               # ),
+                               #
 
-                                   ,
-                                   fluidRow(box(title = HTML("<small><p><b>Definitions:</b></small>"),
-                                                HTML("<small>An <b><i>exporter</b></i> is defined as an enterprise that sells goods out of the country, regardless of the value of exports.<p>
-                                                  <p><b><i>Value of exports</b></i> is measured in Canadian dollars. Value is as recorded in official customs documents, typically the actual selling price used for company accounting purposes. Canadian exports to overseas countries
-                                                  are valued including domestic freight charges to the port of exit point but excluding discounts and allowances, and international insurance. <p>
-                                         </small>"),
-                                                collapsible = TRUE, collapsed = TRUE))
+
+                               box(title = "Figure 5.1: Number of British Columbia exporters and value of exports, British Columbia",
+                                   width = 10,
+                                   solidHeader = TRUE,
+                                   tabsetPanel(
+                                     tabPanel("Values", HTML("<p><small><i>This table shows the number of exporters and the value of exports in British Columbia by business size for selected years.</i></small>"),DTOutput("datatable5.1"), style = "width: 4"),
+                                     tabPanel("Percentages", HTML("<p><small><i>This table shows the number of exporters and the value of exports in British Columbia by business size for selected years, expressed in percentages.</i></small>"),DTOutput("datatable5.1b"))
+                                   ),
+                                   br(),
+                                   HTML("<b><small></b> <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>"),
+                                       fluidRow(box(title = HTML("<small><p><b>Definitions:</b></small>"),
+                                                    HTML("<small>An <b><i>exporter</b></i> is defined as an enterprise that sells goods out of the country, regardless of the value of exports.<p>
+                                                      <p><b><i>Value of exports</b></i> is measured in Canadian dollars. Value is as recorded in official customs documents, typically the actual selling price used for company accounting purposes. Canadian exports to overseas countries
+                                                      are valued including domestic freight charges to the port of exit point but excluding discounts and allowances, and international insurance. <p>
+                                             </small>"),
+                                                    collapsible = TRUE, collapsed = TRUE))
                                ),
+
+
+
+
+
 
                                box(title = "Figure 5.2: Growth in small business exporters and exports by province and territory",
                                    HTML("<p><small><i>This table shows the growth in the number of exporters and the value of exports in British Columbia by business size for selected years.</i></small>"), DTOutput("datatable5.2"),
@@ -1413,7 +1446,7 @@ server <- function(input, output, session) {
 
 
 
-    data_12$type <-factor(data_12$type, levels = rev(c("Goods Sector", "Construction", "Primary*", "Manufacturing", "Utilities",
+    data_12$type <-factor(data_12$type, levels = rev(c("Goods Sector", "Construction", "Natural Resources*", "Manufacturing", "Utilities",
                                                        "Services Sector", "Professional, scientific and technical services",
                                                        "Health & Social Services", "Finance, Insurance & Real Estate",
                                                        "Trade", "Other Services", "Transportation & Storage",
@@ -1462,7 +1495,8 @@ server <- function(input, output, session) {
       )
     plot1.3b <- layout(plot1.3b,
                        legend = list(orientation = "h", x = 0, y = 1.2, traceorder = "reversed"),
-                       xaxis = list(title = "", tickformat = '0.1%')
+                       xaxis = list(title = "", tickformat = '0.1%'),
+                       bargap = .3
 
 
     ) %>% plotly_custom_layout()
@@ -2870,7 +2904,8 @@ output$plot4.2 <- renderPlotly({
     plot4.3 <- layout(plot4.3,
                       legend = list(orientation = "h", x = 0, y = 1.2, traceorder = "reversed"),
                       xaxis = list(title = "$ Thousands", tickformat = ""),
-                      yaxis = list(title = "", tickformat = "$", dtick = "")
+                      yaxis = list(title = "", tickformat = "$", dtick = ""),
+                      bargap = .5
 
 
     ) %>% plotly_custom_layout()
@@ -2929,7 +2964,8 @@ output$plot4.2 <- renderPlotly({
     plot4.4 <- layout(plot4.4,
                       legend = list(orientation = "h", x = 0, y = 1.2, traceorder = "reversed"),
                       xaxis = list(title = "$ Thousands", tickformat = ""),
-                      yaxis = list(title = "", tickformat = "0.1", dtick = "")
+                      yaxis = list(title = "", tickformat = "0.1", dtick = ""),
+                      bargap = .5
 
 
 
@@ -3212,6 +3248,76 @@ output$plot4.2 <- renderPlotly({
                   color = styleRow(rows = c(3,7), "#015082"),
                   fontWeight = styleRow(rows = c(3,7), "bold"))
   })
+
+
+
+  #datatable5.1b----
+
+  # Render the table
+  output$datatable5.1b <- renderDT({
+
+    # Create your dataframe with the desired data
+    table_data <- data$data_60b %>%
+      janitor::remove_empty()
+
+
+    # Create the datatable
+    datatable(table_data,
+              rownames = FALSE,
+              ## change default class (table-striped) to cell-border (borders around all cells, no striping)
+              class = 'cell-border',
+              options = list(
+                scrollX = TRUE,  ordering = FALSE,
+
+                paging = FALSE,
+                dom = 't',
+                ## format header
+                headerCallback = JS(
+                  "function(thead, data, start, end, display){",
+                  "  $('th', thead).css('color', 'white');",
+                  "  $('th', thead).css('background-color', '#0e83b0');",
+                  "  $('th', thead).css('text-align', 'center');",
+                  "  $('th', thead).css('border-style', 'solid');",
+                  "  $('th', thead).css('border-width', '1px');",
+                  "  $('th', thead).css('border-color', 'white');",
+                  "}"
+                ),
+                ## column widths
+                columnDefs = list(list(width = '180px', targets = 0))
+              )
+    )    %>%
+      # ## helper functions for formatting
+     formatPercentage(2:7, rows = c(1,2,3,5,6,7), mark = ",", digits = 1) %>%  ## add commas to large numbers
+    #  formatPercentage(c("One year growth rate", "Five year growth rate"), rows = c(1,2,3,5,6,7), digits = 1) %>%
+      ## can use any css style in formatStyle by replacing "-" with camel case (e.g., text-align -- textAlign)
+      formatStyle(1:ncol(table_data), backgroundColor = "#e6edf4", borderColor = "white") %>%
+      formatStyle(1:ncol(table_data),
+                  color = styleRow(4, "white"),
+                  backgroundColor =styleRow(4, '#0e83b0'),
+                  textAlign = styleRow(4, "right"),
+                  borderStyle = styleRow(4, "solid"),
+                  borderWidth = styleRow(4, "1px"),
+                  borderColor = styleRow(4, "white"),
+                  fontWeight = styleRow(4,"bold")) %>%
+      formatStyle(2:7, textAlign = "center") %>%
+   #   formatStyle(8:9, textAlign = "center") %>%
+      formatStyle(columns = 1:ncol(table_data),
+                  ## use styleRow to select which rows to apply style
+                  backgroundColor = styleRow(rows = c(3,7), "#c4d6e7"),
+                  color = styleRow(rows = c(3,7), "#015082"),
+                  fontWeight = styleRow(rows = c(3,7), "bold"))
+  })
+
+
+
+
+
+
+
+
+
+
+
 
 
   #datatable5.2----
