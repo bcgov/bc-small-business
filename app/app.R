@@ -642,8 +642,8 @@ ui <-
 
                                  box(title = "Figure 3.7: Age distribution of self-employed workers compared to employees, British Columbia, 2022", HTML("<p><small><i>This chart compares the proportion of persons who are self-employed and those who are employed by age.</i></small>"), plotlyOutput("plot3.3"), width = 10,
                                      br(),
-                                     HTML("<b><small></b> <p><b>Source:</b> Statistics Canada / Prepared by BC Stats</small>")
-
+                                     HTML("<b><small> <p>Notes</b>: Figures do not add to 100% due to rounding.
+                                          <p><b><b>Source:</b></b> Statistics Canada / Prepared by BC Stats</small>")
 
                                  ),
 
@@ -654,7 +654,7 @@ ui <-
                                  ),
 
 
-                                 box(title = "Figure 3.9: Hours worked among self-employed men and women, British Columbia, 2022", HTML("<p><small><i>This chart compares the number of usual hours worked per week for self-employed persons by sex.</i></small>"), plotlyOutput("plot3.7a"), width = 10,
+                                 box(title = "Figure 3.9: Hours worked, self-employed compared to employees, 2022", HTML("<p><small><i>This chart compares the number of usual hours worked per week for self-employed indivuals and employees.</i></small>"), plotlyOutput("plot3.7a"), width = 10,
                                      br(),
                                      HTML("<b><small></b> <p><b>Note:</b> Figures do not add to 100% due to rounding.<p>
                                      <b>Source:</b> Statistics Canada / Prepared by BC Stats.</small>"),
@@ -686,23 +686,23 @@ ui <-
                                box(title = "Figure 3.10: Proportion of self-employed who are women by province, 2022", HTML("<p><small><i>This chart shows shows the proportion of self-employed persons who identify as women by province.</i></small>"), plotlyOutput("plot3.4"), width = 10,
                                    br(),
                                    HTML("<b><small></b> <p><b>Note:</b> Excludes unpaid family workers.
-                                    <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
+                                    <p><b>Source:</b> Statistics Canada / Prepared by BC Stats</small>")
                                ),
 
                                box(title = "Figure 3.11: Proportion of self-employed who are women, by region, 2017 and 2022", HTML("<p><small><i>This chart shows shows the proportion of self-employed persons who identify as women by development region.</i></small>"), plotlyOutput("plot3.5"), width = 10,
                                    br(),
                                    HTML("<b><small></b> <p><b>Note:</b> Includes unpaid family workers.
-                                  <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
+                                  <p><b>Source:</b>  Statistics Canada / Prepared by BC Stats.</small>")
                                ),
 
-                               box(title = "Figure 3.12: Usual hours worked, self-employed by sex, British Columbia, 2022", HTML("<p><small><i>This chart compares the number of usual hours worked per week for self-employed individuals and employees.</i></small>"), plotlyOutput("plot3.7b"), width = 10,
+                               box(title = "Figure 3.12: Hours worked among self-employed men and women, British Columbia, 2022", HTML("<p><small><i>This chart compares the number of usual hours worked per week for self-employed persons by sex.</i></small>"), plotlyOutput("plot3.7b"), width = 10,
                                    br(),
                                    HTML("<b><small></b> <p><b>Note:</b> Figures do not add to 100% due to rounding.<p>
                                      <b>Source:</b> Statistics Canada / Prepared by BC Stats.</small>"),
 
 
                                    fluidRow(box(title = HTML("<small><p><b>Definition:</b></small>"),
-                                                HTML("<small>Usual work hours refers to the employed person's normal paid or contract hours, not counting any overtime.
+                                                HTML("<small><b>Usual work hours</b> refers to the employed person's normal paid or contract hours, not counting any overtime.
                                          </small>"),
                                                 collapsible = TRUE, collapsed = TRUE))
 
@@ -753,11 +753,7 @@ ui <-
 
                                box(title = "Figure 4.1: Small business contribution to GDP by province, 2022", HTML("<p><small><i>This chart shows the percentage of GDP that is attributable to small business activities.</i></small>"), plotlyOutput("plot4.1"), width = 10,
                                    br(),
-                                   HTML("<b><small></b> <p><b>Note:</b> Gross Domestic Product (GDP) refers to the
-                                   total market value of all the goods and services produced within national
-                                   or provincial borders during a specified period. The growth rates of GDP
-                                   provide an indication of how well an industry or an economy is doing.
-
+                                   HTML("<small>
                                     <p><b>Source:</b> BC Stats.</small>")
 
                                    ,
@@ -774,9 +770,7 @@ ui <-
 
                                box(title = "Figure 4.2: Changes in average annual earnings in British Columbia, 2017-2022", HTML("<p><small><i>This chart shows the average annual earnings for employes of small and large businesses for selected years.</i></small>"), plotlyOutput("plot4.2"), width = 10,
                                    br(),
-                                   HTML("<b><small></b> <p><b>Note:</b> Average annual earnings Refers to the
-                                        gross taxable payroll of an employee, expressed on an annual basis,
-                                        including pay for overtime.
+                                   HTML("<b><small></b>
 
                                        <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
 
@@ -792,7 +786,8 @@ ui <-
 
                                box(title = "Figure 4.3: Small business average annual earnings and wage gap by industry, 2022", HTML("<p><small><i>This chart shows the average annual earnings for employes of small and large businesses by industry.</i></small>"), plotlyOutput("plot4.3"), width = 10,
                                    br(),
-                                   HTML("<b><small></b> <p><b>Source:</b> BC Stats using data supplied by Statistics Canada. </small>")
+                                   HTML("<b><small></b> <b>Note: </b>The level of small-business employment in the utilities sector is very small, less than 3 per cent of total.<p>
+                                        <b>Source:</b> BC Stats using data supplied by Statistics Canada. </small>")
 
                                    ,
                                    fluidRow(box(title = HTML("<small><p><b>Definition:</b></small>"),
@@ -802,6 +797,9 @@ ui <-
                                          </small>"),
                                                 collapsible = TRUE, collapsed = TRUE))
                                ),
+
+
+
 
                                box(title = "Figure 4.4: Small business wage gaps by industry, British Columbia, 2017 and 2022", HTML("<p><small><i>This chart shows the difference in the average annual earnings for employes of small and large businesses by industry for selected years.</i></small>"), plotlyOutput("plot4.4"), width = 10,
                                    br(),
@@ -2629,7 +2627,7 @@ server <- function(input, output, session) {
       add_annotations( ## add canadian average text
         x = 0.2,
         y = 0.9,
-        text = "<b>37.1% = Canadian Average </b>",
+        text = "<b>— Canadian Average = 37.1%</b>",
         xref = "paper",
         yref = "paper",
         xanchor = "left",
@@ -2726,12 +2724,13 @@ output$plot3.7a <- renderPlotly({
 
       plot_ly( x= ~counts, y=~hours, customdata= ~abs_pop,
                color=~work_week, colors = custom_colors[c("med_blue","dark_blue")] %>% unname()) %>%
-      add_bars(orientation = 'h',
-               hovertemplate = "%{customdata:.1f}%"
+      add_bars(orientation = 'h'
+                ,
+                hovertemplate = "%{customdata:.1f}%"
       ) %>%
       layout(barmode = 'relative',
-             legend = list(orientation = "h", x = .5, y = 1.2, traceorder = "normal"),
-             yaxis = list(title = ""),
+             legend = list(orientation = "h", x = .0, y = 1.2, traceorder = "normal"),
+             yaxis = list(title = "", autorange = "reversed"),
              xaxis = list(title = "",
                           tickmode = 'array',
                           tickformat = "0.1%",
@@ -2771,8 +2770,8 @@ output$plot3.7a <- renderPlotly({
                hovertemplate = "%{customdata:.1f}%"
       ) %>%
       layout(barmode = 'relative',
-             legend = list(orientation = "h", x = .5, y = 1.2, traceorder = "normal"),
-             yaxis = list(title = ""),
+             legend = list(orientation = "h", x = .0, y = 1.2, traceorder = "normal"),
+             yaxis = list(title = "", autorange = "reversed"),
              xaxis = list(title = "",
                           tickmode = 'array',
                           tickformat = "0.1%",
@@ -2856,7 +2855,7 @@ output$plot4.2 <- renderPlotly({
   layout(title = "",
          legend = list(orientation = "h", x = 0, y = 1.2),
          xaxis = list(title = "Payroll/Employee", tickformat = ""),
-         yaxis = list(title = "Thousands", tickformat = "$"),
+         yaxis = list(title = "Thousands", tickformat = "$,.0f"),
          barmode = "group") %>%
 
   add_annotations( ## add canadian average text
@@ -2937,9 +2936,11 @@ output$plot4.2 <- renderPlotly({
       )
     plot4.3 <- layout(plot4.3,
                       legend = list(orientation = "h", x = 0, y = 1.2, traceorder = "reversed"),
-                      xaxis = list(title = "$ Thousands", tickformat = ""),
-                      yaxis = list(title = "", tickformat = "$", dtick = ""),
-                      bargap = .5
+                      xaxis = list(title = "", tickformat = "$,.0f"),
+                      yaxis = list(title = "", tickformat = ""),
+                      bargap = .2
+
+
 
 
     ) %>% plotly_custom_layout()
@@ -2997,9 +2998,9 @@ output$plot4.2 <- renderPlotly({
       )
     plot4.4 <- layout(plot4.4,
                       legend = list(orientation = "h", x = 0, y = 1.2, traceorder = "reversed"),
-                      xaxis = list(title = "$ Thousands", tickformat = ""),
-                      yaxis = list(title = "", tickformat = "0.1", dtick = ""),
-                      bargap = .5
+                      xaxis = list(title = "", tickformat = "$,.0f"),
+                      yaxis = list(title = "", tickformat = ""),
+                      bargap = .2
 
 
 
@@ -3034,7 +3035,7 @@ output$plot4.2 <- renderPlotly({
     )
     plot4.5 <- layout(plot4.5,
                       legend = list(orientation = "h", x = .3, y = 1.2, traceorder = "reversed"),
-                      xaxis = list(title = "$ Thousands", tickformat = "")
+                      xaxis = list(title = "", tickformat = "$,.0f")
 
 
     ) %>% plotly_custom_layout()
@@ -3051,7 +3052,7 @@ output$plot4.2 <- renderPlotly({
     canada_average <- 0.262
 
     plot_data <- data$data_55 %>%
-      mutate(Label = paste0(round_half_up(Percent*100, digits = 2), "%"),
+      mutate(Label = paste0(round_half_up(Percent*100, digits = 1), "%"),
              Percent = Percent,
              Province = factor(Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
                                                     "NB", "NS", "PE", "NL")),
@@ -3067,7 +3068,7 @@ output$plot4.2 <- renderPlotly({
                        text = ~paste(Province,":",Label),
                        textposition = "none",
                        hoverinfo = 'text') %>%
-      layout(xaxis = list(title = ""),
+      layout(xaxis = list(title = "", tickformat = "0.1%"),
              yaxis = list(title = "", tickformat = "0.1%"), ## make y-axis percents
              shapes = list(hline(canada_average))) %>% ## add line
       add_annotations( ## add canadian average text
