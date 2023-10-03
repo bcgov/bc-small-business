@@ -849,38 +849,16 @@ ui <-
 
                              fluidRow(
 
-                               # box(title = "Figure 5.1: Number of British Columbia exporters and value of exports, British Columbia",
-                               #     HTML("<p><small><i>This table shows the number of exporters and the value of exports in British Columbia by business size for selected years.</i></small>"),
-                               #     style = "border: 1px solid white;", width = 10,
-                               #     HTML("<b><small></b> <p> <p><b>Source:</b> Statistics Canada / Prepared by BC Stats.</small>")
-                               #
-                               #     ,
-                               #     fluidRow(box(title = HTML("<small><p><b>Definitions:</b></small>"),
-                               #                  HTML("<small>An <b><i>exporter</b></i> is defined as an enterprise that sells goods out of the country, regardless of the value of exports.<p>
-                               #                    <p><b><i>Value of exports</b></i> is measured in Canadian dollars. Value is as recorded in official customs documents, typically the actual selling price used for company accounting purposes. Canadian exports to overseas countries
-                               #                    are valued including domestic freight charges to the port of exit point but excluding discounts and allowances, and international insurance. <p>
-                               #           </small>"),
-                               #                  collapsible = TRUE, collapsed = TRUE))
-                               # ),
-                               #
-                               # box(title = "Figure 5.1b: ",
-                               #     HTML("<p><small><i>This table shows the number of exporters and the value of exports in British Columbia by business size for selected years.</i></small>"), ,
-                               #     style = "border: 1px solid white;", width = 10
-                               #
-                               #
-                               # ),
-                               #
-
 
                                box(title = "Figure 5.1: Number of British Columbia exporters and value of exports, British Columbia",
                                    width = 10,
                                    solidHeader = TRUE,
                                    tabsetPanel(
                                      tabPanel("Values", HTML("<p><small><i>This table shows the number of exporters and the value of exports in British Columbia by business size for selected years.</i></small>"),DTOutput("datatable5.1"), style = "width: 4"),
-                                     tabPanel("Percentages", HTML("<p><small><i>This table shows the number of exporters and the value of exports in British Columbia by business size for selected years, expressed in percentages.</i></small>"),DTOutput("datatable5.1b"))
+                                     tabPanel("Percentages", HTML("<p><small><i>This table shows the number of exporters and the value of exports in British Columbia by business size for selected years, as a proportion of the total.</i></small>"),DTOutput("datatable5.1b"))
                                    ),
                                    br(),
-                                   HTML("<b><small></b> <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>"),
+                                   HTML("<b><small></b> <p><b>Source:</b> Statistics Canada/Prepared by BC Stats.</small>"),
                                        fluidRow(box(title = HTML("<small><p><b>Definitions:</b></small>"),
                                                     HTML("<small>An <b><i>exporter</b></i> is defined as an enterprise that sells goods out of the country, regardless of the value of exports.<p>
                                                       <p><b><i>Value of exports</b></i> is measured in Canadian dollars. Value is as recorded in official customs documents, typically the actual selling price used for company accounting purposes. Canadian exports to overseas countries
@@ -910,8 +888,8 @@ ui <-
 
                                box(title = "Figure 5.3: Share of business exporters by destination of exports, 2022", HTML("<p><small><i>This chart shows the proportion of exporters in British Columbia by business size by destination of exports.</i></small>"), plotlyOutput("plot5.3b"), width = 10,
                                    br(),
-                                   HTML("<b><small></b> <p><b>Note:</b> Excludes self-employed without paid help.
-                                    <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>"),
+                                   HTML("<b><small></b> <p><b>Note:</b> Figures do not add to 100 per cent due to rounding.
+                                    <p><b>Source:</b> Statistics Canada / Prepared by BC Stats</small>"),
 
                                    fluidRow(box(title = HTML("<small><p><b>Definition:</b></small>"),
                                                 HTML("<small>An <b><i>exporter</b></i> is defined as an enterprise that sells goods out of the country, regardless of the value of exports.
@@ -920,7 +898,7 @@ ui <-
                                                 collapsible = TRUE, collapsed = TRUE))
                                ),
 
-                               box(title = "Figure 5.4: Share of export value by destination of exports, 2022", HTML("<p><small><i>This chart shows the proportion the value of exports in British Columbia by business size by destination of exports..</i></small>"), plotlyOutput("plot5.3"), width = 10,
+                               box(title = "Figure 5.4: Share of export value by destination of exports, 2022", HTML("<p><small><i>This chart shows the proportion of the value of exports in British Columbia by business size by destination of exports..</i></small>"), plotlyOutput("plot5.3"), width = 10,
                                    br(),
                                    HTML("<b><small></b> <p><b>Note:</b> Figures do not add to 100 per cent due to rounding.
                                     <p><b>Source:</b> Statistics Canada / Prepared by BC Stats. </small>"),
@@ -935,10 +913,10 @@ ui <-
 
 
                                ),
-                               box(title = "Figure 5.5: Destination share of value of small business exports by province, 2022", HTML("<p><small><i>This chart shows the proportion the value of exports by small business exporters by destination of exports by province.</i></small>"), plotlyOutput("plot5.4"), width = 10,
+                               box(title = "Figure 5.5: Destination share of value of small business exports by province, 2022", HTML("<p><small><i>This chart shows the proportion of the value of exports by small business exporters by destination of exports by province.</i></small>"), plotlyOutput("plot5.4"), width = 10,
                                    br(),
                                    HTML("<b><small></b>
-                                    <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
+                                    <p><b>Source:</b> BC Stats using data provided by Statistics Canada.</small>")
 
                                    ,
                                    fluidRow(box(title = HTML("<small><p><b>Definitions:</b></small>"),
@@ -950,9 +928,7 @@ ui <-
                                ),
                                box(title = "Figure 5.6: Export intensity for small businesses by province, 2022", HTML("<p><small><i>This chart illustrates the export intensity for small businesses by province.</i></small>"), plotlyOutput("plot5.5"), width = 10,
                                    br(),
-                                   HTML("<b><small></b> <p><b>Note:</b> Export intensity refers to the average value of exports per business.
-
-                                    <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>"),
+                                   HTML("<small><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>"),
 
                                    fluidRow(box(title = HTML("<small><p><b>Definition:</b></small>"),
                                                 HTML("<small>    <p><b><i>Export intensity</b></i> refers to the average value of exports per business.<p>
@@ -962,10 +938,9 @@ ui <-
 
                                box(title = "Figure 5.7: Value of goods exports for large and small businesses", HTML("<p><small><i>This chart shows the value of goods exported by British Columbia exporters by size over time. </i></small>"), plotlyOutput("plot5.04"), width = 10,
                                    br(),
-                                   HTML("<b><small></b><p><b>Note:</b> A small business exporter is defined as an enterprise with fewer than 50 employees
-                                   that exports goods out of the country, regardless of the value of exports.
+                                   HTML("<small>
 
-                                    <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
+                                    <p><b>Source:</b> Statistics Canada / Prepared by BC Stats.</small>")
 
 
                                    ,
@@ -3096,7 +3071,7 @@ output$plot4.2 <- renderPlotly({
 
       layout(title = "",
              legend = list(orientation = "h", x = 0, y = 1.2),
-             xaxis = list(title = ""),
+             xaxis = list(title = "",  autorange = "reversed"),
              yaxis = list(title = "",
                           tickformat = "0.1%",
                           tickprefix = "",
@@ -3118,7 +3093,7 @@ output$plot4.2 <- renderPlotly({
 
       layout(title = "",
              legend = list(orientation = "h", x = 0, y = 1.2),
-             xaxis = list(title = ""),
+             xaxis = list(title = "", autorange = "reversed"),
              yaxis = list(title = "",
                           tickformat = "0.1%",
                           tickprefix = "",
@@ -3145,7 +3120,7 @@ output$plot4.2 <- renderPlotly({
                        colors = custom_colors[c("green","med_blue","dark_blue")] %>% unname(),
                        hovertemplate = "%{x}, %{y:.1%}") %>%
       layout(title = "",
-             xaxis = list(title = ""),
+             xaxis = list(title = "", autorange = "reversed"),
              yaxis = list(title = "% of total", tickformat = "0%", dtick = "0.1"),
              barmode = "relative",
              showlegend = TRUE,
