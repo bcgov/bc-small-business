@@ -8,7 +8,7 @@ library(sf)
 library(tidyr)
 
 data <- readRDS("data/data.rds")
-last_updated <- "V1.7 Sep 27, 2023"
+last_updated <- "V1.71 Oct 3, 2023"
 
 
 # Define UI
@@ -184,10 +184,10 @@ ui <-
                    #                       "page 0",
                               fluidRow(
 
-                                box(title = "Figure K1: Small businesses tax rates by province, 2022",
+                                box(title = "Figure 6.1: Small businesses tax rates by province, 2023",
                                     HTML("<p><small><i>This chart is an overview of the small business tax rates across different provinces.</i></small>"), plotlyOutput("plotK1"), width = 10,
                                     br(),
-                                    HTML("<b><small></b> <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
+                                    HTML("<b><small></b> <p><b>Source:</b>B.C. Ministry of Finance / Prepared by BC Stats</small>")
                                     , fluidRow(box(title = HTML("<small><b>Definitions:</b></small>"),
                                                  HTML("<small>
                                                       <p>The lower small business tax rate is applicable to Canadian-controlled private corporations (CCPCs) with active business income eligible for the federal small business deduction. One component of the small business deduction is the business limit.
@@ -195,7 +195,7 @@ ui <-
                                                  collapsible = TRUE, collapsed = TRUE))
                                 ),
 
-                                box(title = "Figure K2: Total building permits per capita, 2022",
+                                box(title = "Figure 6.2: Total building permits per capita, 2022",
                                     HTML("<p><small><i>This chart shows the value of building permits divided by the total population by province.</i></small>"), plotlyOutput("plotK2"), width = 10,
                                     br(),
                                     HTML("<b><small></b> <p><b>Source:</b> Statistics Canada / Prepared by BC Stats</small>")
@@ -206,7 +206,7 @@ ui <-
                                                    collapsible = TRUE, collapsed = TRUE))
                                 ),
 
-                                box(title = "Figure K3: Bankruptcies per 1,000 businesses",
+                                box(title = "Figure 6.3: Business bankruptcies by province, 2022",
                                     HTML("<p><small><i>This chart shows the number of business bankruptcies filed in a year for every 1,000 businesses by province. </i></small>"), plotlyOutput("plotK3"), width = 10,
                                     br(),
                                     HTML("<b><small></b> <p><b>Source:</b> Innovation, Science and Economic Development Canada / Prepared by BC Stats.</small>")
@@ -255,7 +255,7 @@ ui <-
 
                                 ),
 
-                                box(title = "Figure 1.3: Share of businesses by employement size in British Columbia, 2022",
+                                box(title = "Figure 1.3: Share of businesses by employment size in British Columbia, 2022",
                                      HTML("<p><small><i>This chart shows the relative proportion of businesses that are small with employees, small without employees and large.</i></small>"), plotlyOutput("plot1.0.1"), width = 10,
                                     br(),
                                     HTML("<b><small></b> <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
@@ -293,7 +293,7 @@ ui <-
                                     , fluidRow(box(title = HTML("<small><b>Definition:</b></small>"),
                                                    HTML("<small>
                                                       Industries in this chart are grouped using the North American Industry Classification System (NAICS).
-                                                      The North American Industry Classification System (NAICS) is a classification system used in Canada, the United States and Mexico,
+                                                      NAICS is a classification system used in Canada, the United States and Mexico,
                                                       which is designed to provide common definitions of the industrial structure of the three countries.
                                                         NAICS is Statistics Canada’s comprehensive system encompassing all economic activities.  <p></small>"),
                                                    collapsible = TRUE, collapsed = TRUE))
@@ -301,14 +301,14 @@ ui <-
 
                                 box(title = "Figure 1.6: Distribution of small businesses with and without employees by industry, 2022",
                                     HTML("<p><small><i>This chart shows the relative proportion of small businesses in different industries in British Columbia for businesses with and without employees.</i></small>"), plotlyOutput("plot1.3b"), width = 10, br(),
-                                    HTML("<b><small></b> <p><b>Note:</b> Natural Resources* is comprised of the agriculture, forestry,fishing, mining, oil and gas industries.
-                                    <p><b>Note:</b> Self-employment in utilities is less than 1500.
-                                    <p><b>Note:</b> Industries do not sum to 100% as some businesses with employees could not be classified by industry.
+                                    HTML("<b><small></b> <p><b>Note:</b> Natural Resources* is comprised of the agriculture, forestry, fishing, mining, oil and gas industries.
+                                    <p><b>Note:</b> Self-employment in utilities (small businesses with no paid employees) is less than 1,500 and is suppressed for confidentiality reasons.
+                                    <p><b>Note:</b> The total does not sum to 100 per cent as some businesses could not be classified by industry.
                                     <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
                                     , fluidRow(box(title = HTML("<small><b>Definition:</b></small>"),
                                                    HTML("<small>
                                                      Industries in this chart are grouped using the North American Industry Classification System (NAICS).
-                                                      The North American Industry Classification System (NAICS) is a classification system used in Canada, the United States and Mexico,
+                                                      NAICS is a classification system used in Canada, the United States and Mexico,
                                                       which is designed to provide common definitions of the industrial structure of the three countries.
                                                         NAICS is Statistics Canada’s comprehensive system encompassing all economic activities.  <p></small>"),
                                                    collapsible = TRUE, collapsed = TRUE))
@@ -318,13 +318,13 @@ ui <-
                                     HTML("<p><small><i>This chart shows the proportion of small businesses with and without employees within each industry in British Columbia.</i></small>"), plotlyOutput("plot1.4"), width = 10,
                                     br(),
                                     HTML("<small>
-                                   <p><b>Note:</b> Primary is comprised of the agriculture, forestry, fishing, mining, oil and gas industries.
+                                   <p><b>Note:</b> Natural Resources is comprised of the agriculture, forestry, fishing, mining, oil and gas industries.
                                    <p><b>Note:</b> Utilities is not shown because the number of small businesses with employees is <200 and self-employment without paid help is very small and suppressed for confidentiality reasons.
                                     <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
                                     , fluidRow(box(title = HTML("<small><b>Definition:</b></small>"),
                                                    HTML("<small>
                                                       Industries in this chart are grouped using the North American Industry Classification System (NAICS).
-                                                      The North American Industry Classification System (NAICS) is a classification system used in Canada, the United States and Mexico,
+                                                      NAICS is a classification system used in Canada, the United States and Mexico,
                                                       which is designed to provide common definitions of the industrial structure of the three countries.
                                                         NAICS is Statistics Canada’s comprehensive system encompassing all economic activities.  <p></small>"),
                                                    collapsible = TRUE, collapsed = TRUE))
@@ -417,7 +417,7 @@ ui <-
                                     br(),
                                     HTML("<b><small></b> <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
                                 ),
-                                box(HTML("<p><b><center>Feedback:</b> SmallBusinessBranch@gov.bc.ca </center>"), width = 10),
+                                box(HTML("<b><center>Feedback:</b> SmallBusinessBranch@gov.bc.ca </center>"), width = 10),
 
                               )),
 
@@ -436,7 +436,8 @@ ui <-
                                          <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
                                     ,
                                     fluidRow(box(title = HTML("<small><p><b>Definitions:</b></small>"),
-                                                 HTML("<small><b><i>Public sector employees </b></i>are employees in public administration at the federal, provincial, territorial, municipal, First Nations and other Indigenous governments as well as in Crown corporations, liquor control boards, and other government institutions such as schools (including universities), hospitals and public libraries. Private sector employees Includes all employees are those who do not work in a government institution,
+                                                 HTML("<small><b><i>Public sector employees </b></i>are employees in public administration at the federal, provincial, territorial, municipal, First Nations and other Indigenous governments as well as in Crown corporations, liquor control boards, and other government institutions such as schools (including universities), hospitals and public libraries.
+                                                 <br><b><i>Private sector employees</i></b> includes all employees are those who do not work in a government institution,
                                                  or other government controlled business such as Crown corporations, liquor control boards, public education, hospitals and public libraries.
                                          </small>"),
                                                  collapsible = TRUE, collapsed = TRUE))
@@ -498,22 +499,26 @@ ui <-
 
                                  box(title = "Figure 2.8: One-year top and bottom industries for small business employment growth in British Columbia", HTML("<p><small><i>This chart shows the five industries with the largest rate of employment growth in the last  year in British Columbia. It also shows the five industries with the lowest rate of employment growth in the last year.</i></small>"), plotlyOutput("plot2.7a"), width = 10,
                                  br(),
-                                 HTML("<b><small></b> <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
+                                 HTML("<b><small><p>Note:</b> Public administration employment here measures small government entities such as small municipal and Indigenous government organizations.
+                                         <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>"))
+                                     ,
 
-                                ),
 
                                 box(title = "Figure 2.9: Two-year top and bottom industries for small business employment growth in British Columbia", HTML("<p><small><i>This chart shows the five industries with the largest rate of employment growth in the last two years in British Columbia. It also shows the five industries with the lowest rate of employment growth in the last two years.</i></small>"), plotlyOutput("plot2.7b"), width = 10,
                                     br(),
-                                    HTML("<b><small></b> <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
-
-                                ),
+                                    HTML("<b><small><p>Note:</b> Public administration employment here measures small government entities such as small municipal and Indigenous government organizations.
+                                         <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>"))
+                                     ,
 
 
                                 box(title = "Figure 2.10: Five-year top and bottom industries for small business employment growth in British Columbia", HTML("<p><small><i>This chart shows the five industries with the largest rate of employment growth in the last five years in British Columbia. It also shows the five industries with the lowest rate of employment growth in the last five years.</i></small>"), plotlyOutput("plot2.7c"), width = 10,
                                     br(),
-                                    HTML("<b><small></b> <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
-                                ),
-                                box(HTML("<p><b><center>Feedback:</b> SmallBusinessBranch@gov.bc.ca </center>"), width = 10),
+                                    HTML("<b><small><p>Note:</b> Public administration employment here measures small government entities such as small municipal and Indigenous government organizations.
+                                         <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>"))
+                                   ,
+
+
+                                box(HTML("<b><center>Feedback:</b> SmallBusinessBranch@gov.bc.ca </center>"), width = 10),
 
                               )),
 
@@ -541,8 +546,7 @@ ui <-
 
                                  box(title = "Figure 3.1: Self-employment as a per cent of total employment by province, 2022", HTML("<p><small><i>This chart shows the different levels of self-employment as a percentage of total employment across the provinces and compared to the Canadian average. </i></small>"), plotlyOutput("plot3.01"), width = 10,
                                      br(),
-                                     HTML("<b><small></b> <p><b>Note:</b> Excludes self-employed without paid help.
-                                    <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
+                                     HTML("<p><b><small>Source:</b> Statistics Canada / Prepared by BC Stats</small>")
                                      ,
                                      fluidRow(box(title = HTML("<small><p><b>Definitions:</b></small>"),
                                                   HTML("<small><b><i>Self-employed </b></i>are persons whose job consisted mainly of operating a business,
@@ -591,7 +595,10 @@ ui <-
 
                                  box(title = "Figure 3.4: Number of self-employed persons with and without paid help in British Columbia, 2022", HTML("<p><small><i>This chart shows self-employed persons with and without paid help by incorporation status. </i></small>"), plotlyOutput("plot3.1a"), width = 10,
                                      br(),
-                                     HTML("<b><small></b> <p><p><b>Source:</b> Statistics Canada / Prepared by BC Stats.</small>")
+                                     HTML("<b><small>Note:</b> Excludes unpaid family workers
+
+
+                                         <p><b>Source:</b> Statistics Canada / Prepared by BC Stats.</small>")
 
                                      ,
                                      fluidRow(box(title = HTML("<small><p><b>Definitions:</b></small>"),
@@ -608,8 +615,10 @@ ui <-
 
                                  box(title = "Figure 3.5: Number of self-employed persons in British Columbia by incorporation status, 2022", HTML("<p><small><i>This chart shows self-employed persons by incorporation status with and without paid help.  </i></small>"), plotlyOutput("plot3.1b"), width = 10,
                                      br(),
-                                     HTML("<b><small></b> <p><b>Source:</b> Statistics Canada / Prepared by BC Stats.</small>")
+                                     HTML("<b><small>Note:</b> Excludes unpaid family workers
 
+
+                                         <p><b>Source:</b> Statistics Canada / Prepared by BC Stats.</small>")
                                      ,
                                      fluidRow(box(title = HTML("<small><p><b>Definitions:</b></small>"),
                                                   HTML("<small><b><i>Incorporated businesses </b></i>consist of those organized and maintained as legal corporations. A corporation is created (incorporated) by
@@ -624,8 +633,12 @@ ui <-
 
                                  box(title = "Figure 3.6: Number of self-employed with paid help compared to self-employed without paid help, British Columbia, 2017-2022", HTML("<p><small><i>This chart compares the number of self-employed persons with paid help and those without paid help for selected years.</i></small>"), plotlyOutput("plot3.2"), width = 10,
                                      br(),
-                                     HTML("<b><small></b> <p><b>Source:</b> Statistics Canada / Prepared by BC Stats.</small>")
-                                 ),
+                                     HTML("<b><small>Note:</b> Excludes unpaid family workers
+
+
+                                         <p><b>Source:</b> Statistics Canada / Prepared by BC Stats.</small>")
+                                 )
+                                 ,
 
                                  box(title = "Figure 3.7: Age distribution of self-employed workers compared to employees, British Columbia, 2022", HTML("<p><small><i>This chart compares the proportion of persons who are self-employed and those who are employed by age.</i></small>"), plotlyOutput("plot3.3"), width = 10,
                                      br(),
@@ -1067,7 +1080,7 @@ server <- function(input, output, session) {
                        textposition = "none",
                        hoverinfo = 'text') %>%
       layout(xaxis = list(title = ""),
-             yaxis = list(title = "Tax Rate", tickformat = ".1%") ## make y-axis percents
+             yaxis = list(title = "Tax Rate", tickformat = "0.1%") ## make y-axis percents
 
       ) %>% plotly_custom_layout()
 
@@ -1080,14 +1093,16 @@ server <- function(input, output, session) {
   output$plotK2 <- renderPlotly({
 
     ## divide by 100 to be able to make y-axis percents
-    canada_average <- 3316
-
+    canada_average <- 3495
+    data$data_K2$`2022` <- round(data$data_K2$`2022`, 1)
     plot_data <- data$data_K2 %>%
       mutate(Label = paste0(round_half_up(`2022`, digits = 1), "2022"),
 
              Province = factor(Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
                                                     "NB", "NS", "PE", "NL")),
              selected_color = ifelse(Province == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
+
+
 
     footnote <- "<b>Source:</b> Statistics Canada / Prepared by BC Stats"
 
@@ -1096,16 +1111,16 @@ server <- function(input, output, session) {
                        y = ~`2022`,
                        type = "bar",
                        marker = list(color = ~selected_color),
-                       text = ~paste(Province,":",Label),
+                       text = ~paste(Province,":", Label),
                        textposition = "none",
                        hoverinfo = 'text') %>%
-      layout(xaxis = list(title = ""),
-             yaxis = list(title = "", tickformat = "$"), ## make y-axis percents
+      layout(xaxis = list(title = "", tickformat = ""),
+             yaxis = list(title = "",  tickformat = "0,$"), ## make y-axis percents
              shapes = list(hline(canada_average))) %>% ## add line
       add_annotations( ## add canadian average text
         x = 0.35,
         y = 0.85,
-        text = "<b>— All of Canada = $3,316 per capita</b>",
+        text = "<b>— All of Canada = $3,495 per capita</b>",
         xref = "paper",
         yref = "paper",
         xanchor = "left",
@@ -1165,7 +1180,7 @@ server <- function(input, output, session) {
 
     # Create your dataframe with the desired data
     table_data <- data$data_11 %>%
-      mutate(`Per cent of small businesses1` = ifelse(`Per cent of small businesses1` == "-", "0", `Per cent of small businesses1`)) %>%
+      mutate(`Per cent of small businesses` = ifelse(`Per cent of small businesses` == "-", "0", `Per cent of small businesses`)) %>%
       rename_at(vars(ends_with("1")), str_replace_all, "1", "*")
 
     # Create the datatable
@@ -1200,8 +1215,8 @@ server <- function(input, output, session) {
     )  %>%
       ## helper functions for formatting
       formatRound(c("Number of businesses", "Growth 2021-2022 (#)", "Growth 2017-2022 (#)"), mark = ",", digits = 0) %>%  ## add commas to large numbers
-      formatPercentage("Per cent of all businesses*") %>%
-      formatPercentage("Per cent of small businesses*", zero.print = "-") %>%
+      formatPercentage("Per cent of all businesses") %>%
+      formatPercentage("Per cent of small businesses", zero.print = "-") %>%
       formatPercentage(c("Growth 2021-2022 (%)", "Growth 2017-2022 (%)"), digits = 1) %>%
       ## can use any css style in formatStyle by replacing "-" with camel case (e.g., text-align -- textAlign)
       formatStyle(1:ncol(table_data), backgroundColor = "#e6edf4", borderColor = "white") %>%
@@ -1275,7 +1290,7 @@ server <- function(input, output, session) {
                        hovertemplate = "%{y:,} businesses") %>%
       layout(title = "",
              xaxis = list(title = ""),
-             yaxis = list(title = "Employees"),
+             yaxis = list(title = "", tickformat = ","),
              barmode = "relative",
              showlegend = TRUE,
              legend = list(orientation = "h", x = 0, y = 1.3),
@@ -1324,7 +1339,7 @@ server <- function(input, output, session) {
       # Create the plot
     plot1.2a1 <- plot_ly(data = data$data_10, x = ~`1-yr growth`, y = ~`employee count`, type = "bar",
                          orientation = "h",  colors = c("red", "green"),
-                         hoverinfo = "x", width = 600, height = 400) %>%
+                         hoverinfo = "x", width = 750, height = 400) %>%
 
 
     layout(title = "",
@@ -1367,7 +1382,7 @@ server <- function(input, output, session) {
     # Create the plot
     plot1.2a2 <- plot_ly(data = data$data_10, x = ~`2-yr growth`, y = ~`employee count`, type = "bar",
                          orientation = "h",  colors = c("red", "green"),
-                         hoverinfo = "x", width = 600, height = 400) %>%
+                         hoverinfo = "x", width = 750, height = 400) %>%
 
 
       layout(title = "",
@@ -1409,7 +1424,7 @@ server <- function(input, output, session) {
     # Create the plot
     plot1.2a3 <- plot_ly(data = data$data_10, x = ~`5-yr growth`, y = ~`employee count`, type = "bar",
                          orientation = "h",  colors = c("red", "green"),
-                         hoverinfo = "x", width = 600, height = 400) %>%
+                         hoverinfo = "x", width = 750, height = 400) %>%
 
 
     layout(title = "",
@@ -1452,7 +1467,7 @@ server <- function(input, output, session) {
                                                        "Trade", "Other Services", "Transportation & Storage",
                                                        "Business, building and other support services",
                                                        "Information, Culture & Recreation", "Education Services",
-                                                       "Accomodation & Food")))
+                                                       "Accommodation & Food")))
 
     plot1.3a <- plot_ly(data_12, x = ~`%`, type = "bar", y = ~type,
                         marker = list(color = "#005182"), name = "",
@@ -1485,7 +1500,7 @@ server <- function(input, output, session) {
                         marker = list(color = custom_colors[["med_blue"]]),
                         type = "bar",
                         orientation = 'h',
-                        hovertemplate = "%{x}, <50 employees<extra></extra>") %>%
+                        hovertemplate = "%{x}, 1-49 employees<extra></extra>") %>%
 
       add_trace( x = data_13_result$`Small businesses with no paid employees`,
                  y = data_13_result$segment,
@@ -1641,11 +1656,12 @@ server <- function(input, output, session) {
                        y = ~Percent,
                        type = "bar",
                        marker = list(color = ~selected_color),
-                       text = ~paste(Province,":",Label),
+
+                   text = ~paste(Province,":",Label),
                        textposition = "none",
                        hoverinfo = 'text') %>%
       layout(xaxis = list(title = ""),
-             yaxis = list(title = "", tickformat = "0%"), ## make y-axis percents
+             yaxis = list(title = "", tickformat = "0.0%"), ## make y-axis percents
              shapes = list(hline(canada_average))) %>% ## add line
       add_annotations( ## add canadian average text
         x = 0.55,
@@ -1785,7 +1801,7 @@ server <- function(input, output, session) {
                          hovertemplate = "%{y}: %{x:,} businesses<extra></extra>")
 
     plot1.11a <- plot1.11a %>% layout(title = '',
-                                      xaxis = list(title = 'Number of Businesses'),
+                                      xaxis = list(title = 'Number of Businesses', tickformat = "0,"),
                                       yaxis = list(title = "",
                                                    categoryorder = "array",
                                                    categoryarray = levels(data_21a$region)),
@@ -1823,7 +1839,7 @@ server <- function(input, output, session) {
                          hovertemplate = "%{y}: %{x}<extra></extra>")
 
     plot1.11b <- plot1.11b %>% layout(title = '',
-                                      xaxis = list(title = 'Net Change of Businesses'),
+                                      xaxis = list(title = 'Net Change of Businesses', tickformat = "0,"),
                                       yaxis = list(title = "",
                                                    categoryorder = "array",
                                                    categoryarray = levels(data_21b$region)),
@@ -1928,14 +1944,30 @@ server <- function(input, output, session) {
 
     plot2.1 <- plot_ly(data_22, y = ~sector, x = data_22$`%`, type = "bar", marker = list(color = custom_colors), orientation = 'h')
 
-    plot2.1 <- plot2.1 %>% layout(title = '',
-                                  yaxis = list(title = ''),
-                                  xaxis = list(title = '', tickformat = "0.1%"),
-                                  showlegend = FALSE
-    ) %>% plotly_custom_layout()
+    plot2.1 <- plot2.1 %>%
+
+      layout(title = '',
+             xaxis = list(title = "Share of Total Employment", tickformat = ".0%"),
+             yaxis = list(title = ""),
+             showlegend = FALSE) %>%
+
+      add_annotations( ## add requested additional info on chart
+        x = 0,
+        y = 0.99,
+        text = "<b>Total Employment = 2,748,000</b>",
+        xref = "paper",
+        yref = "paper",
+        xanchor = "left",
+        yanchor = "bottom",
+        showarrow = F
+      ) %>%
+      plotly_custom_layout()
 
 
   })
+
+
+
 
   # plot2.3 ----
   output$plot2.3 <- renderPlotly({
@@ -1951,21 +1983,32 @@ server <- function(input, output, session) {
 
     plot2.3 <- plot_ly(data_25, y = ~sector, x = data_25$`%`, type = "bar", marker = list(color = custom_colors), orientation = 'h')
 
-    plot2.3 <- plot2.3 %>% layout(title = '',
-                                  yaxis = list(title = ''),
-                                  xaxis = list(title = '', tickformat = "0.1%"),
-                                  showlegend = FALSE
-    ) %>% plotly_custom_layout()
+    plot2.3 <- plot2.3 %>%
+
+      layout(title = '',
+             xaxis = list(title = "Share of Total Employment", tickformat = ".0%"),
+             yaxis = list(title = ""),
+
+
+
+             showlegend = FALSE) %>%
+
+      add_annotations( ## add requested additional info on chart
+        x = 0,
+        y = 0.99,
+        text = "<b>Total Employment = 2,748,000</b>",
+        xref = "paper",
+        yref = "paper",
+        xanchor = "left",
+        yanchor = "bottom",
+        showarrow = F
+      ) %>%
+      plotly_custom_layout()
+
+
 
 
   })
-
-
-
-
-
-
-
 
 
 
@@ -1993,17 +2036,6 @@ server <- function(input, output, session) {
              hovermode = "x unified",
              ## to show all label regardless of length
              hoverlabel = list(namelength = -1)) # %>%
-      # add_annotations(
-      #   x = 0.04,
-      #   y = 1.01,
-      #   text = "Number of jobs",
-      #   xref = "paper",
-      #   yref = "paper",
-      #   xanchor = "right",
-      #   yanchor = "bottom",
-      #   showarrow = F
-      # )
-
 
     # Display the chart
     plot2.4b %>% plotly_custom_layout()
@@ -2361,7 +2393,7 @@ server <- function(input, output, session) {
 
   # plot3.03a----
   output$plot3.03a <- renderPlotly({
-    bc_average <- 0.008
+    bc_average <- .008
     data_40 <- data$data_40
 
     data_40$`percent` <- data_40$`percent` /100
@@ -2390,7 +2422,7 @@ server <- function(input, output, session) {
                                       add_annotations( ## add BC average text
                                         x = 0.5,
                                         y = .99,
-                                        text = "<b>— Provincial Average +0.8%</b>",
+                                        text = "<b>— Provincial Average 0.8%</b>",
                                         xref = "paper",
                                         yref = "paper",
                                         xanchor = "left",
@@ -2486,6 +2518,8 @@ server <- function(input, output, session) {
 
   output$plot3.2 <- renderPlotly({
 
+    data$data_43$counts <- data$data_43$counts * 1000
+
     plot3.2 <- plot_ly(data$data_43, x = ~years, y = ~counts, color = ~help_type, type = "bar", textposition = 'inside',
                         colors = custom_colors %>% unname()) %>%
 
@@ -2496,8 +2530,7 @@ server <- function(input, output, session) {
            yaxis = list(title = "",
                         tickformat = ",",
                         tickprefix = "",
-                        ticksuffix = "K",
-                        dtick = 100),
+                        ticksuffix = ""),
            barmode = "group", hovermode = "x unified") %>% plotly_custom_layout()
 
 
@@ -2556,7 +2589,8 @@ server <- function(input, output, session) {
                        yaxis = list(
                          tickvals = seq(0, 1, 0.05),
                          ticktext = paste0(seq(0, 100, 5), "%"),
-                         legend = list(title = "Age Group")
+                         legend = list(title = "Age Group"),
+                         height = 700
                        )
     ) %>% plotly_custom_layout()
 
@@ -3240,7 +3274,7 @@ output$plot4.2 <- renderPlotly({
                   borderWidth = styleRow(4, "1px"),
                   borderColor = styleRow(4, "white"),
                   fontWeight = styleRow(4,"bold")) %>%
-      formatStyle(2:7, textAlign = "right") %>%
+      formatStyle(2:7, textAlign = "center") %>%
       formatStyle(8:9, textAlign = "center") %>%
       formatStyle(columns = 1:ncol(table_data),
                   ## use styleRow to select which rows to apply style
@@ -3259,6 +3293,9 @@ output$plot4.2 <- renderPlotly({
     # Create your dataframe with the desired data
     table_data <- data$data_60b %>%
       janitor::remove_empty()
+
+
+
 
 
     # Create the datatable
@@ -3294,7 +3331,7 @@ output$plot4.2 <- renderPlotly({
       formatStyle(1:ncol(table_data),
                   color = styleRow(4, "white"),
                   backgroundColor =styleRow(4, '#0e83b0'),
-                  textAlign = styleRow(4, "right"),
+                  textAlign = styleRow(4, "center"),
                   borderStyle = styleRow(4, "solid"),
                   borderWidth = styleRow(4, "1px"),
                   borderColor = styleRow(4, "white"),
