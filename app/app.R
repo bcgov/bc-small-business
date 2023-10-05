@@ -8,7 +8,7 @@ library(sf)
 library(tidyr)
 
 data <- readRDS("data/data.rds")
-last_updated <- "V1.71 Oct 3, 2023"
+last_updated <- "V1.72 Oct 3, 2023"
 
 
 # Define UI
@@ -206,7 +206,7 @@ ui <-
                                                    collapsible = TRUE, collapsed = TRUE))
                                 ),
 
-                                box(title = "Figure 6.3: Business bankruptcies by province, 2022",
+                                box(title = "Figure 6.3: Business bankruptcy rates by province, 2022",
                                     HTML("<p><small><i>This chart shows the number of business bankruptcies filed in a year for every 1,000 businesses by province. </i></small>"), plotlyOutput("plotK3"), width = 10,
                                     br(),
                                     HTML("<b><small></b> <p><b>Source:</b> Innovation, Science and Economic Development Canada / Prepared by BC Stats.</small>")
@@ -235,7 +235,7 @@ ui <-
                                     HTML("<p><small><i>This table provides a breakdown of the number of businesses in British Columbia by employment size.</i></small>"), DTOutput("datatable1"),
                                     style = "border: 1px solid white;", width = 10,
                                     br(),
-                                    HTML("<b><small>Note: </b>Figures do not add to 100% due to rounding.
+                                    HTML("<b><small>Note: </b>Figures do not add to 100 per cent due to rounding.
                                          <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
                                     , fluidRow(box(title = HTML("<small><p><b>Definitions:</b></small>"),
                                                    HTML("<small>
@@ -301,7 +301,7 @@ ui <-
 
                                 box(title = "Figure 1.6: Distribution of small businesses with and without employees by industry, 2022",
                                     HTML("<p><small><i>This chart shows the relative proportion of small businesses in different industries in British Columbia for businesses with and without employees.</i></small>"), plotlyOutput("plot1.3b"), width = 10, br(),
-                                    HTML("<b><small></b> <p><b>Note:</b> Natural Resources* is comprised of the agriculture, forestry, fishing, mining, oil and gas industries.
+                                    HTML("<b><small></b> <p><b>Note:</b> Natural Resources is comprised of the agriculture, forestry, fishing, mining, oil and gas industries.
                                     <p><b>Note:</b> Self-employment in utilities (small businesses with no paid employees) is less than 1,500 and is suppressed for confidentiality reasons.
                                     <p><b>Note:</b> The total does not sum to 100 per cent as some businesses could not be classified by industry.
                                     <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
@@ -642,25 +642,25 @@ ui <-
 
                                  box(title = "Figure 3.7: Age distribution of self-employed workers compared to employees, British Columbia, 2022", HTML("<p><small><i>This chart compares the proportion of persons who are self-employed and those who are employed by age.</i></small>"), plotlyOutput("plot3.3"), width = 10,
                                      br(),
-                                     HTML("<b><small> <p>Notes</b>: Figures do not add to 100% due to rounding.
+                                     HTML("<b><small> <p>Notes</b>: Figures do not add to 100 per cent due to rounding.
                                           <p><b><b>Source:</b></b> Statistics Canada / Prepared by BC Stats</small>")
 
                                  ),
 
                                  box(title = "Figure 3.8: Share of British Columbian workers who are self-employed, by age", HTML("<p><small><i>This chart shows the distribution of persons who are self-employed by age over time.</i></small>"), plotlyOutput("plot3.3b"), width = 10,
                                      br(),
-                                     HTML("<b><small> <p>Notes</b>: Figures do not add to 100% due to rounding.
+                                     HTML("<b><small> <p>Notes</b>: Figures do not add to 100 per cent due to rounding.
                                           <p><b><b>Source:</b></b> Statistics Canada / Prepared by BC Stats</small>")
                                  ),
 
 
                                  box(title = "Figure 3.9: Hours worked, self-employed compared to employees, 2022", HTML("<p><small><i>This chart compares the number of usual hours worked per week for self-employed indivuals and employees.</i></small>"), plotlyOutput("plot3.7a"), width = 10,
                                      br(),
-                                     HTML("<b><small></b> <p><b>Note:</b> Figures do not add to 100% due to rounding.<p>
+                                     HTML("<b><small></b> <p><b>Note:</b> Figures do not add to 100 per cent due to rounding.<p>
                                      <b>Source:</b> Statistics Canada / Prepared by BC Stats.</small>"),
 
                                      fluidRow(box(title = HTML("<small><p><b>Definition:</b></small>"),
-                                                  HTML("<small>Usual work hours refers to the employed person's normal paid or contract hours, not counting any overtime.
+                                                  HTML("<small><b>Usual work hours</b> refers to the employed person's normal paid or contract hours, not counting any overtime.
                                          </small>"),
                                                   collapsible = TRUE, collapsed = TRUE))
                                  ),
@@ -697,7 +697,7 @@ ui <-
 
                                box(title = "Figure 3.12: Hours worked among self-employed men and women, British Columbia, 2022", HTML("<p><small><i>This chart compares the number of usual hours worked per week for self-employed persons by sex.</i></small>"), plotlyOutput("plot3.7b"), width = 10,
                                    br(),
-                                   HTML("<b><small></b> <p><b>Note:</b> Figures do not add to 100% due to rounding.<p>
+                                   HTML("<b><small></b> <p><b>Note:</b> Figures do not add to 100 per cent due to rounding.<p>
                                      <b>Source:</b> Statistics Canada / Prepared by BC Stats.</small>"),
 
 
@@ -879,9 +879,10 @@ ui <-
                                    HTML("<b><small></b> <p><b>Note:</b> Figures do not add to 100 per cent due to rounding.</small>"),
                                    HTML("<b><small></b> <p><b>Source:</b> Statistics Canada / Prepared by BC Stats.</small>"),
                                    fluidRow(box(title = HTML("<small><p><b>Definition:</b></small>"),
-                                                HTML("<small>An <b><i>exporter</b></i> is defined as an enterprise that sells goods out of the country, regardless of the value of exports.
-                                                 <p>
-                                         </small>"),
+                                                HTML("<small>An <b><i>exporter</b></i> is defined as an enterprise that sells goods out of the country, regardless of the value of exports.<p>
+                                                      <p><b><i>Value of exports</b></i> is measured in Canadian dollars. Value is as recorded in official customs documents, typically the actual selling price used for company accounting purposes. Canadian exports to overseas countries
+                                                      are valued including domestic freight charges to the port of exit point but excluding discounts and allowances, and international insurance. <p>
+                                             </small>"),
                                                 collapsible = TRUE, collapsed = TRUE))
 
                                ),
@@ -1183,11 +1184,11 @@ server <- function(input, output, session) {
               ## add caption
               # caption = htmltools::tags$caption(
               #   style = 'caption-side: bottom;',
-              #   '*Figures do not add to 100% due to rounding'
+              #   '*Figures do not add to 100 per cent due to rounding'
               # )
     )  %>%
       ## helper functions for formatting
-      formatRound(c("Number of businesses", "Growth 2021-2022 (#)", "Growth 2017-2022 (#)"), mark = ",", digits = 0) %>%  ## add commas to large numbers
+      formatRound(c("Growth 2017-2022 (#)"), mark = ",", digits = 0) %>%  ## add commas to large numbers
       formatPercentage("Per cent of all businesses") %>%
       formatPercentage("Per cent of small businesses", zero.print = "-") %>%
       formatPercentage(c("Growth 2021-2022 (%)", "Growth 2017-2022 (%)"), digits = 1) %>%
@@ -1201,7 +1202,18 @@ server <- function(input, output, session) {
                   color = styleRow(rows = c(8,15,16), "#015082"),
                   fontWeight = styleRow(rows = c(8,15,16), "bold")) %>%
       formatStyle(columns = 1, paddingLeft = styleRow(rows = c(2,3), "30px"))
+
+
+
+
   })
+
+
+
+
+
+
+
 
 
   # plot1.0.1----
@@ -1312,7 +1324,8 @@ server <- function(input, output, session) {
       # Create the plot
     plot1.2a1 <- plot_ly(data = data$data_10, x = ~`1-yr growth`, y = ~`employee count`, type = "bar",
                          orientation = "h",  colors = c("red", "green"),
-                         hoverinfo = "x", width = 750, height = 400) %>%
+                         hoverinfo = "x"
+                         ) %>%
 
 
     layout(title = "",
@@ -1320,7 +1333,8 @@ server <- function(input, output, session) {
            yaxis = list(title = ""),
            xaxis = list(title = "", tickformat = "0"),
 
-           barmode = "relative") %>% plotly_custom_layout()
+           barmode = "relative",
+           hovermode = 'y') %>% plotly_custom_layout()
 
 
   })
@@ -1355,7 +1369,7 @@ server <- function(input, output, session) {
     # Create the plot
     plot1.2a2 <- plot_ly(data = data$data_10, x = ~`2-yr growth`, y = ~`employee count`, type = "bar",
                          orientation = "h",  colors = c("red", "green"),
-                         hoverinfo = "x", width = 750, height = 400) %>%
+                         hoverinfo = "x") %>% # removed , width = 550, height = 400
 
 
       layout(title = "",
@@ -1363,7 +1377,8 @@ server <- function(input, output, session) {
              yaxis = list(title = ""),
              xaxis = list(title = "", tickformat = "0"),
 
-             barmode = "relative") %>% plotly_custom_layout()
+             barmode = "relative",
+             hovermode = 'y') %>% plotly_custom_layout()
 
   })
 
@@ -1397,7 +1412,7 @@ server <- function(input, output, session) {
     # Create the plot
     plot1.2a3 <- plot_ly(data = data$data_10, x = ~`5-yr growth`, y = ~`employee count`, type = "bar",
                          orientation = "h",  colors = c("red", "green"),
-                         hoverinfo = "x", width = 750, height = 400) %>%
+                         hoverinfo = "x") %>%
 
 
     layout(title = "",
@@ -1405,7 +1420,8 @@ server <- function(input, output, session) {
            yaxis = list(title = ""),
            xaxis = list(title = "", tickformat = "0"),
 
-           barmode = "relative") %>% plotly_custom_layout()
+           barmode = "relative",
+           hovermode = "y") %>% plotly_custom_layout()
 
   })
 
@@ -1449,7 +1465,7 @@ server <- function(input, output, session) {
     plot1.3a <- layout(plot1.3a,
                        legend = list(orientation = "h", x = -2, y = 1.2),
                        xaxis = list(title = "", tickformat = '0.1%'),
-                       yaxis = list(title = "", tickvals = ~type, ticktext = custom_ticktext)
+                       yaxis = list(title = "", tickvals = ~type, ticktext = custom_ticktext), hovermode = 'y'
     ) %>% plotly_custom_layout()
 
   })
@@ -1484,7 +1500,7 @@ server <- function(input, output, session) {
     plot1.3b <- layout(plot1.3b,
                        legend = list(orientation = "h", x = 0, y = 1.2, traceorder = "reversed"),
                        xaxis = list(title = "", tickformat = '0.1%'),
-                       bargap = .3
+                       bargap = .3, hovermode = 'y'
 
 
     ) %>% plotly_custom_layout()
@@ -1885,7 +1901,7 @@ server <- function(input, output, session) {
               # ## add caption
               # caption = htmltools::tags$caption(
               #   style = 'caption-side: bottom;',
-              #   '*Figures do not add to 100% due to rounding'
+              #   '*Figures do not add to 100 per cent due to rounding'
               # )
     )  %>%
       ## helper functions for formatting
@@ -1907,6 +1923,13 @@ server <- function(input, output, session) {
   # plot2.1 ----
   output$plot2.1 <- renderPlotly({
 
+
+    custom_colors5 <- c(yellow= "#fcb814", light_green = "#95c1b2", light_blue =  "#92b5d2", green = "#15987b",
+                       med_blue = "#0e83b0", dark_blue = "#015082",navy = "#143047")
+
+
+
+
     data_22 <- data$data_22
 
     data_22$sector <- factor(data_22$sector, levels = rev(c("Small Business",
@@ -1915,7 +1938,7 @@ server <- function(input, output, session) {
 
     footnote <- "<b>Source:</b> Statistics Canada / Prepared by BC Stats"
 
-    plot2.1 <- plot_ly(data_22, y = ~sector, x = data_22$`%`, type = "bar", marker = list(color = custom_colors), orientation = 'h')
+    plot2.1 <- plot_ly(data_22, y = ~sector, x = data_22$`%`, type = "bar", marker = list(color = custom_colors5), orientation = 'h')
 
     plot2.1 <- plot2.1 %>%
 
@@ -2602,7 +2625,7 @@ server <- function(input, output, session) {
       add_annotations( ## add canadian average text
         x = 0.2,
         y = 0.9,
-        text = "<b>— Canadian Average = 37.1%</b>",
+        text = "<b>— Canadian Average 37.1%</b>",
         xref = "paper",
         yref = "paper",
         xanchor = "left",
@@ -2691,7 +2714,7 @@ output$plot3.7a <- renderPlotly({
 
     df <- data$data_48
 
-    df$counts <- df$counts *100
+    df$counts <- df$counts * 100
 
     df %>%
 
@@ -2701,7 +2724,7 @@ output$plot3.7a <- renderPlotly({
                color=~work_week, colors = custom_colors[c("med_blue","dark_blue")] %>% unname()) %>%
       add_bars(orientation = 'h'
                 ,
-                hovertemplate = "%{customdata:.1f}%"
+            hovertemplate = "%{customdata:.1f}%"   #   hoverinfo= "x"
       ) %>%
       layout(barmode = 'relative',
              legend = list(orientation = "h", x = .0, y = 1.2, traceorder = "normal"),
@@ -2823,8 +2846,11 @@ output$plot3.7a <- renderPlotly({
 
 output$plot4.2 <- renderPlotly({
 
-  plot4.2 <- plot_ly(data$data_51, x = ~help_type, y = ~counts, color = ~type, type = "bar", textposition = 'inside',
+  data$data_51$earningstype = factor(data$data_51$earningstype, levels = c("Small business", "Large business"))
+
+      plot4.2 <- plot_ly(data$data_51, x = ~help_type, y = ~counts, color = ~earningstype, type = "bar", textposition = 'inside',
                       colors = custom_colors %>% unname()) %>%
+
 
 
   layout(title = "",
@@ -2834,9 +2860,9 @@ output$plot4.2 <- renderPlotly({
          barmode = "group") %>%
 
   add_annotations( ## add canadian average text
-    x = 0.01,
-    y = 0.79,
-    text = "<b>Wage gap 2017 = $9,400 (-17.9%)</b>",
+    x = 0.5,
+    y = 0.99,
+    text = "<b>Wage gap 2022 = $10,300 (-16.1%)</b>",
     xref = "paper",
     yref = "paper",
     xanchor = "left",
@@ -2844,9 +2870,9 @@ output$plot4.2 <- renderPlotly({
     showarrow = F
   ) %>%
     add_annotations( ## add canadian average text
-      x = 0.5,
-      y = 0.99,
-      text = "<b>Wage gap 2022 = $10,300 (-16.1%)</b>",
+      x = 0.01,
+      y = 0.79,
+      text = "<b>Wage gap 2017 = $9,400 (-17.9%)</b>",
       xref = "paper",
       yref = "paper",
       xanchor = "left",
@@ -3070,7 +3096,7 @@ output$plot4.2 <- renderPlotly({
 
 
       layout(title = "",
-             legend = list(orientation = "h", x = 0, y = 1.2),
+             legend = list(orientation = "h", x = 0, y = 1.2, traceorder = "reversed"),
              xaxis = list(title = "",  autorange = "reversed"),
              yaxis = list(title = "",
                           tickformat = "0.1%",
@@ -3092,7 +3118,7 @@ output$plot4.2 <- renderPlotly({
 
 
       layout(title = "",
-             legend = list(orientation = "h", x = 0, y = 1.2),
+             legend = list(orientation = "h", x = 0, y = 1.2, traceorder = "reversed"),
              xaxis = list(title = "", autorange = "reversed"),
              yaxis = list(title = "",
                           tickformat = "0.1%",
@@ -3120,11 +3146,12 @@ output$plot4.2 <- renderPlotly({
                        colors = custom_colors[c("green","med_blue","dark_blue")] %>% unname(),
                        hovertemplate = "%{x}, %{y:.1%}") %>%
       layout(title = "",
-             xaxis = list(title = "", autorange = "reversed"),
-             yaxis = list(title = "% of total", tickformat = "0%", dtick = "0.1"),
+             xaxis = list(title = ""),
+             yaxis = list(title = "% of total", tickformat = "0%", dtick = "0.1", autorange = "reversed"),
              barmode = "relative",
              showlegend = TRUE,
-             legend = list(orientation = "h", x = 0, y = 1.3))
+
+             legend = list(orientation = "h", x = 0, y = 1.3, traceorder = "reversed"))
 
     # Display the chart
     plot5.4 %>% plotly_custom_layout()
@@ -3218,6 +3245,8 @@ output$plot4.2 <- renderPlotly({
               ## change default class (table-striped) to cell-border (borders around all cells, no striping)
               class = 'cell-border',
               options = list(
+
+
                 scrollX = TRUE,  ordering = FALSE,
 
                 paging = FALSE,
@@ -3366,6 +3395,7 @@ output$plot4.2 <- renderPlotly({
               ## change default class (table-striped) to cell-border (borders around all cells, no striping)
               class = 'cell-border',
               options = list(
+
                 scrollX = TRUE,
                 paging = FALSE,
                 dom = 't',
@@ -3398,7 +3428,8 @@ output$plot4.2 <- renderPlotly({
        ## can use any css style in formatStyle by replacing "-" with camel case (e.g., text-align -- textAlign)
       formatStyle(1:7, backgroundColor = "#e6edf4", borderColor = "white") %>%
        formatStyle(c(2,5), textAlign = "right") %>%
-       formatStyle(c(3,4,6,7),textAlign = "center")
+       formatStyle(c(3,4,6,7),textAlign = "center") %>%
+      formatStyle(columns = 1, paddingLeft = styleRow(rows = c(7,8,9,10), "30px"))
 
   })
 
