@@ -8,7 +8,7 @@ library(sf)
 library(tidyr)
 
 data <- readRDS("data/data.rds")
-last_updated <- "V1.72 Oct 3, 2023"
+last_updated <- "V1.81 Oct 6, 2023"
 
 
 # Define UI
@@ -1188,7 +1188,7 @@ server <- function(input, output, session) {
               # )
     )  %>%
       ## helper functions for formatting
-      formatRound(c("Growth 2017-2022 (#)"), mark = ",", digits = 0) %>%  ## add commas to large numbers
+      formatRound(c("Number of businesses", "Growth 2017-2022 (#)"), mark = ",", digits = 0) %>%  ## add commas to large numbers
       formatPercentage("Per cent of all businesses") %>%
       formatPercentage("Per cent of small businesses", zero.print = "-") %>%
       formatPercentage(c("Growth 2021-2022 (%)", "Growth 2017-2022 (%)"), digits = 1) %>%
@@ -1455,7 +1455,7 @@ server <- function(input, output, session) {
                                                        "Health & Social Services", "Finance, Insurance & Real Estate",
                                                        "Trade", "Other Services", "Transportation & Storage",
                                                        "Business, building and other support services",
-                                                       "Information, Culture & Recreation", "Education Services",
+                                                       "Information, Culture & Recreation", "Educational Services",
                                                        "Accommodation & Food")))
 
     plot1.3a <- plot_ly(data_12, x = ~`%`, type = "bar", y = ~type,
