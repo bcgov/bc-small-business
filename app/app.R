@@ -8,7 +8,7 @@ library(sf)
 library(tidyr)
 
 data <- readRDS("data/data.rds")
-last_updated <- "V1.81 Oct 6, 2023"
+last_updated <- "V1.82 Nov 6, 2023"
 
 
 # Define UI
@@ -288,7 +288,8 @@ ui <-
                                     HTML("<p><small><i>This chart shows the relative proportion of small businesses in different industries in British Columbia.</i></small>"), plotlyOutput("plot1.3a"), width = 10, br(),
                                     HTML("<b><small></b>
                                     <p><b>Note:</b> Natural Resources* is comprised of the agriculture, forestry, fishing, mining, oil and gas industries.
-                                    <p><b>Note:</b> The total does not sum to 100% as some businesses with employees could not be classified by industry.
+                                    <p><b>Note:</b> Utilities comprises <0.1 per cent of small businesses.
+                                    <p><b>Note:</b> The total does not sum to 100 per cent as some businesses with employees could not be classified by industry.
                                     <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
                                     , fluidRow(box(title = HTML("<small><b>Definition:</b></small>"),
                                                    HTML("<small>
@@ -689,7 +690,7 @@ ui <-
                                     <p><b>Source:</b> Statistics Canada / Prepared by BC Stats</small>")
                                ),
 
-                               box(title = "Figure 3.11: Proportion of self-employed who are women, by region, 2017 and 2022", HTML("<p><small><i>This chart shows shows the proportion of self-employed persons who identify as women by development region.</i></small>"), plotlyOutput("plot3.5"), width = 10,
+                               box(title = "Figure 3.11: Proportion of self-employed who are women, by region, 2017 and 2022", HTML("<p><small><i>This chart shows the proportion of self-employed persons who identify as women by development region.</i></small>"), plotlyOutput("plot3.5"), width = 10,
                                    br(),
                                    HTML("<b><small></b> <p><b>Note:</b> Includes unpaid family workers.
                                   <p><b>Source:</b>  Statistics Canada / Prepared by BC Stats.</small>")
