@@ -14,6 +14,7 @@ Small Business in BC Dashboard. This is a dashboard intended to deliver similar 
 
 https://www2.gov.bc.ca/assets/gov/employment-business-and-economic-development/business-management/small-business/sb_profile.pdf
 
+You can find the app here: https://bcstats.shinyapps.io/bc-sb-profile-2023/
 
 ### Project Status
 
