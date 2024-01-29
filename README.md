@@ -10,7 +10,7 @@ Small Business in BC
 
 ### Overview
 
-Small Business in BC Dashboard. This is a dashboard intended to replace the content in previous years published as a PDF and most recently under the title of Small Business Profile 2022.
+Small Business in BC Dashboard. This is a dashboard intended to deliver similar data to previous years that were published PDF form.  Prior to the development of the dashboard, the most recent version appeared under title of Small Business Profile 2022 in the link below:
 
 https://www2.gov.bc.ca/assets/gov/employment-business-and-economic-development/business-management/small-business/sb_profile.pdf
 
