@@ -19,6 +19,9 @@ https://www2.gov.bc.ca/assets/gov/employment-business-and-economic-development/b
 
 ### Getting Help or Reporting an Issue
 
+[![Lifecycle:Stable](https://img.shields.io/badge/Lifecycle-Stable-97ca00)](<Redirect-URL>)
+The project is in a reliable state and major changes are unlikely to happen.
+
 To report bugs/issues/feature requests, please file an [issue](https://github.com/bcgov/sb-bc/issues/).
 
 ### How to Contribute
