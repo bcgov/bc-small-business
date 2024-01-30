@@ -8,7 +8,11 @@ library(sf)
 library(tidyr)
 
 data <- readRDS("data/data.rds")
+
 last_updated <- "January 30, 2024"
+
+last_updated <- "Nov 27, 2023"
+
 
 
 # Define UI
@@ -372,7 +376,7 @@ ui <-
                                 ),
 
                                 box(title = "Figure 1.10: Small businesses per 1,000 people by province, 2022",
-                                    HTML("<p><small><i>This chart shows the number of small business 1,000 people by province.</i></small>"), plotlyOutput("plot1.7"), width = 10,
+                                    HTML("<p><small><i>This chart shows the number of small businesses per 1,000 people by province.</i></small>"), plotlyOutput("plot1.7"), width = 10,
                                     br(),
                                     HTML("<b><small></b> <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>")
 
@@ -1629,12 +1633,11 @@ server <- function(input, output, session) {
   # plot1.7----
   output$plot1.7 <- renderPlotly({
 
-    ## divide by 100 to be able to make y-axis percents
-    canada_average <- 0.823
+    ## next time, this should come from the data instead
+    canada_total <- 81.7
 
     plot_data <- data$data_17 %>%
-      mutate(Label = paste0(round_half_up(Percent, digits = 1), "%"),
-             Percent = Percent/ 100,
+      mutate(Label = round_half_up(Percent, digits = 1) %>% format(nsmall = 1),
              Province = factor(Province, levels = c("BC", "AB", "SK", "MB", "ON", "QC",
                                                     "NB", "NS", "PEI", "NL")),
              selected_color = ifelse(Province == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
@@ -1651,12 +1654,12 @@ server <- function(input, output, session) {
                        textposition = "none",
                        hoverinfo = 'text') %>%
       layout(xaxis = list(title = ""),
-             yaxis = list(title = "", tickformat = "0.0%"), ## make y-axis percents
-             shapes = list(hline(canada_average))) %>% ## add line
-      add_annotations( ## add canadian average text
+             yaxis = list(title = ""),# tickformat = "0.0%"), ## make y-axis percents - this is not a percent it is per 1000 people
+             shapes = list(hline(canada_total))) %>% ## add line
+      add_annotations( ## add canadian total text
         x = 0.55,
         y = 0.85,
-        text = "<b>— Canadian Average 81.7%</b>",
+        text = "<b>— Canadian Total 81.7</b>",
         xref = "paper",
         yref = "paper",
         xanchor = "left",
