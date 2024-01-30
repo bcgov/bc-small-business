@@ -11,7 +11,6 @@ data <- readRDS("data/data.rds")
 
 last_updated <- "January 30, 2024"
 
-last_updated <- "Nov 27, 2023"
 
 
 
