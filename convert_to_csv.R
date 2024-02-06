@@ -5,7 +5,7 @@ library(openxlsx)
 library(janitor)
 
 # Excel file ----
-excel_file <- "Small business profile 2023 Data.xlsx"
+excel_file <- file.path("app", "data", "bc-Small-business-profile-data.xlsx")
 
 # Functions ----
 remove_empty <- function (data) { ## altered from janitor::remove empty to include " " and "" as empty cells
@@ -459,10 +459,42 @@ excel_data$`6.3` <- excel_data$`6.3` %>%
   rename_cols() %>%
   format()
 
-## Combine ----
+## Appendix 1 ----
+Appendix_1 <- excel_data$`Appendix 1`  %>% select(-Sheet)
+change_title <- Appendix_1[1,][!is.na(Appendix_1[1,])]
+
+a1_header <- matrix(nrow = 2, ncol = ncol(Appendix_1)-1)
+a1_header[1,1] <- names(Appendix_1)[1] %>% str_replace_all("\\.", " ")
+a1_header[2,ncol(a1_header)] <- change_title
+
+Appendix_1 <- Appendix_1 %>%
+  row_to_names(2) %>%
+  mutate(`%` = scales::label_percent(accuracy = 0.000000001)(as.numeric(`%`))) ## to format as percents in csv output
+
+write_csv(as.data.frame(a1_header), "Small business profile 2023 Data - Appendix 1.csv", col_names = FALSE, na = "")
+write_csv(Appendix_1, "Small business profile 2023 Data - Appendix 1.csv", append = TRUE, col_names = TRUE, na = "")
+
 excel_data$`Appendix 1` <- NULL
+
+## Appendix 2 ----
+Appendix_2 <- excel_data$`Appendix2`  %>% select(-Sheet)
+
+a2_header <- data.frame(header =  names(Appendix_2)[1] %>%
+                          str_replace_all("\\.\\.", " (") %>%
+                          str_replace_all("\\.$", ")") %>%
+                          str_replace_all("\\.", " "))
+
+Appendix_2 <- Appendix_2 %>%
+  row_to_names(1) %>%
+  mutate_at(vars(-c(1,2)), as.numeric) %>%
+  mutate_at(vars(-c(1,2)), round_half_up, digits = 1)
+
+write_csv(a2_header, "Small business profile 2023 Data - Appendix 2.csv", col_names = FALSE, na = "")
+write_csv(Appendix_2, "Small business profile 2023 Data - Appendix 2.csv", append = TRUE, col_names = TRUE, na = "")
+
 excel_data$Appendix2 <- NULL
 
+## Combine ----
 data <- map_df(excel_data, bind_rows) %>%
   select(Topic_id, Topic, Category, Category2, Variable, Value, Note, Source) %>%
   mutate(Note = str_replace_all(Note, "“|”", '"'), ## right/left quotation marks with regular ones
