@@ -2,6 +2,7 @@
 .Rhistory
 *.Rproj
 scratch*
+config*
 
 rsconnect
 
