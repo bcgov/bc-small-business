@@ -12,14 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
-
-
-
-
-
-
-## Some useful libraries
+# Load required libraries
 library(shiny)
 library(shinydashboard)
 library(tidyverse)  ## for data manipulation
@@ -28,10 +21,13 @@ library(lubridate)  ## for dates
 library(ggplot2)    ## for plots
 library(plotly)     ## for interactive plots
 library(DT)         ## for tables
+library(sf)
+library(scales)
 
 
-## Add code that you want to run before your app launches
+last_updated <- "February 23, 2024"
 
-### e.g., reading in data
+data <- readRDS("data/data.rds")
+data_new <- readRDS("data/data_new.rds")
 
 
