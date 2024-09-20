@@ -272,7 +272,7 @@ excel_data$`2.8` <- excel_data_raw$`2.8-2.10` %>%
 topic_2 <- excel_data_raw$`2.8-2.10`[excel_data_raw$`2.8-2.10` %>% pull(1) %>% str_detect("Two-year"), 1]
 
 excel_data$`2.9` <- excel_data_raw$`2.8-2.10` %>%
-  slice(c(14,25, nrow(.)-1, nrow(.))) %>%
+  slice(c(14:25, nrow(.)-1, nrow(.))) %>%
   rename_cols() %>%
   mutate(Topic_id = "2.9",
          Topic = topic_2,
@@ -546,13 +546,15 @@ write_csv(Appendix_2, paste("Small business profile", year, "Data - Appendix 2.c
 ## Combine ----
 data <- map_df(excel_data, bind_rows) %>%
   select(Topic_id, Topic, Category, Category2, Variable, Value, Note, Source) %>%
-  mutate(Variable = str_replace_all(Variable, "[:space:]*\r\n", " "),
+  mutate(Category = str_remove_all(Category, "amp;") %>%
+           str_replace_all("Thompson/Okanagan", "Thompson-Okanagan"),
+         Variable = str_replace_all(Variable, "[:space:]*\r\n", " "),
          Note = str_replace_all(Note, "“|”", '"'), ## right/left quotation marks with regular ones
          Topic_id = ifelse(nchar(Topic_id) == 3, str_replace_all(Topic_id, "\\.", "\\.0"), Topic_id)) %>% ## change ids to 1.01 and 1.10 format
   arrange(Topic_id)
 
 write_csv(data, paste("Small business profile", year, "Data.csv"), na = "")
-
+saveRDS(data, "app/data/data_new.rds")
 
 
 
