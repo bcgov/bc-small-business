@@ -24,10 +24,18 @@ library(DT)         ## for tables
 library(sf)
 library(scales)
 
+last_updated <- "October 15, 2024"
 
-last_updated <- "February 23, 2024"
-
-data <- readRDS("data/data.rds")
+#data <- readRDS("data/data.rds")
 data_new <- readRDS("data/data_new.rds")
+data_geo <- readRDS("data/data_geo.rds")
+
+## get the figure titles
+figs <- data_new %>%
+  distinct(Topic_id, Topic) %>%
+  mutate(Figure = paste0("Figure ", str_replace_all(Topic_id, "\\.0", "\\."), ":"),
+         fig_text = paste(Figure, Topic)) %>%
+  select(Topic_id, fig_text)
+
 
 
