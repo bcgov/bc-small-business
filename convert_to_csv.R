@@ -467,6 +467,16 @@ excel_data$`5.3-5.4` <- excel_data_raw$`5.3-5.4` %>%
   mutate(Category2 = c(rep("Small business exporters", 3), rep("Large business exporters", 3), "", "")) %>%
   format(Category2 = TRUE)
 
+excel_data$`5.3` <- excel_data$`5.3-5.4` %>%
+  filter(Variable == "Share of businesses") %>%
+  mutate(Topic_id = "5.3")
+
+excel_data$`5.4` <- excel_data$`5.3-5.4` %>% filter(Variable != "Share of businesses") %>%
+  mutate(Topic_id = "5.4",
+         Topic = str_replace_all(Topic, "business exporters", "export value"))
+
+excel_data$`5.3-5.4` <- NULL
+
 ## 5.5 ----
 excel_data$`5.5` <- excel_data_raw$`5.5` %>%
   rename_cols() %>%
