@@ -167,12 +167,21 @@ html, body, h1, h2, h3, h4, h5, h6 {
 }
 
 table.dataTable thead .sorting:before{
-  color : yellow;
-  opacity: .7 !important;
+  color : white;
+  opacity: 1 !important;
 }
 table.dataTable thead .sorting:after{
-  color : yellow;
-  opacity: .7 !important;
+  color : white;
+  opacity: 1 !important;
+}
+
+table.dataTable thead .sorting.tab5:before{
+  color : #015082;
+  opacity: 1 !important;
+}
+table.dataTable thead .sorting.tab5:after{
+  color : #015082;
+  opacity: 1 !important;
 }
 
 
