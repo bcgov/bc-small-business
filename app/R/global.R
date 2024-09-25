@@ -30,17 +30,19 @@ last_updated <- "October 15, 2024"
 data_new <- readRDS("data/data_new.rds")
 data_geo <- readRDS("data/data_geo.rds")
 
+# set action button text
+actionbtn_text <<- "View this figure on its own"
+
 # get the figure titles
-figs <- data_new %>%
+figs <<- data_new %>%
   distinct(Topic_id, Topic) %>%
   mutate(Figure = paste0("Figure ", str_replace_all(Topic_id, "\\.0", "\\."), ":"),
          fig_text = paste(Figure, Topic)) %>%
   select(Topic_id, fig_text)
 
-# set action button text
-actionbtn_text <- "View this figure on its own"
-
-
+source("fig_code/figure_notes.R")
+source("fig_code/figure_list_main.R")
+source("fig_code/figure_list_standalone.R")
 
 
 

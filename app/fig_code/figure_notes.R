@@ -77,7 +77,7 @@ fig_notes <- list(
                              HTML("<small><p>Industries in this chart are grouped using the North American Industry Classification System (NAICS).
                                    NAICS is a classification system used in Canada, the United States and Mexico,
                                    which is designed to provide common definitions of the industrial structure of the three countries.
-                                   NAICS is Statistics Canada’s comprehensive system encompassing all economic activities.<p></small>")))),
+                                   NAICS is Statistics Canada’s comprehensive system encompassing all economic activities.</p></small>")))),
 
   fig1.07_desc = HTML("<small><p><i>This chart shows the proportion of small businesses with and without employees within each industry in British Columbia.</i></p></small>"),
   fig1.07_note = tagList(HTML("<small><p><b>Note:</b> Natural Resources is comprised of the agriculture, forestry, fishing, mining, oil and gas industries.</p>
@@ -143,13 +143,13 @@ fig_notes <- list(
   fig1.10_note = HTML("<small><p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</p></small>"),
 
   fig1.11_desc = HTML("<small><p><i>This chart illustrates the annual change in the number of small business for each province.</i></p></small>"),
-  fig1.11_note = HTML("<small><p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>"),
+  fig1.11_note = HTML("<small><p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</p></small>"),
 
   fig1.12_desc = HTML("<small><p><i>This chart provides a detailed view of small business and population distributions around British Columbia.</i></p></small>"),
   fig1.12_note = HTML("<small><p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</p></small>"),
 
   fig1.13_desc = HTML("<small><p><i>This chart shows the number of small business per 1,000 people by development region in British Columbia.</i></p></small>"),
-  fig1.13_note = HTML("<small><p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</small>"),
+  fig1.13_note = HTML("<small><p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</p></small>"),
 
   fig1.14_desc = HTML("<small><p><i>This chart shows the number of small businesses by development region in British Columbia.</i></p></small>"),
   fig1.14_note = HTML("<small><p><b>Note:</b> Figures do not add to the total because the provincial total includes some businesses for which the region is unknown.</p>
@@ -259,7 +259,7 @@ fig_notes <- list(
                                    farm or professional practice, alone or in partnership.</p></small>")))),
 
   fig3.03a_desc = HTML("<small><p><i>This chart shows the growth of self-employment in the last year by development region.</i></p></small>"),
-  fig3.03b_desc = HTML("<small><p><i>This chart shows the growth of self-employment in the last five years by development region.</i></></small>"),
+  fig3.03b_desc = HTML("<small><p><i>This chart shows the growth of self-employment in the last five years by development region.</i></p></small>"),
   fig3.03_note = tagList(HTML("<small><p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</p></small>"),
                          fluidRow(
                            box(
@@ -505,7 +505,7 @@ fig_notes <- list(
                              HTML("<small><p><b><i>Export intensity</b></i> refers to the average value of exports per business.</p></small>")))),
 
   fig5.07_desc = HTML("<small><p><i>This chart shows the value of goods exported by British Columbia exporters by size over time.</i></p></small>"),
-  fig5.07_note = tagList(HTML("<small><p><b>Source:</b> Statistics Canada / Prepared by BC Stats.</small>"),
+  fig5.07_note = tagList(HTML("<small><p><b>Source:</b> Statistics Canada / Prepared by BC Stats.</p></small>"),
                          fluidRow(
                            box(
                              title = HTML("<small><b>Definitions:</b></small>"),
