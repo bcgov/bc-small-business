@@ -204,9 +204,7 @@ ui <-
                 conditionalPanel(condition = "false",
                                  selectInput("fig_selection",
                                              label = "fig_selection",
-                                             choices = c(paste0("fig",unique(data_new$Topic_id)),
-                                                         ## add in the figures that have a/b/c indices
-                                                         "fig1.04a", "fig1.04b", "fig1.04c", "fig3.03a", "fig3.03b", "fig5.01a", "fig5.01b"),
+                                             choices = paste0("fig",unique(data_new$Topic_id)),
                                              multiple = TRUE)),
                 fluidRow(
                   uiOutput("fig_filter")
@@ -247,6 +245,64 @@ server <- function(input, output, session) {
   observeEvent(input$explore7, updateTabItems(session, "tabs", selected = "indigenous"))
   observeEvent(input$explore8, updateTabItems(session, "tabs", selected = "page4"))
   observeEvent(input$explore9, updateTabItems(session, "tabs", selected = "page5"))
+
+  ## standalone buttons
+  observeEvent(input$btn1.01, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig1.01') })
+  observeEvent(input$btn1.02, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig1.02') })
+  observeEvent(input$btn1.03, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig1.03') })
+  observeEvent(input$btn1.04, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig1.04') })
+  observeEvent(input$btn1.05, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig1.05') })
+  observeEvent(input$btn1.06, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig1.06') })
+  observeEvent(input$btn1.07, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig1.07') })
+  observeEvent(input$btn1.08, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig1.08') })
+  observeEvent(input$btn1.09, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig1.09') })
+  observeEvent(input$btn1.10, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig1.10') })
+  observeEvent(input$btn1.11, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig1.11') })
+  observeEvent(input$btn1.12, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig1.12') })
+  observeEvent(input$btn1.13, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig1.13') })
+  observeEvent(input$btn1.14, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig1.14') })
+  observeEvent(input$btn1.15, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig1.15') })
+  observeEvent(input$btn2.01, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig2.01') })
+  observeEvent(input$btn2.02, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig2.02') })
+  observeEvent(input$btn2.03, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig2.03') })
+  observeEvent(input$btn2.04, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig2.04') })
+  observeEvent(input$btn2.05, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig2.05') })
+  observeEvent(input$btn2.06, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig2.06') })
+  observeEvent(input$btn2.07, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig2.07') })
+  observeEvent(input$btn2.08, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig2.08') })
+  observeEvent(input$btn2.09, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig2.09') })
+  observeEvent(input$btn2.10, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig2.10') })
+  observeEvent(input$btn3.01, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig3.01') })
+  observeEvent(input$btn3.02, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig3.02') })
+  observeEvent(input$btn3.03, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig3.03') })
+  observeEvent(input$btn3.04, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig3.04') })
+  observeEvent(input$btn3.05, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig3.05') })
+  observeEvent(input$btn3.06, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig3.06') })
+  observeEvent(input$btn3.07, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig3.07') })
+  observeEvent(input$btn3.08, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig3.08') })
+  observeEvent(input$btn3.09, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig3.09') })
+  observeEvent(input$btn3.10, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig3.10') })
+  observeEvent(input$btn3.11, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig3.11') })
+  observeEvent(input$btn3.12, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig3.12') })
+  observeEvent(input$btn3.13, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig3.13') })
+  observeEvent(input$btn4.01, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig4.01') })
+  observeEvent(input$btn4.02, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig4.02') })
+  observeEvent(input$btn4.03, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig4.03') })
+  observeEvent(input$btn4.04, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig4.04') })
+  observeEvent(input$btn4.05, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig4.05') })
+  observeEvent(input$btn4.06, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig4.06') })
+  observeEvent(input$btn5.01, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig5.01') })
+  observeEvent(input$btn5.02, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig5.02') })
+  observeEvent(input$btn5.03, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig5.03') })
+  observeEvent(input$btn5.04, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig5.04') })
+  observeEvent(input$btn5.05, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig5.05') })
+  observeEvent(input$btn5.06, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig5.06') })
+  observeEvent(input$btn5.07, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig5.07') })
+  observeEvent(input$btn6.01, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig6.01') })
+  observeEvent(input$btn6.02, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig6.02') })
+  observeEvent(input$btn6.03, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig6.03') })
+
+  output$fig_filter <- renderUI(fig_list_standalone[input$fig_selection])
 
   ## download button ----
   output$download_data <- downloadHandler(
