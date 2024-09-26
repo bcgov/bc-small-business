@@ -241,8 +241,6 @@ server <- function(input, output, session) {
 
   bcsapps::bcsFooterServer(id = "footer")
 
-
-
   ## update date ----
   output$update_date <- renderUI(
     paste("Last updated:", last_updated)
@@ -316,6 +314,7 @@ server <- function(input, output, session) {
   observeEvent(input$btn6.02, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig6.02') })
   observeEvent(input$btn6.03, { updateTabItems(session, 'tabs', selected = 'page7'); updateSelectInput(session, 'fig_selection', selected = 'fig6.03') })
 
+  ## standalone figure tab ----
   output$fig_filter <- renderUI(fig_list_standalone[input$fig_selection])
 
   ## download button ----
@@ -812,7 +811,7 @@ server <- function(input, output, session) {
       filter(Variable == max(Variable)) %>%
       mutate(Value = as.numeric(Value))
 
-    canada_average <- prep_data %>%
+    canada <- prep_data %>%
       filter(Category == "Cda") %>%
       pull(Value)
 
@@ -824,31 +823,13 @@ server <- function(input, output, session) {
         selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"])
       )
 
-    plot_ly(plot_data,
-      x = ~Category,
-      y = ~Value,
-      type = "bar",
-      marker = list(color = ~selected_color),
-      text = ~ paste0(Category, ": ", Label),
-      textposition = "none",
-      hoverinfo = "text"
-    ) %>%
-      layout(
-        xaxis = list(title = "", tickformat = ""),
-        yaxis = list(title = "", tickformat = ","),
-        shapes = list(hline(canada_average))
-      ) %>% ## add line
-      add_annotations( ## add canadian average text
-        x = 0.55,
-        y = 0.85,
-        text = paste("<b>— Canadian Total:", canada_average, "</b>"),
-        xref = "paper",
-        yref = "paper",
-        xanchor = "left",
-        yanchor = "bottom",
-        showarrow = F
-      ) %>%
-      plotly_custom_layout()
+    provincial_chart(plot_data,
+                     hline_val = canada,
+                     label = paste("Canadian Total:", canada),
+                     label_x = 0.55,
+                     label_y = 0.85,
+                     y_title = "",
+                     y_tickformat = ",")
   })
 
   # plot1.11 ----
@@ -859,7 +840,7 @@ server <- function(input, output, session) {
       filter(Variable == max(Variable)) %>%
       mutate(Value = as.numeric(Value))
 
-    canada_average <- prep_data %>%
+    canada <- prep_data %>%
       filter(Category == "Cda") %>%
       pull(Value)
 
@@ -871,31 +852,13 @@ server <- function(input, output, session) {
         selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"])
       )
 
-    plot_ly(plot_data,
-      x = ~Category,
-      y = ~Value,
-      type = "bar",
-      marker = list(color = ~selected_color),
-      text = ~ paste0(Category, ": ", Label),
-      textposition = "none",
-      hoverinfo = "text"
-    ) %>%
-      layout(
-        xaxis = list(title = "", tickformat = ""),
-        yaxis = list(title = "", tickformat = "0%"),
-        shapes = list(hline(canada_average))
-      ) %>% ## add line
-      add_annotations( ## add canadian average text
-        x = 0.09,
-        y = 0.63,
-        text = paste("<b>— Canadian Average:", percent(canada_average, accuracy = 0.1), "</b>"),
-        xref = "paper",
-        yref = "paper",
-        xanchor = "left",
-        yanchor = "bottom",
-        showarrow = F
-      ) %>%
-      plotly_custom_layout()
+    provincial_chart(plot_data,
+                     hline_val = canada,
+                     label = paste("Canadian Average:", percent(canada, accuracy = 0.1)),
+                     label_x = 0.09,
+                     label_y = 0.63,
+                     y_title = "",
+                     y_tickformat = "0%")
   })
 
   # plot1.12 ----
@@ -1271,7 +1234,7 @@ server <- function(input, output, session) {
       filter(Topic_id == "2.05") %>%
       mutate(Value = as.numeric(Value))
 
-    canada_average <- prep_data %>%
+    canada <- prep_data %>%
       filter(Category == "CA") %>%
       pull(Value)
 
@@ -1283,31 +1246,13 @@ server <- function(input, output, session) {
         selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"])
       )
 
-    plot_ly(plot_data,
-      x = ~Category,
-      y = ~Value,
-      type = "bar",
-      marker = list(color = ~selected_color),
-      text = ~ paste0(Category, ": ", Label),
-      textposition = "none",
-      hoverinfo = "text"
-    ) %>%
-      layout(
-        xaxis = list(title = "", tickformat = ""),
-        yaxis = list(title = "% Gowth", tickformat = "0%"),
-        shapes = list(hline(canada_average))
-      ) %>% ## add line
-      add_annotations( ## add canadian average text
-        x = 0,
-        y = 0.59,
-        text = paste("<b>— Canadian Average:", percent(canada_average, accuracy = 0.1), "</b>"),
-        xref = "paper",
-        yref = "paper",
-        xanchor = "left",
-        yanchor = "bottom",
-        showarrow = F
-      ) %>%
-      plotly_custom_layout()
+    provincial_chart(plot_data,
+                     hline_val = canada,
+                     label = paste("Canadian Average:", percent(canada, accuracy = 0.1)),
+                     label_x = 0,
+                     label_y = 0.59,
+                     y_title = "% Growth",
+                     y_tickformat = "0%")
   })
 
   # plot2.06 ----
@@ -1317,7 +1262,7 @@ server <- function(input, output, session) {
       filter(Topic_id == "2.06") %>%
       mutate(Value = as.numeric(Value))
 
-    canada_average <- prep_data %>%
+    canada <- prep_data %>%
       filter(Category == "CA") %>%
       pull(Value)
 
@@ -1329,31 +1274,13 @@ server <- function(input, output, session) {
         selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"])
       )
 
-    plot_ly(plot_data,
-      x = ~Category,
-      y = ~Value,
-      type = "bar",
-      marker = list(color = ~selected_color),
-      text = ~ paste0(Category, ": ", Label),
-      textposition = "none",
-      hoverinfo = "text"
-    ) %>%
-      layout(
-        xaxis = list(title = "", tickformat = ""),
-        yaxis = list(title = "% Growth", tickformat = "0%"),
-        shapes = list(hline(canada_average))
-      ) %>% ## add line
-      add_annotations( ## add canadian average text
-        x = 0,
-        y = 0.59,
-        text = paste("<b>— Canadian Average:", percent(canada_average, accuracy = 0.1), "</b>"),
-        xref = "paper",
-        yref = "paper",
-        xanchor = "left",
-        yanchor = "bottom",
-        showarrow = F
-      ) %>%
-      plotly_custom_layout()
+    provincial_chart(plot_data,
+                     hline_val = canada,
+                     label = paste("Canadian Average:", percent(canada, accuracy = 0.1)),
+                     label_x = 0,
+                     label_y = 0.59,
+                     y_title = "% Growth",
+                     y_tickformat = "0%")
   })
 
   # plot2.07 ----
@@ -1363,7 +1290,7 @@ server <- function(input, output, session) {
       filter(Topic_id == "2.07") %>%
       mutate(Value = as.numeric(Value) / 100)
 
-    canada_average <- prep_data %>%
+    canada <- prep_data %>%
       filter(Category == "CA") %>%
       pull(Value)
 
@@ -1375,31 +1302,13 @@ server <- function(input, output, session) {
         selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"])
       )
 
-    plot_ly(plot_data,
-      x = ~Category,
-      y = ~Value,
-      type = "bar",
-      marker = list(color = ~selected_color),
-      text = ~ paste0(Category, ": ", Label),
-      textposition = "none",
-      hoverinfo = "text"
-    ) %>%
-      layout(
-        xaxis = list(title = "", tickformat = ""),
-        yaxis = list(title = "", tickformat = "0%"),
-        shapes = list(hline(canada_average))
-      ) %>% ## add line
-      add_annotations( ## add canadian average text
-        x = 0,
-        y = 0.95,
-        text = paste("<b>— Canadian Average:", percent(canada_average, accuracy = 0.1), "</b>"),
-        xref = "paper",
-        yref = "paper",
-        xanchor = "left",
-        yanchor = "bottom",
-        showarrow = F
-      ) %>%
-      plotly_custom_layout()
+    provincial_chart(plot_data,
+                     hline_val = canada,
+                     label = paste("Canadian Average:", percent(canada, accuracy = 0.1)),
+                     label_x = 0,
+                     label_y = 0.95,
+                     y_title = "",
+                     y_tickformat = "0%")
   })
 
   # plot2.08 ----
@@ -1510,7 +1419,7 @@ server <- function(input, output, session) {
       filter(Variable == max(Variable)) %>%
       mutate(Value = as.numeric(Value))
 
-    canada_average <- prep_data %>%
+    canada <- prep_data %>%
       filter(Category == "Canada") %>%
       pull(Value)
 
@@ -1522,31 +1431,13 @@ server <- function(input, output, session) {
         selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"])
       )
 
-    plot_ly(plot_data,
-      x = ~Category,
-      y = ~Value,
-      type = "bar",
-      marker = list(color = ~selected_color),
-      text = ~ paste0(Category, ": ", Label),
-      textposition = "none",
-      hoverinfo = "text"
-    ) %>%
-      layout(
-        xaxis = list(title = "", tickformat = ""),
-        yaxis = list(title = "", tickformat = "0%"),
-        shapes = list(hline(canada_average))
-      ) %>% ## add line
-      add_annotations( ## add canadian average text
-        x = 0.55,
-        y = 0.85,
-        text = paste("<b>— Canadian Average:", percent(canada_average, accuracy = 0.1), "</b>"),
-        xref = "paper",
-        yref = "paper",
-        xanchor = "left",
-        yanchor = "bottom",
-        showarrow = F
-      ) %>%
-      plotly_custom_layout()
+    provincial_chart(plot_data,
+                     hline_val = canada,
+                     label = paste("Canadian Average:", percent(canada, accuracy = 0.1)),
+                     label_x = 0.55,
+                     label_y = 0.85,
+                     y_title = "",
+                     y_tickformat = "0%")
   })
 
   # plot3.02 ----
@@ -1557,7 +1448,7 @@ server <- function(input, output, session) {
       filter(Variable == max(Variable)) %>%
       mutate(Value = as.numeric(Value))
 
-    canada_average <- prep_data %>%
+    canada <- prep_data %>%
       filter(Category == "CA") %>%
       pull(Value)
 
@@ -1569,31 +1460,13 @@ server <- function(input, output, session) {
         selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"])
       )
 
-    plot_ly(plot_data,
-      x = ~Category,
-      y = ~Value,
-      type = "bar",
-      marker = list(color = ~selected_color),
-      text = ~ paste0(Category, ": ", Label),
-      textposition = "none",
-      hoverinfo = "text"
-    ) %>%
-      layout(
-        xaxis = list(title = "", tickformat = ""),
-        yaxis = list(title = "", tickformat = "0%"),
-        shapes = list(hline(canada_average))
-      ) %>% ## add line
-      add_annotations( ## add canadian average text
-        x = 0.75,
-        y = 0.5,
-        text = paste("<b>— Canadian Average:", percent(canada_average, accuracy = 0.1), "</b>"),
-        xref = "paper",
-        yref = "paper",
-        xanchor = "left",
-        yanchor = "bottom",
-        showarrow = F
-      ) %>%
-      plotly_custom_layout()
+    provincial_chart(plot_data,
+                     hline_val = canada,
+                     label = paste("Canadian Average:", percent(canada, accuracy = 0.1)),
+                     label_x = 0.75,
+                     label_y = 0.5,
+                     y_title = "",
+                     y_tickformat = "0%")
   })
 
   # plot3.03a ----
@@ -1890,7 +1763,7 @@ server <- function(input, output, session) {
       filter(Variable == max(Variable)) %>%
       mutate(Value = as.numeric(Value))
 
-    canada_average <- prep_data %>%
+    canada <- prep_data %>%
       filter(Category == "Cda") %>%
       pull(Value)
 
@@ -1902,31 +1775,13 @@ server <- function(input, output, session) {
         selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"])
       )
 
-    plot_ly(plot_data,
-      x = ~Category,
-      y = ~Value,
-      type = "bar",
-      marker = list(color = ~selected_color),
-      text = ~ paste0(Category, ": ", Label),
-      textposition = "none",
-      hoverinfo = "text"
-    ) %>%
-      layout(
-        xaxis = list(title = "", tickformat = ""),
-        yaxis = list(title = "", tickformat = "0%"),
-        shapes = list(hline(canada_average))
-      ) %>% ## add line
-      add_annotations( ## add canadian average text
-        x = 0.15,
-        y = 0.9,
-        text = paste("<b>— Canadian Average:", percent(canada_average, accuracy = 0.1), "</b>"),
-        xref = "paper",
-        yref = "paper",
-        xanchor = "left",
-        yanchor = "bottom",
-        showarrow = F
-      ) %>%
-      plotly_custom_layout()
+    provincial_chart(plot_data,
+                     hline_val = canada,
+                     label = paste("Canadian Average:", percent(canada, accuracy = 0.1)),
+                     label_x = 0.15,
+                     label_y = 0.9,
+                     y_title = "",
+                     y_tickformat = "0%")
   })
 
   # plot3.11 ----
@@ -2034,7 +1889,7 @@ server <- function(input, output, session) {
       filter(Variable == max(Variable)) %>%
       mutate(Value = as.numeric(Value))
 
-    canada_average <- prep_data %>%
+    canada <- prep_data %>%
       filter(Category == "Canada") %>%
       pull(Value)
 
@@ -2046,31 +1901,13 @@ server <- function(input, output, session) {
         selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"])
       )
 
-    plot_ly(plot_data,
-      x = ~Category,
-      y = ~Value,
-      type = "bar",
-      marker = list(color = ~selected_color),
-      text = ~ paste0(Category, ": ", Label),
-      textposition = "none",
-      hoverinfo = "text"
-    ) %>%
-      layout(
-        xaxis = list(title = "", tickformat = ""),
-        yaxis = list(title = "", tickformat = "0%"),
-        shapes = list(hline(canada_average))
-      ) %>% ## add line
-      add_annotations( ## add canadian average text
-        x = 0.2,
-        y = 0.9,
-        text = paste("<b>— Canadian Average:", percent(canada_average), "</b>"),
-        xref = "paper",
-        yref = "paper",
-        xanchor = "left",
-        yanchor = "bottom",
-        showarrow = F
-      ) %>%
-      plotly_custom_layout()
+    provincial_chart(plot_data,
+                     hline_val = canada,
+                     label = paste("Canadian Average:", percent(canada, accuracy = 0.1)),
+                     label_x = 0.2,
+                     label_y = 0.9,
+                     y_title = "",
+                     y_tickformat = "0%")
   })
 
   # plot4.02 ----
@@ -2247,7 +2084,7 @@ server <- function(input, output, session) {
       filter(Topic_id == "4.06") %>%
       mutate(Value = as.numeric(Value))
 
-    canada_average <- prep_data %>%
+    canada <- prep_data %>%
       filter(Category == "CDA") %>%
       pull(Value)
 
@@ -2259,31 +2096,13 @@ server <- function(input, output, session) {
         selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"])
       )
 
-    plot_ly(plot_data,
-      x = ~Category,
-      y = ~Value,
-      type = "bar",
-      marker = list(color = ~selected_color),
-      text = ~ paste0(Category, ": ", Label),
-      textposition = "none",
-      hoverinfo = "text"
-    ) %>%
-      layout(
-        xaxis = list(title = "", tickformat = ""),
-        yaxis = list(title = "", tickformat = "0%"),
-        shapes = list(hline(canada_average))
-      ) %>% ## add line
-      add_annotations( ## add canadian average text
-        x = 0.2,
-        y = 0.89,
-        text = paste("<b>— Canadian Average:", percent(canada_average, accuracy = 0.1), "</b>"),
-        xref = "paper",
-        yref = "paper",
-        xanchor = "left",
-        yanchor = "bottom",
-        showarrow = F
-      ) %>%
-      plotly_custom_layout()
+    provincial_chart(plot_data,
+                     hline_val = canada,
+                     label = paste("Canadian Average:", percent(canada, accuracy = 0.1)),
+                     label_x = 0.2,
+                     label_y = 0.89,
+                     y_title = "",
+                     y_tickformat = "0%")
   })
 
   # datatable5.01a ----
@@ -2598,7 +2417,7 @@ server <- function(input, output, session) {
       filter(Topic_id == "5.06" & Variable == "Exports intensity") %>%
       mutate(Value = as.numeric(Value))
 
-    canada_average <- prep_data %>%
+    canada <- prep_data %>%
       filter(Category == "CA") %>%
       pull(Value)
 
@@ -2610,31 +2429,13 @@ server <- function(input, output, session) {
         selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"])
       )
 
-    plot_ly(plot_data,
-      x = ~Category,
-      y = ~Value,
-      type = "bar",
-      marker = list(color = ~selected_color),
-      text = ~ paste0(Category, ": ", Label),
-      textposition = "none",
-      hoverinfo = "text"
-    ) %>%
-      layout(
-        xaxis = list(title = "", tickformat = ""),
-        yaxis = list(title = "$ Millions per Business", tickformat = "$"),
-        shapes = list(hline(canada_average))
-      ) %>% ## add line
-      add_annotations( ## add canadian average text
-        x = 0.6,
-        y = 0.27,
-        text = paste("<b>— Canada:", dollar(canada_average, accuracy = 0.1), "million</b>"),
-        xref = "paper",
-        yref = "paper",
-        xanchor = "left",
-        yanchor = "bottom",
-        showarrow = F
-      ) %>%
-      plotly_custom_layout()
+    provincial_chart(plot_data,
+                     hline_val = canada,
+                     label = paste("Canada:", dollar(canada, accuracy = 0.1), "million"),
+                     label_x = 0.6,
+                     label_y = 0.27,
+                     y_title = "$ Millions per Business",
+                     y_tickformat = "$")
   })
 
   # plot5.07 ----
@@ -2683,20 +2484,9 @@ server <- function(input, output, session) {
         selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"])
       )
 
-    plot_ly(plot_data,
-      x = ~Category,
-      y = ~Value,
-      type = "bar",
-      marker = list(color = ~selected_color),
-      text = ~ paste0(Category, ": ", Label),
-      textposition = "none",
-      hoverinfo = "text"
-    ) %>%
-      layout(
-        xaxis = list(title = ""),
-        yaxis = list(title = "Tax Rate", tickformat = "0.1%")
-      ) %>%
-      plotly_custom_layout()
+    provincial_chart(plot_data,
+                     y_title = "Tax Rate",
+                     y_tickformat = "0.1%")
   })
 
   # plot6.02 ----
@@ -2707,7 +2497,7 @@ server <- function(input, output, session) {
       filter(Variable == max(Variable)) %>%
       mutate(Value = as.numeric(Value))
 
-    canada_average <- prep_data %>%
+    canada <- prep_data %>%
       filter(Category == "Canada") %>%
       pull(Value)
 
@@ -2719,31 +2509,13 @@ server <- function(input, output, session) {
         selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"])
       )
 
-    plot_ly(plot_data,
-      x = ~Category,
-      y = ~Value,
-      type = "bar",
-      marker = list(color = ~selected_color),
-      text = ~ paste0(Category, ": ", Label),
-      textposition = "none",
-      hoverinfo = "text"
-    ) %>%
-      layout(
-        xaxis = list(title = "", tickformat = ""),
-        yaxis = list(title = "", tickformat = "$0,"),
-        shapes = list(hline(canada_average))
-      ) %>% ## add line
-      add_annotations( ## add canadian average text
-        x = 0.35,
-        y = 0.85,
-        text = paste("<b>— All of Canada:", dollar(canada_average, accuracy = 1), "per capita</b>"),
-        xref = "paper",
-        yref = "paper",
-        xanchor = "left",
-        yanchor = "bottom",
-        showarrow = F
-      ) %>%
-      plotly_custom_layout()
+    provincial_chart(plot_data,
+                     hline_val = canada,
+                     label = paste("All of Canada:", dollar(canada, accuracy = 1), "per capita"),
+                     label_x = 0.35,
+                     label_y = 0.85,
+                     y_title = "",
+                     y_tickformat = "$")
   })
 
   # plot6.03 ----
@@ -2754,7 +2526,7 @@ server <- function(input, output, session) {
       filter(Variable == max(Variable)) %>%
       mutate(Value = 100 * as.numeric(Value)) ## Check on this
 
-    canada_average <- prep_data %>%
+    canada <- prep_data %>%
       filter(Category == "CAN") %>%
       pull(Value)
 
@@ -2766,32 +2538,13 @@ server <- function(input, output, session) {
         selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"])
       )
 
-    plot_ly(plot_data,
-      x = ~Category,
-      y = ~Value,
-      type = "bar",
-      marker = list(color = ~selected_color),
-      text = ~ paste0(Category, ": ", Label),
-      textposition = "none",
-      hoverinfo = "text"
-    ) %>%
-      layout(
-        xaxis = list(title = ""),
-        yaxis = list(title = "", tickformat = ".1f"),
-        shapes = list(hline(canada_average))
-      ) %>% ## add line
-      ## add canadian average text
-      add_annotations(
-        x = 0.05,
-        y = 0.33,
-        text = paste("<b>Canadian Average:", round_half_up(canada_average, digits = 1), "</b>"),
-        xref = "paper",
-        yref = "paper",
-        xanchor = "left",
-        yanchor = "bottom",
-        showarrow = F
-      ) %>%
-      plotly_custom_layout()
+    provincial_chart(plot_data,
+                     hline_val = canada,
+                     label = paste("Canadian Average:", round_half_up(canada, digits = 1)),
+                     label_x = 0.05,
+                     label_y = 0.33,
+                     y_title = "",
+                     y_tickformat = ".1f")
   })
 }
 
