@@ -70,21 +70,26 @@ ui <-
                       width = 4,
                       div(
                         style = "margin-bottom:43px",
-                        HTML("<bottom>There were 513,300 businesses in B.C. in 2022. Of these, 98 per cent (<b>504,200</b>) were <b>small businesses with fewer than 50 employees</b></bottom>."),
+                        HTML("<bottom>There were 534,400 businesses in B.C. in 2023. Of these,
+                              98 per cent (<b>524,900</b>) were <b>small businesses with fewer
+                              than 50 employees</b></bottom>."),
                         actionButton("explore1", "Explore further", icon = icon("line-chart"), class = "home-tab-btn"))),
                     box(
                       title = list(icon = icon("line-chart"), "Small business growth"),
                       width = 4,
                       div(
                         style = "margin-bottom:43px",
-                        HTML("Overall, there was a new 0.2 per cent or <b>1,020 increase in the number of small businesses in 2022</b>. Between 2017 and 2022, the number of small businesses in B.C. grew by 3.1 per cent, for a new increase of 15,100 businesses."),
+                        HTML("Overall, there was a 4.1 per cent or <b>20,720 increase
+                              in the number of small businesses in 2023</b>. Between 2018 and 2023,
+                              the number of small businesses in B.C. grew by 3.2 per cent,
+                              for an increase of 16,410 businesses."),
                         actionButton("explore2", "Explore further", icon = icon("line-chart"), class = "home-tab-btn"))),
                     box(
                       title = list(icon = icon("usd"), "Contribution to the economy"),
                       width = 4,
                       div(
                         style = "margin-bottom:43px",
-                        HTML("In 2022, B.C.'s small business sector generate aproximately <b>33 per cent</b> of provincial GDP."),
+                        HTML("In 2023, <b>34 per cent</b> of B.C.’s GDP was attributable to small business activities."),
                         actionButton("explore3", "Explore further", icon = icon("usd"), class = "home-tab-btn")))
                 )),
                 fluidRow( # row 2 of landing page boxes
@@ -95,21 +100,26 @@ ui <-
                       width = 4,
                       div(
                         style = "margin-bottom:43px",
-                        HTML("Small businesses in B.C. employed around <b>1,135,300 people</b> in 2022. This accounts for 51 per cent of private sector jobs in the province."),
+                        HTML("Small businesses in B.C. employed around <b>1,139,900 people</b> in 2023.
+                              This accounts for 41 per cent of the workforce, or 51 per cent of private sector
+                              jobs in the province."),
                         actionButton("explore4", "Explore further", icon = icon("users"), class = "home-tab-btn"))),
                     box(
                       title = list(icon = icon("user"), "Self-employment growth"),
                       width = 4,
                       div(
                         style = "margin-bottom:43px",
-                        HTML("In 2022, there were <b>423,800 self-employed people</b> in B.C., 0.8 per cent higher than in 2021. However, self-employment fell by 0.9 per cent compared to 2017."),
+                        HTML("In 2023, there were <b>447,800 self-employed people</b> in B.C.,
+                              5.7 per cent higher than in 2022. Additionally, self-employment in B.C. grew 0.9 per cent
+                              compared to 2018."),
                         actionButton("explore5", "Explore further", icon = icon("user"), class = "home-tab-btn"))),
                     box(
                       title = list(icon = icon("user"), "Self-employment for women"),
                       width = 4,
                       div(
                         style = "margin-bottom:43px",
-                        HTML("In 2022, <b>38.3 per cent</b> of all self-employed people in B.C. were <b>women</b>, ranking fourth among provinces."),
+                        HTML("In 2023, <b>39.1 per cent</b> of all self-employed people in B.C. were <b>women</b>,
+                              ranking fourth among provinces."),
                         actionButton("explore6", "Explore further", icon = icon("user"), class = "home-tab-btn")))
                 )),
                 fluidRow( # row 3 of landing page boxes
@@ -120,21 +130,25 @@ ui <-
                       width = 4,
                       div(
                         style = "margin-bottom:43px",
-                        HTML("In 2022, only <b>9.5 per cent of all Indigenous workers were self-employed</b>, compared to a self-employment rate of 15.7 per cent for non-Indigenous workers."),
+                        HTML("In 2023, <b>10.3 per cent of all Indigenous workers were self-employed</b>,
+                              compared to a self-employment rate of 16.3 per cent for non-Indigenous workers."),
                         actionButton("explore7", "Explore further", icon = icon("user"), class = "home-tab-btn"))),
                     box(
                       title = list(icon = icon("usd"), "Small business wages"),
                       width = 4,
                       div(
                         style = "margin-bottom:43px",
-                        HTML("Small business employees earned an <b>average annual salary of $53,800</b> in 2022, around $10,300 less than the $64,100 earned by the average large business employee."),
+                        HTML("Small business employees in B.C. earned an <b>average annual salary of $55,900</b> in 2023,
+                              around $10,800 less than the $66,700 earned by the average large business employee."),
                         actionButton("explore8", "Explore further", icon = icon("usd"), class = "home-tab-btn"))),
                     box(
                       title = list(icon = icon("truck"), "Small business exporters"),
                       width = 4,
                       div(
                         style = "margin-bottom:43px",
-                        HTML("In 2022 there were <b>6,555</b> BC businesses with fewer than 50 employees that <b>exported goods to international destinations</b>, accounting for 86 per cent of all exporting firms."),
+                        HTML("In 2023 there were <b>6,699 B.C. businesses with fewer than 50 employees</b> that
+                              <b>exported goods to international destinations</b>, accounting for 86 per cent of
+                              all exporting firms."),
                         actionButton("explore9", "Explore further", icon = icon("truck"), class = "home-tab-btn")))
               ))), ## home tab end ----
               tabItem( ## page 1 tab start ----
