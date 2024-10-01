@@ -231,7 +231,7 @@ ui <-
     )
   )
 
-# Define server logic
+# Define server logic ----
 server <- function(input, output, session) {
 
   observeEvent(input$tabs, shinyjs::runjs("window.scrollTo(0,0)"))
@@ -326,16 +326,12 @@ server <- function(input, output, session) {
   )
 
   ## color definition ----
+  default_color <- "#1f77b4"
+
   custom_colors <- c(
     yellow = "#fcb814", light_green = "#95c1b2", green = "#15987b",
     light_blue = "#92b5d2", med_blue = "#0e83b0", dark_blue = "#015082",
     navy = "#143047"
-  )
-
-  custom_colors_rgb <- list(
-    yellow = c(252, 184, 20), light_green = c(149, 193, 178), green = c(21, 152, 123),
-    light_blue = c(146, 181, 210), med_blue = c(14, 131, 176), dark_blue = c(1, 80, 130),
-    navy = c(20, 48, 71)
   )
 
   region_colors <- c(
@@ -355,7 +351,6 @@ server <- function(input, output, session) {
     "Large businesses" = "#fcb814", "Large Businesses (Businesses with 50 or more)" = "#fcb814",
     "Public Sector" = "#92b5d2"
   )
-
 
   # datatable1.01 ----
   ## Figure 1.1: Breakdown of businesses in British Columbia
@@ -414,33 +409,16 @@ server <- function(input, output, session) {
   output$plot1.02 <- output$plot1.02_s <- renderPlotly({
     plot_data <- data_new %>%
       filter(Topic_id == "1.02" & Category != "Total small businesses") %>%
-      mutate(
-        Value = as.numeric(Value),
-        Label = comma(Value),
-        Category = fct_inorder(Category)
-      )
+      mutate(Value = as.numeric(Value),
+             Label = paste0(Category, ": ", comma(Value)),
+             x_Category = fct_inorder(Variable),
+             color_Category = fct_inorder(Category))
 
-    # Create the stacked bar chart with custom colors
-    plot_ly(plot_data,
-      x = ~Variable,
-      y = ~Value,
-      color = ~Category,
-      type = "bar",
-      colors = custom_colors %>% unname() %>% rev(),
-      text = ~ paste0(Category, ": ", Label),
-      textposition = "none",
-      hovertemplate = "%{text}<extra></extra>"
-    ) %>%
-      layout(
-        title = "",
-        xaxis = list(title = ""),
-        yaxis = list(title = "", tickformat = ","),
-        barmode = "relative",
-        showlegend = TRUE,
-        legend = list(orientation = "h", x = 0, y = 1.3),
-        hovermode = "x unified"
-      ) %>%
-      plotly_custom_layout()
+    vertical_bar_chart(plot_data,
+                       colors = rev(unname(custom_colors)),
+                       y_tickformat = ",",
+                       barmode = "relative",
+                       legend_dir = "h")
   })
 
   # plot1.03 ----
@@ -456,40 +434,23 @@ server <- function(input, output, session) {
 
     plot_data <- prep_data %>%
       filter(Variable == "Per cent" & Category != "Total") %>%
-      mutate(
-        Label = percent(Value),
-        Category2 = str_replace_all(Category, "\\(", "\\\n\\("),
-        Category = fct_inorder(Category)
-      )
+      mutate(y_Category = str_replace_all(Category, "\\(", "\\\n\\("),
+             color_Category = fct_inorder(Category),
+             Label = paste0(y_Category, ": ", percent(Value)))
 
-    plot_ly(plot_data,
-      y = ~Category2,
-      x = ~Value,
-      color = ~Category,
-      colors = size_colors,
-      type = "bar",
-      orientation = "h",
-      text = ~ paste0(Category2, ": ", Label),
-      textposition = "none",
-      hoverinfo = "text"
-    ) %>%
-      layout(
-        title = "",
-        xaxis = list(title = "", tickformat = ".0%"),
-        yaxis = list(title = ""),
-        showlegend = FALSE
-      ) %>%
+    horizontal_bar_chart(plot_data,
+                         colors = size_colors,
+                         x_tickformat = ".0%",
+                         hovermode = "closest") %>%
       add_annotations( ## add requested additional info on chart
         x = 0,
         y = 0.99,
-        text = paste0("<b>Total businesses and organizations = ", comma(total_count), "</b>"),
+        text = paste0("<b>Total businesses and organizations: ", comma(total_count), "</b>"),
         xref = "paper",
         yref = "paper",
         xanchor = "left",
         yanchor = "bottom",
-        showarrow = F
-      ) %>%
-      plotly_custom_layout()
+        showarrow = F)
   })
 
   # plot1.04a ----
@@ -498,30 +459,15 @@ server <- function(input, output, session) {
   output$plot1.04a <- output$plot1.04a_s <- renderPlotly({
     plot_data <- data_new %>%
       filter(Topic_id == "1.04" & Variable == "1-yr growth") %>%
-      mutate(
-        Value = as.numeric(Value),
-        Label = comma(Value),
-        Category = fct_inorder(Category)
-      )
+      mutate(Value = as.numeric(Value),
+             y_Category = fct_inorder(Category),
+             color_Category = "same",   ## all one color
+             Label = paste0(y_Category, ": ",comma(Value)))
 
-    plot_ly(plot_data,
-      x = ~Value,
-      y = ~Category,
-      type = "bar",
-      orientation = "h",
-      text = ~ paste0(Category, ": ", Label),
-      textposition = "none",
-      hoverinfo = "text"
-    ) %>%
-      layout(
-        title = "",
-        legend = list(orientation = "h", x = 0, y = 1.2),
-        yaxis = list(title = ""),
-        xaxis = list(title = "", tickformat = "0,"),
-        barmode = "relative",
-        hovermode = "y"
-      ) %>%
-      plotly_custom_layout()
+    horizontal_bar_chart(plot_data,
+                         colors = default_color,
+                         x_tickformat = "0,")
+
   })
 
   # plot1.04b ----
@@ -530,30 +476,14 @@ server <- function(input, output, session) {
   output$plot1.04b <- output$plot1.04b_s <- renderPlotly({
     plot_data <- data_new %>%
       filter(Topic_id == "1.04" & Variable == "2-yr growth") %>%
-      mutate(
-        Value = as.numeric(Value),
-        Label = comma(Value),
-        Category = fct_inorder(Category)
-      )
+      mutate(Value = as.numeric(Value),
+             y_Category = fct_inorder(Category),
+             color_Category = "same",   ## all one color
+             Label = paste0(y_Category, ": ",comma(Value)))
 
-    plot_ly(plot_data,
-      x = ~Value,
-      y = ~Category,
-      type = "bar",
-      orientation = "h",
-      text = ~ paste0(Category, ": ", Label),
-      textposition = "none",
-      hoverinfo = "text"
-    ) %>%
-      layout(
-        title = "",
-        legend = list(orientation = "h", x = 0, y = 1.2),
-        yaxis = list(title = ""),
-        xaxis = list(title = "", tickformat = "0,"),
-        barmode = "relative",
-        hovermode = "y"
-      ) %>%
-      plotly_custom_layout()
+    horizontal_bar_chart(plot_data,
+                         colors = default_color,
+                         x_tickformat = "0,")
   })
 
   # plot1.04c ----
@@ -562,30 +492,14 @@ server <- function(input, output, session) {
   output$plot1.04c <- output$plot1.04c_s <- renderPlotly({
     plot_data <- data_new %>%
       filter(Topic_id == "1.04" & Variable == "5-yr growth") %>%
-      mutate(
-        Value = as.numeric(Value),
-        Label = comma(Value),
-        Category = fct_inorder(Category)
-      )
+      mutate(Value = as.numeric(Value),
+             y_Category = fct_inorder(Category),
+             color_Category = "same",   ## all one color
+             Label = paste0(y_Category, ": ",comma(Value)))
 
-    plot_ly(plot_data,
-      x = ~Value,
-      y = ~Category,
-      type = "bar",
-      orientation = "h",
-      text = ~ paste0(Category, ": ", Label),
-      textposition = "none",
-      hoverinfo = "text"
-    ) %>%
-      layout(
-        title = "",
-        legend = list(orientation = "h", x = 0, y = 1.2),
-        yaxis = list(title = ""),
-        xaxis = list(title = "", tickformat = "0,"),
-        barmode = "relative",
-        hovermode = "y"
-      ) %>%
-      plotly_custom_layout()
+    horizontal_bar_chart(plot_data,
+                         colors = default_color,
+                         x_tickformat = "0,")
   })
 
   # plot1.05 ----
@@ -601,39 +515,22 @@ server <- function(input, output, session) {
       prep_data %>% filter(Category2 == "Goods Sector"),
       data.frame(Category = "Services Sector", Value = "0"),
       prep_data %>% filter(Category2 == "Services Sector")
-    ) %>%
-      mutate(
-        Value = as.numeric(Value),
-        Label = ifelse(Category %in% c("Goods Sector", "Services Sector"), "", percent(Value)),
-        Category = fct_inorder(Category),
-        custom_ticktext = ifelse(Category %in% c("Goods Sector", "Services Sector"),
-          paste0("<span style='color: #005182'><b>", Category, "<b></span>"),
-          as.character(Category)
-        )
-      )
-
-    plot_ly(plot_data,
-      x = ~Value,
-      y = ~Category,
-      type = "bar",
-      marker = list(color = "#005182"),
-      orientation = "h",
-      text = ~ paste0(Category, ": ", Label),
-      textposition = "none",
-      hoverinfo = "text"
-    ) %>%
-      layout(
-        legend = list(orientation = "h", x = -2, y = 1.2),
-        xaxis = list(title = "", tickformat = "0%"),
-        yaxis = list(
-          title = "",
-          tickvals = ~Category,
-          ticktext = ~custom_ticktext,
-          autorange = "reversed"
-        ),
-        hovermode = "y"
       ) %>%
-      plotly_custom_layout()
+      mutate(Value = as.numeric(Value),
+             y_Category = fct_inorder(Category),
+             color_Category = "same",   ## all one color
+             Label = ifelse(str_detect(Category, "Sector"), "", paste0(Category, ": ", percent(Value))),
+             custom_ticktext = ifelse(str_detect(Category, "Sector"),
+                                      paste0("<span style='color: ", custom_colors[["dark_blue"]], "'><b>", Category, "<b></span>"),
+                                      Category))
+
+    horizontal_bar_chart(plot_data,
+                         colors = custom_colors[["dark_blue"]],
+                         x_tickformat = "0%",
+                         autorange = "reversed") %>%
+      layout(yaxis = list(tickvals = ~Category,
+                          ticktext = ~custom_ticktext))
+
   })
 
   # plot1.06 ----
@@ -641,36 +538,20 @@ server <- function(input, output, session) {
   output$plot1.06 <- output$plot1.06_s <- renderPlotly({
     plot_data <- data_new %>%
       filter(Topic_id == "1.06" & Category != "Overall") %>%
-      mutate(
-        Value = as.numeric(Value),
-        Label = percent(Value, accuracy = 0.1),
-        Variable = str_remove_all(Variable, " percent"),
-        Variable_label = str_remove_all(Variable, "(Small businesses with )|( \\(([:space:]|[:graph:])*$)")
-      ) %>%
-      arrange(desc(Variable), desc(Value)) %>%
-      mutate(
-        Category = fct_inorder(Category),
-        Variable = fct_inorder(Variable)
-      )
+      mutate(Value = as.numeric(Value),
+             Variable = str_remove_all(Variable, " percent"),
+             Variable_label = str_remove_all(Variable, "(Small businesses with )|( \\(([:space:]|[:graph:])*$)"),
+             Label = paste0(Variable_label, ": ", percent(Value, accuracy = 0.1))) %>%
+      arrange(desc(Variable), desc(Value)) %>%  ## arrange variable desc so 'no paid' is first for color
+      mutate(y_Category = fct_inorder(Category),
+             color_Category = fct_inorder(Variable))
 
-    plot_ly(plot_data,
-      x = ~Value,
-      y = ~Category,
-      color = ~Variable,
-      colors = custom_colors[c("dark_blue", "med_blue")] %>% unname(),
-      type = "bar",
-      orientation = "h",
-      text = ~ paste0(Variable_label, ": ", Label),
-      textposition = "none",
-      hovertemplate = "%{text}<extra></extra>"
-    ) %>%
-      layout(
-        legend = list(orientation = "h", x = 0, y = 1.2, traceorder = "normal"),
-        xaxis = list(title = "", tickformat = "0%"),
-        yaxis = list(title = "", autorange = "reversed"),
-        hovermode = "y unified"
-      ) %>%
-      plotly_custom_layout()
+    horizontal_bar_chart(plot_data,
+                         colors = unname(custom_colors[c("dark_blue", "med_blue")]),
+                         x_tickformat = "0%",
+                         hovermode = "y unified",
+                         autorange = "reversed",
+                         showlegend = TRUE)
   })
 
   # plot1.07 ----
@@ -678,36 +559,19 @@ server <- function(input, output, session) {
   output$plot1.07 <- output$plot1.07_s <- renderPlotly({
     plot_data <- data_new %>%
       filter(Topic_id == "1.07" & !str_detect(Variable, "Total") & str_detect(Variable, "percent")) %>%
-      mutate(
-        Value = as.numeric(Value),
-        Label = percent(Value, accuracy = 0.1),
-        Variable = str_remove_all(Variable, " percent")
-      ) %>%
-      arrange(desc(Variable), desc(Value)) %>%
-      mutate(
-        Category = fct_inorder(Category),
-        Variable = fct_inorder(Variable)
-      )
+      mutate(Value = as.numeric(Value),
+             Variable = str_remove_all(Variable, " percent"),
+             Label = paste0(Variable, ": ", percent(Value, accuracy = 0.1))) %>%
+      arrange(desc(Variable), desc(Value)) %>%  ## arrange variable desc so 'no paid' is first for color
+      mutate(y_Category = fct_inorder(Category),
+             color_Category = fct_inorder(Variable))
 
-    plot_ly(plot_data,
-      x = ~Value,
-      y = ~Category,
-      color = ~Variable,
-      colors = custom_colors[c("dark_blue", "med_blue")] %>% unname(),
-      type = "bar",
-      orientation = "h",
-      text = ~ paste0(Variable, ": ", Label),
-      textposition = "none",
-      hovertemplate = "%{text}<extra></extra>"
-    ) %>%
-      layout(
-        legend = list(orientation = "h", x = 0, y = 1.2, traceorder = "normal"),
-        xaxis = list(title = "", tickformat = "0%"),
-        yaxis = list(title = ""),
-        barmode = "stack",
-        hovermode = "y unified"
-      ) %>%
-      plotly_custom_layout()
+    horizontal_bar_chart(plot_data,
+                         colors = unname(custom_colors[c("dark_blue", "med_blue")]),
+                         x_tickformat = "0%",
+                         barmode = "stack",
+                         hovermode = "y unified",
+                         showlegend = TRUE)
   })
 
   # plot1.08 ----
@@ -720,41 +584,25 @@ server <- function(input, output, session) {
 
     ## Add in Non-Standard Sectors dummy row
     plot_data <- bind_rows(
-      prep_data %>% filter(Category2 == "Industry") %>% mutate(color = "navy") %>% arrange(desc(Value)),
-      data.frame(Category = "Non-Standard Sectors", Value = 0),
-      prep_data %>% filter(Category2 == "Non-Standard Sectors") %>% mutate(color = "dark_blue") %>% arrange(desc(Value))
+      prep_data %>% filter(Category2 == "Industry") %>% mutate(color_Category = "navy") %>% arrange(desc(Value)),
+      data.frame(Category = "Non-Standard Sectors", Value = 0, color_Category = "navy"),
+      prep_data %>% filter(Category2 == "Non-Standard Sectors") %>% mutate(color_Category = "dark_blue") %>% arrange(desc(Value))
     ) %>%
-      mutate(
-        Label = ifelse(Category %in% c("Non-Standard Sectors"), "", comma(Value)),
-        Category = fct_inorder(Category),
-        custom_ticktext = ifelse(Category %in% c("Non-Standard Sectors"),
-          paste0("<span style='color: #005182'><b>", Category, "<b></span>"),
-          as.character(Category)
-        )
-      )
+      mutate(y_Category = fct_inorder(Category),
+             color_Category = fct_inorder(color_Category),
+             Label = ifelse(str_detect(Category, "Sector"), "", paste0(Category, ": ", comma(Value))),
+             custom_ticktext = ifelse(str_detect(Category, "Sector"),
+                                      paste0("<span style='color: ", custom_colors[["dark_blue"]], "'><b>", Category, "<b></span>"),
+                                      as.character(Category)))
 
-    plot_ly(plot_data,
-      x = ~Value,
-      y = ~Category,
-      type = "bar",
-      marker = list(color = ~ custom_colors[color]),
-      orientation = "h",
-      text = ~ paste0(Category, ": ", Label),
-      textposition = "none",
-      hoverinfo = "text"
-    ) %>%
-      layout(
-        legend = list(orientation = "h", x = -2, y = 1.2),
-        xaxis = list(title = "", tickformat = ","),
-        yaxis = list(
-          title = "",
-          tickvals = ~Category,
-          ticktext = ~custom_ticktext,
-          autorange = "reversed"
-        ),
-        hovermode = "y"
-      ) %>%
-      plotly_custom_layout()
+    horizontal_bar_chart(plot_data,
+                         colors = custom_colors,  ## since color_Category = color names
+                         x_tickformat = ",",
+                         hovermode = "closest",
+                         autorange = "reversed") %>%
+      layout(yaxis = list(tickvals = ~Category,
+                          ticktext = ~custom_ticktext))
+
   })
 
   # plot1.09----
@@ -767,40 +615,25 @@ server <- function(input, output, session) {
 
     ## Add in Non-Standard Sectors dummy row
     plot_data <- bind_rows(
-      prep_data %>% filter(Category2 == "Industry") %>% mutate(color = "navy") %>% arrange(desc(Value)),
-      data.frame(Category = "Non-Standard Sectors", Value = 0),
-      prep_data %>% filter(Category2 == "Non-Standard Sectors") %>% mutate(color = "dark_blue") %>% arrange(desc(Value))
+      prep_data %>% filter(Category2 == "Industry") %>% mutate(color_Category = "navy") %>% arrange(desc(Value)),
+      data.frame(Category = "Non-Standard Sectors", Value = 0, color_Category = "navy"),
+      prep_data %>% filter(Category2 == "Non-Standard Sectors") %>% mutate(color_Category = "dark_blue") %>% arrange(desc(Value))
     ) %>%
-      mutate(
-        Label = ifelse(Category %in% c("Non-Standard Sectors"), "", percent(Value, accuracy = 0.1)),
-        Category = fct_inorder(Category),
-        custom_ticktext = ifelse(Category %in% c("Non-Standard Sectors"),
-          paste0("<span style='color: #005182'><b>", Category, "<b></span>"),
-          as.character(Category)
-        )
-      )
-    plot_ly(plot_data,
-      x = ~Value,
-      y = ~Category,
-      type = "bar",
-      marker = list(color = ~ custom_colors[color]),
-      orientation = "h",
-      text = ~ paste0(Category, ": ", Label),
-      textposition = "none",
-      hoverinfo = "text"
-    ) %>%
-      layout(
-        legend = list(orientation = "h", x = -2, y = 1.2),
-        xaxis = list(title = "", tickformat = "0%"),
-        yaxis = list(
-          title = "",
-          tickvals = ~Category,
-          ticktext = ~custom_ticktext,
-          autorange = "reversed"
-        ),
-        hovermode = "y"
-      ) %>%
-      plotly_custom_layout()
+      mutate(y_Category = fct_inorder(Category),
+             color_Category = fct_inorder(color_Category),
+             Label = ifelse(str_detect(Category, "Sector"), "", paste0(Category, ": ", percent(Value, accuracy = 0.1))),
+             custom_ticktext = ifelse(str_detect(Category, "Sector"),
+                                      paste0("<span style='color: ", custom_colors[["dark_blue"]], "'><b>", Category, "<b></span>"),
+                                      as.character(Category)))
+
+    horizontal_bar_chart(plot_data,
+                         colors = custom_colors,  ## since color_Category = color names
+                         x_tickformat = "0%",
+                         hovermode = "closest",
+                         autorange = "reversed") %>%
+      layout(yaxis = list(tickvals = ~Category,
+                          ticktext = ~custom_ticktext))
+
   })
 
   # plot1.10 ----
@@ -817,11 +650,9 @@ server <- function(input, output, session) {
 
     plot_data <- prep_data %>%
       filter(Category != "Cda") %>%
-      mutate(
-        Label = comma(Value),
-        Category = fct_inorder(Category),
-        selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"])
-      )
+      mutate(Label = comma(Value),
+             Category = fct_inorder(Category),
+             selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
 
     provincial_chart(plot_data,
                      hline_val = canada,
@@ -846,11 +677,9 @@ server <- function(input, output, session) {
 
     plot_data <- prep_data %>%
       filter(Category != "Cda") %>%
-      mutate(
-        Label = percent(Value, accuracy = 0.1),
-        Category = fct_inorder(Category),
-        selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"])
-      )
+      mutate(Label = percent(Value, accuracy = 0.1),
+             Category = fct_inorder(Category),
+             selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
 
     provincial_chart(plot_data,
                      hline_val = canada,
@@ -868,30 +697,20 @@ server <- function(input, output, session) {
       left_join(data_new %>% filter(Topic_id == "1.12"),
         by = c("region" = "Category")
       ) %>%
-      mutate(
-        Value = as.numeric(Value),
-        Variable = case_when(
-          str_detect(Variable, "population") ~ "pop",
-          str_detect(Variable, "businesses") ~ "sb"
-        ),
-        region = str_replace_all(region, "/ ", "/"),
-        region = str_replace_all(region, " - ", "-")
-      ) %>%
+      mutate(Value = as.numeric(Value),
+             Variable = case_when(str_detect(Variable, "population") ~ "pop",
+                                  str_detect(Variable, "businesses") ~ "sb"),
+             region = str_replace_all(region, "/ ", "/"),
+             region = str_replace_all(region, " - ", "-")) %>%
       pivot_wider(names_from = "Variable", values_from = "Value") %>%
-      mutate(
-        label = paste0(region_label, "\n", percent(sb, accuracy = 0.1), " SB\n", percent(pop, accuracy = 0.1), " population"),
-        region = factor(region,
-          levels = c(
-            "North Coast & Nechako", "Cariboo", "Kootenay",
-            "Vancouver Island/Coast", "Mainland/Southwest",
-            "Thompson-Okanagan", "Northeast"
-          )
-        ),
-        text_color = case_when(
-          region %in% c("Vancouver Island/Coast", "Mainland/Southwest", "North Coast & Nechako") ~ "black",
-          TRUE ~ "white"
-        )
-      ) %>%
+      mutate(label = paste0(region_label, "\n", percent(sb, accuracy = 0.1), " SB\n", percent(pop, accuracy = 0.1), " population"),
+             region = factor(region,
+                             levels = c("North Coast & Nechako", "Cariboo", "Kootenay",
+                                        "Vancouver Island/Coast", "Mainland/Southwest",
+                                        "Thompson-Okanagan", "Northeast")),
+             text_color = case_when(
+               region %in% c("Vancouver Island/Coast", "Mainland/Southwest", "North Coast & Nechako") ~ "black",
+               TRUE ~ "white")) %>%
       arrange(region)
 
     ggplot(data = plot_data) +
@@ -917,31 +736,15 @@ server <- function(input, output, session) {
     plot_data <- data_new %>%
       filter(Topic_id == "1.13" & !str_detect(Category, "Total")) %>%
       filter(Variable == max(Variable)) %>%
-      mutate(
-        Value = as.numeric(Value),
-        Label = comma(Value),
-        Category = fct_inorder(Category)
-      )
+      mutate(Value = as.numeric(Value),
+             y_Category = fct_inorder(Category),
+             color_Category = y_Category,
+             Label = paste0(Category, ": ", comma(Value)))
 
-    plot_ly(plot_data,
-      x = ~Value,
-      y = ~Category,
-      color = ~Category,
-      type = "bar",
-      orientation = "h",
-      text = ~ paste0(Category, ": ", Label),
-      colors = region_colors,
-      textposition = "none",
-      hoverinfo = "text"
-    ) %>%
-      layout(
-        showlegend = FALSE,
-        title = "",
-        yaxis = list(title = ""),
-        xaxis = list(title = "", tickformat = "0,"),
-        barmode = "relative"
-      ) %>%
-      plotly_custom_layout()
+    horizontal_bar_chart(plot_data,
+                         colors = region_colors,  ## since color_Category = color names
+                         x_tickformat = ",",
+                         hovermode = "closest")
   })
 
   # plot1.14 ----
@@ -950,31 +753,17 @@ server <- function(input, output, session) {
     plot_data <- data_new %>%
       filter(Topic_id == "1.14") %>%
       filter(Variable == max(Variable)) %>%
-      mutate(
-        Value = as.numeric(Value),
-        Label = comma(Value),
-        Category = fct_inorder(Category)
-      )
+      mutate(Value = as.numeric(Value),
+             y_Category = fct_inorder(Category),
+             color_Category = y_Category,
+             Label = paste0(Category, ": ", comma(Value)))
 
-    plot_ly(plot_data,
-      x = ~Value,
-      y = ~Category,
-      color = ~Category,
-      type = "bar",
-      orientation = "h",
-      text = ~ paste0(Category, ": ", Label),
-      colors = region_colors,
-      textposition = "none",
-      hoverinfo = "text"
-    ) %>%
-      layout(
-        showlegend = FALSE,
-        title = "",
-        yaxis = list(title = "", autorange = "reversed"),
-        xaxis = list(title = "Number of Businesses", tickformat = "0,"),
-        barmode = "relative"
-      ) %>%
-      plotly_custom_layout()
+    horizontal_bar_chart(plot_data,
+                         colors = region_colors,  ## since color_Category = color names
+                         x_title = "Number of Businesses",
+                         x_tickformat = ",",
+                         hovermode = "closest",
+                         autorange = "reversed")
   })
 
   # plot1.15 ----
@@ -983,31 +772,17 @@ server <- function(input, output, session) {
     plot_data <- data_new %>%
       filter(Topic_id == "1.15") %>%
       filter(str_detect(Variable, "Net change")) %>%
-      mutate(
-        Value = as.numeric(Value),
-        Label = comma(Value),
-        Category = fct_inorder(Category)
-      )
+      mutate(Value = as.numeric(Value),
+             y_Category = fct_inorder(Category),
+             color_Category = y_Category,
+             Label = paste0(Category, ": ", comma(Value)))
 
-    plot_ly(plot_data,
-      x = ~Value,
-      y = ~Category,
-      color = ~Category,
-      type = "bar",
-      orientation = "h",
-      text = ~ paste0(Category, ": ", Label),
-      colors = region_colors,
-      textposition = "none",
-      hoverinfo = "text"
-    ) %>%
-      layout(
-        showlegend = FALSE,
-        title = "",
-        yaxis = list(title = "", autorange = "reversed"),
-        xaxis = list(title = "Net Change of Businesses", tickformat = "0,"),
-        barmode = "relative"
-      ) %>%
-      plotly_custom_layout()
+    horizontal_bar_chart(plot_data,
+                         colors = region_colors,  ## since color_Category = color names
+                         x_title = "Net Change of Businesses",
+                         x_tickformat = ",",
+                         hovermode = "closest",
+                         autorange = "reversed")
   })
 
   # datatable2.01 ----
@@ -1110,37 +885,25 @@ server <- function(input, output, session) {
     plot_data <- prep_data %>%
       filter(Variable == "Share") %>%
       arrange(desc(Value)) %>%
-      mutate(
-        Label = percent(Value),
-        Category = fct_inorder(Category)
-      )
+      mutate(Label = paste0(Category, ": ", percent(Value)),
+             y_Category = fct_inorder(Category),
+             color_Category = y_Category)
 
-    plot_ly(plot_data,
-      x = ~Value,
-      y = ~Category,
-      color = ~Category,
-      colors = size_colors,
-      type = "bar",
-      text = ~ paste0(Category, ": ", Label),
-      textposition = "none",
-      hoverinfo = "text"
-    ) %>%
-      layout(
-        showlegend = FALSE,
-        xaxis = list(title = "Share of Total Employment", tickformat = "0%"),
-        yaxis = list(title = "", autorange = "reversed")
-      ) %>% ## add line
-      add_annotations( ## add requested additional info on chart
+    horizontal_bar_chart(plot_data,
+                         colors = size_colors,  ## since color_Category = color names
+                         x_title = "Share of Total Employment",
+                         x_tickformat = "0%",
+                         hovermode = "closest",
+                         autorange = "reversed") %>%
+      add_annotations(
         x = 0,
         y = 0.99,
-        text = paste("<b>Total Employment =", comma(total), "</b>"),
+        text = paste("<b>Total Employment:", comma(total), "</b>"),
         xref = "paper",
         yref = "paper",
         xanchor = "left",
         yanchor = "bottom",
-        showarrow = F
-      ) %>%
-      plotly_custom_layout()
+        showarrow = F )
   })
 
   # plot2.03 ----
@@ -1155,38 +918,26 @@ server <- function(input, output, session) {
 
     plot_data <- data_new %>%
       filter(Topic_id == "2.03" & str_detect(Variable, "Per cent")) %>%
-      mutate(
-        Value = as.numeric(Value),
-        Label = percent(Value),
-        Category = fct_inorder(Category)
-      )
+      mutate(Value = as.numeric(Value),
+             Label = paste0(Category, ": ", percent(Value)),
+             y_Category = fct_inorder(Category),
+             color_Category = y_Category)
 
-    plot_ly(plot_data,
-      x = ~Value,
-      y = ~Category,
-      color = ~Category,
-      colors = size_colors,
-      type = "bar",
-      text = ~ paste0(Category, ": ", Label),
-      textposition = "none",
-      hoverinfo = "text"
-    ) %>%
-      layout(
-        showlegend = FALSE,
-        xaxis = list(title = "Share of Total Employment", tickformat = "0%"),
-        yaxis = list(title = "", autorange = "reversed")
-      ) %>% ## add line
-      add_annotations( ## add requested additional info on chart
+    horizontal_bar_chart(plot_data,
+                         colors = size_colors,  ## since color_Category = color names
+                         x_title = "Share of Total Employment",
+                         x_tickformat = "0%",
+                         hovermode = "closest",
+                         autorange = "reversed") %>%
+      add_annotations(
         x = 0,
         y = 0.99,
-        text = paste("<b>Total Employment =", comma(total), "</b>"),
+        text = paste("<b>Total Employment:", comma(total), "</b>"),
         xref = "paper",
         yref = "paper",
         xanchor = "left",
         yanchor = "bottom",
-        showarrow = F
-      ) %>%
-      plotly_custom_layout()
+        showarrow = F)
   })
 
   # plot2.04 ----
@@ -1195,36 +946,18 @@ server <- function(input, output, session) {
     plot_data <- data_new %>%
       filter(Topic_id == "2.04" & Category2 == "Net Growth" & !str_detect(Category, "Total")) %>%
       filter(Variable > as.numeric(max(Variable)) - 14) %>%
-      mutate(
-        Value = as.numeric(Value),
-        Label = comma(Value),
-        Category = fct_inorder(Category)
-      )
+      mutate(Value = as.numeric(Value),
+             Label = paste(Category, ":", comma(Value)),
+             x_Category = fct_inorder(Variable),
+             color_Category = fct_inorder(Category))
 
-    custom_colors1 <- custom_colors[c("dark_blue", "med_blue", "yellow")] %>% unname()
-
-    plot_ly(plot_data,
-      y = ~Value,
-      x = ~Variable,
-      color = ~Category,
-      colors = custom_colors1,
-      type = "bar",
-      orientation = "v",
-      text = ~ paste(Category, ":", Label),
-      textposition = "none",
-      hovertemplate = "%{text}<extra></extra>"
-    ) %>%
-      layout(
-        title = "",
-        legend = list(x = 0, y = 1, traceorder = "reversed"),
-        yaxis = list(title = "Number of Jobs"),
-        xaxis = list(title = ""),
-        barmode = "relative",
-        hovermode = "x unified",
-        ## to show all label regardless of length
-        hoverlabel = list(namelength = -1)
-      ) %>%
-      plotly_custom_layout()
+    vertical_bar_chart(plot_data,
+                       # in category order: self-emp, small, large
+                       colors = unname(custom_colors[c("dark_blue", "med_blue", "yellow")]),
+                       y_title = "Number of Jobs",
+                       y_tickformat = "",
+                       barmode = "relative",
+                       traceorder = "reversed")
   })
 
   # plot2.05 ----
@@ -1240,11 +973,9 @@ server <- function(input, output, session) {
 
     plot_data <- prep_data %>%
       filter(Category != "CA") %>%
-      mutate(
-        Label = percent(Value, accuracy = 0.1),
-        Category = fct_inorder(Category),
-        selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"])
-      )
+      mutate(Label = percent(Value, accuracy = 0.1),
+             Category = fct_inorder(Category),
+             selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
 
     provincial_chart(plot_data,
                      hline_val = canada,
@@ -1268,11 +999,9 @@ server <- function(input, output, session) {
 
     plot_data <- prep_data %>%
       filter(Category != "CA") %>%
-      mutate(
-        Label = percent(Value, accuracy = 0.1),
-        Category = fct_inorder(Category),
-        selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"])
-      )
+      mutate(Label = percent(Value, accuracy = 0.1),
+             Category = fct_inorder(Category),
+             selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
 
     provincial_chart(plot_data,
                      hline_val = canada,
@@ -1296,11 +1025,9 @@ server <- function(input, output, session) {
 
     plot_data <- prep_data %>%
       filter(Category != "CA") %>%
-      mutate(
-        Label = percent(Value, accuracy = 0.1),
-        Category = fct_inorder(Category),
-        selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"])
-      )
+      mutate(Label = percent(Value, accuracy = 0.1),
+             Category = fct_inorder(Category),
+             selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
 
     provincial_chart(plot_data,
                      hline_val = canada,
@@ -1318,31 +1045,21 @@ server <- function(input, output, session) {
       filter(Topic_id == "2.08") %>%
       mutate(Value = as.numeric(Value)) %>%
       pivot_wider(names_from = "Variable", values_from = "Value") %>%
-      mutate(
-        Label = ifelse(`Net growth` > 0,
-          paste0(percent(`Per cent growth`, accuracy = 0.1), " growth, +", comma(`Net growth`), " businesses"),
-          paste0(percent(`Per cent growth`, accuracy = 0.1), " growth, ", comma(`Net growth`), " businesses")
-        ),
-        Category = fct_inorder(Category),
-        selected_color = ifelse(str_detect(Category2, "Top"), custom_colors["yellow"], custom_colors["navy"])
-      )
+      mutate(Value = `Per cent growth`,
+             Label = ifelse(`Net growth` > 0,
+                            paste0(percent(`Per cent growth`, accuracy = 0.1), " growth, +", comma(`Net growth`), " businesses"),
+                            paste0(percent(`Per cent growth`, accuracy = 0.1), " growth, ", comma(`Net growth`), " businesses")),
+             y_Category = fct_inorder(Category),
+             color_Category = fct_inorder(Category2))
 
-    plot_ly(plot_data,
-      x = ~`Per cent growth`,
-      y = ~Category,
-      color = ~Category2,
-      colors = custom_colors[c("navy", "yellow")] %>% unname(),
-      type = "bar",
-      text = ~Label,
-      textposition = "none",
-      hoverinfo = "text"
-    ) %>%
-      layout(
-        legend = list(orientation = "h", x = 0, y = 1.2, traceorder = "reversed"),
-        xaxis = list(title = "One-year growth rate in small business employment", tickformat = "0%"),
-        yaxis = list(title = "", autorange = "reversed")
-      ) %>%
-      plotly_custom_layout()
+    horizontal_bar_chart(plot_data,
+                         colors = unname(custom_colors[c("yellow", "navy")]),
+                         x_title = "One-year growth rate in small business employment",
+                         x_tickformat = "0%",
+                         hovermode = "closest",
+                         showlegend = TRUE,
+                         autorange = "reversed",
+                         traceorder = "reversed")
   })
 
   # plot2.09 ----
@@ -1352,30 +1069,21 @@ server <- function(input, output, session) {
       filter(Topic_id == "2.09") %>%
       mutate(Value = as.numeric(Value)) %>%
       pivot_wider(names_from = "Variable", values_from = "Value") %>%
-      mutate(
-        Label = ifelse(`Net growth` > 0,
-          paste0(percent(`Per cent growth`, accuracy = 0.1), " growth, +", comma(`Net growth`), " businesses"),
-          paste0(percent(`Per cent growth`, accuracy = 0.1), " growth, ", comma(`Net growth`), " businesses")
-        ),
-        Category = fct_inorder(Category)
-      )
+      mutate(Value = `Per cent growth`,
+             Label = ifelse(`Net growth` > 0,
+                            paste0(percent(`Per cent growth`, accuracy = 0.1), " growth, +", comma(`Net growth`), " businesses"),
+                            paste0(percent(`Per cent growth`, accuracy = 0.1), " growth, ", comma(`Net growth`), " businesses")),
+             y_Category = fct_inorder(Category),
+             color_Category = fct_inorder(Category2))
 
-    plot_ly(plot_data,
-      x = ~`Per cent growth`,
-      y = ~Category,
-      color = ~Category2,
-      colors = custom_colors[c("navy", "yellow")] %>% unname(),
-      type = "bar",
-      text = ~Label,
-      textposition = "none",
-      hoverinfo = "text"
-    ) %>%
-      layout(
-        legend = list(orientation = "h", x = 0, y = 1.2, traceorder = "reversed"),
-        xaxis = list(title = "Two-year growth rate in small business employment", tickformat = "0%"),
-        yaxis = list(title = "", autorange = "reversed")
-      ) %>%
-      plotly_custom_layout()
+    horizontal_bar_chart(plot_data,
+                         colors = unname(custom_colors[c("yellow", "navy")]),
+                         x_title = "Two-year growth rate in small business employment",
+                         x_tickformat = "0%",
+                         hovermode = "closest",
+                         showlegend = TRUE,
+                         autorange = "reversed",
+                         traceorder = "reversed")
   })
 
   # plot2.10 ----
@@ -1385,30 +1093,21 @@ server <- function(input, output, session) {
       filter(Topic_id == "2.10") %>%
       mutate(Value = as.numeric(Value)) %>%
       pivot_wider(names_from = "Variable", values_from = "Value") %>%
-      mutate(
-        Label = ifelse(`Number of businesses` > 0,
-          paste0(percent(`Per cent growth`, accuracy = 0.1), " growth, +", comma(`Number of businesses`), " businesses"),
-          paste0(percent(`Per cent growth`, accuracy = 0.1), " growth, ", comma(`Number of businesses`), " businesses")
-        ),
-        Category = fct_inorder(Category)
-      )
+      mutate(Value = `Per cent growth`,
+           Label = ifelse(`Number of businesses` > 0,
+                          paste0(percent(`Per cent growth`, accuracy = 0.1), " growth, +", comma(`Number of businesses`), " businesses"),
+                          paste0(percent(`Per cent growth`, accuracy = 0.1), " growth, ", comma(`Number of businesses`), " businesses")),
+           y_Category = fct_inorder(Category),
+           color_Category = fct_inorder(Category2))
 
-    plot_ly(plot_data,
-      x = ~`Per cent growth`,
-      y = ~Category,
-      color = ~Category2,
-      colors = custom_colors[c("navy", "yellow")] %>% unname(),
-      type = "bar",
-      text = ~Label,
-      textposition = "none",
-      hoverinfo = "text"
-    ) %>%
-      layout(
-        legend = list(orientation = "h", x = 0, y = 1.2, traceorder = "reversed"),
-        xaxis = list(title = "Five-year growth rate in small business employment", tickformat = "0%"),
-        yaxis = list(title = "", autorange = "reversed")
-      ) %>%
-      plotly_custom_layout()
+    horizontal_bar_chart(plot_data,
+                         colors = unname(custom_colors[c("yellow", "navy")]),
+                         x_title = "Five-year growth rate in small business employment",
+                         x_tickformat = "0%",
+                         hovermode = "closest",
+                         showlegend = TRUE,
+                         autorange = "reversed",
+                         traceorder = "reversed")
   })
 
   # plot3.01 ----
@@ -1425,11 +1124,9 @@ server <- function(input, output, session) {
 
     plot_data <- prep_data %>%
       filter(Category != "Canada") %>%
-      mutate(
-        Label = percent(Value, accuracy = 0.1),
-        Category = fct_inorder(Category),
-        selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"])
-      )
+      mutate(Label = percent(Value, accuracy = 0.1),
+             Category = fct_inorder(Category),
+             selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
 
     provincial_chart(plot_data,
                      hline_val = canada,
@@ -1454,11 +1151,9 @@ server <- function(input, output, session) {
 
     plot_data <- prep_data %>%
       filter(Category != "CA") %>%
-      mutate(
-        Label = percent(Value, accuracy = 0.1),
-        Category = fct_inorder(Category),
-        selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"])
-      )
+      mutate(Label = percent(Value, accuracy = 0.1),
+             Category = fct_inorder(Category),
+             selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
 
     provincial_chart(plot_data,
                      hline_val = canada,
@@ -1483,39 +1178,25 @@ server <- function(input, output, session) {
 
     plot_data <- prep_data %>%
       filter(Category != "Provincial total") %>%
-      mutate(
-        Label = percent(Value, accuracy = 0.1),
-        Category = fct_inorder(Category),
-        selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"])
-      )
+      mutate(Label = paste0(Category, ": ", percent(Value, accuracy = 0.1)),
+             y_Category = fct_inorder(Category),
+             color_Category = fct_inorder(Category))
 
-    plot_ly(plot_data,
-      x = ~Value,
-      y = ~Category,
-      color = ~Category,
-      colors = region_colors,
-      type = "bar",
-      text = ~ paste0(Category, ": ", Label),
-      textposition = "none",
-      hoverinfo = "text"
-    ) %>%
-      layout(
-        showlegend = FALSE,
-        xaxis = list(title = "", tickformat = "0%"),
-        yaxis = list(title = "", autorange = "reversed"),
-        shapes = list(vline(provincial_average))
-      ) %>% ## add line
+    horizontal_bar_chart(plot_data,
+                         colors = region_colors,
+                         x_tickformat = "0%",
+                         hovermode = "closest",
+                         autorange = "reversed") %>%
+      layout(shapes = list(vline(provincial_average))) %>%
       add_annotations(
         x = 0.25,
         y = .99,
-        text = paste("<b>— Provincial Average =", percent(provincial_average, accuracy = 0.1), "</b>"),
+        text = paste("<b>— Provincial Average: ", percent(provincial_average, accuracy = 0.1), "</b>"),
         xref = "paper",
         yref = "paper",
         xanchor = "left",
         yanchor = "bottom",
-        showarrow = F
-      ) %>%
-      plotly_custom_layout()
+        showarrow = F)
   })
 
   # plot3.03b ----
@@ -1532,39 +1213,25 @@ server <- function(input, output, session) {
 
     plot_data <- prep_data %>%
       filter(Category != "Provincial total") %>%
-      mutate(
-        Label = percent(Value, accuracy = 0.1),
-        Category = fct_inorder(Category),
-        selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"])
-      )
+      mutate(Label = paste0(Category, ": ", percent(Value, accuracy = 0.1)),
+             y_Category = fct_inorder(Category),
+             color_Category = fct_inorder(Category))
 
-    plot_ly(plot_data,
-      x = ~Value,
-      y = ~Category,
-      color = ~Category,
-      colors = region_colors,
-      type = "bar",
-      text = ~ paste0(Category, ": ", Label),
-      textposition = "none",
-      hoverinfo = "text"
-    ) %>%
-      layout(
-        showlegend = FALSE,
-        xaxis = list(title = "", tickformat = "0%"),
-        yaxis = list(title = "", autorange = "reversed"),
-        shapes = list(vline(provincial_average))
-      ) %>% ## add line
-      add_annotations( ## add canadian average text
+    horizontal_bar_chart(plot_data,
+                         colors = region_colors,
+                         x_tickformat = "0%",
+                         hovermode = "closest",
+                         autorange = "reversed") %>%
+      layout(shapes = list(vline(provincial_average))) %>%
+      add_annotations(
         x = 0.45,
         y = .99,
-        text = paste("<b>— Provincial Average =", percent(provincial_average, accuracy = 0.1), "</b>"),
+        text = paste("<b>— Provincial Average: ", percent(provincial_average, accuracy = 0.1), "</b>"),
         xref = "paper",
         yref = "paper",
         xanchor = "left",
         yanchor = "bottom",
-        showarrow = F
-      ) %>%
-      plotly_custom_layout()
+        showarrow = F)
   })
 
   # plot3.04 ----
@@ -1572,30 +1239,16 @@ server <- function(input, output, session) {
   output$plot3.04 <- output$plot3.04_s <- renderPlotly({
     plot_data <- data_new %>%
       filter(Topic_id == "3.04" & str_detect(Variable, "paid help") & !str_detect(Category, "Total")) %>%
-      mutate(
-        Value = as.numeric(Value),
-        Label = comma(Value)
-      )
+      mutate(Value = as.numeric(Value),
+             Label = paste0(Category, ": ", comma(Value)),
+             x_Category = fct_inorder(Variable),
+             color_Category = fct_inorder(Category))
 
-    plot_ly(plot_data,
-      x = ~Variable,
-      y = ~Value,
-      color = ~Category,
-      colors = custom_colors[c("yellow", "navy")] %>% unname(),
-      type = "bar",
-      text = ~ paste0(Category, ": ", Label),
-      textposition = "none",
-      hovertemplate = "%{text}<extra></extra>"
-    ) %>%
-      layout(
-        title = "",
-        legend = list(orientation = "h", x = 0, y = 1.2, traceorder = "reversed"),
-        yaxis = list(title = ""),
-        xaxis = list(title = "", tickformat = "0,"),
-        barmode = "relative",
-        hovermode = "x unified"
-      ) %>%
-      plotly_custom_layout()
+    vertical_bar_chart(plot_data,
+                       colors = unname(custom_colors[c("yellow", "navy")]),
+                       y_tickformat = "",
+                       barmode = "relative",
+                       traceorder = "reversed")
   })
 
   # plot3.05 ----
@@ -1603,30 +1256,16 @@ server <- function(input, output, session) {
   output$plot3.05 <- output$plot3.05_s <- renderPlotly({
     plot_data <- data_new %>%
       filter(Topic_id == "3.05" & str_detect(Variable, "paid help") & !str_detect(Category, "Total")) %>%
-      mutate(
-        Value = as.numeric(Value),
-        Label = comma(Value)
-      )
+      mutate(Value = as.numeric(Value),
+             Label = paste0(Variable, ": ", comma(Value)),
+             x_Category = fct_inorder(Category),
+             color_Category = fct_inorder(Variable))
 
-    plot_ly(plot_data,
-      x = ~Category,
-      y = ~Value,
-      color = ~Variable,
-      colors = custom_colors[c("yellow", "navy")] %>% unname(),
-      type = "bar",
-      text = ~ paste0(Variable, ": ", Label),
-      textposition = "none",
-      hovertemplate = "%{text}<extra></extra>"
-    ) %>%
-      layout(
-        title = "",
-        legend = list(orientation = "h", x = 0, y = 1.2, traceorder = "reversed"),
-        yaxis = list(title = ""),
-        xaxis = list(title = "", tickformat = "0,"),
-        barmode = "relative",
-        hovermode = "x unified"
-      ) %>%
-      plotly_custom_layout()
+    vertical_bar_chart(plot_data,
+                       colors = unname(custom_colors[c("yellow", "navy")]),
+                       y_tickformat = "",
+                       barmode = "relative",
+                       traceorder = "reversed")
   })
 
   # plot3.06 ----
@@ -1634,30 +1273,15 @@ server <- function(input, output, session) {
   output$plot3.06 <- output$plot3.06_s <- renderPlotly({
     plot_data <- data_new %>%
       filter(Topic_id == "3.06") %>%
-      mutate(
-        Value = as.numeric(Value) * 1000,
-        Label = comma(Value)
-      )
+      mutate(Value = as.numeric(Value) * 1000,
+             Label = paste0(Variable, ": ", comma(Value)),
+             x_Category = fct_inorder(Category),
+             color_Category = fct_inorder(Variable))
 
-    plot_ly(plot_data,
-      x = ~Category,
-      y = ~Value,
-      color = ~Variable,
-      colors = custom_colors[c("yellow", "navy")] %>% unname(),
-      type = "bar",
-      text = ~ paste0(Variable, ": ", Label),
-      textposition = "none",
-      hovertemplate = "%{text}<extra></extra>"
-    ) %>%
-      layout(
-        title = "",
-        legend = list(orientation = "h", x = 0, y = 1.2),
-        yaxis = list(title = ""),
-        xaxis = list(title = "", tickformat = "0,"),
-        barmode = "group",
-        hovermode = "x unified"
-      ) %>%
-      plotly_custom_layout()
+    vertical_bar_chart(plot_data,
+                       colors = unname(custom_colors[c("yellow", "navy")]),
+                       y_tickformat = "",
+                       legend_dir = "h")
   })
 
   # plot3.07 ----
@@ -1665,31 +1289,18 @@ server <- function(input, output, session) {
   output$plot3.07 <- output$plot3.07_s <- renderPlotly({
     plot_data <- data_new %>%
       filter(Topic_id == "3.07") %>%
-      mutate(
-        Value = as.numeric(Value),
-        Label = percent(abs(Value), accuracy = 0.1),
-        Category = fct_inorder(Category)
-      )
+      mutate(Value = as.numeric(Value),
+             Label = paste(Variable, ":", percent(abs(Value), accuracy = 0.1)),
+             y_Category = fct_inorder(Category)) %>%
+      arrange(Value) %>% ## arrange so that negative values come first for color
+      mutate(color_Category = fct_inorder(Variable))
 
-    plot_ly(plot_data,
-      x = ~Value,
-      y = ~Category,
-      color = ~Variable,
-      colors = custom_colors[c("med_blue", "dark_blue")] %>% unname(),
-      type = "bar",
-      orientation = "h",
-      text = ~ paste(Variable, ":", Label),
-      textposition = "none",
-      hoverinfo = "text"
-    ) %>%
-      layout(
-        title = "",
-        legend = list(orientation = "h", x = 0.5, y = 1.2, traceorder = "reversed"),
-        yaxis = list(title = ""),
-        xaxis = list(title = "", tickformat = "0%"),
-        barmode = "relative"
-      ) %>%
-      plotly_custom_layout()
+    horizontal_bar_chart(plot_data,
+                         colors = unname(custom_colors[c("med_blue", "dark_blue")]),
+                         x_tickformat = "0%",
+                         barmode = "relative",
+                         hovermode = "y unified",
+                         showlegend = TRUE)
   })
 
   # plot3.08 ----
@@ -1697,11 +1308,9 @@ server <- function(input, output, session) {
   output$plot3.08 <- output$plot3.08_s <- renderPlotly({
     plot_data <- data_new %>%
       filter(Topic_id == "3.08" & Category != "Total") %>%
-      mutate(
-        Value = as.numeric(Value),
-        Label = percent(abs(Value), accuracy = 0.1),
-        Category = fct_inorder(Category)
-      )
+      mutate(Value = as.numeric(Value),
+             Label = percent(abs(Value), accuracy = 0.1),
+             Category = fct_inorder(Category))
 
     plot_ly(plot_data,
       x = ~Variable,
@@ -1728,31 +1337,18 @@ server <- function(input, output, session) {
   output$plot3.09 <- output$plot3.09_s <- renderPlotly({
     plot_data <- data_new %>%
       filter(Topic_id == "3.09" & !str_detect(Category, "main")) %>%
-      mutate(
-        Value = as.numeric(Value),
-        Label = percent(abs(Value), accuracy = 0.1),
-        Category = fct_inorder(Category)
-      )
+      mutate(Value = as.numeric(Value),
+             Label = paste(Variable, ":", percent(abs(Value), accuracy = 0.1)),
+             y_Category = fct_inorder(Category)) %>%
+      arrange(Value) %>% ## arrange so that negative values come first for color
+      mutate(color_Category = fct_inorder(Variable))
 
-    plot_ly(plot_data,
-      x = ~Value,
-      y = ~Category,
-      color = ~Variable,
-      colors = custom_colors[c("med_blue", "dark_blue")] %>% unname(),
-      type = "bar",
-      orientation = "h",
-      text = ~ paste(Variable, ":", Label),
-      textposition = "none",
-      hoverinfo = "text"
-    ) %>%
-      layout(
-        title = "",
-        legend = list(orientation = "h", x = 0, y = 1.2, traceorder = "reversed"),
-        yaxis = list(title = "", autorange = "reversed"),
-        xaxis = list(title = "", tickformat = "0%"),
-        barmode = "relative"
-      ) %>%
-      plotly_custom_layout()
+    horizontal_bar_chart(plot_data,
+                         colors = unname(custom_colors[c("med_blue", "dark_blue")]),
+                         x_tickformat = "0%",
+                         barmode = "relative",
+                         hovermode = "y unified",
+                         showlegend = TRUE)
   })
 
   # plot3.10 ----
@@ -1769,11 +1365,9 @@ server <- function(input, output, session) {
 
     plot_data <- prep_data %>%
       filter(Category != "Cda") %>%
-      mutate(
-        Label = percent(Value, accuracy = 0.1),
-        Category = fct_inorder(Category),
-        selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"])
-      )
+      mutate(Label = percent(Value, accuracy = 0.1),
+             Category = fct_inorder(Category),
+             selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
 
     provincial_chart(plot_data,
                      hline_val = canada,
@@ -1790,31 +1384,18 @@ server <- function(input, output, session) {
     plot_data <- data_new %>%
       filter(Topic_id == "3.11") %>%
       filter(Variable == max(Variable) | Variable == as.numeric(max(Variable)) - 5) %>%
-      mutate(
-        Value = as.numeric(Value),
-        Label = percent(Value, accuracy = 0.1),
-        Category = fct_inorder(Category)
-      )
+      mutate(Value = as.numeric(Value),
+             Label = paste0(Variable, ": ", percent(Value, accuracy = 0.1)),
+             y_Category = fct_inorder(Category)) %>%
+      arrange(Variable) %>%  ## arrange so earlier year is first for color
+      mutate(color_Category = fct_inorder(Variable))
 
-    plot_ly(plot_data,
-      x = ~Value,
-      y = ~Category,
-      color = ~Variable,
-      colors = custom_colors[c("med_blue", "dark_blue")] %>% unname(),
-      type = "bar",
-      orientation = "h",
-      text = ~ paste0(Variable, ": ", Label),
-      textposition = "none",
-      hovertemplate = "%{text}<extra></extra>"
-    ) %>%
-      layout(
-        title = "",
-        legend = list(orientation = "h", x = 0, y = 1.2),
-        yaxis = list(title = "", autorange = "reversed"),
-        xaxis = list(title = "", tickformat = "0%"),
-        hovermode = "y unified"
-      ) %>%
-      plotly_custom_layout()
+      horizontal_bar_chart(plot_data,
+                           colors = unname(custom_colors[c("med_blue", "dark_blue")]),
+                           x_tickformat = "0%",
+                           hovermode = "y unified",
+                           showlegend = TRUE,
+                           autorange = "reversed")
   })
 
   # plot3.12 ----
@@ -1822,31 +1403,19 @@ server <- function(input, output, session) {
   output$plot3.12 <- output$plot3.12_s <- renderPlotly({
     plot_data <- data_new %>%
       filter(Topic_id == "3.12" & !str_detect(Category, "main")) %>%
-      mutate(
-        Value = as.numeric(Value),
-        Label = percent(abs(Value), accuracy = 0.1),
-        Category = fct_inorder(Category)
-      )
+      mutate(Value = as.numeric(Value),
+             Label = paste(Variable, ":", percent(abs(Value), accuracy = 0.1)),
+             y_Category = fct_inorder(Category)) %>%
+      arrange(Value) %>% ## arrange so that negative values come first for color
+      mutate(color_Category = fct_inorder(Variable))
 
-    plot_ly(plot_data,
-      x = ~Value,
-      y = ~Category,
-      color = ~Variable,
-      colors = custom_colors[c("med_blue", "dark_blue")] %>% unname(),
-      type = "bar",
-      orientation = "h",
-      text = ~ paste(Variable, ":", Label),
-      textposition = "none",
-      hoverinfo = "text"
-    ) %>%
-      layout(
-        title = "",
-        legend = list(orientation = "h", x = 0.5, y = 1.2, traceorder = "normal"),
-        yaxis = list(title = "", autorange = "reversed"),
-        xaxis = list(title = "", tickformat = "0%"),
-        barmode = "relative"
-      ) %>%
-      plotly_custom_layout()
+    horizontal_bar_chart(plot_data,
+                         colors = unname(custom_colors[c("med_blue", "dark_blue")]),
+                         x_tickformat = "0%",
+                         barmode = "relative",
+                         hovermode = "y unified",
+                         showlegend = TRUE,
+                         autorange = "reversed")
   })
 
   # plot3.13 ----
@@ -1854,31 +1423,16 @@ server <- function(input, output, session) {
   output$plot3.13 <- output$plot3.13_s <- renderPlotly({
     plot_data <- data_new %>%
       filter(Topic_id == "3.13" & Category != "Difference") %>%
-      mutate(
-        Value = as.numeric(Value),
-        Label = percent(Value, accuracy = 0.1),
-        Category = fct_inorder(Category)
-      )
+      mutate(Value = as.numeric(Value),
+             Label = paste0(Category, ": ", percent(Value, accuracy = 0.1)),
+             x_Category = fct_inorder(Variable),
+             color_Category = fct_inorder(Category))
 
-    plot_ly(plot_data,
-      x = ~Variable,
-      y = ~Value,
-      color = ~Category,
-      colors = custom_colors %>% unname(),
-      type = "bar",
-      orientation = "v",
-      text = ~ paste0(Category, ": ", Label),
-      textposition = "none",
-      hovertemplate = "%{text}<extra></extra>"
-    ) %>%
-      layout(
-        title = "",
-        legend = list(orientation = "h", x = 0, y = 1.2),
-        yaxis = list(title = "% Self-employed", tickformat = "0%"),
-        xaxis = list(title = ""),
-        hovermode = "x unified"
-      ) %>%
-      plotly_custom_layout()
+    vertical_bar_chart(plot_data,
+                       colors = unname(custom_colors[c("yellow", "navy")]),
+                       y_title = "% Self-employed",
+                       y_tickformat = "0%",
+                       legend_dir = "h")
   })
 
   # plot4.01 ----
@@ -1895,11 +1449,9 @@ server <- function(input, output, session) {
 
     plot_data <- prep_data %>%
       filter(Category != "Canada") %>%
-      mutate(
-        Label = percent(Value, accuracy = 1),
-        Category = fct_inorder(Category),
-        selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"])
-      )
+      mutate(Label = percent(Value, accuracy = 1),
+             Category = fct_inorder(Category),
+             selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
 
     provincial_chart(plot_data,
                      hline_val = canada,
@@ -1920,62 +1472,41 @@ server <- function(input, output, session) {
     wage_gap <- prep_data %>%
       filter(str_detect(Variable, "(G|g)ap")) %>%
       pivot_wider(names_from = "Variable", values_from = "Value") %>%
-      mutate(
-        year = str_extract(Category, "[:digit:]{4}"),
-        amount = dollar(`Small business wage gap`),
-        percent = percent(`Gap in per cent`, accuracy = 0.1),
-        text = paste0("<b>Wage gap ", year, " = ", amount, " (", percent, ")</b>")
-      ) %>%
+      mutate(year = str_extract(Category, "[:digit:]{4}"),
+             amount = dollar(`Small business wage gap`),
+             percent = percent(`Gap in per cent`, accuracy = 0.1),
+             text = paste0("<b>Wage gap ", year, ": ", amount, " (", percent, ")</b>")) %>%
       pull(text)
 
     plot_data <- prep_data %>%
-      filter(Topic_id == "4.02" & !str_detect(Variable, "(G|g)ap")) %>%
-      mutate(
-        Value = as.numeric(Value),
-        Label = dollar(Value),
-        Category = str_extract(Category, "Earnings [:digit:]{4}"),
-        Variable = fct_inorder(Variable)
-      )
+      filter(!str_detect(Variable, "(G|g)ap")) %>%
+      mutate(Value = as.numeric(Value),
+             Label = paste0(Variable, ": ", dollar(Value)),
+             x_Category = str_extract(Category, "Earnings [:digit:]{4}"),
+             color_Category = fct_inorder(Variable))
 
-    plot_ly(plot_data,
-      x = ~Category,
-      y = ~Value,
-      color = ~Variable,
-      colors = custom_colors %>% unname(),
-      type = "bar",
-      orientation = "v",
-      text = ~ paste0(Variable, ": ", Label),
-      textposition = "none",
-      hovertemplate = "%{text}<extra></extra>"
-    ) %>%
-      layout(
-        title = "",
-        legend = list(orientation = "h", x = 0, y = 1.2),
-        yaxis = list(title = "Thousands", tickformat = "$,"),
-        xaxis = list(title = "Payroll/Employee"),
-        hovermode = "x unified"
-      ) %>%
-      add_annotations(
-        x = 0.01,
-        y = 0.79,
-        text = wage_gap[1],
-        xref = "paper",
-        yref = "paper",
-        xanchor = "left",
-        yanchor = "bottom",
-        showarrow = F
-      ) %>%
-      add_annotations(
-        x = 0.5,
-        y = 0.99,
-        text = wage_gap[2],
-        xref = "paper",
-        yref = "paper",
-        xanchor = "left",
-        yanchor = "bottom",
-        showarrow = F
-      ) %>%
-      plotly_custom_layout()
+    vertical_bar_chart(plot_data,
+                       colors = unname(custom_colors[c("yellow", "navy")]),
+                       y_title = "housands",
+                       y_tickformat = "$,",
+                       legend_dir = "h") %>%
+      layout(xaxis = list(title = "Payroll/Employee")) %>%
+      add_annotations(x = 0.01,
+                      y = 0.79,
+                      text = wage_gap[1],
+                      xref = "paper",
+                      yref = "paper",
+                      xanchor = "left",
+                      yanchor = "bottom",
+                      showarrow = F) %>%
+      add_annotations(x = 0.5,
+                      y = 0.99,
+                      text = wage_gap[2],
+                      xref = "paper",
+                      yref = "paper",
+                      xanchor = "left",
+                      yanchor = "bottom",
+                      showarrow = F)
   })
 
   # plot4.03 ----
@@ -1983,31 +1514,18 @@ server <- function(input, output, session) {
   output$plot4.03 <- output$plot4.03_s <- renderPlotly({
     plot_data <- data_new %>%
       filter(Topic_id == "4.03" & !str_detect(Variable, "(G|g)ap")) %>%
-      mutate(
-        Value = as.numeric(Value),
-        Label = dollar(Value),
-        Variable = fct_inorder(Variable),
-        Category = fct_inorder(Category)
-      )
+      mutate(Value = as.numeric(Value),
+             Label = paste0(Variable, ": ", dollar(Value)),
+             y_Category = fct_inorder(Category)) %>%
+      arrange(desc(Variable)) %>%   ## arrange desc so small is first for color
+      mutate(color_Category = fct_inorder(Variable))
 
-    plot_ly(plot_data,
-      x = ~Value,
-      y = ~Category,
-      color = ~Variable,
-      colors = custom_colors[c("med_blue", "dark_blue")] %>% unname(),
-      type = "bar",
-      orientation = "h",
-      text = ~ paste0(Variable, ": ", Label),
-      textposition = "none",
-      hovertemplate = "%{text}<extra></extra>"
-    ) %>%
-      layout(
-        legend = list(orientation = "h", x = 0, y = 1.2, traceorder = "normal"),
-        xaxis = list(title = "", tickformat = "$,"),
-        yaxis = list(title = "", autorange = "reversed"),
-        hovermode = "y unified"
-      ) %>%
-      plotly_custom_layout()
+    horizontal_bar_chart(plot_data,
+                         colors = unname(custom_colors[c("med_blue", "dark_blue")]),
+                         x_tickformat = "$,",
+                         hovermode = "y unified",
+                         showlegend = TRUE,
+                         autorange = "reversed")
   })
 
   # plot4.04 ----
@@ -2015,31 +1533,19 @@ server <- function(input, output, session) {
   output$plot4.04 <- output$plot4.04_s <- renderPlotly({
     plot_data <- data_new %>%
       filter(Topic_id == "4.04" & !str_detect(Variable, "Dollar")) %>%
-      mutate(
-        Value = as.numeric(Value),
-        Label = dollar(Value, accuracy = 1),
-        Variable = str_extract(Variable, "[:digit:]{4}"),
-        Category = fct_inorder(Category)
-      )
+      mutate(Value = as.numeric(Value),
+             Label = paste0(Variable, ": ", dollar(Value, accuracy = 1)),
+             y_Category = fct_inorder(Category),
+             color_Category = str_extract(Variable, "[:digit:]{4}")) %>%
+      arrange(color_Category) %>%  ## arrange so earlier year is first for color
+      mutate(color_Categor = fct_inorder(color_Category))
 
-    plot_ly(plot_data,
-      x = ~Value,
-      y = ~Category,
-      color = ~Variable,
-      colors = custom_colors[c("dark_blue", "med_blue")] %>% unname(),
-      type = "bar",
-      orientation = "h",
-      text = ~ paste0(Variable, ": ", Label),
-      textposition = "none",
-      hovertemplate = "%{text}<extra></extra>"
-    ) %>%
-      layout(
-        legend = list(orientation = "h", x = 0, y = 1.2, traceorder = "normal"),
-        xaxis = list(title = "", tickformat = "$,"),
-        yaxis = list(title = "", autorange = "reversed"),
-        hovermode = "y unified"
-      ) %>%
-      plotly_custom_layout()
+    horizontal_bar_chart(plot_data,
+                         colors = unname(custom_colors[c("med_blue", "dark_blue")]),
+                         x_tickformat = "$,",
+                         hovermode = "y unified",
+                         showlegend = TRUE,
+                         autorange = "reversed")
   })
 
   # plot4.05 ----
@@ -2047,34 +1553,19 @@ server <- function(input, output, session) {
   output$plot4.05 <- output$plot4.05_s <- renderPlotly({
     plot_data <- data_new %>%
       filter(Topic_id == "4.05") %>%
-      mutate(
-        Value = as.numeric(Value),
-        Label = dollar(Value, accuracy = 1)
-      ) %>%
+      mutate(Value = as.numeric(Value),
+             Label = paste0(Variable, ": ", dollar(Value, accuracy = 1))) %>%
       arrange(desc(Variable), desc(Value)) %>%
-      mutate(
-        Category = fct_inorder(Category),
-        Variable = fct_inorder(Variable)
-      )
+      mutate(y_Category = fct_inorder(Category)) %>%
+    arrange(desc(Variable)) %>%   ## arrange desc so small is first for color
+    mutate(color_Category = fct_inorder(Variable))
 
-    plot_ly(plot_data,
-      x = ~Value,
-      y = ~Category,
-      color = ~Variable,
-      colors = custom_colors[c("med_blue", "dark_blue")] %>% unname(),
-      type = "bar",
-      orientation = "h",
-      text = ~ paste0(Variable, ": ", Label),
-      textposition = "none",
-      hovertemplate = "%{text}<extra></extra>"
-    ) %>%
-      layout(
-        legend = list(orientation = "h", x = 0, y = 1.2, traceorder = "normal"),
-        xaxis = list(title = "", tickformat = "$,"),
-        yaxis = list(title = "", autorange = "reversed"),
-        hovermode = "y unified"
-      ) %>%
-      plotly_custom_layout()
+    horizontal_bar_chart(plot_data,
+                         colors = unname(custom_colors[c("med_blue", "dark_blue")]),
+                         x_tickformat = "$,",
+                         hovermode = "y unified",
+                         showlegend = TRUE,
+                         autorange = "reversed")
   })
 
   # plot4.06 ----
@@ -2090,11 +1581,9 @@ server <- function(input, output, session) {
 
     plot_data <- prep_data %>%
       filter(Category != "CDA") %>%
-      mutate(
-        Label = percent(Value, accuracy = 0.1),
-        Category = fct_inorder(Category),
-        selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"])
-      )
+      mutate(Label = percent(Value, accuracy = 0.1),
+             Category = fct_inorder(Category),
+             selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
 
     provincial_chart(plot_data,
                      hline_val = canada,
@@ -2318,31 +1807,16 @@ server <- function(input, output, session) {
   output$plot5.03 <- output$plot5.03_s <- renderPlotly({
     plot_data <- data_new %>%
       filter(Topic_id == "5.03") %>%
-      mutate(
-        Value = as.numeric(Value),
-        Label = percent(Value, accuracy = 0.1),
-        Category = fct_inorder(Category),
-        Category2 = fct_inorder(Category2)
-      )
+      mutate(Value = as.numeric(Value),
+             Label = paste0(Category, ": ", percent(Value, accuracy = 0.1)),
+             x_Category = fct_inorder(Category2)) %>%
+      arrange(desc(Category)) %>%   ## arrange order: US, non, both
+      mutate(color_Category = fct_inorder(Category))
 
-    plot_ly(plot_data,
-      x = ~Category2,
-      y = ~Value,
-      color = ~Category,
-      colors = custom_colors[c("dark_blue", "med_blue", "green")] %>% unname(),
-      type = "bar",
-      text = ~ paste0(Category, ": ", Label),
-      textposition = "none",
-      hovertemplate = "%{text}<extra></extra>"
-    ) %>%
-      layout(
-        title = "",
-        legend = list(orientation = "h", x = 0, y = 1.2),
-        yaxis = list(title = "", tickformat = "0%"),
-        xaxis = list(title = ""),
-        hovermode = "x unified"
-      ) %>%
-      plotly_custom_layout()
+    vertical_bar_chart(plot_data,
+                       colors = unname(custom_colors[c("dark_blue", "med_blue", "green")]),
+                       y_tickformat = "0%",
+                       legend_dir = "h")
   })
 
   # plot5.04 ----
@@ -2350,31 +1824,16 @@ server <- function(input, output, session) {
   output$plot5.04 <- output$plot5.04_s <- renderPlotly({
     plot_data <- data_new %>%
       filter(Topic_id == "5.04" & Variable == "Share of export value") %>%
-      mutate(
-        Value = as.numeric(Value),
-        Label = percent(Value, accuracy = 0.1),
-        Category = fct_inorder(Category),
-        Category2 = fct_inorder(Category2)
-      )
+      mutate(Value = as.numeric(Value),
+             Label = paste0(Category, ": ", percent(Value, accuracy = 0.1)),
+             x_Category = fct_inorder(Category2)) %>%
+      arrange(desc(Category)) %>%   ## arrange order: US, non, both
+      mutate(color_Category = fct_inorder(Category))
 
-    plot_ly(plot_data,
-      x = ~Category2,
-      y = ~Value,
-      color = ~Category,
-      colors = custom_colors[c("dark_blue", "med_blue", "green")] %>% unname(),
-      type = "bar",
-      text = ~ paste0(Category, ": ", Label),
-      textposition = "none",
-      hovertemplate = "%{text}<extra></extra>"
-    ) %>%
-      layout(
-        title = "",
-        legend = list(orientation = "h", x = 0, y = 1.2),
-        yaxis = list(title = "", tickformat = "0%"),
-        xaxis = list(title = ""),
-        hovermode = "x unified"
-      ) %>%
-      plotly_custom_layout()
+    vertical_bar_chart(plot_data,
+                       colors = unname(custom_colors[c("dark_blue", "med_blue", "green")]),
+                       y_tickformat = "0%",
+                       legend_dir = "h")
   })
 
   # plot5.05 ----
@@ -2382,32 +1841,18 @@ server <- function(input, output, session) {
   output$plot5.05 <- output$plot5.05_s <- renderPlotly({
     plot_data <- data_new %>%
       filter(Topic_id == "5.05" & Category2 == "Share of exports") %>%
-      mutate(
-        Value = as.numeric(Value),
-        Label = percent(Value, accuracy = 0.1),
-        Category = fct_rev(Category),
-        Variable = fct_inorder(Variable)
-      )
+      mutate(Value = as.numeric(Value),
+             Label = paste0(Category, ": ", percent(Value, accuracy = 0.1)),
+             x_Category = fct_inorder(Variable)) %>%
+      arrange(desc(Category)) %>%   ## arrange order: US, non, both
+      mutate(color_Category = fct_inorder(Category))
 
-    plot_ly(plot_data,
-      x = ~Variable,
-      y = ~Value,
-      color = ~Category,
-      colors = custom_colors[c("dark_blue", "med_blue", "green")] %>% unname(),
-      type = "bar",
-      text = ~ paste0(Category, ": ", Label),
-      textposition = "none",
-      hovertemplate = "%{text}<extra></extra>"
-    ) %>%
-      layout(
-        title = "",
-        legend = list(orientation = "h", x = 0, y = 1.2),
-        yaxis = list(title = "% of Total", tickformat = "0%"),
-        xaxis = list(title = ""),
-        barmode = "relative",
-        hovermode = "x unified"
-      ) %>%
-      plotly_custom_layout()
+    vertical_bar_chart(plot_data,
+                       colors = unname(custom_colors[c("dark_blue", "med_blue", "green")]),
+                       y_title = "% of Total",
+                       y_tickformat = "0%",
+                       barmode = "relative",
+                       legend_dir = "h")
   })
 
   # plot5.06 ----
@@ -2423,11 +1868,9 @@ server <- function(input, output, session) {
 
     plot_data <- prep_data %>%
       filter(Category != "CA") %>%
-      mutate(
-        Label = dollar(Value, accuracy = 0.1),
-        Category = fct_inorder(Category),
-        selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"])
-      )
+      mutate(Label = dollar(Value, accuracy = 0.1),
+             Category = fct_inorder(Category),
+             selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
 
     provincial_chart(plot_data,
                      hline_val = canada,
@@ -2443,16 +1886,16 @@ server <- function(input, output, session) {
   output$plot5.07 <- output$plot5.07_s <- renderPlotly({
     plot_data <- data_new %>%
       filter(Topic_id == "5.07") %>%
-      mutate(
-        Value = as.numeric(Value) / 1e6,
-        Label = dollar(Value, accuracy = 0.1)
-      )
+      mutate(Value = as.numeric(Value) / 1e6,
+             Label = dollar(Value, accuracy = 0.1)) %>%
+      arrange(desc(Category)) %>%  ## arrange desc so small is on top for color
+      mutate(Category = fct_inorder(Category))
 
     plot_ly(plot_data,
       x = ~Variable,
       y = ~Value,
       color = ~Category,
-      colors = custom_colors[c("dark_blue", "med_blue")] %>% unname(),
+      colors = custom_colors[c("med_blue", "dark_blue")] %>% unname(),
       type = "scatter",
       mode = "lines",
       stackgroup = "one",
@@ -2466,7 +1909,7 @@ server <- function(input, output, session) {
         barmode = "stack",
         hovermode = "x unified",
         showlegend = TRUE,
-        legend = list(orientation = "h", x = 0, y = 1.3)
+        legend = list(orientation = "v", x = 0, y = 1.2)
       ) %>%
       plotly_custom_layout()
   })
@@ -2477,12 +1920,10 @@ server <- function(input, output, session) {
     plot_data <- data_new %>%
       filter(Topic_id == 6.01) %>%
       filter(Variable == max(Variable)) %>%
-      mutate(
-        Value = as.numeric(Value),
-        Label = percent(Value),
-        Category = fct_inorder(Category),
-        selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"])
-      )
+      mutate(Value = as.numeric(Value),
+             Label = percent(Value),
+             Category = fct_inorder(Category),
+             selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
 
     provincial_chart(plot_data,
                      y_title = "Tax Rate",
@@ -2503,11 +1944,9 @@ server <- function(input, output, session) {
 
     plot_data <- prep_data %>%
       filter(Category != "Canada") %>%
-      mutate(
-        Label = dollar(Value),
-        Category = fct_inorder(Category),
-        selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"])
-      )
+      mutate(Label = dollar(Value),
+             Category = fct_inorder(Category),
+             selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
 
     provincial_chart(plot_data,
                      hline_val = canada,
@@ -2532,11 +1971,9 @@ server <- function(input, output, session) {
 
     plot_data <- prep_data %>%
       filter(Category != "CAN") %>%
-      mutate(
-        Label = round_half_up(Value, digits = 1),
-        Category = fct_inorder(Category),
-        selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"])
-      )
+      mutate(Label = round_half_up(Value, digits = 1),
+             Category = fct_inorder(Category),
+             selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
 
     provincial_chart(plot_data,
                      hline_val = canada,

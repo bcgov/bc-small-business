@@ -105,7 +105,68 @@ provincial_chart <- function(plot_data, hline_val = NULL, label = NULL, label_x 
   plot %>% plotly_custom_layout()
 }
 
+horizontal_bar_chart <- function(plot_data, colors, x_title = "", x_tickformat,
+                                 barmode = "group", hovermode = "y",
+                                 autorange = "normal", showlegend = FALSE, traceorder = "normal"){
 
+  if(hovermode == "y unified") {
+    hoverinfo = NULL
+    hovertemplate = "%{text}<extra></extra>"
+  } else {
+    hoverinfo = "text"
+    hovertemplate = NULL
+  }
+
+  plot_ly(plot_data,
+          type = "bar",
+          x = ~Value,
+          y = ~y_Category,
+          color = ~color_Category,
+          colors = colors,
+          text = ~Label,
+          textposition = "none",
+          hoverinfo = hoverinfo,
+          hovertemplate = hovertemplate) %>%
+    layout(title = "",
+           xaxis = list(title = x_title, tickformat = x_tickformat),
+           yaxis = list(title = "", autorange = autorange),
+           barmode = barmode,
+           hovermode = hovermode,
+           showlegend = showlegend,
+           legend = list(orientation = "h",
+                         traceorder = traceorder,
+                         x = 0,
+                         y = 1.2)) %>%
+    plotly_custom_layout()
+
+}
+
+vertical_bar_chart <- function(plot_data, colors, y_title = "", y_tickformat,
+                               barmode = "group", autorange = "normal",
+                               showlegend = TRUE, traceorder = "normal", legend_dir = "v") {
+
+  plot_ly(plot_data,
+          type = "bar",
+          x = ~x_Category,
+          y = ~Value,
+          color = ~color_Category,
+          colors = colors,
+          text = ~Label,
+          textposition = "none",
+          hovertemplate = "%{text}<extra></extra>") %>%
+    layout(title = "",
+           xaxis = list(title = ""),
+           yaxis = list(title = y_title, tickformat = y_tickformat, autorange = autorange),
+           barmode = barmode,
+           hovermode = "x unified",
+           showlegend = showlegend,
+           legend = list(orientation = legend_dir,
+                         traceorder = traceorder,
+                         x = 0,
+                         y = 1.2)) %>%
+    plotly_custom_layout()
+
+}
 
 
 
