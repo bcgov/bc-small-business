@@ -40,9 +40,11 @@ figs <<- data_new %>%
          fig_text = paste(Figure, Topic)) %>%
   select(Topic_id, fig_text)
 
+source("fig_code/highlights.R")
 source("fig_code/figure_notes.R")
 source("fig_code/figure_list_main.R")
 source("fig_code/figure_list_standalone.R")
+
 
 
 

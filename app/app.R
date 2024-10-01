@@ -140,18 +140,16 @@ ui <-
               tabItem( ## page 1 tab start ----
                 tabName = "page1",
                 fluidRow(
-                  figure_list_main[c("fig1.01", "fig1.02", "fig1.03", "fig1.04",
-                                     "fig1.05", "fig1.06", "fig1.07", "fig1.08",
-                                     "fig1.09", "fig1.10", "fig1.11", "fig1.12",
-                                     "fig1.13", "fig1.14", "fig1.15")],
+                  figure_list_main[c("fig1.01", "fig1.02", "fig1.03", "fig1.04", "fig1.05",
+                                     "fig1.06", "fig1.07", "fig1.08", "fig1.09", "fig1.10",
+                                     "fig1.11", "fig1.12", "fig1.13", "fig1.14", "fig1.15")],
                   box(HTML("<b><center>Feedback:</b> SmallBusinessBranch@gov.bc.ca </center>"), width = 10)
               )), ## page 1 tab end ----
               tabItem( ## page 2 tab start----
                 tabName = "page2",
                 fluidRow(
-                  figure_list_main[c("fig2.01", "fig2.02", "fig2.03", "fig2.04",
-                                     "fig2.05", "fig2.06", "fig2.07", "fig2.08",
-                                     "fig2.09", "fig2.10")],
+                  figure_list_main[c("fig2.01", "fig2.02", "fig2.03", "fig2.04", "fig2.05",
+                                     "fig2.06", "fig2.07", "fig2.08", "fig2.09", "fig2.10")],
                   box(HTML("<b><center>Feedback:</b> SmallBusinessBranch@gov.bc.ca </center>"), width = 10)
               )), ## page 2 tab end ----
               tabItem( ## page 3 tab start ----
@@ -160,9 +158,8 @@ ui <-
               tabItem( ## page 3 subtab main start ----
                 tabName = "main",
                 fluidRow(
-                  figure_list_main[c("fig3.01", "fig3.02", "fig3.03", "fig3.04",
-                                     "fig3.05", "fig3.06", "fig3.07", "fig3.08",
-                                     "fig3.09")],
+                  figure_list_main[c("fig3.01", "fig3.02", "fig3.03", "fig3.04", "fig3.05",
+                                     "fig3.06", "fig3.07", "fig3.08", "fig3.09")],
                   box(HTML("<b><center>Feedback:</b> SmallBusinessBranch@gov.bc.ca </center>"), width = 10)
                   )), ## page 3 subtab main end -----
               tabItem( ## page 3 subtab women start ----
@@ -180,15 +177,13 @@ ui <-
               tabItem( ## page 4 tab start ----
                 tabName = "page4",
                 fluidRow(
-                  figure_list_main[c("fig4.01", "fig4.02", "fig4.03", "fig4.04",
-                                     "fig4.05", "fig4.06")],
+                  figure_list_main[c("fig4.01", "fig4.02", "fig4.03", "fig4.04", "fig4.05", "fig4.06")],
                   box(HTML("<b><center>Feedback:</b> SmallBusinessBranch@gov.bc.ca </center>"), width = 10)
                 )), ## page 4 tab end ----
               tabItem( ## page 5 tab start ----
                 tabName = "page5",
                 fluidRow(
-                  figure_list_main[c("fig5.01", "fig5.02", "fig5.03", "fig5.04",
-                                     "fig5.05", "fig5.06", "fig5.07")],
+                  figure_list_main[c("fig5.01", "fig5.02", "fig5.03", "fig5.04", "fig5.05", "fig5.06", "fig5.07")],
                   box(HTML("<b><center>Feedback:</b> SmallBusinessBranch@gov.bc.ca </center>"), width = 10)
                 )), ## page 5 tab end ----
               tabItem( ## page 6 tab start ----
@@ -314,29 +309,22 @@ server <- function(input, output, session) {
   ## color definition ----
   default_color <- "#1f77b4"
 
-  custom_colors <- c(
-    yellow = "#fcb814", light_green = "#95c1b2", green = "#15987b",
-    light_blue = "#92b5d2", med_blue = "#0e83b0", dark_blue = "#015082",
-    navy = "#143047"
-  )
+  custom_colors <- c(yellow = "#fcb814", light_green = "#95c1b2", green = "#15987b",
+                     light_blue = "#92b5d2", med_blue = "#0e83b0", dark_blue = "#015082", navy = "#143047")
 
-  region_colors <- c(
-    "Provincial Total" = "#000000",
-    "Cariboo" = "#95c1b2", "Kootenay" = "#15987b", "Mainland/Southwest" = "#0e83b0",
-    "North Coast & Nechako" = "#fcb814", "Northeast" = "#143047", "Thompson-Okanagan" = "#015082",
-    "Vancouver Island/Coast" = "#92b5d2"
-  )
+  region_colors <- c("Provincial Total" = "#000000",
+                     "Cariboo" = "#95c1b2", "Kootenay" = "#15987b", "Mainland/Southwest" = "#0e83b0",
+                     "North Coast & Nechako" = "#fcb814", "Northeast" = "#143047", "Thompson-Okanagan" = "#015082",
+                     "Vancouver Island/Coast" = "#92b5d2")
 
-  size_colors <- c(
-    "Small Business" = "#95c1b2", "Small businesses" = "#95c1b2",
-    "Small businesses with employees" = "#95c1b2",
-    "Small businesses with employees (Fewer than 50)" = "#95c1b2",
-    "Small businesses without employees (Self-employed without paid help)" = "#15987b",
-    "Small businesses without employees" = "#15987b",
-    "Large Business" = "#fcb814", "Large Businesses" = "#fcb814",
-    "Large businesses" = "#fcb814", "Large Businesses (Businesses with 50 or more)" = "#fcb814",
-    "Public Sector" = "#92b5d2"
-  )
+  size_colors <- c("Small Business" = "#95c1b2", "Small businesses" = "#95c1b2",
+                   "Small businesses with employees" = "#95c1b2",
+                   "Small businesses with employees (Fewer than 50)" = "#95c1b2",
+                   "Small businesses without employees (Self-employed without paid help)" = "#15987b",
+                   "Small businesses without employees" = "#15987b",
+                   "Large Business" = "#fcb814", "Large Businesses" = "#fcb814",
+                   "Large businesses" = "#fcb814", "Large Businesses (Businesses with 50 or more)" = "#fcb814",
+                   "Public Sector" = "#92b5d2")
 
   # datatable1.01 ----
   ## Figure 1.1: Breakdown of businesses in British Columbia
@@ -355,8 +343,7 @@ server <- function(input, output, session) {
     datatable(table_data,
       rownames = FALSE,
       colnames = c("", names(table_data)[-1]),
-      ## change default class (table-striped) to cell-border (borders around all cells, no striping)
-      class = "cell-border",
+      class = "cell-border",   ## change default class (table-striped) to cell-border (borders around all cells, no striping)
       options = list(
         scrollX = TRUE,
         paging = FALSE,
@@ -370,23 +357,18 @@ server <- function(input, output, session) {
           "  $('th', thead).css('border-style', 'solid');",
           "  $('th', thead).css('border-width', '1px');",
           "  $('th', thead).css('border-color', 'white');",
-          "}"
-        ),
+          "}"),
         ## column widths
-        columnDefs = list(list(width = "300px", targets = 0))
-      )
-    ) %>%
-      ## can use any css style in formatStyle by replacing "-" with camel case (e.g., text-align -- textAlign)
+        columnDefs = list(list(width = "300px", targets = 0)))) %>%
+      ## Style: can use any css style in formatStyle by replacing "-" with camel case (e.g., text-align -- textAlign)
       formatStyle(1:ncol(table_data), backgroundColor = "#e6edf4", borderColor = "white") %>%
       formatStyle(c(2, 5, 7), textAlign = "right") %>%
       formatStyle(c(3, 4, 6, 8), textAlign = "center") %>%
-      formatStyle(
-        columns = 1:ncol(table_data),
-        ## use styleRow to select which rows to apply style
-        backgroundColor = styleRow(rows = c(8, 15, 16), "#c4d6e7"),
-        color = styleRow(rows = c(8, 15, 16), "#015082"),
-        fontWeight = styleRow(rows = c(8, 15, 16), "bold")
-      ) %>%
+      formatStyle(columns = 1:ncol(table_data),
+                  ## use styleRow to select which rows to apply style
+                  backgroundColor = styleRow(rows = c(8, 15, 16), "#c4d6e7"),
+                  color = styleRow(rows = c(8, 15, 16), "#015082"),
+                  fontWeight = styleRow(rows = c(8, 15, 16), "bold")) %>%
       formatStyle(columns = 1, paddingLeft = styleRow(rows = c(2, 3), "30px"))
   })
 
@@ -428,15 +410,14 @@ server <- function(input, output, session) {
                          colors = size_colors,
                          x_tickformat = ".0%",
                          hovermode = "closest") %>%
-      add_annotations( ## add requested additional info on chart
-        x = 0,
-        y = 0.99,
-        text = paste0("<b>Total businesses and organizations: ", comma(total_count), "</b>"),
-        xref = "paper",
-        yref = "paper",
-        xanchor = "left",
-        yanchor = "bottom",
-        showarrow = F)
+      add_annotations(x = 0,
+                      y = 0.99,
+                      text = paste0("<b>Total businesses and organizations: ", comma(total_count), "</b>"),
+                      xref = "paper",
+                      yref = "paper",
+                      xanchor = "left",
+                      yanchor = "bottom",
+                      showarrow = F)
   })
 
   # plot1.04a ----
@@ -453,7 +434,6 @@ server <- function(input, output, session) {
     horizontal_bar_chart(plot_data,
                          colors = default_color,
                          x_tickformat = "0,")
-
   })
 
   # plot1.04b ----
@@ -516,7 +496,6 @@ server <- function(input, output, session) {
                          autorange = "reversed") %>%
       layout(yaxis = list(tickvals = ~Category,
                           ticktext = ~custom_ticktext))
-
   })
 
   # plot1.06 ----
@@ -619,7 +598,6 @@ server <- function(input, output, session) {
                          autorange = "reversed") %>%
       layout(yaxis = list(tickvals = ~Category,
                           ticktext = ~custom_ticktext))
-
   })
 
   # plot1.10 ----
@@ -702,18 +680,15 @@ server <- function(input, output, session) {
     ggplot(data = plot_data) +
       geom_sf(aes(fill = region), color = "white", linewidth = 0.5) +
       geom_sf_text(aes(label = label, color = text_color),
-        size = 4, lineheight = 0.8, fontface = "bold",
-        ## northcoast, vi, mainland, cariboo, kootenay, t-o, northeast
-        nudge_x = c(120000, -280000, 150000, -90000, 0, -10000, 20000),
-        nudge_y = c(-190000, -120000, -180000, -100000, -50000, 20000, 0)
-      ) +
+                   size = 4, lineheight = 0.8, fontface = "bold",
+                   ## northcoast, vi, mainland, cariboo, kootenay, t-o, northeast
+                   nudge_x = c(120000, -280000, 150000, -90000, 0, -10000, 20000),
+                   nudge_y = c(-190000, -120000, -180000, -100000, -50000, 20000, 0)) +
       scale_fill_manual(values = region_colors) +
       scale_color_manual(values = c(white = "white", black = "black")) +
       theme_void() +
-      theme(
-        legend.position = "none",
-        text = element_text(face = "bold")
-      )
+      theme(legend.position = "none",
+            text = element_text(face = "bold"))
   })
 
   # plot1.13 ----
@@ -791,12 +766,9 @@ server <- function(input, output, session) {
       suppressWarnings()
 
     # create a custom table header
-    h_1 <- names(table_data)[5] %>%
-      str_replace(" \\(", "\\\r\\\n\\(") %>%
-      str_replace("\\) [:alpha:]*", "\\)")
-    h_2 <- names(table_data)[7] %>%
-      str_replace(" \\(", "\\\r\\\n\\(") %>%
-      str_replace("\\) [:alpha:]*", "\\)")
+    h_1 <- names(table_data)[5] %>% str_replace(" \\(", "\\\r\\\n\\(") %>% str_replace("\\) [:alpha:]*", "\\)")
+    h_2 <- names(table_data)[7] %>% str_replace(" \\(", "\\\r\\\n\\(") %>% str_replace("\\) [:alpha:]*", "\\)")
+
     heading2 <- htmltools::withTags(table(
       class = "display",
       thead(
@@ -806,20 +778,15 @@ server <- function(input, output, session) {
           th(rowspan = 2, "Per cent of small business"),
           th(rowspan = 2, "Per cent of private sector"),
           th(colspan = 2, h_1),
-          th(colspan = 2, h_2)
-        ),
+          th(colspan = 2, h_2)),
         tr(
-          lapply(rep(c("Number", "Per cent"), 2), th)
-        )
-      )
-    ))
+          lapply(rep(c("Number", "Per cent"), 2), th)))))
 
     ## create a datatable
     datatable(table_data,
       container = heading2,
       rownames = FALSE,
-      ## change default class (table-striped) to cell-border (borders around all cells, no striping)
-      class = "cell-border",
+      class = "cell-border", ## change default class (table-striped) to cell-border (borders around all cells, no striping)
       options = list(
         scrollX = TRUE,
         paging = FALSE,
@@ -833,26 +800,18 @@ server <- function(input, output, session) {
           "  $('th','tr', thead).css('border-style', 'solid');",
           "  $('th','tr', thead).css('border-width', '1px');",
           "  $('th','tr', thead).css('border-color', 'white');",
-          "}"
-        ),
+          "}"),
         ## column widths
-        columnDefs = list(
-          list(width = "300px", targets = 0),
-          list(width = "75px", targets = 3)
-        )
-      )
-    ) %>%
-      ## helper functions for formatting
+        columnDefs = list(list(width = "300px", targets = 0),
+                          list(width = "75px", targets = 3)))) %>%
       formatStyle(1:8, backgroundColor = "#e6edf4", borderColor = "white") %>%
       formatStyle(c(2, 5, 7), textAlign = "right") %>%
       formatStyle(c(3, 4, 6, 8), textAlign = "center") %>%
-      formatStyle(
-        columns = 1:8,
-        ## use styleRow to select which rows to apply style
-        backgroundColor = styleRow(rows = nrow(table_data), "#c4d6e7"),
-        color = styleRow(rows = nrow(table_data), "#015082"),
-        fontWeight = styleRow(rows = nrow(table_data), "bold")
-      ) %>%
+      formatStyle(columns = 1:8,
+                  ## use styleRow to select which rows to apply style
+                  backgroundColor = styleRow(rows = nrow(table_data), "#c4d6e7"),
+                  color = styleRow(rows = nrow(table_data), "#015082"),
+                  fontWeight = styleRow(rows = nrow(table_data), "bold")) %>%
       formatStyle(columns = 1, paddingLeft = styleRow(rows = c(2, 3), "30px"))
   })
 
@@ -881,15 +840,14 @@ server <- function(input, output, session) {
                          x_tickformat = "0%",
                          hovermode = "closest",
                          autorange = "reversed") %>%
-      add_annotations(
-        x = 0,
-        y = 0.99,
-        text = paste("<b>Total Employment:", comma(total), "</b>"),
-        xref = "paper",
-        yref = "paper",
-        xanchor = "left",
-        yanchor = "bottom",
-        showarrow = F )
+      add_annotations(x = 0,
+                      y = 0.99,
+                      text = paste("<b>Total Employment:", comma(total), "</b>"),
+                      xref = "paper",
+                      yref = "paper",
+                      xanchor = "left",
+                      yanchor = "bottom",
+                      showarrow = F )
   })
 
   # plot2.03 ----
@@ -915,15 +873,14 @@ server <- function(input, output, session) {
                          x_tickformat = "0%",
                          hovermode = "closest",
                          autorange = "reversed") %>%
-      add_annotations(
-        x = 0,
-        y = 0.99,
-        text = paste("<b>Total Employment:", comma(total), "</b>"),
-        xref = "paper",
-        yref = "paper",
-        xanchor = "left",
-        yanchor = "bottom",
-        showarrow = F)
+      add_annotations(x = 0,
+                      y = 0.99,
+                      text = paste("<b>Total Employment:", comma(total), "</b>"),
+                      xref = "paper",
+                      yref = "paper",
+                      xanchor = "left",
+                      yanchor = "bottom",
+                      showarrow = F)
   })
 
   # plot2.04 ----
@@ -1043,8 +1000,8 @@ server <- function(input, output, session) {
                          x_title = "One-year growth rate in small business employment",
                          x_tickformat = "0%",
                          hovermode = "closest",
-                         showlegend = TRUE,
                          autorange = "reversed",
+                         showlegend = TRUE,
                          traceorder = "reversed")
   })
 
@@ -1067,8 +1024,8 @@ server <- function(input, output, session) {
                          x_title = "Two-year growth rate in small business employment",
                          x_tickformat = "0%",
                          hovermode = "closest",
-                         showlegend = TRUE,
                          autorange = "reversed",
+                         showlegend = TRUE,
                          traceorder = "reversed")
   })
 
@@ -1091,8 +1048,8 @@ server <- function(input, output, session) {
                          x_title = "Five-year growth rate in small business employment",
                          x_tickformat = "0%",
                          hovermode = "closest",
-                         showlegend = TRUE,
                          autorange = "reversed",
+                         showlegend = TRUE,
                          traceorder = "reversed")
   })
 
@@ -1174,15 +1131,14 @@ server <- function(input, output, session) {
                          hovermode = "closest",
                          autorange = "reversed") %>%
       layout(shapes = list(vline(provincial_average))) %>%
-      add_annotations(
-        x = 0.25,
-        y = .99,
-        text = paste("<b>— Provincial Average: ", percent(provincial_average, accuracy = 0.1), "</b>"),
-        xref = "paper",
-        yref = "paper",
-        xanchor = "left",
-        yanchor = "bottom",
-        showarrow = F)
+      add_annotations(x = 0.25,
+                      y = .99,
+                      text = paste("<b>— Provincial Average: ", percent(provincial_average, accuracy = 0.1), "</b>"),
+                      xref = "paper",
+                      yref = "paper",
+                      xanchor = "left",
+                      yanchor = "bottom",
+                      showarrow = F)
   })
 
   # plot3.03b ----
@@ -1209,15 +1165,14 @@ server <- function(input, output, session) {
                          hovermode = "closest",
                          autorange = "reversed") %>%
       layout(shapes = list(vline(provincial_average))) %>%
-      add_annotations(
-        x = 0.45,
-        y = .99,
-        text = paste("<b>— Provincial Average: ", percent(provincial_average, accuracy = 0.1), "</b>"),
-        xref = "paper",
-        yref = "paper",
-        xanchor = "left",
-        yanchor = "bottom",
-        showarrow = F)
+      add_annotations(x = 0.45,
+                      y = .99,
+                      text = paste("<b>— Provincial Average: ", percent(provincial_average, accuracy = 0.1), "</b>"),
+                      xref = "paper",
+                      yref = "paper",
+                      xanchor = "left",
+                      yanchor = "bottom",
+                      showarrow = F)
   })
 
   # plot3.04 ----
@@ -1307,14 +1262,10 @@ server <- function(input, output, session) {
       mode = "lines",
       text = ~ paste0(Category, ": ", Label),
       textposition = "none",
-      hovertemplate = "%{text}<extra></extra>"
-    ) %>%
-      layout(
-        title = "",
-        yaxis = list(title = "", tickformat = "0%"),
-        xaxis = list(title = ""),
-        hovermode = "x unified"
-      ) %>%
+      hovertemplate = "%{text}<extra></extra>") %>%
+      layout(yaxis = list(title = "", tickformat = "0%"),
+             xaxis = list(title = ""),
+             hovermode = "x unified") %>%
       plotly_custom_layout()
   })
 
@@ -1380,8 +1331,8 @@ server <- function(input, output, session) {
                            colors = unname(custom_colors[c("med_blue", "dark_blue")]),
                            x_tickformat = "0%",
                            hovermode = "y unified",
-                           showlegend = TRUE,
-                           autorange = "reversed")
+                           autorange = "reversed",
+                           showlegend = TRUE)
   })
 
   # plot3.12 ----
@@ -1400,8 +1351,8 @@ server <- function(input, output, session) {
                          x_tickformat = "0%",
                          barmode = "relative",
                          hovermode = "y unified",
-                         showlegend = TRUE,
-                         autorange = "reversed")
+                         autorange = "reversed",
+                         showlegend = TRUE)
   })
 
   # plot3.13 ----
@@ -1510,8 +1461,8 @@ server <- function(input, output, session) {
                          colors = unname(custom_colors[c("med_blue", "dark_blue")]),
                          x_tickformat = "$,",
                          hovermode = "y unified",
-                         showlegend = TRUE,
-                         autorange = "reversed")
+                         autorange = "reversed",
+                         showlegend = TRUE)
   })
 
   # plot4.04 ----
@@ -1530,8 +1481,8 @@ server <- function(input, output, session) {
                          colors = unname(custom_colors[c("med_blue", "dark_blue")]),
                          x_tickformat = "$,",
                          hovermode = "y unified",
-                         showlegend = TRUE,
-                         autorange = "reversed")
+                         autorange = "reversed",
+                         showlegend = TRUE)
   })
 
   # plot4.05 ----
@@ -1550,8 +1501,8 @@ server <- function(input, output, session) {
                          colors = unname(custom_colors[c("med_blue", "dark_blue")]),
                          x_tickformat = "$,",
                          hovermode = "y unified",
-                         showlegend = TRUE,
-                         autorange = "reversed")
+                         autorange = "reversed",
+                         showlegend = TRUE)
   })
 
   # plot4.06 ----
@@ -1605,8 +1556,7 @@ server <- function(input, output, session) {
     # Create the datatable
     datatable(table_data[-1],
       rownames = FALSE,
-      ## change default class (table-striped) to cell-border (borders around all cells, no striping)
-      class = "cell-border",
+      class = "cell-border", ## change default class (table-striped) to cell-border (borders around all cells, no striping)
       options = list(
         scrollX = TRUE, ordering = FALSE, paging = FALSE, dom = "t",
         ## format header
@@ -1618,32 +1568,26 @@ server <- function(input, output, session) {
           "  $('th', thead).css('border-style', 'solid');",
           "  $('th', thead).css('border-width', '1px');",
           "  $('th', thead).css('border-color', 'white');",
-          "}"
-        ),
+          "}"),
         ## column widths
-        columnDefs = list(list(width = "180px", targets = 0))
-      )
-    ) %>%
-      ## can use any css style in formatStyle by replacing "-" with camel case (e.g., text-align -- textAlign)
+        columnDefs = list(list(width = "180px", targets = 0)))) %>%
+      ## Style: can use any css style in formatStyle by replacing "-" with camel case (e.g., text-align -- textAlign)
       formatStyle(1:ncol(table_data), backgroundColor = "#e6edf4", borderColor = "white") %>%
       formatStyle(1:ncol(table_data),
-        color = styleRow(4, "white"),
-        backgroundColor = styleRow(4, "#0e83b0"),
-        textAlign = styleRow(4, "center"),
-        borderStyle = styleRow(4, "solid"),
-        borderWidth = styleRow(4, "1px"),
-        borderColor = styleRow(4, "white"),
-        fontWeight = styleRow(4, "bold")
-      ) %>%
+                  color = styleRow(4, "white"),
+                  backgroundColor = styleRow(4, "#0e83b0"),
+                  textAlign = styleRow(4, "center"),
+                  borderStyle = styleRow(4, "solid"),
+                  borderWidth = styleRow(4, "1px"),
+                  borderColor = styleRow(4, "white"),
+                  fontWeight = styleRow(4, "bold")) %>%
       formatStyle(2:7, textAlign = "center") %>%
       formatStyle(8:9, textAlign = "center") %>%
-      formatStyle(
-        columns = 1:ncol(table_data),
-        ## use styleRow to select which rows to apply style
-        backgroundColor = styleRow(rows = c(3, 7), "#c4d6e7"),
-        color = styleRow(rows = c(3, 7), "#015082"),
-        fontWeight = styleRow(rows = c(3, 7), "bold")
-      )
+      formatStyle(columns = 1:ncol(table_data),
+                  ## use styleRow to select which rows to apply style
+                  backgroundColor = styleRow(rows = c(3, 7), "#c4d6e7"),
+                  color = styleRow(rows = c(3, 7), "#015082"),
+                  fontWeight = styleRow(rows = c(3, 7), "bold"))
   })
 
   # datatable5.01b ----
@@ -1670,8 +1614,7 @@ server <- function(input, output, session) {
     # Create the datatable
     datatable(table_data[-1],
       rownames = FALSE,
-      ## change default class (table-striped) to cell-border (borders around all cells, no striping)
-      class = "cell-border",
+      class = "cell-border", ## change default class (table-striped) to cell-border (borders around all cells, no striping)
       options = list(
         scrollX = TRUE, ordering = FALSE, paging = FALSE, dom = "t",
         ## format header
@@ -1683,32 +1626,26 @@ server <- function(input, output, session) {
           "  $('th', thead).css('border-style', 'solid');",
           "  $('th', thead).css('border-width', '1px');",
           "  $('th', thead).css('border-color', 'white');",
-          "}"
-        ),
+          "}"),
         ## column widths
-        columnDefs = list(list(width = "180px", targets = 0))
-      )
-    ) %>%
+        columnDefs = list(list(width = "180px", targets = 0)))) %>%
       ## can use any css style in formatStyle by replacing "-" with camel case (e.g., text-align -- textAlign)
       formatStyle(1:ncol(table_data), backgroundColor = "#e6edf4", borderColor = "white") %>%
       formatStyle(1:ncol(table_data),
-        color = styleRow(4, "white"),
-        backgroundColor = styleRow(4, "#0e83b0"),
-        textAlign = styleRow(4, "center"),
-        borderStyle = styleRow(4, "solid"),
-        borderWidth = styleRow(4, "1px"),
-        borderColor = styleRow(4, "white"),
-        fontWeight = styleRow(4, "bold")
-      ) %>%
+                  color = styleRow(4, "white"),
+                  backgroundColor = styleRow(4, "#0e83b0"),
+                  textAlign = styleRow(4, "center"),
+                  borderStyle = styleRow(4, "solid"),
+                  borderWidth = styleRow(4, "1px"),
+                  borderColor = styleRow(4, "white"),
+                  fontWeight = styleRow(4, "bold")) %>%
       formatStyle(2:7, textAlign = "center") %>%
       formatStyle(8:9, textAlign = "center") %>%
-      formatStyle(
-        columns = 1:ncol(table_data),
-        ## use styleRow to select which rows to apply style
-        backgroundColor = styleRow(rows = c(3, 7), "#c4d6e7"),
-        color = styleRow(rows = c(3, 7), "#015082"),
-        fontWeight = styleRow(rows = c(3, 7), "bold")
-      )
+      formatStyle(columns = 1:ncol(table_data),
+                  ## use styleRow to select which rows to apply style
+                  backgroundColor = styleRow(rows = c(3, 7), "#c4d6e7"),
+                  color = styleRow(rows = c(3, 7), "#015082"),
+                  fontWeight = styleRow(rows = c(3, 7), "bold"))
   })
 
   # datatable5.02 ----
@@ -1731,11 +1668,9 @@ server <- function(input, output, session) {
     heading_two <- names(prep_data)[3:5]
 
     table_data <- prep_data %>%
-      pivot_wider(
-        names_from = "Category2", values_from = all_of(heading_two),
-        names_glue = "{Category2}_{.value}",
-        names_vary = "slowest"
-      ) ## this specification sorts columns correctly
+      pivot_wider(names_from = "Category2", values_from = all_of(heading_two),
+                  names_glue = "{Category2}_{.value}",
+                  names_vary = "slowest") ## this specification sorts columns correctly
 
     # create a custom table header
     heading2 <- htmltools::withTags(table(
@@ -1744,20 +1679,15 @@ server <- function(input, output, session) {
         tr(
           th(rowspan = 1, ""),
           th(colspan = 3, "Number of Exporters"),
-          th(colspan = 3, "Value of Exports ($ millions)")
-        ),
+          th(colspan = 3, "Value of Exports ($ millions)")),
         tr(
-          lapply(c("", rep(heading_two, 2)), th)
-        )
-      )
-    ))
+          lapply(c("", rep(heading_two, 2)), th)))))
 
     ## create a datatable
     datatable(table_data,
       container = heading2,
       rownames = FALSE,
-      ## change default class (table-striped) to cell-border (borders around all cells, no striping)
-      class = "cell-border",
+      class = "cell-border", ## change default class (table-striped) to cell-border (borders around all cells, no striping)
       options = list(
         scrollX = TRUE,
         paging = FALSE,
@@ -1775,12 +1705,9 @@ server <- function(input, output, session) {
           "  $('tr').css('color', '#015082');",
           "  $('tr').css('background-color', '#c4d6e7');",
           "  $('tr').css('text-align', 'center');",
-          "}"
-        ),
+          "}"),
         # ## column widths
-        columnDefs = list(list(width = "180px", targets = 0))
-      )
-    ) %>%
+        columnDefs = list(list(width = "180px", targets = 0)))) %>%
       ## can use any css style in formatStyle by replacing "-" with camel case (e.g., text-align -- textAlign)
       formatStyle(1:7, backgroundColor = "#e6edf4", borderColor = "white") %>%
       formatStyle(c(2, 5), textAlign = "right") %>%
@@ -1878,25 +1805,21 @@ server <- function(input, output, session) {
       mutate(Category = fct_inorder(Category))
 
     plot_ly(plot_data,
-      x = ~Variable,
-      y = ~Value,
-      color = ~Category,
-      colors = custom_colors[c("med_blue", "dark_blue")] %>% unname(),
-      type = "scatter",
-      mode = "lines",
-      stackgroup = "one",
-      text = ~ paste0(Category, ": ", Label, " billion"),
-      hovertemplate = "%{text}<extra></extra>"
-    ) %>%
-      layout(
-        title = "",
-        xaxis = list(title = ""),
-        yaxis = list(title = "$ Billions", tickformat = "$"),
-        barmode = "stack",
-        hovermode = "x unified",
-        showlegend = TRUE,
-        legend = list(orientation = "v", x = 0, y = 1.2)
-      ) %>%
+            x = ~Variable,
+            y = ~Value,
+            color = ~Category,
+            colors = custom_colors[c("med_blue", "dark_blue")] %>% unname(),
+            type = "scatter",
+            mode = "lines",
+            stackgroup = "one",
+            text = ~ paste0(Category, ": ", Label, " billion"),
+            hovertemplate = "%{text}<extra></extra>") %>%
+      layout(xaxis = list(title = ""),
+             yaxis = list(title = "$ Billions", tickformat = "$"),
+             barmode = "stack",
+             hovermode = "x unified",
+             showlegend = TRUE,
+             legend = list(orientation = "v", x = 0, y = 1.2)) %>%
       plotly_custom_layout()
   })
 
@@ -1930,7 +1853,7 @@ server <- function(input, output, session) {
 
     plot_data <- prep_data %>%
       filter(Category != "Canada") %>%
-      mutate(Label = dollar(Value),
+      mutate(Label = dollar(Value, accuracy = 1),
              Category = fct_inorder(Category),
              selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
 
@@ -1940,7 +1863,7 @@ server <- function(input, output, session) {
                      label_x = 0.35,
                      label_y = 0.85,
                      y_title = "",
-                     y_tickformat = "$")
+                     y_tickformat = "$,")
   })
 
   # plot6.03 ----

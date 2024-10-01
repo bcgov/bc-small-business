@@ -12,25 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
-
-
-
-# Copyright 2024 Province of British Columbia
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-# http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-
 # creates horiztontal line
 hline <- function(y = 0, color = "black") {
   list(
@@ -40,12 +21,10 @@ hline <- function(y = 0, color = "black") {
     xref = "paper",
     y0 = y,
     y1 = y,
-    line = list(color = color)
-  )
+    line = list(color = color))
 }
 
-
-## creates vertical line
+# creates vertical line
 vline <- function(x = 0, color = "black") {
   list(
     type = "line",
@@ -54,25 +33,22 @@ vline <- function(x = 0, color = "black") {
     yref = "paper",
     y0 = 0,
     y1 = 1,
-    line = list(color = color)
-  )
+    line = list(color = color))
 }
 
-
+# layout options to use for all charts
 plotly_custom_layout <- function(plot) {
 
   plot %>%
     layout(
+      title = "",
       hoverlabel = list(namelength = -1),  ## shows full hover label regardless of length
       dragmode = FALSE,  # remove drag zoom
-      modebar = list(remove = list("autoscale","hoverCompareCartesian", "lasso", "pan", "select", "zoom")
-
-
-      )
+      modebar = list(remove = list("autoscale","hoverCompareCartesian", "lasso", "pan", "select", "zoom"))
     )
-
 }
 
+# plot provincial charts - vertical bar chart with BC colored yellow and optional Canadian average horizontal line
 provincial_chart <- function(plot_data, hline_val = NULL, label = NULL, label_x = NULL, label_y = NULL, y_title = "", y_tickformat = "0%") {
 
   plot <- plot_ly(plot_data,
@@ -98,13 +74,13 @@ provincial_chart <- function(plot_data, hline_val = NULL, label = NULL, label_x 
         yref = "paper",
         xanchor = "left",
         yanchor = "bottom",
-        showarrow = F
-      )
+        showarrow = F)
   }
 
   plot %>% plotly_custom_layout()
 }
 
+# plot horizontal bar charts
 horizontal_bar_chart <- function(plot_data, colors, x_title = "", x_tickformat,
                                  barmode = "group", hovermode = "y",
                                  autorange = "normal", showlegend = FALSE, traceorder = "normal"){
@@ -127,8 +103,7 @@ horizontal_bar_chart <- function(plot_data, colors, x_title = "", x_tickformat,
           textposition = "none",
           hoverinfo = hoverinfo,
           hovertemplate = hovertemplate) %>%
-    layout(title = "",
-           xaxis = list(title = x_title, tickformat = x_tickformat),
+    layout(xaxis = list(title = x_title, tickformat = x_tickformat),
            yaxis = list(title = "", autorange = autorange),
            barmode = barmode,
            hovermode = hovermode,
@@ -138,9 +113,9 @@ horizontal_bar_chart <- function(plot_data, colors, x_title = "", x_tickformat,
                          x = 0,
                          y = 1.2)) %>%
     plotly_custom_layout()
-
 }
 
+# plot vertical bar charts
 vertical_bar_chart <- function(plot_data, colors, y_title = "", y_tickformat,
                                barmode = "group", autorange = "normal",
                                showlegend = TRUE, traceorder = "normal", legend_dir = "v") {
@@ -154,8 +129,7 @@ vertical_bar_chart <- function(plot_data, colors, y_title = "", y_tickformat,
           text = ~Label,
           textposition = "none",
           hovertemplate = "%{text}<extra></extra>") %>%
-    layout(title = "",
-           xaxis = list(title = ""),
+    layout(xaxis = list(title = ""),
            yaxis = list(title = y_title, tickformat = y_tickformat, autorange = autorange),
            barmode = barmode,
            hovermode = "x unified",
@@ -165,7 +139,6 @@ vertical_bar_chart <- function(plot_data, colors, y_title = "", y_tickformat,
                          x = 0,
                          y = 1.2)) %>%
     plotly_custom_layout()
-
 }
 
 
