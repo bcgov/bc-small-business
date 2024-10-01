@@ -9,4 +9,5 @@ rsconnect
 *.csv
 *.xlsx
 *.rds
+*highlights*
 
