@@ -39,23 +39,21 @@ ui <-
               menuItem("Home", tabName = "home", icon = icon("home")),
               menuItem("Small Business Growth", tabName = "page1", icon = icon("line-chart")),
               menuItem("Small Business Employment", tabName = "page2", icon = icon("users")),
-              menuItem("Self-Employed",
-                tabName = "page3", icon = icon("user"),
-                menuSubItem("Main", tabName = "main"),
-                menuSubItem("Women", tabName = "women"),
-                menuSubItem("Indigenous people", tabName = "indigenous")),
+              menuItem("Self-Employed", tabName = "page3", icon = icon("user"),
+                       menuSubItem("Main", tabName = "main"),
+                       menuSubItem("Women", tabName = "women"),
+                       menuSubItem("Indigenous people", tabName = "indigenous")),
               menuItem("Contribution to Economy", tabName = "page4", icon = icon("usd")),
               menuItem("Small Business Exports", tabName = "page5", icon = icon("truck")),
               menuItem("Other Indicators", tabName = "page6", icon = icon("file-text")),
               menuItem("Previous Reports", href = "https://llbc.ent.sirsidynix.net/client/en_GB/main/search/results?qu=small+business+profile&te=", newtab = TRUE, icon = icon("link")),
               menuItem("Small Business Resources", href = "https://www2.gov.bc.ca/gov/content/employment-business/business/small-business/resources", newtab = TRUE, icon = icon("link")),
-              menuItem("Stand Alone Figures", tabName = "page7"),
-              tags$div(
-                style = "text-align:center;color:#b8c7ce",
-                downloadButton(outputId = "download_data", "Download data as excel"),
-                br(), br(), br(),
-                uiOutput("update_date")
-              )
+              # menuItem("Previous Data", icon = icon("download"),
+              #          div(style = "text-align:center", downloadButton(outputId = "download_data_23", "Download 2023 data", style = "margin:5px 0 5px -7px"))),
+              div(style = "text-align:center;color:#b8c7ce", ## text color
+                  downloadButton(outputId = "download_data", "Download data as excel", style = "margin:10px 0 30px 0"),
+                  uiOutput("update_date")),
+              menuItem("Stand Alone Figures", tabName = "page7")
             )
           ), ## end sidebar ----
           dashboardBody( ## dashboard body ----
@@ -298,13 +296,16 @@ server <- function(input, output, session) {
   ## standalone figure tab ----
   output$fig_filter <- renderUI(fig_list_standalone[input$fig_selection])
 
-  ## download button ----
+  ## download buttons ----
+  ## current data
   output$download_data <- downloadHandler(
-    filename = "bc-small-business-profile-data.xlsx",
-    content = function(file) {
-      file.copy("data/bc-small-business-profile-data.xlsx", file)
-    }
-  )
+    filename = "bc-small-business-profile-data-2024.xlsx",
+    content = function(file) { file.copy("data/bc-small-business-profile-data-2024.xlsx", file) })
+
+  ## past data
+  output$download_data_23 <- downloadHandler(
+    filename = "bc-small-business-profile-data-2023.xlsx",
+    content = function(file) { file.copy("data/bc-small-business-profile-data-2023.xlsx", file) })
 
   ## color definition ----
   default_color <- "#1f77b4"
@@ -704,6 +705,7 @@ server <- function(input, output, session) {
 
     horizontal_bar_chart(plot_data,
                          colors = region_colors,  ## since color_Category = color names
+                         x_title = "Number of Businesses per 1,000 People",
                          x_tickformat = ",",
                          hovermode = "closest")
   })
@@ -995,9 +997,11 @@ server <- function(input, output, session) {
              y_Category = fct_inorder(Category),
              color_Category = fct_inorder(Category2))
 
+    x_years <- paste(top_bottom_chart_max_year-1, top_bottom_chart_max_year, sep = "-")
+
     horizontal_bar_chart(plot_data,
                          colors = unname(custom_colors[c("yellow", "navy")]),
-                         x_title = "One-year growth rate in small business employment",
+                         x_title = paste("One-year growth rate in small business employment,", x_years),
                          x_tickformat = "0%",
                          hovermode = "closest",
                          autorange = "reversed",
@@ -1019,9 +1023,11 @@ server <- function(input, output, session) {
              y_Category = fct_inorder(Category),
              color_Category = fct_inorder(Category2))
 
+    x_years <- paste(top_bottom_chart_max_year-2, top_bottom_chart_max_year, sep = "-")
+
     horizontal_bar_chart(plot_data,
                          colors = unname(custom_colors[c("yellow", "navy")]),
-                         x_title = "Two-year growth rate in small business employment",
+                         x_title = paste("Two-year growth rate in small business employment,", x_years),
                          x_tickformat = "0%",
                          hovermode = "closest",
                          autorange = "reversed",
@@ -1043,9 +1049,11 @@ server <- function(input, output, session) {
            y_Category = fct_inorder(Category),
            color_Category = fct_inorder(Category2))
 
+    x_years <- paste(top_bottom_chart_max_year-5, top_bottom_chart_max_year, sep = "-")
+
     horizontal_bar_chart(plot_data,
                          colors = unname(custom_colors[c("yellow", "navy")]),
-                         x_title = "Five-year growth rate in small business employment",
+                         x_title = paste("Five-year growth rate in small business employment,", x_years),
                          x_tickformat = "0%",
                          hovermode = "closest",
                          autorange = "reversed",
@@ -1125,8 +1133,16 @@ server <- function(input, output, session) {
              y_Category = fct_inorder(Category),
              color_Category = fct_inorder(Category))
 
+    x_maxyear <- data_new %>%
+      filter(Topic_id == "3.03" & nchar(Variable) == 4) %>%
+      filter(Variable == max(Variable)) %>%
+      distinct(Variable) %>%
+      pull() %>%
+      as.numeric()
+
     horizontal_bar_chart(plot_data,
                          colors = region_colors,
+                         x_title = paste0("% Change ", x_maxyear-1, "-", x_maxyear),
                          x_tickformat = "0%",
                          hovermode = "closest",
                          autorange = "reversed") %>%
@@ -1159,8 +1175,16 @@ server <- function(input, output, session) {
              y_Category = fct_inorder(Category),
              color_Category = fct_inorder(Category))
 
+    x_maxyear <- data_new %>%
+      filter(Topic_id == "3.03" & nchar(Variable) == 4) %>%
+      filter(Variable == max(Variable)) %>%
+      distinct(Variable) %>%
+      pull() %>%
+      as.numeric()
+
     horizontal_bar_chart(plot_data,
                          colors = region_colors,
+                         x_title = paste0("% Change ", x_maxyear-5, "-", x_maxyear),
                          x_tickformat = "0%",
                          hovermode = "closest",
                          autorange = "reversed") %>%
@@ -1424,7 +1448,7 @@ server <- function(input, output, session) {
 
     vertical_bar_chart(plot_data,
                        colors = unname(custom_colors[c("yellow", "navy")]),
-                       y_title = "housands",
+                       y_title = "", #"Thousands",
                        y_tickformat = "$,",
                        legend_dir = "h") %>%
       layout(xaxis = list(title = "Payroll/Employee")) %>%
