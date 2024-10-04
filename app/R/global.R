@@ -30,6 +30,7 @@ top_bottom_chart_max_year <- 2023
 # read data
 data_new <- readRDS("data/data_new.rds")
 data_geo <- readRDS("data/data_geo.rds")
+search_terms <- read_csv("data/search-terms.csv")
 
 # set action button text
 actionbtn_text <<- "View this figure on its own"

@@ -19,8 +19,8 @@ ui <-
     HTML("<html lang='en'>"),
     fluidRow(
 
-      ## Replace appname with the title that will appear in the header
-      bcsapps::bcsHeaderUI(id = "header", appname = "Small Business Profile"),
+      ## header code found in R/header.R
+      header,
       tags$head(tags$link(rel = "shortcut icon", href = "favicon.png")), ## to add BCGov favicon
 
       column( ## main body column ----
@@ -216,10 +216,12 @@ server <- function(input, output, session) {
 
   observeEvent(input$tabs, shinyjs::runjs("window.scrollTo(0,0)"))
 
-  ## Change links to false to remove the link list from the header
-  bcsapps::bcsHeaderServer(id = "header", links = TRUE)
-
-  bcsapps::bcsFooterServer(id = "footer")
+  ## header/footer ----
+  ## header server
+  bcstatslinks::linkModServer('links')
+  output$links_yn <- shiny::renderUI(bcstatslinks::linkModUI('links'))
+  ## footer server
+  bcsapps::bcsFooterServer(id = 'footer')
 
   ## update date ----
   output$update_date <- renderUI(
@@ -296,6 +298,22 @@ server <- function(input, output, session) {
 
   ## standalone figure tab ----
   output$fig_filter <- renderUI(fig_list_standalone[input$fig_selection])
+
+  ## search box functionality ----
+  observeEvent(input$searchbar,{
+    ## change to standalone tab
+    updateTabItems(session, 'tabs', selected = 'page7')
+
+    ## update displayed figures
+    updateSelectInput(session, 'fig_selection',
+                      selected = search_terms %>%
+                        filter(searchterm == input$searchbar) %>%
+                        pull(figure_list) %>%
+                        str_split_1(", "))
+
+    ## clear search bar
+    updateSelectInput(session, "searchbar", selected = "")
+  })
 
   ## download buttons ----
   ## current data

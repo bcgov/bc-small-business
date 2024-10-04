@@ -442,8 +442,7 @@ fig_list_standalone <- list(
                fig_notes["fig5.01b_desc"],
                DTOutput("datatable5.01b_s"))),
     br(),
-    fig_notes["fig5.01_note"],
-    actionButton("btn5.01", actionbtn_text)
+    fig_notes["fig5.01_note"]
   ),
   ## fig5.02 ----
   fig5.02 = box(
