@@ -194,3 +194,13 @@ table.dataTable thead .sorting_desc:after{
   color : black;
   opacity: 1 !important;
 }
+
+.dwnldLink {
+  padding: 10px 5px 10px 15px;
+  color : #8aa4af !important;
+}
+
+.dwnldLink:hover {
+  color : white !important;
+}
+
