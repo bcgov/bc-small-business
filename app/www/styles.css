@@ -175,16 +175,6 @@ table.dataTable thead .sorting:after{
   opacity: 1 !important;
 }
 
-table.dataTable thead .sorting.tab5:before{
-  color : #015082;
-  opacity: 1 !important;
-}
-table.dataTable thead .sorting.tab5:after{
-  color : #015082;
-  opacity: 1 !important;
-}
-
-
 table.dataTable thead .sorting_asc:before{
   color : black;
   opacity: 1 !important;
