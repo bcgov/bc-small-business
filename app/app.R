@@ -1718,15 +1718,12 @@ server <- function(input, output, session) {
         ## format header
         headerCallback = JS(
           "function(thead, data, start, end, display){",
-          "  $('th', thead).css('color', 'white');",
-          "  $('th', thead).css('background-color', '#0e83b0');",
+          "  $('th','tr', thead).css('color', 'white');",
+          "  $('th','tr', thead).css('background-color', '#0e83b0');",
           "  $('th','tr', thead).css('text-align', 'center');",
           "  $('th','tr', thead).css('border-style', 'solid');",
           "  $('th','tr', thead).css('border-width', '1px');",
           "  $('th','tr', thead).css('border-color', 'white');",
-          "  $('tr').css('color', 'white');",
-          "  $('tr').css('background-color', '#0e83b0');",
-          "  $('tr').css('text-align', 'center', '!important');",
           "}"),
         # ## column widths
         columnDefs = list(list(width = "180px", targets = 0)))) %>%
