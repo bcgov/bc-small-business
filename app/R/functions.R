@@ -49,7 +49,7 @@ plotly_custom_layout <- function(plot) {
 }
 
 # plot provincial charts - vertical bar chart with BC colored yellow and optional Canadian average horizontal line
-provincial_chart <- function(plot_data, hline_val = NULL, label = NULL, label_x = NULL, label_y = NULL, y_title = "", y_tickformat = "0%") {
+provincial_chart <- function(plot_data, hline_val = NULL, label = NULL, y_title = "", y_tickformat = "0%") {
 
   plot <- plot_ly(plot_data,
                   x = ~Category,
@@ -67,9 +67,11 @@ provincial_chart <- function(plot_data, hline_val = NULL, label = NULL, label_x 
     plot <- plot %>%
       layout(shapes = list(hline(hline_val))) %>%
       add_annotations(
-        x = label_x,
-        y = label_y,
-        text = paste("<b>— ", label, "</b>"),
+        x = 0.01,
+        y = 1,
+        ## to increase length of line, need to remove the spacing between the two dashes
+        text = paste("<b><span style = 'letter-spacing:-2px'>&#8212;&#8212;</span>",
+                     label, "</b>"),
         xref = "paper",
         yref = "paper",
         xanchor = "left",

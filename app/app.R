@@ -641,8 +641,6 @@ server <- function(input, output, session) {
     provincial_chart(plot_data,
                      hline_val = canada,
                      label = paste("Canadian Total:", canada),
-                     label_x = 0.55,
-                     label_y = 0.85,
                      y_title = "",
                      y_tickformat = ",")
   })
@@ -668,8 +666,6 @@ server <- function(input, output, session) {
     provincial_chart(plot_data,
                      hline_val = canada,
                      label = paste("Canadian Average:", percent(canada, accuracy = 0.1)),
-                     label_x = 0.09,
-                     label_y = 0.63,
                      y_title = "",
                      y_tickformat = "0%")
   })
@@ -944,8 +940,6 @@ server <- function(input, output, session) {
     provincial_chart(plot_data,
                      hline_val = canada,
                      label = paste("Canadian Average:", percent(canada, accuracy = 0.1)),
-                     label_x = 0,
-                     label_y = 0.59,
                      y_title = "% Growth",
                      y_tickformat = "0%")
   })
@@ -970,8 +964,6 @@ server <- function(input, output, session) {
     provincial_chart(plot_data,
                      hline_val = canada,
                      label = paste("Canadian Average:", percent(canada, accuracy = 0.1)),
-                     label_x = 0,
-                     label_y = 0.59,
                      y_title = "% Growth",
                      y_tickformat = "0%")
   })
@@ -996,8 +988,6 @@ server <- function(input, output, session) {
     provincial_chart(plot_data,
                      hline_val = canada,
                      label = paste("Canadian Average:", percent(canada, accuracy = 0.1)),
-                     label_x = 0,
-                     label_y = 0.95,
                      y_title = "",
                      y_tickformat = "0%")
   })
@@ -1101,8 +1091,6 @@ server <- function(input, output, session) {
     provincial_chart(plot_data,
                      hline_val = canada,
                      label = paste("Canadian Average:", percent(canada, accuracy = 0.1)),
-                     label_x = 0.55,
-                     label_y = 0.85,
                      y_title = "",
                      y_tickformat = "0%")
   })
@@ -1128,8 +1116,6 @@ server <- function(input, output, session) {
     provincial_chart(plot_data,
                      hline_val = canada,
                      label = paste("Canadian Average:", percent(canada, accuracy = 0.1)),
-                     label_x = 0.75,
-                     label_y = 0.5,
                      y_title = "",
                      y_tickformat = "0%")
   })
@@ -1352,8 +1338,6 @@ server <- function(input, output, session) {
     provincial_chart(plot_data,
                      hline_val = canada,
                      label = paste("Canadian Average:", percent(canada, accuracy = 0.1)),
-                     label_x = 0.15,
-                     label_y = 0.9,
                      y_title = "",
                      y_tickformat = "0%")
   })
@@ -1436,8 +1420,6 @@ server <- function(input, output, session) {
     provincial_chart(plot_data,
                      hline_val = canada,
                      label = paste("Canadian Average:", percent(canada, accuracy = 0.1)),
-                     label_x = 0.2,
-                     label_y = 0.9,
                      y_title = "",
                      y_tickformat = "0%")
   })
@@ -1568,8 +1550,6 @@ server <- function(input, output, session) {
     provincial_chart(plot_data,
                      hline_val = canada,
                      label = paste("Canadian Average:", percent(canada, accuracy = 0.1)),
-                     label_x = 0.2,
-                     label_y = 0.89,
                      y_title = "",
                      y_tickformat = "0%")
   })
@@ -1830,8 +1810,6 @@ server <- function(input, output, session) {
     provincial_chart(plot_data,
                      hline_val = canada,
                      label = paste("Canada:", dollar(canada, accuracy = 0.1), "million"),
-                     label_x = 0.6,
-                     label_y = 0.27,
                      y_title = "$ Millions per Business",
                      y_tickformat = "$")
   })
@@ -1902,8 +1880,6 @@ server <- function(input, output, session) {
     provincial_chart(plot_data,
                      hline_val = canada,
                      label = paste("All of Canada:", dollar(canada, accuracy = 1), "per capita"),
-                     label_x = 0.35,
-                     label_y = 0.85,
                      y_title = "",
                      y_tickformat = "$,")
   })
@@ -1929,8 +1905,6 @@ server <- function(input, output, session) {
     provincial_chart(plot_data,
                      hline_val = canada,
                      label = paste("Canadian Average:", round_half_up(canada, digits = 1)),
-                     label_x = 0.05,
-                     label_y = 0.33,
                      y_title = "",
                      y_tickformat = ".1f")
   })
