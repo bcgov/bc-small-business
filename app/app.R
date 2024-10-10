@@ -142,14 +142,14 @@ ui <-
                   figure_list_main[c("fig1.01", "fig1.02", "fig1.03", "fig1.04", "fig1.05",
                                      "fig1.06", "fig1.07", "fig1.08", "fig1.09", "fig1.10",
                                      "fig1.11", "fig1.12", "fig1.13", "fig1.14", "fig1.15")],
-                  box(HTML("<b><center>Feedback:</b> SmallBusinessBranch@gov.bc.ca </center>"), width = 10)
+                  contact_box()
               )), ## page 1 tab end ----
               tabItem( ## page 2 tab start----
                 tabName = "page2",
                 fluidRow(
                   figure_list_main[c("fig2.01", "fig2.02", "fig2.03", "fig2.04", "fig2.05",
                                      "fig2.06", "fig2.07", "fig2.08", "fig2.09", "fig2.10")],
-                  box(HTML("<b><center>Feedback:</b> SmallBusinessBranch@gov.bc.ca </center>"), width = 10)
+                  contact_box()
               )), ## page 2 tab end ----
               tabItem( ## page 3 tab start ----
                 tabName = "page3", # dummy tab needed for menu - to enable submenuitems
@@ -159,37 +159,37 @@ ui <-
                 fluidRow(
                   figure_list_main[c("fig3.01", "fig3.02", "fig3.03", "fig3.04", "fig3.05",
                                      "fig3.06", "fig3.07", "fig3.08", "fig3.09")],
-                  box(HTML("<b><center>Feedback:</b> SmallBusinessBranch@gov.bc.ca </center>"), width = 10)
+                  contact_box()
                   )), ## page 3 subtab main end -----
               tabItem( ## page 3 subtab women start ----
                 tabName = "women",
                 fluidRow(
                   figure_list_main[c("fig3.10", "fig3.11", "fig3.12")],
-                  box(HTML("<b><center>Feedback:</b> SmallBusinessBranch@gov.bc.ca </center>"), width = 10)
+                  contact_box()
                 )), ## page 3 subtab women end -----
               tabItem( ## page 3 subtab indigenous start ----
                 tabName = "indigenous",
                 fluidRow(
                   figure_list_main[c("fig3.13")],
-                  box(HTML("<b><center>Feedback:</b> SmallBusinessBranch@gov.bc.ca </center>"), width = 10)
+                  contact_box()
                   )), ## page 3 subtab indigenous end ----
               tabItem( ## page 4 tab start ----
                 tabName = "page4",
                 fluidRow(
                   figure_list_main[c("fig4.01", "fig4.02", "fig4.03", "fig4.04", "fig4.05", "fig4.06")],
-                  box(HTML("<b><center>Feedback:</b> SmallBusinessBranch@gov.bc.ca </center>"), width = 10)
+                  contact_box()
                 )), ## page 4 tab end ----
               tabItem( ## page 5 tab start ----
                 tabName = "page5",
                 fluidRow(
                   figure_list_main[c("fig5.01", "fig5.02", "fig5.03", "fig5.04", "fig5.05", "fig5.06", "fig5.07")],
-                  box(HTML("<b><center>Feedback:</b> SmallBusinessBranch@gov.bc.ca </center>"), width = 10)
+                  contact_box()
                 )), ## page 5 tab end ----
               tabItem( ## page 6 tab start ----
                 tabName = "page6",
                 fluidRow(
                   figure_list_main[c("fig6.01", "fig6.02", "fig6.03")],
-                  box(HTML("<b><center>Feedback:</b> SmallBusinessBranch@gov.bc.ca </center>"), width = 10)
+                  contact_box()
                 )), ## page 6 tab end ----
               tabItem( ## page 7 conditional tab start ----
                 tabName = "page7",
@@ -201,7 +201,8 @@ ui <-
                                              choices = paste0("fig",unique(data_new$Topic_id)),
                                              multiple = TRUE)),
                 fluidRow(
-                  uiOutput("fig_filter")
+                  uiOutput("fig_filter"),
+                  contact_box()
               )) ## page 7 tab conditional end ----
             ), ## end of tabs ----
           ), ## end of dashboard body ----

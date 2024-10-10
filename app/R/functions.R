@@ -143,5 +143,15 @@ vertical_bar_chart <- function(plot_data, colors, y_title = "", y_tickformat,
     plotly_custom_layout()
 }
 
-
+## html code for the contact box located at the bottom of each tab
+contact_box <- function() {
+  box(
+    width = 10,
+    HTML("<b><center>Feedback:</b> SmallBusinessBranch@gov.bc.ca</br>
+          <b>License:</b>
+          <a href = https://www2.gov.bc.ca/gov/content?id=A519A56BC2BF44E4A008B33FCF527F61
+          target = _blank>
+         Open Government Licence - British Columbia</a></center>")
+  )
+}
 
