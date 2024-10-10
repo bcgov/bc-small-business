@@ -51,6 +51,7 @@ ui <-
                          href = "", target = "_blank", download = NA),
                        menuSubItem("Previous Reports", href = "https://llbc.ent.sirsidynix.net/client/en_GB/main/search/results?qu=small+business+profile&te=", newtab = TRUE, icon = icon("link"))),
               menuItem("Small Business Resources", href = "https://www2.gov.bc.ca/gov/content/employment-business/business/small-business/resources", newtab = TRUE, icon = icon("link")),
+              menuItem("BC Data Catalogue Record", href = "https://catalogue.data.gov.bc.ca/dataset/14828d0e-3cab-4477-af30-eab919d3451a", newtab = TRUE, icon = icon("link")),
               div(style = "text-align:center;color:#b8c7ce", ## text color
                   downloadButton(outputId = "download_data", "Download data as excel", style = "margin:10px 0 30px 0"),
                   uiOutput("update_date")),
