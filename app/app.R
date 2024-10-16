@@ -356,8 +356,8 @@ server <- function(input, output, session) {
       select(Category, Variable, Value) %>%
       pivot_wider(names_from = "Variable", values_from = "Value") %>%
       ## pre-formatting for mixed type columns
-      mutate_at(c(3, 4), ~ ifelse(str_detect(.x, "^-$"), .x, percent(as.numeric(.x)))) %>%
-      mutate_at(c(6, 8), ~ ifelse(str_detect(.x, "^-$"), .x, percent(as.numeric(.x), accuracy = 0.1))) %>%
+      mutate_at(c(3, 4), ~ ifelse(str_detect(.x, "^-$"), .x, percent(r(as.numeric(.x), 2)))) %>%
+      mutate_at(c(6, 8), ~ ifelse(str_detect(.x, "^-$"), .x, percent(r(as.numeric(.x), 3), accuracy = 0.1))) %>%
       mutate_at(c(2, 5, 7), ~ ifelse(str_detect(.x, "<"), .x, comma(as.numeric(.x)))) %>%
       suppressWarnings()
 
@@ -420,13 +420,14 @@ server <- function(input, output, session) {
 
     total_count <- prep_data %>%
       filter(Variable == "Count", Category == "Total") %>%
-      pull(Value)
+      pull(Value) %>%
+      r(digits = -2)
 
     plot_data <- prep_data %>%
       filter(Variable == "Per cent" & Category != "Total") %>%
       mutate(y_Category = str_replace_all(Category, "\\(", "\\\n\\("),
              color_Category = fct_inorder(Category),
-             Label = paste0(y_Category, ": ", percent(Value)))
+             Label = paste0(y_Category, ": ", percent(r(Value, 2), accuracy = 1)))
 
     horizontal_bar_chart(plot_data,
                          colors = size_colors,
@@ -510,7 +511,7 @@ server <- function(input, output, session) {
       mutate(Value = as.numeric(Value),
              y_Category = fct_inorder(Category),
              color_Category = "same",   ## all one color
-             Label = ifelse(str_detect(Category, "Sector"), "", paste0(Category, ": ", percent(Value))),
+             Label = ifelse(str_detect(Category, "Sector"), "", paste0(Category, ": ", percent(r(Value, 3), accuracy = 0.1))),
              custom_ticktext = ifelse(str_detect(Category, "Sector"),
                                       paste0("<span style='color: ", custom_colors[["dark_blue"]], "'><b>", Category, "<b></span>"),
                                       Category))
@@ -531,7 +532,7 @@ server <- function(input, output, session) {
       mutate(Value = as.numeric(Value),
              Variable = str_remove_all(Variable, " percent"),
              Variable_label = str_remove_all(Variable, "(Small businesses with )|( \\(([:space:]|[:graph:])*$)"),
-             Label = paste0(Variable_label, ": ", percent(Value, accuracy = 0.1))) %>%
+             Label = paste0(Variable_label, ": ", percent(r(Value, 3), accuracy = 0.1))) %>%
       arrange(desc(Variable), desc(Value)) %>%  ## arrange variable desc so 'no paid' is first for color
       mutate(y_Category = fct_inorder(Category),
              color_Category = fct_inorder(Variable))
@@ -551,7 +552,7 @@ server <- function(input, output, session) {
       filter(Topic_id == "1.07" & !str_detect(Variable, "Total") & str_detect(Variable, "percent")) %>%
       mutate(Value = as.numeric(Value),
              Variable = str_remove_all(Variable, " percent"),
-             Label = paste0(Variable, ": ", percent(Value, accuracy = 0.1))) %>%
+             Label = paste0(Variable, ": ", percent(r(Value, 3), accuracy = 0.1))) %>%
       arrange(desc(Variable), desc(Value)) %>%  ## arrange variable desc so 'no paid' is first for color
       mutate(y_Category = fct_inorder(Category),
              color_Category = fct_inorder(Variable))
@@ -611,7 +612,7 @@ server <- function(input, output, session) {
     ) %>%
       mutate(y_Category = fct_inorder(Category),
              color_Category = fct_inorder(color_Category),
-             Label = ifelse(str_detect(Category, "Sector"), "", paste0(Category, ": ", percent(Value, accuracy = 0.1))),
+             Label = ifelse(str_detect(Category, "Sector"), "", paste0(Category, ": ", percent(r(Value, 3), accuracy = 0.1))),
              custom_ticktext = ifelse(str_detect(Category, "Sector"),
                                       paste0("<span style='color: ", custom_colors[["dark_blue"]], "'><b>", Category, "<b></span>"),
                                       as.character(Category)))
@@ -664,13 +665,13 @@ server <- function(input, output, session) {
 
     plot_data <- prep_data %>%
       filter(Category != "Cda") %>%
-      mutate(Label = percent(Value, accuracy = 0.1),
+      mutate(Label = percent(r(Value, 3), accuracy = 0.1),
              Category = fct_inorder(Category),
              selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
 
     provincial_chart(plot_data,
                      hline_val = canada,
-                     label = paste("Canadian Average:", percent(canada, accuracy = 0.1)),
+                     label = paste("Canadian Average:", percent(r(canada, 3), accuracy = 0.1)),
                      y_title = "",
                      y_tickformat = "0%")
   })
@@ -688,7 +689,7 @@ server <- function(input, output, session) {
              region = str_replace_all(region, "/ ", "/"),
              region = str_replace_all(region, " - ", "-")) %>%
       pivot_wider(names_from = "Variable", values_from = "Value") %>%
-      mutate(label = paste0(region_label, "\n", percent(sb, accuracy = 0.1), " SB\n", percent(pop, accuracy = 0.1), " population"),
+      mutate(label = paste0(region_label, "\n", percent(r(sb, 3), accuracy = 0.1), " SB\n", percent(r(pop, 3), accuracy = 0.1), " population"),
              region = factor(region,
                              levels = c("North Coast & Nechako", "Cariboo", "Kootenay",
                                         "Vancouver Island/Coast", "Mainland/Southwest",
@@ -782,8 +783,8 @@ server <- function(input, output, session) {
     ) %>%
       pivot_wider(names_from = "Variable", values_from = "Value") %>%
       ## pre-formatting for mixed type columns
-      mutate_at(c(3, 4), ~ ifelse(str_detect(.x, "^-$"), .x, percent(as.numeric(.x), accuracy = 1))) %>%
-      mutate_at(c(6, 8), ~ ifelse(str_detect(.x, "^-$"), .x, percent(as.numeric(.x), accuracy = 0.1))) %>%
+      mutate_at(c(3, 4), ~ ifelse(str_detect(.x, "^-$"), .x, percent(r(as.numeric(.x), 2), accuracy = 1))) %>%
+      mutate_at(c(6, 8), ~ ifelse(str_detect(.x, "^-$"), .x, percent(r(as.numeric(.x), 3), accuracy = 0.1))) %>%
       mutate_at(c(2, 5, 7), ~ ifelse(str_detect(.x, "<"), .x, comma(as.numeric(.x)))) %>%
       suppressWarnings()
 
@@ -938,13 +939,13 @@ server <- function(input, output, session) {
 
     plot_data <- prep_data %>%
       filter(Category != "CA") %>%
-      mutate(Label = percent(Value, accuracy = 0.1),
+      mutate(Label = percent(r(Value, 3), accuracy = 0.1),
              Category = fct_inorder(Category),
              selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
 
     provincial_chart(plot_data,
                      hline_val = canada,
-                     label = paste("Canadian Average:", percent(canada, accuracy = 0.1)),
+                     label = paste("Canadian Average:", percent(r(canada, 3), accuracy = 0.1)),
                      y_title = "% Growth",
                      y_tickformat = "0%")
   })
@@ -962,13 +963,13 @@ server <- function(input, output, session) {
 
     plot_data <- prep_data %>%
       filter(Category != "CA") %>%
-      mutate(Label = percent(Value, accuracy = 0.1),
+      mutate(Label = percent(r(Value, 3), accuracy = 0.1),
              Category = fct_inorder(Category),
              selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
 
     provincial_chart(plot_data,
                      hline_val = canada,
-                     label = paste("Canadian Average:", percent(canada, accuracy = 0.1)),
+                     label = paste("Canadian Average:", percent(r(canada, 3), accuracy = 0.1)),
                      y_title = "% Growth",
                      y_tickformat = "0%")
   })
@@ -986,13 +987,13 @@ server <- function(input, output, session) {
 
     plot_data <- prep_data %>%
       filter(Category != "CA") %>%
-      mutate(Label = percent(Value, accuracy = 0.1),
+      mutate(Label = percent(r(Value, 3), accuracy = 0.1),
              Category = fct_inorder(Category),
              selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
 
     provincial_chart(plot_data,
                      hline_val = canada,
-                     label = paste("Canadian Average:", percent(canada, accuracy = 0.1)),
+                     label = paste("Canadian Average:", percent(r(canada, 3), accuracy = 0.1)),
                      y_title = "",
                      y_tickformat = "0%")
   })
@@ -1006,8 +1007,8 @@ server <- function(input, output, session) {
       pivot_wider(names_from = "Variable", values_from = "Value") %>%
       mutate(Value = `Per cent growth`,
              Label = ifelse(`Net growth` > 0,
-                            paste0(percent(`Per cent growth`, accuracy = 0.1), " growth, +", comma(`Net growth`), " businesses"),
-                            paste0(percent(`Per cent growth`, accuracy = 0.1), " growth, ", comma(`Net growth`), " businesses")),
+                            paste0(percent(r(`Per cent growth`, 3), accuracy = 0.1), " growth, +", comma(`Net growth`), " businesses"),
+                            paste0(percent(r(`Per cent growth`, 3), accuracy = 0.1), " growth, ", comma(`Net growth`), " businesses")),
              y_Category = fct_inorder(Category),
              color_Category = fct_inorder(Category2))
 
@@ -1032,8 +1033,8 @@ server <- function(input, output, session) {
       pivot_wider(names_from = "Variable", values_from = "Value") %>%
       mutate(Value = `Per cent growth`,
              Label = ifelse(`Net growth` > 0,
-                            paste0(percent(`Per cent growth`, accuracy = 0.1), " growth, +", comma(`Net growth`), " businesses"),
-                            paste0(percent(`Per cent growth`, accuracy = 0.1), " growth, ", comma(`Net growth`), " businesses")),
+                            paste0(percent(r(`Per cent growth`, 3), accuracy = 0.1), " growth, +", comma(`Net growth`), " businesses"),
+                            paste0(percent(r(`Per cent growth`, 3), accuracy = 0.1), " growth, ", comma(`Net growth`), " businesses")),
              y_Category = fct_inorder(Category),
              color_Category = fct_inorder(Category2))
 
@@ -1057,8 +1058,8 @@ server <- function(input, output, session) {
       pivot_wider(names_from = "Variable", values_from = "Value") %>%
       mutate(Value = `Per cent growth`,
            Label = ifelse(`Number of businesses` > 0,
-                          paste0(percent(`Per cent growth`, accuracy = 0.1), " growth, +", comma(`Number of businesses`), " businesses"),
-                          paste0(percent(`Per cent growth`, accuracy = 0.1), " growth, ", comma(`Number of businesses`), " businesses")),
+                          paste0(percent(r(`Per cent growth`, 3), accuracy = 0.1), " growth, +", comma(`Number of businesses`), " businesses"),
+                          paste0(percent(r(`Per cent growth`, 3), accuracy = 0.1), " growth, ", comma(`Number of businesses`), " businesses")),
            y_Category = fct_inorder(Category),
            color_Category = fct_inorder(Category2))
 
@@ -1087,13 +1088,13 @@ server <- function(input, output, session) {
 
     plot_data <- prep_data %>%
       filter(Category != "Canada") %>%
-      mutate(Label = percent(Value, accuracy = 0.1),
+      mutate(Label = percent(r(Value, 3), accuracy = 0.1),
              Category = fct_inorder(Category),
              selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
 
     provincial_chart(plot_data,
                      hline_val = canada,
-                     label = paste("Canadian Average:", percent(canada, accuracy = 0.1)),
+                     label = paste("Canadian Average:", percent(r(canada, 3), accuracy = 0.1)),
                      y_title = "",
                      y_tickformat = "0%")
   })
@@ -1112,13 +1113,13 @@ server <- function(input, output, session) {
 
     plot_data <- prep_data %>%
       filter(Category != "CA") %>%
-      mutate(Label = percent(Value, accuracy = 0.1),
+      mutate(Label = percent(r(Value, 3), accuracy = 0.1),
              Category = fct_inorder(Category),
              selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
 
     provincial_chart(plot_data,
                      hline_val = canada,
-                     label = paste("Canadian Average:", percent(canada, accuracy = 0.1)),
+                     label = paste("Canadian Average:", percent(r(canada, 3), accuracy = 0.1)),
                      y_title = "",
                      y_tickformat = "0%")
   })
@@ -1137,7 +1138,7 @@ server <- function(input, output, session) {
 
     plot_data <- prep_data %>%
       filter(Category != "Provincial total") %>%
-      mutate(Label = paste0(Category, ": ", percent(Value, accuracy = 0.1)),
+      mutate(Label = paste0(Category, ": ", percent(r(Value, 3), accuracy = 0.1)),
              y_Category = fct_inorder(Category),
              color_Category = fct_inorder(Category))
 
@@ -1174,7 +1175,7 @@ server <- function(input, output, session) {
 
     plot_data <- prep_data %>%
       filter(Category != "Provincial total") %>%
-      mutate(Label = paste0(Category, ": ", percent(Value, accuracy = 0.1)),
+      mutate(Label = paste0(Category, ": ", percent(r(Value, 3), accuracy = 0.1)),
              y_Category = fct_inorder(Category),
              color_Category = fct_inorder(Category))
 
@@ -1253,7 +1254,7 @@ server <- function(input, output, session) {
     plot_data <- data_new %>%
       filter(Topic_id == "3.07") %>%
       mutate(Value = as.numeric(Value),
-             Label = paste(Variable, ":", percent(abs(Value), accuracy = 0.1)),
+             Label = paste(Variable, ":", percent(r(abs(Value), 3), accuracy = 0.1)),
              y_Category = fct_inorder(Category)) %>%
       arrange(Value) %>% ## arrange so that negative values come first for color
       mutate(color_Category = fct_inorder(Variable))
@@ -1272,7 +1273,7 @@ server <- function(input, output, session) {
     plot_data <- data_new %>%
       filter(Topic_id == "3.08" & Category != "Total") %>%
       mutate(Value = as.numeric(Value),
-             Label = percent(abs(Value), accuracy = 0.1),
+             Label = percent(r(abs(Value), 3), accuracy = 0.1),
              Category = fct_inorder(Category))
 
     plot_ly(plot_data,
@@ -1297,7 +1298,9 @@ server <- function(input, output, session) {
     plot_data <- data_new %>%
       filter(Topic_id == "3.09" & !str_detect(Category, "main")) %>%
       mutate(Value = as.numeric(Value),
-             Label = paste(Variable, ":", percent(abs(Value), accuracy = 0.1)),
+             Label = paste0(str_remove_all(Variable, " average([:space:]|[:graph:])+$"),
+                            ": ",
+                            percent(r(abs(Value), 3), accuracy = 0.1)),
              y_Category = fct_inorder(Category)) %>%
       arrange(Value) %>% ## arrange so that negative values come first for color
       mutate(color_Category = fct_inorder(Variable))
@@ -1324,13 +1327,13 @@ server <- function(input, output, session) {
 
     plot_data <- prep_data %>%
       filter(Category != "Cda") %>%
-      mutate(Label = percent(Value, accuracy = 0.1),
+      mutate(Label = percent(r(Value, 3), accuracy = 0.1),
              Category = fct_inorder(Category),
              selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
 
     provincial_chart(plot_data,
                      hline_val = canada,
-                     label = paste("Canadian Average:", percent(canada, accuracy = 0.1)),
+                     label = paste("Canadian Average:", percent(r(canada, 3), accuracy = 0.1)),
                      y_title = "",
                      y_tickformat = "0%")
   })
@@ -1342,7 +1345,7 @@ server <- function(input, output, session) {
       filter(Topic_id == "3.11") %>%
       filter(Variable == max(Variable) | Variable == as.numeric(max(Variable)) - 5) %>%
       mutate(Value = as.numeric(Value),
-             Label = paste0(Variable, ": ", percent(Value, accuracy = 0.1)),
+             Label = paste0(Variable, ": ", percent(r(Value, 3), accuracy = 0.1)),
              y_Category = fct_inorder(Category)) %>%
       arrange(Variable) %>%  ## arrange so earlier year is first for color
       mutate(color_Category = fct_inorder(Variable))
@@ -1361,7 +1364,9 @@ server <- function(input, output, session) {
     plot_data <- data_new %>%
       filter(Topic_id == "3.12" & !str_detect(Category, "main")) %>%
       mutate(Value = as.numeric(Value),
-             Label = paste(Variable, ":", percent(abs(Value), accuracy = 0.1)),
+             Label = paste0(str_remove_all(Variable, " average([:space:]|[:graph:])+$"),
+                           ": ",
+                           percent(r(abs(Value), 3), accuracy = 0.1)),
              y_Category = fct_inorder(Category)) %>%
       arrange(Value) %>% ## arrange so that negative values come first for color
       mutate(color_Category = fct_inorder(Variable))
@@ -1381,7 +1386,7 @@ server <- function(input, output, session) {
     plot_data <- data_new %>%
       filter(Topic_id == "3.13" & Category != "Difference") %>%
       mutate(Value = as.numeric(Value),
-             Label = paste0(Category, ": ", percent(Value, accuracy = 0.1)),
+             Label = paste0(Category, ": ", percent(r(Value, 3), accuracy = 0.1)),
              x_Category = fct_inorder(Variable),
              color_Category = fct_inorder(Category))
 
@@ -1406,13 +1411,13 @@ server <- function(input, output, session) {
 
     plot_data <- prep_data %>%
       filter(Category != "Canada") %>%
-      mutate(Label = percent(Value, accuracy = 1),
+      mutate(Label = percent(r(Value, 2), accuracy = 1),
              Category = fct_inorder(Category),
              selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
 
     provincial_chart(plot_data,
                      hline_val = canada,
-                     label = paste("Canadian Average:", percent(canada, accuracy = 0.1)),
+                     label = paste("Canadian Average:", percent(r(canada, 2), accuracy = 1)),
                      y_title = "",
                      y_tickformat = "0%")
   })
@@ -1429,7 +1434,7 @@ server <- function(input, output, session) {
       pivot_wider(names_from = "Variable", values_from = "Value") %>%
       mutate(year = str_extract(Category, "[:digit:]{4}"),
              amount = dollar(`Small business wage gap`),
-             percent = percent(`Gap in per cent`, accuracy = 0.1),
+             percent = percent(r(`Gap in per cent`, 3), accuracy = 0.1),
              text = paste0("<b>Wage gap ", year, ": ", amount, " (", percent, ")</b>")) %>%
       pull(text)
 
@@ -1489,7 +1494,7 @@ server <- function(input, output, session) {
     plot_data <- data_new %>%
       filter(Topic_id == "4.04" & !str_detect(Variable, "Dollar")) %>%
       mutate(Value = as.numeric(Value),
-             Label = paste0(Variable, ": ", dollar(Value, accuracy = 1)),
+             Label = paste0(Variable, ": ", dollar(r(Value, 0), accuracy = 1)),
              y_Category = fct_inorder(Category),
              color_Category = str_extract(Variable, "[:digit:]{4}")) %>%
       arrange(color_Category) %>%  ## arrange so earlier year is first for color
@@ -1509,7 +1514,7 @@ server <- function(input, output, session) {
     plot_data <- data_new %>%
       filter(Topic_id == "4.05") %>%
       mutate(Value = as.numeric(Value),
-             Label = paste0(Variable, ": ", dollar(Value, accuracy = 1))) %>%
+             Label = paste0(Variable, ": ", dollar(r(Value, 0), accuracy = 1))) %>%
       arrange(desc(Variable), desc(Value)) %>%
       mutate(y_Category = fct_inorder(Category)) %>%
     arrange(desc(Variable)) %>%   ## arrange desc so small is first for color
@@ -1536,13 +1541,13 @@ server <- function(input, output, session) {
 
     plot_data <- prep_data %>%
       filter(Category != "CDA") %>%
-      mutate(Label = percent(Value, accuracy = 0.1),
+      mutate(Label = percent(r(Value, 3), accuracy = 0.1),
              Category = fct_inorder(Category),
              selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
 
     provincial_chart(plot_data,
                      hline_val = canada,
-                     label = paste("Canadian Average:", percent(canada, accuracy = 0.1)),
+                     label = paste("Canadian Average:", percent(r(canada, 3), accuracy = 0.1)),
                      y_title = "",
                      y_tickformat = "0%")
   })
@@ -1557,7 +1562,7 @@ server <- function(input, output, session) {
       pivot_wider(names_from = "Variable", values_from = "Value") %>%
       ## pre-formatting for columns
       mutate_at(c(3:8), ~ comma(as.numeric(.x))) %>%
-      mutate_at(c(9:10), ~ percent(as.numeric(.x), accuracy = 0.1))
+      mutate_at(c(9:10), ~ percent(r(as.numeric(.x), 3), accuracy = 0.1))
 
     ## add in second heading row
     heading_two <- data.frame(t(c("", "Value of exports ($millions)", names(prep_data)[3:10])))
@@ -1615,7 +1620,7 @@ server <- function(input, output, session) {
       select(Category2, `Number of businesses` = Category, Variable, Value) %>%
       pivot_wider(names_from = "Variable", values_from = "Value") %>%
       ## pre-formatting for columns
-      mutate_at(c(3:8), ~ percent(as.numeric(.x), accuracy = 0.1))
+      mutate_at(c(3:8), ~ percent(r(as.numeric(.x), 3), accuracy = 0.1))
 
     ## add in second heading row
     heading_two <- data.frame(t(c("", "Value of exports", names(prep_data)[3:8])))
@@ -1678,8 +1683,8 @@ server <- function(input, output, session) {
     ) %>%
       pivot_wider(names_from = "Variable", values_from = "Value") %>%
       ## pre-formatting for columns
-      mutate_at(c(3), ~ comma(as.numeric(.x), accuracy = 1)) %>%
-      mutate_at(c(4:5), ~ percent(as.numeric(.x), accuracy = 0.1))
+      mutate_at(c(3), ~ comma(r(as.numeric(.x), 0), accuracy = 1)) %>%
+      mutate_at(c(4:5), ~ percent(r(as.numeric(.x), 3), accuracy = 0.1))
 
     heading_two <- names(prep_data)[3:5]
 
@@ -1733,7 +1738,7 @@ server <- function(input, output, session) {
     plot_data <- data_new %>%
       filter(Topic_id == "5.03") %>%
       mutate(Value = as.numeric(Value),
-             Label = paste0(Category, ": ", percent(Value, accuracy = 0.1)),
+             Label = paste0(Category, ": ", percent(r(Value, 3), accuracy = 0.1)),
              x_Category = fct_inorder(Category2)) %>%
       arrange(desc(Category)) %>%   ## arrange order: US, non, both
       mutate(color_Category = fct_inorder(Category))
@@ -1750,7 +1755,7 @@ server <- function(input, output, session) {
     plot_data <- data_new %>%
       filter(Topic_id == "5.04" & Variable == "Share of export value") %>%
       mutate(Value = as.numeric(Value),
-             Label = paste0(Category, ": ", percent(Value, accuracy = 0.1)),
+             Label = paste0(Category, ": ", percent(r(Value, 3), accuracy = 0.1)),
              x_Category = fct_inorder(Category2)) %>%
       arrange(desc(Category)) %>%   ## arrange order: US, non, both
       mutate(color_Category = fct_inorder(Category))
@@ -1767,7 +1772,7 @@ server <- function(input, output, session) {
     plot_data <- data_new %>%
       filter(Topic_id == "5.05" & Category2 == "Share of exports") %>%
       mutate(Value = as.numeric(Value),
-             Label = paste0(Category, ": ", percent(Value, accuracy = 0.1)),
+             Label = paste0(Category, ": ", percent(r(Value, 3), accuracy = 0.1)),
              x_Category = fct_inorder(Variable)) %>%
       arrange(desc(Category)) %>%   ## arrange order: US, non, both
       mutate(color_Category = fct_inorder(Category))
@@ -1793,13 +1798,13 @@ server <- function(input, output, session) {
 
     plot_data <- prep_data %>%
       filter(Category != "CA") %>%
-      mutate(Label = dollar(Value, accuracy = 0.1),
+      mutate(Label = dollar(r(Value, 1), accuracy = 0.1),
              Category = fct_inorder(Category),
              selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
 
     provincial_chart(plot_data,
                      hline_val = canada,
-                     label = paste("Canada:", dollar(canada, accuracy = 0.1), "million"),
+                     label = paste("Canada:", dollar(r(canada, 1), accuracy = 0.1), "million"),
                      y_title = "$ Millions per Business",
                      y_tickformat = "$")
   })
@@ -1810,7 +1815,7 @@ server <- function(input, output, session) {
     plot_data <- data_new %>%
       filter(Topic_id == "5.07") %>%
       mutate(Value = as.numeric(Value) / 1e6,
-             Label = dollar(Value, accuracy = 0.1)) %>%
+             Label = dollar(r(Value, 1), accuracy = 0.1)) %>%
       arrange(desc(Category)) %>%  ## arrange desc so small is on top for color
       mutate(Category = fct_inorder(Category))
 
@@ -1863,13 +1868,13 @@ server <- function(input, output, session) {
 
     plot_data <- prep_data %>%
       filter(Category != "Canada") %>%
-      mutate(Label = dollar(Value, accuracy = 1),
+      mutate(Label = dollar(r(Value, 0), accuracy = 1),
              Category = fct_inorder(Category),
              selected_color = ifelse(Category == "BC", custom_colors["yellow"], custom_colors["med_blue"]))
 
     provincial_chart(plot_data,
                      hline_val = canada,
-                     label = paste("All of Canada:", dollar(canada, accuracy = 1), "per capita"),
+                     label = paste("All of Canada:", dollar(r(canada, 0), accuracy = 1), "per capita"),
                      y_title = "",
                      y_tickformat = "$,")
   })

@@ -155,3 +155,6 @@ contact_box <- function() {
   )
 }
 
+## short-hand for rounding function
+r <- janitor::round_half_up
+
