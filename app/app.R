@@ -451,10 +451,11 @@ server <- function(input, output, session) {
       mutate(Value = as.numeric(Value),
              y_Category = fct_inorder(Category),
              color_Category = "same",   ## all one color
-             Label = paste0(y_Category, ": ",comma(Value)))
+             Label = paste0(y_Category, ": ", comma(Value)))
 
     horizontal_bar_chart(plot_data,
                          colors = default_color,
+                         x_title = paste("1-Year Growth,", unique(plot_data$Category2)),
                          x_tickformat = "0,")
   })
 
@@ -467,10 +468,11 @@ server <- function(input, output, session) {
       mutate(Value = as.numeric(Value),
              y_Category = fct_inorder(Category),
              color_Category = "same",   ## all one color
-             Label = paste0(y_Category, ": ",comma(Value)))
+             Label = paste0(y_Category, ": ", comma(Value)))
 
     horizontal_bar_chart(plot_data,
                          colors = default_color,
+                         x_title = paste("2-Year Growth,", unique(plot_data$Category2)),
                          x_tickformat = "0,")
   })
 
@@ -483,10 +485,11 @@ server <- function(input, output, session) {
       mutate(Value = as.numeric(Value),
              y_Category = fct_inorder(Category),
              color_Category = "same",   ## all one color
-             Label = paste0(y_Category, ": ",comma(Value)))
+             Label = paste0(y_Category, ": ", comma(Value)))
 
     horizontal_bar_chart(plot_data,
                          colors = default_color,
+                         x_title = paste("5-Year Growth,", unique(plot_data$Category2)),
                          x_tickformat = "0,")
   })
 
@@ -1008,16 +1011,16 @@ server <- function(input, output, session) {
              y_Category = fct_inorder(Category),
              color_Category = fct_inorder(Category2))
 
-    x_years <- paste(top_bottom_chart_max_year-1, top_bottom_chart_max_year, sep = "-")
-
     horizontal_bar_chart(plot_data,
                          colors = unname(custom_colors[c("yellow", "navy")]),
-                         x_title = paste("One-year growth rate in small business employment,", x_years),
+                         x_title = "One-year growth rate in<br>small business employment",
                          x_tickformat = "0%",
                          hovermode = "closest",
                          autorange = "reversed",
                          showlegend = TRUE,
-                         traceorder = "reversed")
+                         traceorder = "reversed") %>%
+    layout(xaxis = list(title=list(font = list(size = 12))))
+
   })
 
   # plot2.09 ----
@@ -1034,16 +1037,15 @@ server <- function(input, output, session) {
              y_Category = fct_inorder(Category),
              color_Category = fct_inorder(Category2))
 
-    x_years <- paste(top_bottom_chart_max_year-2, top_bottom_chart_max_year, sep = "-")
-
     horizontal_bar_chart(plot_data,
                          colors = unname(custom_colors[c("yellow", "navy")]),
-                         x_title = paste("Two-year growth rate in small business employment,", x_years),
+                         x_title = "Two-year growth rate in<br>small business employment",
                          x_tickformat = "0%",
                          hovermode = "closest",
                          autorange = "reversed",
                          showlegend = TRUE,
-                         traceorder = "reversed")
+                         traceorder = "reversed") %>%
+      layout(xaxis = list(title=list(font = list(size = 12))))
   })
 
   # plot2.10 ----
@@ -1060,16 +1062,15 @@ server <- function(input, output, session) {
            y_Category = fct_inorder(Category),
            color_Category = fct_inorder(Category2))
 
-    x_years <- paste(top_bottom_chart_max_year-5, top_bottom_chart_max_year, sep = "-")
-
     horizontal_bar_chart(plot_data,
                          colors = unname(custom_colors[c("yellow", "navy")]),
-                         x_title = paste("Five-year growth rate in small business employment,", x_years),
+                         x_title = "Five-year growth rate in<br>small business employment",
                          x_tickformat = "0%",
                          hovermode = "closest",
                          autorange = "reversed",
                          showlegend = TRUE,
-                         traceorder = "reversed")
+                         traceorder = "reversed") %>%
+      layout(xaxis = list(title=list(font = list(size = 12))))
   })
 
   # plot3.01 ----
@@ -1140,23 +1141,18 @@ server <- function(input, output, session) {
              y_Category = fct_inorder(Category),
              color_Category = fct_inorder(Category))
 
-    x_maxyear <- data_new %>%
-      filter(Topic_id == "3.03" & nchar(Variable) == 4) %>%
-      filter(Variable == max(Variable)) %>%
-      distinct(Variable) %>%
-      pull() %>%
-      as.numeric()
-
-    horizontal_bar_chart(plot_data,
+     horizontal_bar_chart(plot_data,
                          colors = region_colors,
-                         x_title = paste0("% Change ", x_maxyear-1, "-", x_maxyear),
+                         x_title = paste("% Change,", unique(plot_data$Category2)),
                          x_tickformat = "0%",
                          hovermode = "closest",
                          autorange = "reversed") %>%
       layout(shapes = list(vline(provincial_average))) %>%
       add_annotations(x = 0.25,
                       y = .99,
-                      text = paste("<b>— Provincial Average: ", percent(provincial_average, accuracy = 0.1), "</b>"),
+                      text = paste("<b><span style = 'letter-spacing:-2px'>&#8212;&#8212;</span> Provincial Average: ",
+                                   percent(r(provincial_average, 3), accuracy = 0.1),
+                                   "</b>"),
                       xref = "paper",
                       yref = "paper",
                       xanchor = "left",
@@ -1182,23 +1178,18 @@ server <- function(input, output, session) {
              y_Category = fct_inorder(Category),
              color_Category = fct_inorder(Category))
 
-    x_maxyear <- data_new %>%
-      filter(Topic_id == "3.03" & nchar(Variable) == 4) %>%
-      filter(Variable == max(Variable)) %>%
-      distinct(Variable) %>%
-      pull() %>%
-      as.numeric()
-
     horizontal_bar_chart(plot_data,
                          colors = region_colors,
-                         x_title = paste0("% Change ", x_maxyear-5, "-", x_maxyear),
+                         x_title = paste("% Change,", unique(plot_data$Category2)),
                          x_tickformat = "0%",
                          hovermode = "closest",
                          autorange = "reversed") %>%
       layout(shapes = list(vline(provincial_average))) %>%
       add_annotations(x = 0.45,
                       y = .99,
-                      text = paste("<b>— Provincial Average: ", percent(provincial_average, accuracy = 0.1), "</b>"),
+                      text = paste("<b><span style = 'letter-spacing:-2px'>&#8212;&#8212;</span> Provincial Average: ",
+                                   percent(r(provincial_average, 3), accuracy = 0.1),
+                                   "</b>"),
                       xref = "paper",
                       yref = "paper",
                       xanchor = "left",

@@ -60,7 +60,7 @@ provincial_chart <- function(plot_data, hline_val = NULL, label = NULL, y_title 
                   textposition = "none",
                   hoverinfo = "text") %>%
     layout(xaxis = list(title = ""),
-           yaxis = list(title = y_title, tickformat = y_tickformat))
+           yaxis = list(title = list(text = y_title), tickformat = y_tickformat))
 
   if(!is.null(hline_val)) {
 
@@ -105,7 +105,7 @@ horizontal_bar_chart <- function(plot_data, colors, x_title = "", x_tickformat,
           textposition = "none",
           hoverinfo = hoverinfo,
           hovertemplate = hovertemplate) %>%
-    layout(xaxis = list(title = x_title, tickformat = x_tickformat),
+    layout(xaxis = list(title = list(text = x_title), tickformat = x_tickformat),
            yaxis = list(title = "", autorange = autorange),
            barmode = barmode,
            hovermode = hovermode,
@@ -132,7 +132,7 @@ vertical_bar_chart <- function(plot_data, colors, y_title = "", y_tickformat,
           textposition = "none",
           hovertemplate = "%{text}<extra></extra>") %>%
     layout(xaxis = list(title = ""),
-           yaxis = list(title = y_title, tickformat = y_tickformat, autorange = autorange),
+           yaxis = list(title = list(text = y_title), tickformat = y_tickformat, autorange = autorange),
            barmode = barmode,
            hovermode = "x unified",
            showlegend = showlegend,

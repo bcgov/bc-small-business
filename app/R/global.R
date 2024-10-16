@@ -25,7 +25,6 @@ library(sf)
 library(scales)
 
 last_updated <- "October 15, 2024"
-top_bottom_chart_max_year <- 2023
 
 # read data
 data_new <- readRDS("data/data_new.rds")

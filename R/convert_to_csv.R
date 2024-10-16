@@ -18,7 +18,7 @@ library(tidyverse)
 library(openxlsx)
 library(janitor)
 
-year <- 2024
+year <- 2024  ## current year, used in name of output files
 
 # Excel file ----
 excel_file <- config::get("data_filename")
@@ -83,6 +83,8 @@ format <- function(data, Category2 = FALSE, Note2 = "^$") {
 
 # Read data ----
 sheet_names <- getSheetNames(excel_file)
+sheet_names <- sheet_names[-c(1,2)] ## remove Highlights and Content tabs not used in app
+
 ## openxlsx resulted in scientific notation that could not be resolved - use xlsx package to read in data instead
 excel_data_raw <- map(sheet_names, ~  openxlsx::read.xlsx(excel_file, sheet = .x) %>%
                     remove_empty() %>%     ## remove empty rows/columns
@@ -113,6 +115,17 @@ excel_data$`1.3`<- excel_data_raw$`1.3` %>%
 excel_data$`1.4` <- excel_data_raw$`1.4` %>%
   rename_cols() %>%
   format()
+
+## get the max year to add to Category2
+## this will be used in the app for the x-axis title
+max_year <- str_extract(excel_data$`1.4`$Variable, "[:digit:]{4}") %>%
+  as.numeric() %>%
+  max(na.rm = TRUE)
+
+excel_data$`1.4` <- excel_data$`1.4` %>%
+  mutate(Category2 = case_when(str_detect(Variable, "1-yr") ~ paste(max_year-1, max_year, sep = "-"),
+                               str_detect(Variable, "2-yr") ~ paste(max_year-2, max_year, sep = "-"),
+                               str_detect(Variable, "5-yr") ~ paste(max_year-5, max_year, sep = "-")))
 
 ## 1.5 ----
 excel_data$`1.5` <- excel_data_raw$`1.5` %>%
@@ -182,16 +195,16 @@ excel_data$`1.13` <- excel_data_raw$`1.13` %>%
 excel_data$`1.14` <- excel_data_raw$`1.14-1.15` %>%
   select(1:7, Topic_id, Topic) %>% ## check the column numbers
   rename_cols(2) %>%
+  format() %>%
   mutate(Topic_id = "1.14",
-         Category2 = "Number of small businesses") %>%
-  format(Category2 = TRUE)
+         Topic = paste("Number of small businesses by region,", max(Variable)))
 
 excel_data$`1.15` <- excel_data_raw$`1.14-1.15` %>%
-  select(1, 8:ncol(.)) %>% ## check the column numbers
+  select(1, 8, 10:ncol(.)) %>% ## check the column numbers
   rename_cols(2) %>%
   mutate(Topic_id = "1.15",
-         Category2 = "Change") %>%
-  format(Category2 = TRUE)
+         Topic = names(.)[2]) %>%
+  format()
 
 excel_data$`1.14-1.15` <- NULL
 
@@ -323,6 +336,17 @@ excel_data$`3.3` <- excel_data_raw$`3.3` %>%
   set_names(col_names) %>%
   format()
 
+## get the max year to add to Category2
+## this will be used in the app for the x-axis title
+max_year <- str_extract(excel_data$`3.3`$Variable, "[:digit:]{4}") %>%
+  as.numeric() %>%
+  max(na.rm = TRUE)
+
+excel_data$`3.3` <- excel_data$`3.3` %>%
+  mutate(Category2 = case_when(str_detect(Variable, "1 year") ~ paste(max_year-1, max_year, sep = "-"),
+                               str_detect(Variable, "5-year") ~ paste(max_year-5, max_year, sep = "-")))
+
+
 ## 3.4 ----
 excel_data$`3.4`  <- excel_data_raw$`3.4` %>%
   rename_cols(2) %>%
@@ -379,7 +403,7 @@ excel_data$`3.9 and 3.12` <- NULL
 
 ## 3.13 ----
 excel_data$`3.13` <- excel_data_raw$`3.13` %>%
-  rename_cols(2) %>%
+  rename_cols() %>%
   format()
 
 ## 4.1 ----
