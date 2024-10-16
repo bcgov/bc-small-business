@@ -567,7 +567,7 @@ server <- function(input, output, session) {
 
   # plot1.08 ----
   ## Figure 1.8: Fastest-growing industries by number of net new small businesses with employees
-  output$plot1.08 <- output$plot1.08_S <- renderPlotly({
+  output$plot1.08 <- output$plot1.08_s <- renderPlotly({
     prep_data <- data_new %>%
       filter(Topic_id == "1.08" & nchar(Variable) > 4) %>%
       select(Category, Value, Category2) %>%
@@ -691,26 +691,24 @@ server <- function(input, output, session) {
       pivot_wider(names_from = "Variable", values_from = "Value") %>%
       mutate(label = paste0(region_label, "\n", percent(r(sb, 3), accuracy = 0.1), " SB\n", percent(r(pop, 3), accuracy = 0.1), " population"),
              region = factor(region,
-                             levels = c("North Coast & Nechako", "Cariboo", "Kootenay",
+                             levels = c("North Coast & Nechako", "Kootenay",
                                         "Vancouver Island/Coast", "Mainland/Southwest",
-                                        "Thompson-Okanagan", "Northeast")),
-             text_color = case_when(
-               region %in% c("Vancouver Island/Coast", "Mainland/Southwest", "North Coast & Nechako") ~ "black",
-               TRUE ~ "white")) %>%
+                                        "Cariboo", "Thompson-Okanagan", "Northeast")),
+             text_color = case_when(region %in% c("Northeast") ~ "white",
+                                    TRUE ~ "black")) %>%
       arrange(region)
 
     ggplot(data = plot_data) +
       geom_sf(aes(fill = region), color = "white", linewidth = 0.5) +
       geom_sf_text(aes(label = label, color = text_color),
                    size = 4, lineheight = 0.8, fontface = "bold",
-                   ## northcoast, vi, mainland, cariboo, kootenay, t-o, northeast
-                   nudge_x = c(120000, -280000, 150000, -90000, 0, -10000, 20000),
-                   nudge_y = c(-190000, -120000, -180000, -100000, -50000, 20000, 0)) +
+                   ## northcoast, kootenay, vi, mainland, cariboo,  t-o, northeast
+                   nudge_x = c( 12e4,  5e4, -25e4,  20e4,   0, -2e4, 3e4),
+                   nudge_y = c(-19e4, -5e4, -10e4, -20e4, 2e4,  5e4, 3e4)) +
       scale_fill_manual(values = region_colors) +
       scale_color_manual(values = c(white = "white", black = "black")) +
       theme_void() +
-      theme(legend.position = "none",
-            text = element_text(face = "bold"))
+      theme(legend.position = "none")
   })
 
   # plot1.13 ----

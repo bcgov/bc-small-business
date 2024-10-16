@@ -45,7 +45,6 @@ figure_list_main <- list(
   fig1.04 = box(  ## fig1.04 ----
     title = figs[figs$Topic_id == "1.04", ]$fig_text,
     width = 10,
-    solidHeader = TRUE,
     tabsetPanel(
       tabPanel("1 year",
                style = "width: 4",
@@ -271,7 +270,7 @@ figure_list_main <- list(
   ),
   fig3.03 = box(
     title = figs[figs$Topic_id == "3.03", ]$fig_text,
-    width = 10,solidHeader = TRUE,
+    width = 10,
     tabsetPanel(
       tabPanel("One-year",
                style = "width: 4",
@@ -431,7 +430,6 @@ figure_list_main <- list(
   fig5.01 = box(
     title = figs[figs$Topic_id == "5.01", ]$fig_text,
     width = 10,
-    solidHeader = TRUE,
     tabsetPanel(
       tabPanel("Values",
                style = "width: 4",

@@ -351,7 +351,7 @@ fig_notes <- list(
                              HTML("<small><p><b><i>Indigenous Persons</b></i> are those who indicate that they identify as an
                                    Indigenous person, and/or are registered under the Indian Act, and/or are a member of a
                                    First Nation or Indian band.</p>
-                                   <p><b><i>Off reserve</b></i>i ncludes all census subdivisions in Canada not legally affiliated
+                                   <p><b><i>Off reserve</b></i> includes all census subdivisions in Canada not legally affiliated
                                    with First Nations or Indian bands.</p></small>")))),
 
   fig4.01_desc = HTML("<small><p><i>This chart shows the percentage of GDP that is attributable to small business activities.</i></p></small>"),
@@ -455,7 +455,7 @@ fig_notes <- list(
                                    charges to the port of exit point but excluding discounts and allowances,
                                    and international insurance.</p></small>")))),
 
-  fig_5.03_desc = HTML("<p><small><i>This chart shows the proportion of exporters in British Columbia by business size by destination of exports.</i></p></small>"),
+  fig5.03_desc = HTML("<p><small><i>This chart shows the proportion of exporters in British Columbia by business size by destination of exports.</i></p></small>"),
   fig5.03_note = tagList(HTML("<small><p><b>Note:</b> Figures do not add to 100 per cent due to rounding.</p>
                                       <p><b>Source:</b> Statistics Canada / Prepared by BC Stats</p></small>"),
                          fluidRow(
@@ -527,7 +527,7 @@ fig_notes <- list(
                              HTML("<small><p>The lower small business tax rate is applicable to Canadian-controlled private corporations (CCPCs)
                                    with active business income eligible for the federal small business deduction. One component of the
                                    small business deduction is the business limit.
-                                   As of January 2023, the limit is $500,000 for all provinces and territories except Saskatchewan ($600,000).</p></small>")))),
+                                   As of the publication of this dashboard, the limit is $500,000 for all provinces and territories except Saskatchewan ($600,000).</p></small>")))),
 
   fig6.02_desc = HTML("<small><p><i>This chart shows the value of building permits divided by the total population by province.</i></p></small>"),
   fig6.02_note = tagList(HTML("<small><p><b>Source:</b> Statistics Canada / Prepared by BC Stats</p></small>"),

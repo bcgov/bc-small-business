@@ -46,7 +46,6 @@ fig_list_standalone <- list(
   fig1.04 = box(
     title = figs[figs$Topic_id == "1.04", ]$fig_text,
     width = 10,
-    solidHeader = TRUE,
     tabsetPanel(
       tabPanel("1 year",
                style = "width: 4",
@@ -107,7 +106,7 @@ fig_list_standalone <- list(
     fig_notes["fig1.09_note"]
   ),
   ## fig1.10 ----
-  fig1.1 = box(
+  fig1.10 = box(
     title = figs[figs$Topic_id == "1.10", ]$fig_text,
     width = 10,
     fig_notes["fig1.10_desc"],
@@ -272,7 +271,7 @@ fig_list_standalone <- list(
   ## fig3.03 ----
   fig3.03 = box(
     title = figs[figs$Topic_id == "3.03", ]$fig_text,
-    width = 10,solidHeader = TRUE,
+    width = 10,
     tabsetPanel(
       tabPanel("One-year",
                style = "width: 4",
@@ -432,7 +431,6 @@ fig_list_standalone <- list(
   fig5.01 = box(
     title = figs[figs$Topic_id == "5.01", ]$fig_text,
     width = 10,
-    solidHeader = TRUE,
     tabsetPanel(
       tabPanel("Values",
                style = "width: 4",
