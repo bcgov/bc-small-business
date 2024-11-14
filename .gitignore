@@ -10,4 +10,5 @@ rsconnect
 *.xlsx
 *.rds
 *highlights*
+*.html
 
