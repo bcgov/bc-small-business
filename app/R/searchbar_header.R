@@ -20,6 +20,7 @@ header <- htmltools::tagList(
   htmltools::tags$head(htmltools::tags$style(htmltools::HTML('#app_title {font-weight:400; color:white; margin: 5px 5px 0 18px;}'))),
   htmltools::tags$head(htmltools::tags$style(htmltools::HTML('.searchbar {margin-left:auto; margin-right:0;width:250px;padding-top:20px}'))),
   htmltools::tags$head(htmltools::tags$style(htmltools::HTML('.link_list_div {margin-right:0;}'))),
+  htmltools::tags$style(type='text/css', ".selectize-dropdown-content {max-height: 400px; }"),
 
   ## BANNER START
   shiny::column(id = "header_col",
