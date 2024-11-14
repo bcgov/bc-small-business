@@ -707,8 +707,10 @@ server <- function(input, output, session) {
                    nudge_y = c(-19e4, -5e4, -10e4, -20e4, 2e4,  5e4, 3e4)) +
       scale_fill_manual(values = region_colors) +
       scale_color_manual(values = c(white = "white", black = "black")) +
+      annotate("text", label = "SB = Small Businesses", x = 5e5, y = 15e5) +
       theme_void() +
       theme(legend.position = "none")
+
   })
 
   # plot1.13 ----

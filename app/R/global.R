@@ -37,7 +37,8 @@ actionbtn_text <<- "View this figure on its own"
 figs <<- data_new %>%
   distinct(Topic_id, Topic) %>%
   mutate(Figure = paste0("Figure ", str_replace_all(Topic_id, "\\.0", "\\."), ":"),
-         fig_text = paste(Figure, Topic)) %>%
+         fig_text = case_when(Topic_id %in% c("2.05", "2.06") ~ paste(Figure, str_to_sentence(Topic)),
+                              TRUE ~ paste(Figure, Topic))) %>%
   select(Topic_id, fig_text)
 
 source("fig_code/figure_notes.R")
