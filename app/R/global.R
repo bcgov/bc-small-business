@@ -24,7 +24,7 @@ library(DT)         ## for tables
 library(sf)
 library(scales)
 
-last_updated <- "October 15, 2024"
+last_updated <- "December 18, 2024"
 
 # read data
 data_new <- readRDS("data/data_new.rds")
