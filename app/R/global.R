@@ -25,6 +25,7 @@ library(sf)
 library(scales)
 
 last_updated <- "December 18, 2024"
+google_tracking <- TRUE
 
 # read data
 data_new <- readRDS("data/data_new.rds")

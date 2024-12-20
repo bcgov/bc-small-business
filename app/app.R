@@ -22,7 +22,7 @@ ui <-
       ## header code found in R/header.R
       header,
       tags$head(tags$link(rel = "shortcut icon", href = "favicon.png")), ## to add BCGov favicon
-      tags$head(includeHTML("www/google-analytics.html")),  ## to add GA tracking code
+      if(google_tracking){ tags$head(includeHTML("www/google-analytics.html")) },  ## to add GA tracking code
 
       column( ## main body column ----
         width = 12,
