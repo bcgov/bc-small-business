@@ -14,6 +14,7 @@
 
 ## Small business counts
 highlight_1.1 <- HTML("This is place holder text for <b>small business counts</b> statistics.")
+
 ## Small business growth
 highlight_1.2 <- HTML("This is place holder text for <b>small business growth</b> statistics.")
 
@@ -36,5 +37,5 @@ highlight_3.1 <- HTML("This is place holder text for <b>self-employment for Indi
 highlight_3.2 <- HTML("This is place holder text for <b>small business wages</b> statistics.")
 
 ## Small business exporters
-highlight_3.3 <- HTML("This is place holder text for <b>small business exporters statistics.")
+highlight_3.3 <- HTML("This is place holder text for <b>small business exporters</b> statistics.")
 
