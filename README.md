@@ -12,7 +12,7 @@ The data used in the dashboard is available in the [BC Data Catalogue](https://c
 
 **British Columbia Census Economic Regions**
 
-[Current Census Economic Regions](https://catalogue.data.gov.bc.ca/dataset/1aebc451-a41c-496f-8b18-6f414cde93b7) geospatial data, released under the [Statistics Canada Open Licence](https://www.statcan.gc.ca/eng/reference/licence), are sourced from the B.C. Data Catalogue using the [`bcdata` R package](https://bcgov.github.io/bcdata/).
+[Current Census Economic Regions](https://catalogue.data.gov.bc.ca/dataset/1aebc451-a41c-496f-8b18-6f414cde93b7) geospatial data, released under the [Statistics Canada Open Licence](https://www.statcan.gc.ca/eng/reference/licence), are sourced from the B.C. Data Catalogue using the [`bcdata`](https://bcgov.github.io/bcdata/) package.
 
 ### Requirements
 
