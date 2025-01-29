@@ -16,13 +16,40 @@ The data used in the dashboard is available in the [BC Data Catalogue](https://c
 
 ### Requirements
 
-**Custom Packages**
+To run the dashboard, the following actions are required:
 
-To run the dashboard, the following packages are required:
+**Packages**
 
-[bcsapps](https://github.com/bcgov/bcsapps): used for standardizing the header and footer of BC Stats apps/dashboards
+Install these packages.
 
-[bcstatslinks](https://github.com/bcgov/bcstatslinks): contains a list of BC Stats dashboards used by bcsapps::bcsHeaderUI and bcsapps::bcsHeaderServer
+``` r
+install.packages(bcdata)
+
+install.packages("remotes")
+remotes::install_github("bcgov/bcgovr")
+remotes::install_github("bcgov/bcstatslinks")
+remotes::install_github("bcgov/bcsapps")
+```
+
+Note:
+
+-   [bcsapps](https://github.com/bcgov/bcsapps): used for standardizing the header and footer of BC Stats apps/dashboards
+
+-   [bcstatslinks](https://github.com/bcgov/bcstatslinks): contains a list of BC Stats dashboards used by bcsapps::bcsHeaderUI and bcsapps::bcsHeaderServer
+
+**Data**
+
+Download the [BC Small Business Profile data](https://catalogue.data.gov.bc.ca/dataset/14828d0e-3cab-4477-af30-eab919d3451a). Save the csv files as rds files in [app/data](app/data).
+
+Run R/get_geo_data.R to download/format the [Current Census Economic Regions](https://catalogue.data.gov.bc.ca/dataset/1aebc451-a41c-496f-8b18-6f414cde93b7).
+
+**Code**
+
+Change google_tracking to FALSE in [app/R/global.R](app/R/global.R)
+
+**Notes**
+
+The highlights presented in the app are not included in this github repo. Instead, a set of placeholder highlights are included in [app/R/faux_highlight_text.R](app/R/faux_highlight_text.R).
 
 ### Getting Help or Reporting an Issue
 
