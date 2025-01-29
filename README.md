@@ -31,11 +31,9 @@ remotes::install_github("bcgov/bcstatslinks")
 remotes::install_github("bcgov/bcsapps")
 ```
 
-Note:
+[bcsapps](https://github.com/bcgov/bcsapps): used for standardizing the header and footer of BC Stats apps/dashboards
 
--   [bcsapps](https://github.com/bcgov/bcsapps): used for standardizing the header and footer of BC Stats apps/dashboards
-
--   [bcstatslinks](https://github.com/bcgov/bcstatslinks): contains a list of BC Stats dashboards used by bcsapps::bcsHeaderUI and bcsapps::bcsHeaderServer
+[bcstatslinks](https://github.com/bcgov/bcstatslinks): contains a list of BC Stats dashboards used by bcsapps::bcsHeaderUI and bcsapps::bcsHeaderServer
 
 **Data**
 
