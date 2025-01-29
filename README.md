@@ -39,7 +39,7 @@ Note:
 
 **Data**
 
-Download the [BC Small Business Profile data](https://catalogue.data.gov.bc.ca/dataset/14828d0e-3cab-4477-af30-eab919d3451a). Save the csv files as rds files in [app/data](app/data).
+Download the [BC Small Business Profile data](https://catalogue.data.gov.bc.ca/dataset/14828d0e-3cab-4477-af30-eab919d3451a/resource/1b1fa49f-d11a-405f-8cc8-57237aa57c96). Save the csv file, load it into R and save as app/data/new_data.rds.
 
 Run R/get_geo_data.R to download/format the [Current Census Economic Regions](https://catalogue.data.gov.bc.ca/dataset/1aebc451-a41c-496f-8b18-6f414cde93b7).
 
@@ -50,6 +50,8 @@ Change google_tracking to FALSE in [app/R/global.R](app/R/global.R)
 **Notes**
 
 The highlights presented in the app are not included in this github repo. Instead, a set of placeholder highlights are included in [app/R/faux_highlight_text.R](app/R/faux_highlight_text.R).
+
+The downloadable data is also not included in this repo, so the download data buttons in the app will not work.
 
 ### Getting Help or Reporting an Issue
 
