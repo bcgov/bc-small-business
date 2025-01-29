@@ -39,7 +39,7 @@ remotes::install_github("bcgov/bcsapps")
 
 Download the [BC Small Business Profile data](https://catalogue.data.gov.bc.ca/dataset/14828d0e-3cab-4477-af30-eab919d3451a/resource/1b1fa49f-d11a-405f-8cc8-57237aa57c96). Save the csv file, load it into R and save as app/data/new_data.rds.
 
-Run R/get_geo_data.R to download/format the [Current Census Economic Regions](https://catalogue.data.gov.bc.ca/dataset/1aebc451-a41c-496f-8b18-6f414cde93b7).
+Run R/get_geo_data.R to download and format the [Current Census Economic Regions](https://catalogue.data.gov.bc.ca/dataset/1aebc451-a41c-496f-8b18-6f414cde93b7).
 
 **Code**
 
