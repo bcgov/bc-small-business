@@ -2,10 +2,13 @@
 .Rhistory
 *.Rproj
 scratch*
+config*
 
 rsconnect
 
 *.csv
 *.xlsx
 *.rds
+*highlights*
+*.html
 
