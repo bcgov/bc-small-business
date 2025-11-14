@@ -14,6 +14,7 @@
 
 
 fig_notes <- list(
+  ## page 1 ----
   fig1.01_desc = HTML("<small><p><i>This table provides a breakdown of the number of businesses in British Columbia by employment size.</i></p></small>"),
   fig1.01_note = tagList(HTML("<small><p><b>Note:</b> Figures do not add to 100 per cent due to rounding.</p>
                                       <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</p></small>"),
@@ -159,7 +160,7 @@ fig_notes <- list(
                        by development region in British Columbia. That is, the difference between the number
                        of small businesses between the latest annual data and the previous year.</i></p></small>"),
   fig1.15_note = HTML("<small><p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</p></small>"),
-
+  ## page 2 ----
   fig2.01_desc = HTML("<small><p><i>This table shows the breakdown of employees in the private sector for small and large businesses.</i></p></small>"),
   fig2.01_note = tagList(HTML("<small><p><b>Note:</b> Includes the self-employed with and without paid help.</p>
                                       <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</p></small>"),
@@ -236,7 +237,7 @@ fig_notes <- list(
   fig2.10_note = HTML("<small><p><b>Note:</b> Public administration employment here measures small government entities such as small municipal
                                               and Indigenous government organizations.</p>
                              <p><b>Source:</b> BC Stats using data supplied by Statistics Canada.</p></small>"),
-
+  ## page 3 ----
   fig3.01_desc = HTML("<small><p><i>This chart shows the different levels of self-employment as a percentage of total employment across
                        the provinces and compared to the Canadian average.</i></p></small>"),
   fig3.01_note = tagList(HTML("<small><p><b>Source:</b> Statistics Canada / Prepared by BC Stats</p></small>"),
@@ -353,7 +354,7 @@ fig_notes <- list(
                                    First Nation or Indian band.</p>
                                    <p><b><i>Off reserve</b></i> includes all census subdivisions in Canada not legally affiliated
                                    with First Nations or Indian bands.</p></small>")))),
-
+  ## page 4 ----
   fig4.01_desc = HTML("<small><p><i>This chart shows the percentage of GDP that is attributable to small business activities.</i></p></small>"),
   fig4.01_note = tagList(HTML("<small><p><b>Source:</b> BC Stats.</p></small>"),
                          fluidRow(
@@ -420,7 +421,7 @@ fig_notes <- list(
                                    amounts that are taxable allowances and benefits, certain types of non-wage compensation,
                                    as well as employer contributions to employment insurance, Canada and Quebec pension plans,
                                    provincial medical plans, workers’ compensation and other welfare plans.</p></small>")))),
-
+  ## page 5 ----
   fig5.01a_desc = HTML("<small><p><i>This table shows the number of exporters and the value of exports in British Columbia by business size for selected years.</i></p></small>"),
   fig5.01b_desc = HTML("<small><p><i>This table shows the number of exporters and the value of exports in British Columbia by business size for selected years,
                         as a proportion of the total.</i></p></small>"),
@@ -516,7 +517,7 @@ fig_notes <- list(
                                    accounting purposes. Canadian exports to overseas countries are valued including domestic freight
                                    charges to the port of exit point but excluding discounts and allowances,
                                    and international insurance.</p></small>")))),
-
+  ## page 6 ----
   fig6.01_desc = HTML("<small><p><i>This chart is an overview of the small business tax rates across different provinces.</i></p></small>"),
   fig6.01_note = tagList(HTML("<small><p><b>Source:</b> B.C. Ministry of Finance / Prepared by BC Stats</p></small>"),
                          fluidRow(
