@@ -535,7 +535,7 @@ excel_data$`6.1` <- excel_data_raw$`6.1` %>%
 
 ## 6.2 ----
 excel_data$`6.2` <- excel_data_raw$`6.2` %>%
-  rename_cols(2) %>%
+  rename_cols() %>%
   mutate(Category2 = "Value of building permits per person") %>%
   format(Category2 = TRUE)
 
