@@ -526,9 +526,10 @@ fig_notes <- list(
                              collapsible = TRUE,
                              collapsed = TRUE,
                              HTML("<small><p>The lower small business tax rate is applicable to Canadian-controlled private corporations (CCPCs)
-                                   with active business income eligible for the federal small business deduction. One component of the
-                                   small business deduction is the business limit.
-                                   As of the publication of this dashboard, the limit is $500,000 for all provinces and territories except Saskatchewan ($600,000).</p></small>")))),
+                                  with active business income eligible for the federal small business deduction.
+                                  One component of the small business deduction is the business limit.
+                                  As of the publication of this dashboard, the limit is $500,000 for all provinces and territories
+                                  except Saskatchewan, Prince Edward Island ($600,000) and Nova Scotia ($700,000).</p></small>")))),
 
   fig6.02_desc = HTML("<small><p><i>This chart shows the value of building permits divided by the total population by province.</i></p></small>"),
   fig6.02_note = tagList(HTML("<small><p><b>Source:</b> Statistics Canada / Prepared by BC Stats</p></small>"),
