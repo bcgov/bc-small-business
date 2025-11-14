@@ -18,7 +18,7 @@ library(tidyverse)
 library(openxlsx)
 library(janitor)
 
-year <- 2024  ## current year, used in name of output files
+year <- 2025  ## current year, used in name of output files
 
 # Excel file ----
 excel_file <- config::get("data_filename")
@@ -238,7 +238,7 @@ excel_data$`2.3` <- excel_data_raw$`2.3`%>%
   rename(Category = 1,
          Employment = 2,
          `Per cent of total` = 3) %>%
-  mutate(Topic = "Share of employment by establishment size, 2023") %>%
+  mutate(Topic =  excel_data_raw$`2.3`[12,1] %>% str_remove_all("Figure 2.3: ") %>% trimws("both")) %>%
   format()
 
 ## 2.4 ----
@@ -250,17 +250,25 @@ excel_data$`2.4` <- excel_data_raw$`2.4` %>%
 
 ## 2.5-2.6 ----
 excel_data$`2.5` <- excel_data_raw$`2.5-2.6` %>%
-  select(1,5, Topic_id, Topic) %>%   ## check column numbers
-  rename_cols() %>%
+  select(1:5) %>%
+  row_to_names(1) %>%
   mutate(Topic_id = "2.5",
-         Topic = "One-year Small business employment change, by province, 2022-2023") %>% ## check years
+         ## get title years from column names
+         Topic = paste0("One-year Small business employment change, by province, ", names(.)[3], "-", names(.)[4])) %>%
+  select(1,5, Topic_id, Topic) %>%   ## check column numbers
+  rename(Category = 1,
+         `One-year growth rate` = 2) %>%
   format()
 
 excel_data$`2.6` <- excel_data_raw$`2.5-2.6` %>%
-  select(1,6, Topic_id, Topic) %>%  ## check column numbers
-  rename_cols() %>%
+  select(1:6) %>%
+  row_to_names(1) %>%
   mutate(Topic_id = "2.6",
-         Topic = "Five-year Small business employment change, by province, 2018-2023") %>% ## check years
+         ## get title years from column names
+         Topic = paste0("Five-year Small business employment change, by province, ", names(.)[2], "-", names(.)[4])) %>%
+  select(1,6, Topic_id, Topic) %>%   ## check column numbers
+  rename(Category = 1,
+         `Five-year growth rate` = 2) %>%
   format()
 
 excel_data$`2.5-2.6` <- NULL
@@ -393,10 +401,10 @@ excel_data$`3.11` <- excel_data_raw$`3.11` %>%
 ## 3.12 ----
 excel_data$`3.12` <- excel_data_raw$`3.9 and 3.12` %>%
   slice(13:nrow(.)) %>%         ## check row numbers
-  select(1:3, Topic_id, Topic) %>% ## check row numbers
-  rename_cols(3) %>%
+  select(1:3) %>% ## check row numbers
   mutate(Topic_id = "3.12",
-         Topic = "Hours worked among self-employed men and women, British Columbia, 2023") %>%
+         Topic = .[1,1]) %>%
+  rename_cols(3) %>%
   format()
 
 excel_data$`3.9 and 3.12` <- NULL
@@ -556,7 +564,7 @@ Appendix_1 <- Appendix_1 %>%
 write_csv(as.data.frame(a1_header), paste("Small business profile", year, "Data - Appendix 1.csv"), col_names = FALSE, na = "")
 write_csv(Appendix_1, paste("Small business profile", year, "Data - Appendix 1.csv"), append = TRUE, col_names = TRUE, na = "")
 
- excel_data$`Appendix 1` <- NULL
+excel_data$`Appendix 1` <- NULL
 
 # ## Appendix 2 ----
 Appendix_2 <- excel_data_raw$`Appendix2`  %>% select(-Topic_id, -Topic)
@@ -575,7 +583,7 @@ Appendix_2 <- Appendix_2 %>%
 write_csv(a2_header,  paste("Small business profile", year, "Data - Appendix 2.csv"), col_names = FALSE, na = "")
 write_csv(Appendix_2, paste("Small business profile", year, "Data - Appendix 2.csv"), append = TRUE, col_names = TRUE, na = "")
 
- excel_data$Appendix2 <- NULL
+excel_data$Appendix2 <- NULL
 
 ## Combine ----
 data <- map_df(excel_data, bind_rows) %>%
