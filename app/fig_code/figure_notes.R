@@ -357,6 +357,7 @@ fig_notes <- list(
   ## page 4 ----
   fig4.01_desc = HTML("<small><p><i>This chart shows the percentage of GDP that is attributable to small business activities.</i></p></small>"),
   fig4.01_note = tagList(HTML("<small><p><b>Source:</b> BC Stats.</p></small>"),
+                        # HTML("<small><p><a href = 'https://catalogue.data.gov.bc.ca/dataset/bc-small-business-profile', target = '_blank'>See methodology for estimating GDP.</a></p></small>"),
                          fluidRow(
                            box(
                              title = HTML("<small><b>Definitions:</b></small>"),

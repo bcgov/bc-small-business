@@ -379,6 +379,7 @@ figure_list_main <- list(
     fig_notes["fig4.01_desc"],
     plotlyOutput("plot4.01"),
     br(),
+    p(a(icon("download"), " See methodology for estimating GDP.", id = "download_methodology", class = paste("shiny-download-link"))),
     fig_notes["fig4.01_note"],
     actionButton("btn4.01", actionbtn_text)
   ),

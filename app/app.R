@@ -341,6 +341,13 @@ server <- function(input, output, session) {
       # Notify client to send GA event for download
       session$sendCustomMessage("trackDownload", list(filename = "bc-small-business-profile-data-2023.xlsx"))})
 
+  ## GDP methodology download
+  output$download_methodology <- downloadHandler(
+    filename = "GDP Methodology October 2025.pdf",
+    content = function(file) { file.copy("data/GDP Methodology October 2025.pdf", file)
+      # Notify client to send GA event for download
+      session$sendCustomMessage("trackDownload", list(filename = "GDP Methodology October 2025.pdf"))})
+
   ## color definition ----
   default_color <- "#1f77b4"
 
