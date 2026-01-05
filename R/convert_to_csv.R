@@ -85,7 +85,6 @@ format <- function(data, Category2 = FALSE, Note2 = "^$") {
 sheet_names <- getSheetNames(excel_file)
 sheet_names <- sheet_names[-c(1,2)] ## remove Highlights and Content tabs not used in app
 
-## openxlsx resulted in scientific notation that could not be resolved - use xlsx package to read in data instead
 excel_data_raw <- map(sheet_names, ~  openxlsx::read.xlsx(excel_file, sheet = .x) %>%
                     remove_empty() %>%     ## remove empty rows/columns
                     mutate(Topic_id = .x,  ## create topic id from sheet name
