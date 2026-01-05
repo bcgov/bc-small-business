@@ -24,7 +24,7 @@ library(DT)         ## for tables
 library(sf)
 library(scales)
 
-last_updated <- "December 18, 2024"
+last_updated <- "January 5, 2026"
 google_tracking <- TRUE
 
 # read data
