@@ -37,6 +37,7 @@ See the License for the specific language governing permissions and limitations 
   ```yaml
   default:
     lan: <lan path information>
+    data_filename: <excel file path information>
     ga_tracking_id: <google analytics tracking information>
   ```
 
