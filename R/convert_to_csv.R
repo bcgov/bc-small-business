@@ -561,8 +561,8 @@ Appendix_1 <- Appendix_1 %>%
          `%` = scales::label_percent(accuracy = 0.000000001)(as.numeric(`%`)), ## to format as percents in csv output
          `%` = ifelse(is.na(`%`), "NA", `%`))
 
-write_csv(as.data.frame(a1_header), paste("Small business profile", year, "Data - Appendix 1-new.csv"), col_names = FALSE, na = "")
-write_csv(Appendix_1, paste("Small business profile", year, "Data - Appendix 1-new.csv"), append = TRUE, col_names = TRUE, na = "")
+write_csv(as.data.frame(a1_header), paste("Small business profile", year, "Data - Appendix 1.csv"), col_names = FALSE, na = "")
+write_csv(Appendix_1, paste("Small business profile", year, "Data - Appendix 1.csv"), append = TRUE, col_names = TRUE, na = "")
 
 excel_data$`Appendix 1` <- NULL
 
