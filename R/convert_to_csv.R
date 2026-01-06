@@ -18,7 +18,7 @@ library(tidyverse)
 library(openxlsx)
 library(janitor)
 
-year <- 2024  ## current year, used in name of output files
+year <- 2025  ## current year, used in name of output files
 
 # Excel file ----
 excel_file <- config::get("data_filename")
@@ -85,7 +85,6 @@ format <- function(data, Category2 = FALSE, Note2 = "^$") {
 sheet_names <- getSheetNames(excel_file)
 sheet_names <- sheet_names[-c(1,2)] ## remove Highlights and Content tabs not used in app
 
-## openxlsx resulted in scientific notation that could not be resolved - use xlsx package to read in data instead
 excel_data_raw <- map(sheet_names, ~  openxlsx::read.xlsx(excel_file, sheet = .x) %>%
                     remove_empty() %>%     ## remove empty rows/columns
                     mutate(Topic_id = .x,  ## create topic id from sheet name
@@ -182,7 +181,7 @@ excel_data$`1.11` <- excel_data_raw$`1.11` %>%
 
 ## 1.12 ----
 excel_data$`1.12` <- excel_data_raw$`1.12` %>%
-  slice(1:9) %>% ## check this - in 2024 needed to remove chart source and description
+  slice(1:9) %>% ## check this - should include 7 Regions, followed by source info in final row
   rename_cols() %>%
   format()
 
@@ -193,14 +192,14 @@ excel_data$`1.13` <- excel_data_raw$`1.13` %>%
 
 ## 1.14-1.15 ----
 excel_data$`1.14` <- excel_data_raw$`1.14-1.15` %>%
-  select(1:7, Topic_id, Topic) %>% ## check the column numbers
+  select(1:7, Topic_id, Topic) %>% ## check the column numbers - should include region and 6 years of data
   rename_cols(2) %>%
   format() %>%
   mutate(Topic_id = "1.14",
          Topic = paste("Number of small businesses by region,", max(Variable)))
 
 excel_data$`1.15` <- excel_data_raw$`1.14-1.15` %>%
-  select(1, 8, 10:ncol(.)) %>% ## check the column numbers
+  select(1, 8, 10:ncol(.)) %>% ## check the column numbers - should include region and net change and growth rate
   rename_cols(2) %>%
   mutate(Topic_id = "1.15",
          Topic = names(.)[2]) %>%
@@ -209,8 +208,8 @@ excel_data$`1.15` <- excel_data_raw$`1.14-1.15` %>%
 excel_data$`1.14-1.15` <- NULL
 
 ## 2.1 ----
-one_year_chg_dates  <- excel_data$`2.1`[1,10] %>% str_replace_all("[:space:]*\r\n", " ") ## check the correct cells are being selected
-five_year_chg_dates <- excel_data$`2.1`[1,12] %>% str_replace_all("[:space:]*\r\n", " ")
+one_year_chg_dates  <- excel_data$`2.1`[1,10] %>% str_replace_all("[:space:]*\r\n", " ") ## confirm correct years in label
+five_year_chg_dates <- excel_data$`2.1`[1,12] %>% str_replace_all("[:space:]*\r\n", " ") ## confirm correct years in label
 
 excel_data$`2.1` <- excel_data_raw$`2.1` %>%
   row_to_names(2) %>%
@@ -232,13 +231,12 @@ excel_data$`2.2` <- excel_data_raw$`2.2` %>%
 
 ## 2.3 ----
 excel_data$`2.3` <- excel_data_raw$`2.3`%>%
-  slice(13:17) %>% ## check row numbers - in 2024 tab contained an additional table
+  slice(13:17) %>% ## check row numbers - should include 4 business sizes followed by source info in last row
   remove_empty() %>%
-  #row_to_names(1) %>%  ## Additional formatting needed as this was the second table on the page in 2024
   rename(Category = 1,
          Employment = 2,
          `Per cent of total` = 3) %>%
-  mutate(Topic = "Share of employment by establishment size, 2023") %>%
+  mutate(Topic =  excel_data_raw$`2.3`[12,1] %>% str_remove_all("Figure 2.3: ") %>% trimws("both")) %>%
   format()
 
 ## 2.4 ----
@@ -250,17 +248,25 @@ excel_data$`2.4` <- excel_data_raw$`2.4` %>%
 
 ## 2.5-2.6 ----
 excel_data$`2.5` <- excel_data_raw$`2.5-2.6` %>%
-  select(1,5, Topic_id, Topic) %>%   ## check column numbers
-  rename_cols() %>%
+  select(1:5) %>%
+  row_to_names(1) %>%
   mutate(Topic_id = "2.5",
-         Topic = "One-year Small business employment change, by province, 2022-2023") %>% ## check years
+         ## get title years from column names
+         Topic = paste0("One-year Small business employment change, by province, ", names(.)[3], "-", names(.)[4])) %>%
+  select(1,5, Topic_id, Topic) %>%   ## check column numbers - should include province and one-year growth rate
+  rename(Category = 1,
+         `One-year growth rate` = 2) %>%
   format()
 
 excel_data$`2.6` <- excel_data_raw$`2.5-2.6` %>%
-  select(1,6, Topic_id, Topic) %>%  ## check column numbers
-  rename_cols() %>%
+  select(1:6) %>%
+  row_to_names(1) %>%
   mutate(Topic_id = "2.6",
-         Topic = "Five-year Small business employment change, by province, 2018-2023") %>% ## check years
+         ## get title years from column names
+         Topic = paste0("Five-year Small business employment change, by province, ", names(.)[2], "-", names(.)[4])) %>%
+  select(1,6, Topic_id, Topic) %>%   ## check column numbers - should include province and 5 year growth rate
+  rename(Category = 1,
+         `Five-year growth rate` = 2) %>%
   format()
 
 excel_data$`2.5-2.6` <- NULL
@@ -272,7 +278,7 @@ excel_data$`2.7` <- excel_data_raw$`2.7` %>%
 
 ## 2.8-2.10 ----
 excel_data$`2.8` <- excel_data_raw$`2.8-2.10` %>%
-  slice(1:12, nrow(.)-1, nrow(.)) %>%   ## check row numbers
+  slice(1:12, nrow(.)-1, nrow(.)) %>%   ## check row numbers - should include industry top 5/industry bottom 5, followed by note and source
   rename_cols() %>%
   mutate(Topic_id = "2.8",
          Category2 = ifelse(Category == "Industry Bottom five", "Industry Bottom five", NA)) %>%
@@ -285,7 +291,7 @@ excel_data$`2.8` <- excel_data_raw$`2.8-2.10` %>%
 topic_2 <- excel_data_raw$`2.8-2.10`[excel_data_raw$`2.8-2.10` %>% pull(1) %>% str_detect("Two-year"), 1]
 
 excel_data$`2.9` <- excel_data_raw$`2.8-2.10` %>%
-  slice(c(14:25, nrow(.)-1, nrow(.))) %>%
+  slice(c(14:25, nrow(.)-1, nrow(.))) %>% ## check row numbers - should include industry top 5/industry bottom 5, followed by note and source
   rename_cols() %>%
   mutate(Topic_id = "2.9",
          Topic = topic_2,
@@ -298,7 +304,7 @@ excel_data$`2.9` <- excel_data_raw$`2.8-2.10` %>%
 topic_5 <-  excel_data_raw$`2.8-2.10`[excel_data_raw$`2.8-2.10` %>% pull(1) %>% str_detect("Five-year"), 1]
 
 excel_data$`2.10` <- excel_data_raw$`2.8-2.10` %>%
-  slice(27:nrow(.)) %>%
+  slice(27:nrow(.)) %>%  ## check row numbers - should include industry top 5/industry bottom 5, followed by note and source
   rename_cols() %>%
   mutate(Topic_id = "2.10",
          Topic = topic_5,
@@ -313,7 +319,7 @@ excel_data$`2.8-2.10` <- NULL
 ## 3.1 ----
 excel_data$`3.1` <- excel_data_raw$`3.1` %>%
   rename_cols() %>%
-  select(-`CA for chart`) %>% ## check this
+  select(-`CA for chart`) %>% ## check this - columns should include Category, 6 years of data, topic_id, topic
   format()
 
 ## 3.2 ----
@@ -374,7 +380,7 @@ excel_data$`3.8` <- excel_data_raw$`3.8` %>%
 
 ## 3.9 ----
 excel_data$`3.9` <- excel_data_raw$`3.9 and 3.12` %>%
-  slice(1:12) %>%              ## check row numbers
+  slice(1:12) %>%              ## check row numbers - should include 7 hour brackets, followed by average, note, and source
   select(1:3, Topic_id, Topic) %>%
   rename_cols(2) %>%
   mutate(Topic_id = "3.9") %>%
@@ -392,11 +398,11 @@ excel_data$`3.11` <- excel_data_raw$`3.11` %>%
 
 ## 3.12 ----
 excel_data$`3.12` <- excel_data_raw$`3.9 and 3.12` %>%
-  slice(13:nrow(.)) %>%         ## check row numbers
-  select(1:3, Topic_id, Topic) %>% ## check row numbers
-  rename_cols(3) %>%
+  slice(13:nrow(.)) %>%         ## check row numbers - should include 7 hour brackets, followed by average, note, and source
+  select(1:3) %>% ## check row numbers
   mutate(Topic_id = "3.12",
-         Topic = "Hours worked among self-employed men and women, British Columbia, 2023") %>%
+         Topic = .[1,1]) %>%
+  rename_cols(3) %>%
   format()
 
 excel_data$`3.9 and 3.12` <- NULL
@@ -439,7 +445,7 @@ excel_data$`4.4` <- excel_data_raw$`4.4` %>%
 ## 4.5 ----
 excel_data$`4.5` <- excel_data_raw$`4.5` %>%
   slice(1:13) %>%
-  select(-1) %>% ## check columns
+  select(-1) %>% ## check columns - should include province, small/large business avgs
   remove_empty() %>%
   rename_cols() %>%
   format()
@@ -527,7 +533,7 @@ excel_data$`6.1` <- excel_data_raw$`6.1` %>%
 
 ## 6.2 ----
 excel_data$`6.2` <- excel_data_raw$`6.2` %>%
-  rename_cols(2) %>%
+  rename_cols() %>%
   mutate(Category2 = "Value of building permits per person") %>%
   format(Category2 = TRUE)
 
@@ -551,12 +557,14 @@ Appendix_1 <- Appendix_1 %>%
   fill(Region) %>%
   mutate(Region = ifelse(is.na(Region), "BRITISH COLUMBIA", Region)) %>%
   filter(`#` != "#") %>%
-  mutate(`%` = scales::label_percent(accuracy = 0.000000001)(as.numeric(`%`))) ## to format as percents in csv output
+  mutate(`%` = ifelse(`%` == "NA", NA_integer_, `%`),
+         `%` = scales::label_percent(accuracy = 0.000000001)(as.numeric(`%`)), ## to format as percents in csv output
+         `%` = ifelse(is.na(`%`), "NA", `%`))
 
 write_csv(as.data.frame(a1_header), paste("Small business profile", year, "Data - Appendix 1.csv"), col_names = FALSE, na = "")
 write_csv(Appendix_1, paste("Small business profile", year, "Data - Appendix 1.csv"), append = TRUE, col_names = TRUE, na = "")
 
- excel_data$`Appendix 1` <- NULL
+excel_data$`Appendix 1` <- NULL
 
 # ## Appendix 2 ----
 Appendix_2 <- excel_data_raw$`Appendix2`  %>% select(-Topic_id, -Topic)
@@ -575,7 +583,7 @@ Appendix_2 <- Appendix_2 %>%
 write_csv(a2_header,  paste("Small business profile", year, "Data - Appendix 2.csv"), col_names = FALSE, na = "")
 write_csv(Appendix_2, paste("Small business profile", year, "Data - Appendix 2.csv"), append = TRUE, col_names = TRUE, na = "")
 
- excel_data$Appendix2 <- NULL
+excel_data$Appendix2 <- NULL
 
 ## Combine ----
 data <- map_df(excel_data, bind_rows) %>%

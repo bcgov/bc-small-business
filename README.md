@@ -51,15 +51,20 @@ The highlights presented in the app are not included in this github repo. Instea
 
 The downloadable data is also not included in this repo, so the download data buttons in the app will not work.
 
-### Getting Help or Reporting an Issue
+### Annual Updates
 
-To report bugs/issues/feature requests, please file an [issue](https://github.com/bcgov/sb-bc/issues/).
+For detailed instructions on performing the annual update of the BC Small Business Profile dashboard — including data preparation, 
+code changes, publishing steps, and tips for production deployment — see [ANNUAL_UPDATE_GUIDE.md](ANNUAL_UPDATE_GUIDE.md).
 
 ### How to Contribute
 
 If you would like to contribute, please see our [CONTRIBUTING](CONTRIBUTING.md) guidelines.
 
 Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
+
+### Getting Help or Reporting an Issue
+
+To report bugs/issues/feature requests, please file an [issue](https://github.com/bcgov/sb-bc/issues/).
 
 ### License
 

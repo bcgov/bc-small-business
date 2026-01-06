@@ -48,8 +48,10 @@ ui <-
               menuItem("Small Business Exports", tabName = "page5", icon = icon("truck")),
               menuItem("Other Indicators", tabName = "page6", icon = icon("file-text")),
               menuItem("Previous Versions", icon = icon("folder"), style = "padding:7px 0 7px 0",
-                       a(icon("download"), " Download 2023 data", id = "download_data_23", class = paste("shiny-download-link", "dwnldLink"),
-                         href = "", target = "_blank", download = NA),
+                       p(a(icon("download"), " Download 2024 data", id = "download_data_24", class = paste("shiny-download-link", "dwnldLink"),
+                         href = "", target = "_blank", download = NA)),
+                       p(a(icon("download"), " Download 2023 data", id = "download_data_23", class = paste("shiny-download-link", "dwnldLink"),
+                         href = "", target = "_blank", download = NA)),
                        menuSubItem("Previous Reports", href = "https://llbc.ent.sirsidynix.net/client/en_GB/main/search/results?qu=small+business+profile&te=", newtab = TRUE, icon = icon("link"))),
               menuItem("Small Business Resources", href = "https://www2.gov.bc.ca/gov/content/employment-business/business/small-business/resources", newtab = TRUE, icon = icon("link")),
               menuItem("BC Data Catalogue Record", href = "https://catalogue.data.gov.bc.ca/dataset/14828d0e-3cab-4477-af30-eab919d3451a", newtab = TRUE, icon = icon("link")),
@@ -321,13 +323,30 @@ server <- function(input, output, session) {
   ## download buttons ----
   ## current data
   output$download_data <- downloadHandler(
-    filename = "bc-small-business-profile-data-2024.xlsx",
-    content = function(file) { file.copy("data/bc-small-business-profile-data-2024.xlsx", file) })
+    filename = "bc-small-business-profile-data-2025.xlsx",
+    content = function(file) { file.copy("data/bc-small-business-profile-data-2025.xlsx", file)
+      # Notify client to send GA event for download
+      session$sendCustomMessage("trackDownload", list(filename = "bc-small-business-profile-data-2025.xlsx"))})
 
   ## past data
+  output$download_data_24 <- downloadHandler(
+    filename = "bc-small-business-profile-data-2024.xlsx",
+    content = function(file) { file.copy("data/bc-small-business-profile-data-2024.xlsx", file)
+      # Notify client to send GA event for download
+      session$sendCustomMessage("trackDownload", list(filename = "bc-small-business-profile-data-2024.xlsx"))})
+
   output$download_data_23 <- downloadHandler(
     filename = "bc-small-business-profile-data-2023.xlsx",
-    content = function(file) { file.copy("data/bc-small-business-profile-data-2023.xlsx", file) })
+    content = function(file) { file.copy("data/bc-small-business-profile-data-2023.xlsx", file)
+      # Notify client to send GA event for download
+      session$sendCustomMessage("trackDownload", list(filename = "bc-small-business-profile-data-2023.xlsx"))})
+
+  ## GDP methodology download
+  output$download_methodology <- downloadHandler(
+    filename = "GDP Methodology October 2025.pdf",
+    content = function(file) { file.copy("data/GDP Methodology October 2025.pdf", file)
+      # Notify client to send GA event for download
+      session$sendCustomMessage("trackDownload", list(filename = "GDP Methodology October 2025.pdf"))})
 
   ## color definition ----
   default_color <- "#1f77b4"
