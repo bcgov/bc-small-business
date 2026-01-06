@@ -46,7 +46,7 @@ See the License for the specific language governing permissions and limitations 
   - Creates RDS data for the app (`app/data/data_new.rds`)
   - Creates CSV data and CSV appendix data for the BC Data Catalogue (saved to root folder)
 - Save CSV files on LAN:  
-  `Small Business Annuals\Annual <year>\Data\For BC Data Catalogue`
+  `Small Business Profile\Annual <year>\Data\For BC Data Catalogue`
 
 ### 4. Generate Geo Data
 - Run `R/get_geo_data.R` to create spatial data for the economic regions map.
@@ -94,7 +94,7 @@ See the License for the specific language governing permissions and limitations 
 
 ### Save final code/data to LAN
 - Download app bundle from shinyapps.io and save on LAN:  
-  `Small Business Annuals\Annual <year>\dashboard code and data - <year>.zip`  
+  `Small Business Profile\Annual <year>\dashboard code and data - <year>.zip`  
   (Extract `.tar` if needed and compress as `.zip`.)
 
 ### Update BC Data Catalogue
