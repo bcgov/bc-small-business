@@ -66,13 +66,15 @@ See the License for the specific language governing permissions and limitations 
   - Add them in `config.yml` and update `R/generate_ga_tracking_code.R` accordingly.
 
 ### 6. Update Downloadable Excel Files
-- Copy new Excel file from LAN to `app/data`.
-  - this Excel file will have the charts removed
-- Copy previous versions from LAN to `app/data`.
+- Add the file path for the new year of download data to file_names at the top of `R/copy_download_data_from_lan.R`
+- Run `R/copy_download_data_from_lan.R`
+  - Copies the new Excel file from LAN to `app/data`.
+  - Copies all previous versions (starting with 2023) from LAN to `app/data`, if they do not already exist in `app/data`.
+  - **Note:** These Excel files should not have any charts (can be created by removing the charts from the Excel file used in Step 3)
+  - **Note:** Regardless of the initial file names, all files will be saved as `bc-small-business-profile-data-<year>.xlsx` in `app/data`
 - In `app/app.R`:
   - Add previous year’s download button in UI under “Previous Versions”.
   - Update new download button in Server to reference the current year.
-- **Important:** File names need to be formatted as `bc-small-business-profile-data-<year>.xlsx`
 
 ### 7. Update Highlights
 - Open `app/R/faux_highlight_text.R` and save as `app/R/highlights.R`.
