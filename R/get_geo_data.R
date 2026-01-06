@@ -19,6 +19,19 @@ library(tidyverse)
 library(bcdata)
 library(rmapshaper)
 
+## when simplifying the map, it is preferential to use the system mapshaper
+## see: https://github.com/ateucher/rmapshaper?tab=readme-ov-file#using-the-system-mapshaper
+## this function will return TRUE if the system mapshaper is installed and FALSE if not
+has_sys_mapshaper <- function() {
+  tryCatch(
+    {
+      rmapshaper::check_sys_mapshaper()
+      TRUE
+    },
+    error = function(e) FALSE
+  )
+}
+
 bcdc_get_data("1aebc451-a41c-496f-8b18-6f414cde93b7") %>%
   mutate(region = case_when(ECONOMIC_REGION_ID == 5910 ~ "Vancouver Island/Coast",
                             ECONOMIC_REGION_ID == 5920 ~ "Mainland/Southwest",
@@ -39,7 +52,7 @@ bcdc_get_data("1aebc451-a41c-496f-8b18-6f414cde93b7") %>%
   group_by(region, region_label) %>%
   summarise() %>%
   rmapshaper::ms_clip(bcmaps::bc_bound()) %>%
-  rmapshaper::ms_simplify(keep = 0.075, sys = TRUE) %>%
+  rmapshaper::ms_simplify(keep = 0.075, sys = has_sys_mapshaper()) %>%
   saveRDS("app/data/data_geo.rds")
 
 
