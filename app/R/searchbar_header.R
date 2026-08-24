@@ -14,54 +14,131 @@
 
 header <- htmltools::tagList(
   ## HEADER STYLES
-  htmltools::tags$head(htmltools::tags$style(htmltools::HTML('#header_col {background-color:#003366; border-bottom:2px solid #fcba19; position:fixed; z-index:10000;"}'))),
-  htmltools::tags$head(htmltools::tags$style(htmltools::HTML('.header {padding:0 0px 0 0px; display:flex; height:80px; width:100%;}'))),
-  htmltools::tags$head(htmltools::tags$style(htmltools::HTML('.banner {width:100%; display:flex; justify-content:flex-start; align-items:center; margin: 0 10px 0 10px}'))),
-  htmltools::tags$head(htmltools::tags$style(htmltools::HTML('#app_title {font-weight:400; color:white; margin: 5px 5px 0 18px;}'))),
-  htmltools::tags$head(htmltools::tags$style(htmltools::HTML('.searchbar {margin-left:auto; margin-right:0;width:250px;padding-top:20px}'))),
-  htmltools::tags$head(htmltools::tags$style(htmltools::HTML('.link_list_div {margin-right:0;}'))),
-  htmltools::tags$style(type='text/css', ".selectize-dropdown-content {max-height: 400px; }"),
+  htmltools::tags$style(htmltools::HTML('
+  /*overall header styling*/
+  .bcs-header {
+        background-color:#003366;
+        border-bottom:2px solid #fcba19;
+        position: sticky;
+        top: 0;
+        left: 0;
+        display:flex;
+        z-index: 2147483647;
+        min-height: 80px;
+        padding: 0;
+  }
+  .bcs-banner {
+          width:100%;
+          display:flex;
+          flex-wrap: wrap;
+          align-items:center;
+          margin: 0 10px;
+          padding: 8px 0;
+  }
+
+  /* logo styling */
+  .bcs-logo {
+    max-height: 60px;
+  }
+
+  /* title styling */
+  .bcs-app-title {
+    font-weight:700;
+    color:white;
+    margin: 5px 5px 0 18px;
+    font-size: clamp(24px, 2.5vw, 40px); /* responsive font size */
+    line-height: 1.15;
+    max-width: 100%;
+    overflow-wrap: break-word;
+  }
+
+  /* search bar */
+  .bcs-searchbar {
+    margin-top: 16px;
+    margin-left:auto;
+  }
+  .selectize-dropdown-content {
+    max-height: 400px;
+  }
+
+  /* links */
+  .bcs-link-list {
+    margin-left:0;
+  }
+  #header-links-linkList > div > div {
+    min-width: 280px;
+  }
+
+  /* github logo */
+  .github-link{
+    color:white;
+  }
+
+  /* changes for mobile */
+  @media (max-width: 768px) {
+
+    /* change searchbar to left justified */
+    .bcs-searchbar {
+      margin-left: 16px;
+    }
+  }
+
+  ')),
 
   ## BANNER START
-  shiny::column(id = "header_col",
-                width = 12,
-                htmltools::tags$header(
-                  class="header",
-                  htmltools::tags$div(
-                    class="banner",
+  htmltools::tags$header(
+    class = "bcs-header",
 
-                    ## BCSTATS LOGO
-                    htmltools::a(href= "https://www2.gov.bc.ca/gov/content/data/about-data-management/bc-stats",
-                                 onclick="gtag",
-                                 htmltools::img(src = "bcstats_logo_rev.png",
-                                                title = "BC Stats",
-                                                height = "80px",
-                                                alt = "British Columbia - BC Stats")),
+    htmltools::tags$div(
+      class = "bcs-banner",
 
-                    ## APP TITLE
-                    shiny::h1(id = "app_title", "Small Business Profile"),
+      ## BC STATS LOGO
+      htmltools::a(
+        href= "https://www2.gov.bc.ca/gov/content/data/statistics/bc-stats",
+        onclick="gtag",
+        htmltools::img(
+          class = "bcs-logo",
+          src = "bcstats_logo_rev.png",
+          #height = "80px",
+          alt = "BC Stats website")),
 
-                    ## SEARCH BAR
-                    htmltools::tags$div(
-                      class = "searchbar",
-                      shiny::selectizeInput(inputId = "searchbar",
-                                           label = NULL,
-                                           multiple = TRUE,
-                                           choices = search_terms$searchterm,
-                                           options = list(create = FALSE,
-                                                          placeholder = "Search Profile      ",
-                                                          onDropdownOpen = I("function($dropdown) {if (!this.lastQuery.length) {this.close(); this.settings.openOnFocus = false;}}"),
-                                                          onType = I("function (str) {if (str === \"\") {this.close();}}"),
-                                                          onItemAdd = I("function() {this.close();}")))),
+      ## APP TITLE
+      htmltools::h1(
+        class = "bcs-app-title",
+        htmltools::tagList(
+          htmltools::tags$span("Small Business Profile")
+        )),
 
-                    ## MODULE CODE FOR LINK LIST
-                    htmltools::tags$div(
-                      class = "link_list_div",
-                      shiny::uiOutput('links_yn')),
+      ## SEARCH BAR
+      htmltools::tags$div(
+        class = "bcs-searchbar",
+        shiny::selectizeInput(
+          inputId = "searchbar",
+          label = NULL,
+          multiple = TRUE,
+          choices = search_terms$searchterm,
+          options = list(
+            create = FALSE,
+            placeholder = "Search Profile      ",
+            onDropdownOpen = I("function($dropdown) {if (!this.lastQuery.length) {this.close(); this.settings.openOnFocus = false;}}"),
+            onType = I("function (str) {if (str === \"\") {this.close();}}"),
+            onItemAdd = I("function() {this.close();}"))
+        )
+      ),
 
-                    ## GITHUB LINK
-                    htmltools::tags$a(href = "https://github.com/bcgov-c/bc-small-business",
-                                      shiny::icon("github", "fa-lg"),
-                                      style = "color:white")
-                  ))))
+      ## MODULE CODE FOR LINK LIST
+      htmltools::tags$nav(
+        class = "bcs-link-list",
+        shiny::uiOutput('links_yn')),
+
+      ## GITHUB LINK
+      htmltools::a(
+        class = "github-link",
+        `aria-label` = "GitHub repository",
+        href = "https://github.com/bcgov-c/bc-small-business",
+        shiny::icon("github", "fa-lg"))
+      )
+    )
+)
+
 

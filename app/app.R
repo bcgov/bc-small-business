@@ -13,208 +13,214 @@
 # limitations under the License.
 
 # Define UI
-ui <-
-  shiny::fluidPage(
-    theme = "styles.css",
-    HTML("<html lang='en'>"),
-    fluidRow(
+ui <- function(req) {
+  htmltools::tags$html(
+    lang = "en",
+    htmltools::tagList(
 
-      ## header code found in R/header.R
-      header,
-      tags$head(tags$link(rel = "shortcut icon", href = "favicon.png")), ## to add BCGov favicon
-      if(google_tracking){ tags$head(includeHTML("www/google-analytics.html")) },  ## to add GA tracking code
+    ## google tracking/tab icon
+    htmltools::tags$head(
+      htmltools::tags$link(rel = "stylesheet", type = "text/css", href = "styles.css"),   ## custom styles
+      htmltools::tags$link(rel = "shortcut icon", href = "favicon.png"),  ## add BCGov favicon
+      if(google_tracking){  htmltools::includeHTML("www/google-analytics.html") },  ## to add GA tracking code
+    ),
 
-      column( ## main body column ----
-        width = 12,
-        style = "margin-top:75px",
-        dashboardPage( ## dashboard page ----
-          skin = "blue",
-          dashboardHeader(title = ""),
-          dashboardSidebar( ## dashboard sidebar ----
-            collapsed = FALSE,
-            ## hide the standalone figure tab in the sidebar menu
-            tags$head(tags$style(HTML("a[href = '#shiny-tab-page7']{ visibility: hidden; }"))),
-            sidebarMenu(
-              style = "position: fixed; overflow: visible;",
-              id = "tabs", ## to be able to update with buttons on landing page
-              menuItem("Home", tabName = "home", icon = icon("home")),
-              menuItem("Small Business Growth", tabName = "page1", icon = icon("line-chart")),
-              menuItem("Small Business Employment", tabName = "page2", icon = icon("users")),
-              menuItem("Self-Employed", tabName = "page3", icon = icon("user"),
-                       menuSubItem("Main", tabName = "main"),
-                       menuSubItem("Women", tabName = "women"),
-                       menuSubItem("Indigenous people", tabName = "indigenous")),
-              menuItem("Contribution to Economy", tabName = "page4", icon = icon("usd")),
-              menuItem("Small Business Exports", tabName = "page5", icon = icon("truck")),
-              menuItem("Other Indicators", tabName = "page6", icon = icon("file-text")),
-              menuItem("Previous Versions", icon = icon("folder"), style = "padding:7px 0 7px 0",
-                       p(a(icon("download"), " Download 2024 data", id = "download_data_24", class = paste("shiny-download-link", "dwnldLink"),
-                         href = "", target = "_blank", download = NA)),
-                       p(a(icon("download"), " Download 2023 data", id = "download_data_23", class = paste("shiny-download-link", "dwnldLink"),
-                         href = "", target = "_blank", download = NA)),
-                       menuSubItem("Previous Reports", href = "https://llbc.ent.sirsidynix.net/client/en_GB/main/search/results?qu=small+business+profile&te=", newtab = TRUE, icon = icon("link"))),
-              menuItem("Small Business Resources", href = "https://www2.gov.bc.ca/gov/content?id=258EF0E5159F44BC893427A389172F37", newtab = TRUE, icon = icon("link")),
-              menuItem("BC Data Catalogue Record", href = "https://catalogue.data.gov.bc.ca/dataset/14828d0e-3cab-4477-af30-eab919d3451a", newtab = TRUE, icon = icon("link")),
-              div(style = "text-align:center;color:#b8c7ce", ## text color
-                  downloadButton(outputId = "download_data", "Download data as excel", style = "margin:10px 0 30px 0"),
-                  uiOutput("update_date")),
-              menuItem("Stand Alone Figures", tabName = "page7")
-            )
-          ), ## end sidebar ----
-          dashboardBody( ## dashboard body ----
-            tabItems(  ## tabs ----
-              tabItem( ## home tab start ----
-                tabName = "home",
-                fluidRow( # row 1 of landing page boxes
-                  tags$div(
-                    id = "light-blue",
-                    box(
-                      title = list(icon = icon("line-chart"), "Small business counts"),
-                      width = 4,
-                      div(
-                        style = "margin-bottom:43px",
-                        highlight_1.1,
-                        actionButton("explore1", "Explore further", icon = icon("line-chart"), class = "home-tab-btn"))),
-                    box(
-                      title = list(icon = icon("line-chart"), "Small business growth"),
-                      width = 4,
-                      div(
-                        style = "margin-bottom:43px",
-                        highlight_1.2,
-                        actionButton("explore2", "Explore further", icon = icon("line-chart"), class = "home-tab-btn"))),
-                    box(
-                      title = list(icon = icon("usd"), "Contribution to the economy"),
-                      width = 4,
-                      div(
-                        style = "margin-bottom:43px",
-                        highlight_1.3,
-                        actionButton("explore3", "Explore further", icon = icon("usd"), class = "home-tab-btn")))
-                )),
-                fluidRow( # row 2 of landing page boxes
-                  tags$div(
-                    id = "light-blue",
-                    box(
-                      title = list(icon = icon("users"), "Small business employment"),
-                      width = 4,
-                      div(
-                        style = "margin-bottom:43px",
-                        highlight_2.1,
-                        actionButton("explore4", "Explore further", icon = icon("users"), class = "home-tab-btn"))),
-                    box(
-                      title = list(icon = icon("user"), "Self-employment growth"),
-                      width = 4,
-                      div(
-                        style = "margin-bottom:43px",
-                        highlight_2.2,
-                        actionButton("explore5", "Explore further", icon = icon("user"), class = "home-tab-btn"))),
-                    box(
-                      title = list(icon = icon("user"), "Self-employment for women"),
-                      width = 4,
-                      div(
-                        style = "margin-bottom:43px",
-                        highlight_2.3,
-                        actionButton("explore6", "Explore further", icon = icon("user"), class = "home-tab-btn")))
-                )),
-                fluidRow( # row 3 of landing page boxes
-                  tags$div(
-                    id = "light-blue",
-                    box(
-                      title = list(icon = icon("user"), "Self-employment for Indigenous people"),
-                      width = 4,
-                      div(
-                        style = "margin-bottom:43px",
-                        highlight_3.1,
-                        actionButton("explore7", "Explore further", icon = icon("user"), class = "home-tab-btn"))),
-                    box(
-                      title = list(icon = icon("usd"), "Small business wages"),
-                      width = 4,
-                      div(
-                        style = "margin-bottom:43px",
-                        highlight_3.2,
-                        actionButton("explore8", "Explore further", icon = icon("usd"), class = "home-tab-btn"))),
-                    box(
-                      title = list(icon = icon("truck"), "Small business exporters"),
-                      width = 4,
-                      div(
-                        style = "margin-bottom:43px",
-                        highlight_3.3,
-                        actionButton("explore9", "Explore further", icon = icon("truck"), class = "home-tab-btn")))
-              ))), ## home tab end ----
-              tabItem( ## page 1 tab start ----
-                tabName = "page1",
-                fluidRow(
-                  figure_list_main[c("fig1.01", "fig1.02", "fig1.03", "fig1.04", "fig1.05",
-                                     "fig1.06", "fig1.07", "fig1.08", "fig1.09", "fig1.10",
-                                     "fig1.11", "fig1.12", "fig1.13", "fig1.14", "fig1.15")],
-                  contact_box()
-              )), ## page 1 tab end ----
-              tabItem( ## page 2 tab start----
-                tabName = "page2",
-                fluidRow(
-                  figure_list_main[c("fig2.01", "fig2.02", "fig2.03", "fig2.04", "fig2.05",
-                                     "fig2.06", "fig2.07", "fig2.08", "fig2.09", "fig2.10")],
-                  contact_box()
-              )), ## page 2 tab end ----
-              tabItem( ## page 3 tab start ----
-                tabName = "page3", # dummy tab needed for menu - to enable submenuitems
-              ),  ## page 3 tab end ----
-              tabItem( ## page 3 subtab main start ----
-                tabName = "main",
-                fluidRow(
-                  figure_list_main[c("fig3.01", "fig3.02", "fig3.03", "fig3.04", "fig3.05",
-                                     "fig3.06", "fig3.07", "fig3.08", "fig3.09")],
-                  contact_box()
-                  )), ## page 3 subtab main end -----
-              tabItem( ## page 3 subtab women start ----
-                tabName = "women",
-                fluidRow(
-                  figure_list_main[c("fig3.10", "fig3.11", "fig3.12")],
-                  contact_box()
-                )), ## page 3 subtab women end -----
-              tabItem( ## page 3 subtab indigenous start ----
-                tabName = "indigenous",
-                fluidRow(
-                  figure_list_main[c("fig3.13")],
-                  contact_box()
-                  )), ## page 3 subtab indigenous end ----
-              tabItem( ## page 4 tab start ----
-                tabName = "page4",
-                fluidRow(
-                  figure_list_main[c("fig4.01", "fig4.02", "fig4.03", "fig4.04", "fig4.05", "fig4.06")],
-                  contact_box()
-                )), ## page 4 tab end ----
-              tabItem( ## page 5 tab start ----
-                tabName = "page5",
-                fluidRow(
-                  figure_list_main[c("fig5.01", "fig5.02", "fig5.03", "fig5.04", "fig5.05", "fig5.06", "fig5.07")],
-                  contact_box()
-                )), ## page 5 tab end ----
-              tabItem( ## page 6 tab start ----
-                tabName = "page6",
-                fluidRow(
-                  figure_list_main[c("fig6.01", "fig6.02", "fig6.03")],
-                  contact_box()
-                )), ## page 6 tab end ----
-              tabItem( ## page 7 conditional tab start ----
-                tabName = "page7",
-                ## create a hidden drop down to determine which charts to display
-                ## drop down will be updated programmatically
-                conditionalPanel(condition = "false",
-                                 selectInput("fig_selection",
-                                             label = "fig_selection",
-                                             choices = paste0("fig",unique(data_new$Topic_id)),
-                                             multiple = TRUE)),
-                fluidRow(
-                  uiOutput("fig_filter"),
-                  contact_box()
-              )) ## page 7 tab conditional end ----
-            ), ## end of tabs ----
-          ), ## end of dashboard body ----
-        ) ## end of dashboard page ----
-      ),
-      bcsapps::bcsFooterUI(id = "footer")
-    )
-  )
+    ## header
+    header,
+
+    # ## content
+    dashboardPage( ## dashboard page ----
+                   skin = "blue",
+                   dashboardHeader(title = ""),
+                   dashboardSidebar( ## dashboard sidebar ----
+                                     collapsed = FALSE,
+                                     ## hide the standalone figure tab in the sidebar menu
+                                     tags$head(tags$style(HTML("a[href = '#shiny-tab-page7']{ visibility: hidden; }"))),
+                                     sidebarMenu(
+                                       style = "position: fixed; overflow: visible;",
+                                       id = "tabs", ## to be able to update with buttons on landing page
+                                       menuItem("Home", tabName = "home", icon = icon("home")),
+                                       menuItem("Small Business Growth", tabName = "page1", icon = icon("line-chart")),
+                                       menuItem("Small Business Employment", tabName = "page2", icon = icon("users")),
+                                       menuItem("Self-Employed", tabName = "page3", icon = icon("user"),
+                                                menuSubItem("Main", tabName = "main"),
+                                                menuSubItem("Women", tabName = "women"),
+                                                menuSubItem("Indigenous people", tabName = "indigenous")),
+                                       menuItem("Contribution to Economy", tabName = "page4", icon = icon("usd")),
+                                       menuItem("Small Business Exports", tabName = "page5", icon = icon("truck")),
+                                       menuItem("Other Indicators", tabName = "page6", icon = icon("file-text")),
+                                       menuItem("Previous Versions", icon = icon("folder"), style = "padding:7px 0 7px 0",
+                                                p(a(icon("download"), " Download 2024 data", id = "download_data_24", class = paste("shiny-download-link", "dwnldLink"),
+                                                    href = "", target = "_blank", download = NA)),
+                                                p(a(icon("download"), " Download 2023 data", id = "download_data_23", class = paste("shiny-download-link", "dwnldLink"),
+                                                    href = "", target = "_blank", download = NA)),
+                                                menuSubItem("Previous Reports", href = "https://llbc.ent.sirsidynix.net/client/en_GB/main/search/results?qu=small+business+profile&te=", newtab = TRUE, icon = icon("link"))),
+                                       menuItem("Small Business Resources", href = "https://www2.gov.bc.ca/gov/content?id=258EF0E5159F44BC893427A389172F37", newtab = TRUE, icon = icon("link")),
+                                       menuItem("BC Data Catalogue Record", href = "https://catalogue.data.gov.bc.ca/dataset/14828d0e-3cab-4477-af30-eab919d3451a", newtab = TRUE, icon = icon("link")),
+                                       div(style = "text-align:center;color:#b8c7ce", ## text color
+                                           downloadButton(outputId = "download_data", "Download data as excel", style = "margin:10px 0 30px 0"),
+                                           uiOutput("update_date")),
+                                       menuItem("Stand Alone Figures", tabName = "page7")
+                                     )
+                   ), ## end sidebar ----
+                   dashboardBody( ## dashboard body ----
+                                  tabItems(  ## tabs ----
+                                             tabItem( ## home tab start ----
+                                                      tabName = "home",
+                                                      fluidRow( # row 1 of landing page boxes
+                                                        tags$div(
+                                                          id = "light-blue",
+                                                          box(
+                                                            title = list(icon = icon("line-chart"), "Small business counts"),
+                                                            width = 4,
+                                                            div(
+                                                              style = "margin-bottom:43px",
+                                                              highlight_1.1,
+                                                              actionButton("explore1", "Explore further", icon = icon("line-chart"), class = "home-tab-btn"))),
+                                                          box(
+                                                            title = list(icon = icon("line-chart"), "Small business growth"),
+                                                            width = 4,
+                                                            div(
+                                                              style = "margin-bottom:43px",
+                                                              highlight_1.2,
+                                                              actionButton("explore2", "Explore further", icon = icon("line-chart"), class = "home-tab-btn"))),
+                                                          box(
+                                                            title = list(icon = icon("usd"), "Contribution to the economy"),
+                                                            width = 4,
+                                                            div(
+                                                              style = "margin-bottom:43px",
+                                                              highlight_1.3,
+                                                              actionButton("explore3", "Explore further", icon = icon("usd"), class = "home-tab-btn")))
+                                                        )),
+                                                      fluidRow( # row 2 of landing page boxes
+                                                        tags$div(
+                                                          id = "light-blue",
+                                                          box(
+                                                            title = list(icon = icon("users"), "Small business employment"),
+                                                            width = 4,
+                                                            div(
+                                                              style = "margin-bottom:43px",
+                                                              highlight_2.1,
+                                                              actionButton("explore4", "Explore further", icon = icon("users"), class = "home-tab-btn"))),
+                                                          box(
+                                                            title = list(icon = icon("user"), "Self-employment growth"),
+                                                            width = 4,
+                                                            div(
+                                                              style = "margin-bottom:43px",
+                                                              highlight_2.2,
+                                                              actionButton("explore5", "Explore further", icon = icon("user"), class = "home-tab-btn"))),
+                                                          box(
+                                                            title = list(icon = icon("user"), "Self-employment for women"),
+                                                            width = 4,
+                                                            div(
+                                                              style = "margin-bottom:43px",
+                                                              highlight_2.3,
+                                                              actionButton("explore6", "Explore further", icon = icon("user"), class = "home-tab-btn")))
+                                                        )),
+                                                      fluidRow( # row 3 of landing page boxes
+                                                        tags$div(
+                                                          id = "light-blue",
+                                                          box(
+                                                            title = list(icon = icon("user"), "Self-employment for Indigenous people"),
+                                                            width = 4,
+                                                            div(
+                                                              style = "margin-bottom:43px",
+                                                              highlight_3.1,
+                                                              actionButton("explore7", "Explore further", icon = icon("user"), class = "home-tab-btn"))),
+                                                          box(
+                                                            title = list(icon = icon("usd"), "Small business wages"),
+                                                            width = 4,
+                                                            div(
+                                                              style = "margin-bottom:43px",
+                                                              highlight_3.2,
+                                                              actionButton("explore8", "Explore further", icon = icon("usd"), class = "home-tab-btn"))),
+                                                          box(
+                                                            title = list(icon = icon("truck"), "Small business exporters"),
+                                                            width = 4,
+                                                            div(
+                                                              style = "margin-bottom:43px",
+                                                              highlight_3.3,
+                                                              actionButton("explore9", "Explore further", icon = icon("truck"), class = "home-tab-btn")))
+                                                        ))), ## home tab end ----
+                                             tabItem( ## page 1 tab start ----
+                                                      tabName = "page1",
+                                                      fluidRow(
+                                                        figure_list_main[c("fig1.01", "fig1.02", "fig1.03", "fig1.04", "fig1.05",
+                                                                           "fig1.06", "fig1.07", "fig1.08", "fig1.09", "fig1.10",
+                                                                           "fig1.11", "fig1.12", "fig1.13", "fig1.14", "fig1.15")],
+                                                        contact_box()
+                                                      )), ## page 1 tab end ----
+                                             tabItem( ## page 2 tab start----
+                                                      tabName = "page2",
+                                                      fluidRow(
+                                                        figure_list_main[c("fig2.01", "fig2.02", "fig2.03", "fig2.04", "fig2.05",
+                                                                           "fig2.06", "fig2.07", "fig2.08", "fig2.09", "fig2.10")],
+                                                        contact_box()
+                                                      )), ## page 2 tab end ----
+                                             tabItem( ## page 3 tab start ----
+                                                      tabName = "page3" # dummy tab needed for menu - to enable submenuitems
+                                             ),  ## page 3 tab end ----
+                                             tabItem( ## page 3 subtab main start ----
+                                                      tabName = "main",
+                                                      fluidRow(
+                                                        figure_list_main[c("fig3.01", "fig3.02", "fig3.03", "fig3.04", "fig3.05",
+                                                                           "fig3.06", "fig3.07", "fig3.08", "fig3.09")],
+                                                        contact_box()
+                                                      )), ## page 3 subtab main end -----
+                                             tabItem( ## page 3 subtab women start ----
+                                                      tabName = "women",
+                                                      fluidRow(
+                                                        figure_list_main[c("fig3.10", "fig3.11", "fig3.12")],
+                                                        contact_box()
+                                                      )), ## page 3 subtab women end -----
+                                             tabItem( ## page 3 subtab indigenous start ----
+                                                      tabName = "indigenous",
+                                                      fluidRow(
+                                                        figure_list_main[c("fig3.13")],
+                                                        contact_box()
+                                                      )), ## page 3 subtab indigenous end ----
+                                             tabItem( ## page 4 tab start ----
+                                                      tabName = "page4",
+                                                      fluidRow(
+                                                        figure_list_main[c("fig4.01", "fig4.02", "fig4.03", "fig4.04", "fig4.05", "fig4.06")],
+                                                        contact_box()
+                                                      )), ## page 4 tab end ----
+                                             tabItem( ## page 5 tab start ----
+                                                      tabName = "page5",
+                                                      fluidRow(
+                                                        figure_list_main[c("fig5.01", "fig5.02", "fig5.03", "fig5.04", "fig5.05", "fig5.06", "fig5.07")],
+                                                        contact_box()
+                                                      )), ## page 5 tab end ----
+                                             tabItem( ## page 6 tab start ----
+                                                      tabName = "page6",
+                                                      fluidRow(
+                                                        figure_list_main[c("fig6.01", "fig6.02", "fig6.03")],
+                                                        contact_box()
+                                                      )), ## page 6 tab end ----
+                                             tabItem( ## page 7 conditional tab start ----
+                                                      tabName = "page7",
+                                                      ## create a hidden drop down to determine which charts to display
+                                                      ## drop down will be updated programmatically
+                                                      conditionalPanel(condition = "false",
+                                                                       selectInput("fig_selection",
+                                                                                   label = "fig_selection",
+                                                                                   choices = paste0("fig",unique(data_new$Topic_id)),
+                                                                                   multiple = TRUE)),
+                                                      fluidRow(
+                                                        uiOutput("fig_filter"),
+                                                        contact_box()
+                                                      )) ## page 7 tab conditional end ----
+                                  ) ## end of tabs ----
+                   ) ## end of dashboard body ----
+    ), ## end of dashboard page ----
+
+    ## footer
+    bcsapps::bcsFooterUI(id = "footer")
+   ))
+}
+
+
+
 
 # Define server logic ----
 server <- function(input, output, session) {
