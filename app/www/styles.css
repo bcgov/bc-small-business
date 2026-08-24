@@ -124,3 +124,26 @@ table.dataTable thead .sorting_desc:after{
   color : white !important;
 }
 
+.skin-blue .main-header .logo {
+  background-color: #3c8dbc !important;
+}
+
+@media (max-width: 767px) {
+  .skin-blue .main-header .logo {
+  height:0;
+}
+.left-side, .main-sidebar {
+  padding-top:50px !important
+    }
+}
+
+.bcs-footer {
+  margin-top:0 !important;
+}
+
+@media (width > 767px) and (height <= 775px) {
+  .sidebar-menu {
+    max-height:70vh;
+    overflow-y:scroll !important;
+  }
+}
