@@ -45,8 +45,8 @@ header <- htmltools::tagList(
   .bcs-app-title {
     font-weight:700;
     color:white;
-    margin: 5px 5px 0 18px;
-    font-size: clamp(24px, 2.5vw, 40px); /* responsive font size */
+    margin: 5px 5px 0 5px;
+    font-size: clamp(20px, 2.5vw, 40px); /* responsive font size */
     line-height: 1.15;
     max-width: 100%;
     overflow-wrap: break-word;
@@ -54,19 +54,26 @@ header <- htmltools::tagList(
 
   /* search bar */
   .bcs-searchbar {
-    margin-top: 16px;
+    margin-top: 20px;
     margin-left:auto;
+    width:240px;
   }
   .selectize-dropdown-content {
     max-height: 400px;
+  }
+  /* Move the dropdown arrow to the right */
+  .selectize-control.single .selectize-input::after {
+    right: 5px !important;
+    left: auto !important;
   }
 
   /* links */
   .bcs-link-list {
     margin-left:0;
+    width: 270px;
   }
-  #header-links-linkList > div > div {
-    min-width: 280px;
+  .selectize-input{
+    padding:6px 5px;  /*reduce padding of text inside search bar and link list*/
   }
 
   /* github logo */
@@ -76,11 +83,25 @@ header <- htmltools::tagList(
 
   /* changes for mobile */
   @media (max-width: 768px) {
+  .bcs-logo {
+    max-height: 40px;
+  }
 
     /* change searchbar to left justified */
     .bcs-searchbar {
-      margin-left: 16px;
+      width: 100px;
+      margin-left:0
     }
+
+    /*reduce padding around link list*/
+    #links_yn .container-fluid {
+    padding-right:5px;
+    padding-left:5px;
+    }
+  /*reduce width of link list*/
+  .bcs-link-list {
+    width:240px;
+  }
   }
 
   ')),
