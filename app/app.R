@@ -50,6 +50,8 @@ ui <- function(req) {
                                        menuItem("Small Business Exports", tabName = "page5", icon = icon("truck")),
                                        menuItem("Other Indicators", tabName = "page6", icon = icon("file-text")),
                                        menuItem("Previous Versions", icon = icon("folder"), style = "padding:7px 0 7px 0",
+                                                p(a(icon("download"), " Download 2025 data", id = "download_data_25", class = paste("shiny-download-link", "dwnldLink"),
+                                                    href = "", target = "_blank", download = NA)),
                                                 p(a(icon("download"), " Download 2024 data", id = "download_data_24", class = paste("shiny-download-link", "dwnldLink"),
                                                     href = "", target = "_blank", download = NA)),
                                                 p(a(icon("download"), " Download 2023 data", id = "download_data_23", class = paste("shiny-download-link", "dwnldLink"),
@@ -110,12 +112,12 @@ ui <- function(req) {
                                                               highlight_2.2,
                                                               actionButton("explore5", "Explore further", icon = icon("user"), class = "home-tab-btn"))),
                                                           box(
-                                                            title = list(icon = icon("user"), "Self-employment for women"),
+                                                            title = list(icon = icon("truck"), "Small business export value growth"),
                                                             width = 4,
                                                             div(
                                                               style = "margin-bottom:43px",
                                                               highlight_2.3,
-                                                              actionButton("explore6", "Explore further", icon = icon("user"), class = "home-tab-btn")))
+                                                              actionButton("explore6", "Explore further", icon = icon("truck"), class = "home-tab-btn")))
                                                         )),
                                                       fluidRow( # row 3 of landing page boxes
                                                         tags$div(
@@ -246,7 +248,7 @@ server <- function(input, output, session) {
   observeEvent(input$explore3, updateTabItems(session, "tabs", selected = "page4"))
   observeEvent(input$explore4, updateTabItems(session, "tabs", selected = "page2"))
   observeEvent(input$explore5, updateTabItems(session, "tabs", selected = "page2"))
-  observeEvent(input$explore6, updateTabItems(session, "tabs", selected = "women"))
+  observeEvent(input$explore6, updateTabItems(session, "tabs", selected = "page5"))
   observeEvent(input$explore7, updateTabItems(session, "tabs", selected = "indigenous"))
   observeEvent(input$explore8, updateTabItems(session, "tabs", selected = "page4"))
   observeEvent(input$explore9, updateTabItems(session, "tabs", selected = "page5"))
@@ -329,12 +331,18 @@ server <- function(input, output, session) {
   ## download buttons ----
   ## current data
   output$download_data <- downloadHandler(
+    filename = "bc-small-business-profile-data-2026.xlsx",
+    content = function(file) { file.copy("data/bc-small-business-profile-data-2026.xlsx", file)
+      # Notify client to send GA event for download
+      session$sendCustomMessage("trackDownload", list(filename = "bc-small-business-profile-data-2026.xlsx"))})
+
+  ## past data
+  output$download_data_25 <- downloadHandler(
     filename = "bc-small-business-profile-data-2025.xlsx",
     content = function(file) { file.copy("data/bc-small-business-profile-data-2025.xlsx", file)
       # Notify client to send GA event for download
       session$sendCustomMessage("trackDownload", list(filename = "bc-small-business-profile-data-2025.xlsx"))})
 
-  ## past data
   output$download_data_24 <- downloadHandler(
     filename = "bc-small-business-profile-data-2024.xlsx",
     content = function(file) { file.copy("data/bc-small-business-profile-data-2024.xlsx", file)
