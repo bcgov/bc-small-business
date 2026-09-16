@@ -18,7 +18,7 @@ library(tidyverse)
 library(openxlsx)
 library(janitor)
 
-year <- 2025  ## current year, used in name of output files
+year <- 2026  ## current year, used in name of output files
 
 # Excel file ----
 excel_file <- config::get("data_filename")
@@ -193,14 +193,14 @@ excel_data$`1.13` <- excel_data_raw$`1.13` %>%
 ## 1.14-1.15 ----
 excel_data$`1.14` <- excel_data_raw$`1.14-1.15` %>%
   select(1:7, Topic_id, Topic) %>% ## check the column numbers - should include region and 6 years of data
-  rename_cols(2) %>%
+  rename_cols(1) %>%
   format() %>%
   mutate(Topic_id = "1.14",
          Topic = paste("Number of small businesses by region,", max(Variable)))
 
 excel_data$`1.15` <- excel_data_raw$`1.14-1.15` %>%
   select(1, 8, 10:ncol(.)) %>% ## check the column numbers - should include region and net change and growth rate
-  rename_cols(2) %>%
+  rename_cols(1) %>%
   mutate(Topic_id = "1.15",
          Topic = names(.)[2]) %>%
   format()
